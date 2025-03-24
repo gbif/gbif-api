@@ -215,58 +215,60 @@ public class SearchTypeValidator {
 <span class="fc" id="L215">          Collection&lt;Integer&gt; intsFound = validateInteger(value);</span>
 <span class="fc bfc" id="L216" title="All 2 branches covered.">          if (OccurrenceSearchParameter.MONTH == param) {</span>
 <span class="fc" id="L217">            validateMonth(intsFound);</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">          } else if (OccurrenceSearchParameter.DAY == param) {</span>
+<span class="fc" id="L219">            validateDay(intsFound);</span>
           }
 
-<span class="fc bfc" id="L220" title="All 2 branches covered.">        } else if (Boolean.class.isAssignableFrom(pType)) {</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        } else if (Boolean.class.isAssignableFrom(pType)) {</span>
           // we cannot use Boolean.parseBoolean as this accepted anything as false
-<span class="fc bfc" id="L222" title="All 2 branches covered.">          if (!BOOLEAN.matcher(value).find()) {</span>
-<span class="fc" id="L223">            throw new IllegalArgumentException(&quot;Value &quot; + value + &quot; is no valid boolean&quot;);</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">          if (!BOOLEAN.matcher(value).find()) {</span>
+<span class="fc" id="L225">            throw new IllegalArgumentException(&quot;Value &quot; + value + &quot; is no valid boolean&quot;);</span>
           }
 
-<span class="fc bfc" id="L226" title="All 2 branches covered.">        } else if (Country.class.isAssignableFrom(pType)) {</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        } else if (Country.class.isAssignableFrom(pType)) {</span>
           // iso codes or enum name expected
-<span class="fc bfc" id="L228" title="All 2 branches covered.">          if (Country.fromIsoCode(value) == null</span>
-<span class="nc bnc" id="L229" title="All 2 branches missed.">            &amp;&amp; VocabularyUtils.lookupEnum(value, Country.class) == null) {</span>
-<span class="nc" id="L230">            throw new NullPointerException();</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">          if (Country.fromIsoCode(value) == null</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">            &amp;&amp; VocabularyUtils.lookupEnum(value, Country.class) == null) {</span>
+<span class="nc" id="L232">            throw new NullPointerException();</span>
           }
-<span class="pc bpc" id="L232" title="1 of 2 branches missed.">        } else if (Language.class.isAssignableFrom(pType)) {</span>
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        } else if (Language.class.isAssignableFrom(pType)) {</span>
           // iso codes expected
-<span class="nc" id="L234">          Objects.requireNonNull(Language.fromIsoCode(value));</span>
-<span class="fc bfc" id="L235" title="All 2 branches covered.">        } else if (Enum.class.isAssignableFrom(pType)) {</span>
+<span class="nc" id="L236">          Objects.requireNonNull(Language.fromIsoCode(value));</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        } else if (Enum.class.isAssignableFrom(pType)) {</span>
           // enum value expected, cast to enum
           @SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L238">          Class&lt;? extends Enum&lt;?&gt;&gt; eType = (Class&lt;? extends Enum&lt;?&gt;&gt;) pType;</span>
-<span class="fc" id="L239">          Objects.requireNonNull(VocabularyUtils.lookupEnum(value, eType));</span>
+<span class="fc" id="L240">          Class&lt;? extends Enum&lt;?&gt;&gt; eType = (Class&lt;? extends Enum&lt;?&gt;&gt;) pType;</span>
+<span class="fc" id="L241">          Objects.requireNonNull(VocabularyUtils.lookupEnum(value, eType));</span>
 
-<span class="fc bfc" id="L241" title="All 4 branches covered.">        } else if (Date.class.isAssignableFrom(pType) || Temporal.class.isAssignableFrom(pType)) {</span>
+<span class="fc bfc" id="L243" title="All 4 branches covered.">        } else if (Date.class.isAssignableFrom(pType) || Temporal.class.isAssignableFrom(pType)) {</span>
           // ISO date strings
-<span class="fc" id="L243">          validateDate(value);</span>
+<span class="fc" id="L245">          validateDate(value);</span>
 
-<span class="fc bfc" id="L245" title="All 2 branches covered.">        } else if (IsoDateInterval.class.isAssignableFrom(pType)) {</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        } else if (IsoDateInterval.class.isAssignableFrom(pType)) {</span>
           // ISO date strings
-<span class="fc" id="L247">          validateDate(value);</span>
+<span class="fc" id="L249">          validateDate(value);</span>
 
-<span class="pc bpc" id="L249" title="1 of 2 branches missed.">        } else if (!String.class.isAssignableFrom(pType)) {</span>
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">        } else if (!String.class.isAssignableFrom(pType)) {</span>
           // any string allowed
           // an unexpected data type - update this method!!
-<span class="nc" id="L252">          throw new IllegalArgumentException(&quot;Unknown SearchParameter data type &quot; + pType.getCanonicalName());</span>
+<span class="nc" id="L254">          throw new IllegalArgumentException(&quot;Unknown SearchParameter data type &quot; + pType.getCanonicalName());</span>
         }
       }
-<span class="nc" id="L255">    } catch (NullPointerException e) {</span>
+<span class="nc" id="L257">    } catch (NullPointerException e) {</span>
       // Objects.requireNonNull throws NPE but we want IllegalArgumentException
-<span class="nc" id="L257">      throw new IllegalArgumentException(&quot;Value &quot; + value + &quot; invalid for filter parameter &quot; + param, e);</span>
-<span class="fc" id="L258">    }</span>
-<span class="fc" id="L259">  }</span>
+<span class="nc" id="L259">      throw new IllegalArgumentException(&quot;Value &quot; + value + &quot; invalid for filter parameter &quot; + param, e);</span>
+<span class="fc" id="L260">    }</span>
+<span class="fc" id="L261">  }</span>
 
   /**
    * @return the parsed double or null for wildcards
    * @throws NumberFormatException if invalid double
    */
   private static Double parseDouble(String d) {
-<span class="fc bfc" id="L266" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(d)) {</span>
-<span class="fc" id="L267">      return null;</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(d)) {</span>
+<span class="fc" id="L269">      return null;</span>
     }
-<span class="fc" id="L269">    return Double.parseDouble(d);</span>
+<span class="fc" id="L271">    return Double.parseDouble(d);</span>
   }
 
   /**
@@ -274,61 +276,61 @@ public class SearchTypeValidator {
    * @throws NumberFormatException if invalid integer
    */
   private static Integer parseInteger(String d) {
-<span class="fc bfc" id="L277" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(d)) {</span>
-<span class="fc" id="L278">      return null;</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(d)) {</span>
+<span class="fc" id="L280">      return null;</span>
     }
-<span class="fc" id="L280">    return Integer.parseInt(d);</span>
+<span class="fc" id="L282">    return Integer.parseInt(d);</span>
   }
 
   /**
    * Validates if the string value is a valid ISO 8601 format.
    */
   private static void validateDate(String value) {
-<span class="fc bfc" id="L287" title="All 2 branches covered.">    if (isDateRange(value)) {</span>
-<span class="fc" id="L288">      IsoDateParsingUtils.parseDateRange(value);</span>
+<span class="fc bfc" id="L289" title="All 2 branches covered.">    if (isDateRange(value)) {</span>
+<span class="fc" id="L290">      IsoDateParsingUtils.parseDateRange(value);</span>
     } else {
-<span class="fc" id="L290">      IsoDateParsingUtils.parseDate(value);</span>
+<span class="fc" id="L292">      IsoDateParsingUtils.parseDate(value);</span>
     }
-<span class="fc" id="L292">  }</span>
+<span class="fc" id="L294">  }</span>
 
   /**
    * Validates if the value is a valid single double or a range of double values.
    * If the value is a range each limit is validated and the wildcard character '*' is skipped.
    */
   private static void validateDouble(String value) {
-<span class="pc bpc" id="L299" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
-<span class="nc" id="L300">      throw new IllegalArgumentException(&quot;Double cannot be null or empty&quot;);</span>
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
+<span class="nc" id="L302">      throw new IllegalArgumentException(&quot;Double cannot be null or empty&quot;);</span>
     }
     try {
-<span class="fc" id="L303">      Double.parseDouble(value);</span>
-<span class="fc" id="L304">    } catch (NumberFormatException e) {</span>
-<span class="fc" id="L305">      parseDecimalRange(value);</span>
-<span class="fc" id="L306">    }</span>
-<span class="fc" id="L307">  }</span>
+<span class="fc" id="L305">      Double.parseDouble(value);</span>
+<span class="fc" id="L306">    } catch (NumberFormatException e) {</span>
+<span class="fc" id="L307">      parseDecimalRange(value);</span>
+<span class="fc" id="L308">    }</span>
+<span class="fc" id="L309">  }</span>
 
   /**
    * Validates if the value is a valid single double and its value is between a range.
    */
   private static void validateDoubleInRange(String value, Range&lt;Double&gt; range, String errorMsg) {
-<span class="pc bpc" id="L313" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
-<span class="nc" id="L314">      throw new IllegalArgumentException(&quot;Double cannot be null or empty&quot;);</span>
+<span class="pc bpc" id="L315" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
+<span class="nc" id="L316">      throw new IllegalArgumentException(&quot;Double cannot be null or empty&quot;);</span>
     }
     try {
-<span class="fc" id="L317">      final Double doubleValue = Double.parseDouble(value);</span>
-<span class="fc bfc" id="L318" title="All 2 branches covered.">      if (!range.contains(doubleValue)) {</span>
-<span class="fc" id="L319">        throw new IllegalArgumentException(String.format(errorMsg, value));</span>
+<span class="fc" id="L319">      final Double doubleValue = Double.parseDouble(value);</span>
+<span class="fc bfc" id="L320" title="All 2 branches covered.">      if (!range.contains(doubleValue)) {</span>
+<span class="fc" id="L321">        throw new IllegalArgumentException(String.format(errorMsg, value));</span>
       }
-<span class="fc" id="L321">    } catch (NumberFormatException e) {</span>
-<span class="fc bfc" id="L322" title="All 2 branches covered.">      if (isNumericRange(value)) {</span>
-<span class="fc" id="L323">        Range&lt;Double&gt; rangeValue = parseDecimalRange(value);</span>
-<span class="fc bfc" id="L324" title="All 2 branches covered.">        if (!range.encloses(rangeValue)) {</span>
-<span class="fc" id="L325">          throw new IllegalArgumentException(String.format(errorMsg, value));</span>
+<span class="fc" id="L323">    } catch (NumberFormatException e) {</span>
+<span class="fc bfc" id="L324" title="All 2 branches covered.">      if (isNumericRange(value)) {</span>
+<span class="fc" id="L325">        Range&lt;Double&gt; rangeValue = parseDecimalRange(value);</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">        if (!range.encloses(rangeValue)) {</span>
+<span class="fc" id="L327">          throw new IllegalArgumentException(String.format(errorMsg, value));</span>
         }
-<span class="fc" id="L327">      } else {</span>
-<span class="fc" id="L328">        throw new IllegalArgumentException(&quot;Argument is not a valid number&quot;);</span>
+<span class="fc" id="L329">      } else {</span>
+<span class="fc" id="L330">        throw new IllegalArgumentException(&quot;Argument is not a valid number&quot;);</span>
       }
-<span class="fc" id="L330">    }</span>
-<span class="fc" id="L331">  }</span>
+<span class="fc" id="L332">    }</span>
+<span class="fc" id="L333">  }</span>
 
   /**
    * Verify that we have indeed a wellKnownText parameter.
@@ -336,90 +338,90 @@ public class SearchTypeValidator {
    * The validation implemented does both syntactic and topological validation (for polygons only).
    */
   private static void validateGeometry(String wellKnownText) {
-<span class="fc" id="L339">    JtsSpatialContextFactory spatialContextFactory = new JtsSpatialContextFactory();</span>
-<span class="fc" id="L340">    spatialContextFactory.normWrapLongitude = true;</span>
-<span class="fc" id="L341">    spatialContextFactory.srid = 4326;</span>
-<span class="fc" id="L342">    spatialContextFactory.datelineRule = DatelineRule.ccwRect;</span>
+<span class="fc" id="L341">    JtsSpatialContextFactory spatialContextFactory = new JtsSpatialContextFactory();</span>
+<span class="fc" id="L342">    spatialContextFactory.normWrapLongitude = true;</span>
+<span class="fc" id="L343">    spatialContextFactory.srid = 4326;</span>
+<span class="fc" id="L344">    spatialContextFactory.datelineRule = DatelineRule.ccwRect;</span>
 
-<span class="fc" id="L344">    WKTReader reader = new WKTReader(spatialContextFactory.newSpatialContext(), spatialContextFactory);</span>
+<span class="fc" id="L346">    WKTReader reader = new WKTReader(spatialContextFactory.newSpatialContext(), spatialContextFactory);</span>
 
     try {
       // This validates some errors, such as a latitude &gt; 90°
-<span class="fc" id="L348">      Shape shape = reader.parse(wellKnownText);</span>
+<span class="fc" id="L350">      Shape shape = reader.parse(wellKnownText);</span>
 
-<span class="fc bfc" id="L350" title="All 2 branches covered.">      if (shape instanceof JtsGeometry) {</span>
-<span class="fc" id="L351">        Geometry geometry = ((JtsGeometry) shape).getGeom();</span>
+<span class="fc bfc" id="L352" title="All 2 branches covered.">      if (shape instanceof JtsGeometry) {</span>
+<span class="fc" id="L353">        Geometry geometry = ((JtsGeometry) shape).getGeom();</span>
 
-<span class="fc" id="L353">        IsValidOp validator = new IsValidOp(geometry);</span>
+<span class="fc" id="L355">        IsValidOp validator = new IsValidOp(geometry);</span>
 
-<span class="pc bpc" id="L355" title="1 of 2 branches missed.">        if (!validator.isValid()) {</span>
-<span class="nc" id="L356">          throw new IllegalArgumentException(&quot;Invalid geometry: &quot; + validator.getValidationError());</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">        if (!validator.isValid()) {</span>
+<span class="nc" id="L358">          throw new IllegalArgumentException(&quot;Invalid geometry: &quot; + validator.getValidationError());</span>
         }
 
-<span class="pc bpc" id="L359" title="1 of 2 branches missed.">        if (geometry.isEmpty()) {</span>
-<span class="nc" id="L360">          throw new IllegalArgumentException(&quot;Empty geometry: &quot; + wellKnownText);</span>
+<span class="pc bpc" id="L361" title="1 of 2 branches missed.">        if (geometry.isEmpty()) {</span>
+<span class="nc" id="L362">          throw new IllegalArgumentException(&quot;Empty geometry: &quot; + wellKnownText);</span>
         }
 
         // Validate a polygon — check the winding order
-<span class="fc bfc" id="L364" title="All 2 branches covered.">        if (geometry instanceof Polygon) {</span>
-<span class="fc" id="L365">          validatePolygon((Polygon) geometry, wellKnownText);</span>
+<span class="fc bfc" id="L366" title="All 2 branches covered.">        if (geometry instanceof Polygon) {</span>
+<span class="fc" id="L367">          validatePolygon((Polygon) geometry, wellKnownText);</span>
         }
 
         // Validate polygons within a multipolygon
-<span class="fc bfc" id="L369" title="All 2 branches covered.">        if (geometry instanceof MultiPolygon) {</span>
-<span class="fc" id="L370">          MultiPolygon multiPolygon = (MultiPolygon) geometry;</span>
-<span class="fc bfc" id="L371" title="All 2 branches covered.">          for (int p = 0; p &lt; multiPolygon.getNumGeometries(); p++) {</span>
-<span class="fc" id="L372">            validatePolygon((Polygon) multiPolygon.getGeometryN(p), wellKnownText);</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">        if (geometry instanceof MultiPolygon) {</span>
+<span class="fc" id="L372">          MultiPolygon multiPolygon = (MultiPolygon) geometry;</span>
+<span class="fc bfc" id="L373" title="All 2 branches covered.">          for (int p = 0; p &lt; multiPolygon.getNumGeometries(); p++) {</span>
+<span class="fc" id="L374">            validatePolygon((Polygon) multiPolygon.getGeometryN(p), wellKnownText);</span>
           }
         }
 
-<span class="pc bpc" id="L376" title="1 of 2 branches missed.">        switch (geometry.getGeometryType().toUpperCase()) {</span>
+<span class="pc bpc" id="L378" title="1 of 2 branches missed.">        switch (geometry.getGeometryType().toUpperCase()) {</span>
           case &quot;POINT&quot;:
           case &quot;LINESTRING&quot;:
           case &quot;POLYGON&quot;:
           case &quot;MULTIPOLYGON&quot;:
-<span class="fc" id="L381">            return;</span>
+<span class="fc" id="L383">            return;</span>
 
           case &quot;MULTIPOINT&quot;:
           case &quot;MULTILINESTRING&quot;:
           case &quot;GEOMETRYCOLLECTION&quot;:
           default:
-<span class="nc" id="L387">            throw new IllegalArgumentException(&quot;Unsupported simple WKT (unsupported type &quot; + geometry.getGeometryType() + &quot;): &quot; + wellKnownText);</span>
+<span class="nc" id="L389">            throw new IllegalArgumentException(&quot;Unsupported simple WKT (unsupported type &quot; + geometry.getGeometryType() + &quot;): &quot; + wellKnownText);</span>
         }
       }
-<span class="fc" id="L390">    } catch (AssertionError | ParseException e) {</span>
-<span class="fc" id="L391">      throw new IllegalArgumentException(&quot;Cannot parse simple WKT: &quot; + wellKnownText + &quot; &quot; + e.getMessage());</span>
-<span class="fc" id="L392">    } catch (InvalidShapeException e) {</span>
-<span class="fc" id="L393">      throw new IllegalArgumentException(&quot;Invalid shape in WKT: &quot; + wellKnownText + &quot; &quot; + e.getMessage());</span>
-<span class="fc" id="L394">    }</span>
-<span class="fc" id="L395">  }</span>
+<span class="fc" id="L392">    } catch (AssertionError | ParseException e) {</span>
+<span class="fc" id="L393">      throw new IllegalArgumentException(&quot;Cannot parse simple WKT: &quot; + wellKnownText + &quot; &quot; + e.getMessage());</span>
+<span class="fc" id="L394">    } catch (InvalidShapeException e) {</span>
+<span class="fc" id="L395">      throw new IllegalArgumentException(&quot;Invalid shape in WKT: &quot; + wellKnownText + &quot; &quot; + e.getMessage());</span>
+<span class="fc" id="L396">    }</span>
+<span class="fc" id="L397">  }</span>
 
   private static void validatePolygon(Polygon polygon, String wellKnownText) {
     // Calculating the area &gt; 0 ensures that polygons that are representing lines or points are invalidated
-<span class="pc bpc" id="L399" title="1 of 2 branches missed.">    if (polygon.getArea() == 0.0) {</span>
-<span class="nc" id="L400">      throw new IllegalArgumentException(&quot;Polygon with zero area: &quot; + polygon.toText());</span>
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">    if (polygon.getArea() == 0.0) {</span>
+<span class="nc" id="L402">      throw new IllegalArgumentException(&quot;Polygon with zero area: &quot; + polygon.toText());</span>
     }
 
     // Exterior ring must be anticlockwise
-<span class="fc" id="L404">    boolean isCCW = Orientation.isCCW(polygon.getExteriorRing().getCoordinates());</span>
-<span class="fc bfc" id="L405" title="All 2 branches covered.">    if (!isCCW) {</span>
-<span class="fc" id="L406">      String reversedText = polygon.getExteriorRing().reverse().toText();</span>
-<span class="fc" id="L407">      throw new IllegalArgumentException(&quot;Polygon with clockwise exterior ring: &quot; + wellKnownText +</span>
+<span class="fc" id="L406">    boolean isCCW = Orientation.isCCW(polygon.getExteriorRing().getCoordinates());</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">    if (!isCCW) {</span>
+<span class="fc" id="L408">      String reversedText = polygon.getExteriorRing().reverse().toText();</span>
+<span class="fc" id="L409">      throw new IllegalArgumentException(&quot;Polygon with clockwise exterior ring: &quot; + wellKnownText +</span>
         &quot;. Did you mean these coordinates?  (Note this is only part of the polygon or multipolygon you provided.) &quot; +
         reversedText);
     }
 
     // Interior rings must be clockwise
-<span class="fc bfc" id="L413" title="All 2 branches covered.">    for (int r = 0; r &lt; polygon.getNumInteriorRing(); r++) {</span>
-<span class="fc" id="L414">      isCCW = Orientation.isCCW(polygon.getInteriorRingN(r).getCoordinates());</span>
-<span class="fc bfc" id="L415" title="All 2 branches covered.">      if (isCCW) {</span>
-<span class="fc" id="L416">        String reversedText = polygon.getInteriorRingN(r).reverse().toText();</span>
-<span class="fc" id="L417">        throw new IllegalArgumentException(&quot;Polygon with anticlockwise interior ring: &quot; + wellKnownText +</span>
+<span class="fc bfc" id="L415" title="All 2 branches covered.">    for (int r = 0; r &lt; polygon.getNumInteriorRing(); r++) {</span>
+<span class="fc" id="L416">      isCCW = Orientation.isCCW(polygon.getInteriorRingN(r).getCoordinates());</span>
+<span class="fc bfc" id="L417" title="All 2 branches covered.">      if (isCCW) {</span>
+<span class="fc" id="L418">        String reversedText = polygon.getInteriorRingN(r).reverse().toText();</span>
+<span class="fc" id="L419">        throw new IllegalArgumentException(&quot;Polygon with anticlockwise interior ring: &quot; + wellKnownText +</span>
           &quot;. Did you mean these coordinates? (Note this is only part of the polygon or multipolygon you provided.) &quot; +
           reversedText);
       }
     }
-<span class="fc" id="L422">  }</span>
+<span class="fc" id="L424">  }</span>
 
   /**
    * Validates if the value is a valid single integer or a range of integer values.
@@ -428,46 +430,46 @@ public class SearchTypeValidator {
    * @throws IllegalArgumentException if value is invalid or null
    */
   private static Collection&lt;Integer&gt; validateInteger(String value) {
-<span class="fc bfc" id="L431" title="All 2 branches covered.">    if (StringUtils.isEmpty(value)) {</span>
-<span class="fc" id="L432">      throw new IllegalArgumentException(&quot;Integer cannot be null or empty&quot;);</span>
+<span class="fc bfc" id="L433" title="All 2 branches covered.">    if (StringUtils.isEmpty(value)) {</span>
+<span class="fc" id="L434">      throw new IllegalArgumentException(&quot;Integer cannot be null or empty&quot;);</span>
     }
     try {
-<span class="fc" id="L435">      List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L436">      list.add(Integer.parseInt(value));</span>
-<span class="fc" id="L437">      return list;</span>
-<span class="fc" id="L438">    } catch (NumberFormatException e) {</span>
-<span class="fc" id="L439">      Range&lt;Integer&gt; range = parseIntegerRange(value);</span>
-<span class="fc" id="L440">      List&lt;Integer&gt; ints = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L441" title="1 of 2 branches missed.">      if (range.hasLowerBound()) {</span>
-<span class="fc" id="L442">        ints.add(range.lowerEndpoint());</span>
+<span class="fc" id="L437">      List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L438">      list.add(Integer.parseInt(value));</span>
+<span class="fc" id="L439">      return list;</span>
+<span class="fc" id="L440">    } catch (NumberFormatException e) {</span>
+<span class="fc" id="L441">      Range&lt;Integer&gt; range = parseIntegerRange(value);</span>
+<span class="fc" id="L442">      List&lt;Integer&gt; ints = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L443" title="1 of 2 branches missed.">      if (range.hasLowerBound()) {</span>
+<span class="fc" id="L444">        ints.add(range.lowerEndpoint());</span>
       }
-<span class="pc bpc" id="L444" title="1 of 2 branches missed.">      if (range.hasUpperBound()) {</span>
-<span class="fc" id="L445">        ints.add(range.upperEndpoint());</span>
+<span class="pc bpc" id="L446" title="1 of 2 branches missed.">      if (range.hasUpperBound()) {</span>
+<span class="fc" id="L447">        ints.add(range.upperEndpoint());</span>
       }
-<span class="fc" id="L447">      return ints;</span>
+<span class="fc" id="L449">      return ints;</span>
     }
   }
 
   private static void validateGeoDistance(String geoDistance) {
-<span class="pc bpc" id="L452" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(geoDistance)) {</span>
-<span class="nc" id="L453">      throw new IllegalArgumentException(&quot;GeoDistance cannot be null or empty&quot;);</span>
+<span class="pc bpc" id="L454" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(geoDistance)) {</span>
+<span class="nc" id="L455">      throw new IllegalArgumentException(&quot;GeoDistance cannot be null or empty&quot;);</span>
     }
-<span class="fc" id="L455">    String[] geoDistanceTokens = geoDistance.split(&quot;,&quot;);</span>
-<span class="fc bfc" id="L456" title="All 2 branches covered.">    if (geoDistanceTokens.length != 3) {</span>
-<span class="fc" id="L457">      throw new IllegalArgumentException(&quot;GeoDistance must follow the format lat,lng,distance&quot;);</span>
+<span class="fc" id="L457">    String[] geoDistanceTokens = geoDistance.split(&quot;,&quot;);</span>
+<span class="fc bfc" id="L458" title="All 2 branches covered.">    if (geoDistanceTokens.length != 3) {</span>
+<span class="fc" id="L459">      throw new IllegalArgumentException(&quot;GeoDistance must follow the format lat,lng,distance&quot;);</span>
     }
-<span class="fc" id="L459">    validateGeoDistance(geoDistanceTokens[0], geoDistanceTokens[1], geoDistanceTokens[2]);</span>
-<span class="fc" id="L460">  }</span>
+<span class="fc" id="L461">    validateGeoDistance(geoDistanceTokens[0], geoDistanceTokens[1], geoDistanceTokens[2]);</span>
+<span class="fc" id="L462">  }</span>
 
 
   public static void validateGeoDistance(String latitude, String longitude, String distance) {
-<span class="fc" id="L464">    validateLatitude(latitude);</span>
-<span class="fc" id="L465">    validateLongitude(longitude);</span>
-<span class="fc" id="L466">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
-<span class="pc bpc" id="L467" title="1 of 2 branches missed.">    if (parsedDistance.getValue() &lt;= 0d) {</span>
-<span class="nc" id="L468">      throw new IllegalArgumentException(&quot;GeoDistance cannot be less than zero&quot;);</span>
+<span class="fc" id="L466">    validateLatitude(latitude);</span>
+<span class="fc" id="L467">    validateLongitude(longitude);</span>
+<span class="fc" id="L468">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
+<span class="pc bpc" id="L469" title="1 of 2 branches missed.">    if (parsedDistance.getValue() &lt;= 0d) {</span>
+<span class="nc" id="L470">      throw new IllegalArgumentException(&quot;GeoDistance cannot be less than zero&quot;);</span>
     }
-<span class="fc" id="L470"> }</span>
+<span class="fc" id="L472"> }</span>
 
   /**
    * Parses a distance range in the format 123m,456km.
@@ -476,44 +478,51 @@ public class SearchTypeValidator {
    * @throws IllegalArgumentException if value is invalid or null
    */
   public static Range&lt;DistanceUnit.Distance&gt; parseDistanceRange(String value) {
-<span class="nc bnc" id="L479" title="All 2 branches missed.">    if (StringUtils.isNotEmpty(value)) {</span>
-<span class="nc" id="L480">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
-<span class="nc bnc" id="L481" title="All 2 branches missed.">      if (m.find()) {</span>
-<span class="nc" id="L482">        return Range.closed(parseDistance(m.group(1)), parseDistance(m.group(2)));</span>
+<span class="nc bnc" id="L481" title="All 2 branches missed.">    if (StringUtils.isNotEmpty(value)) {</span>
+<span class="nc" id="L482">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
+<span class="nc bnc" id="L483" title="All 2 branches missed.">      if (m.find()) {</span>
+<span class="nc" id="L484">        return Range.closed(parseDistance(m.group(1)), parseDistance(m.group(2)));</span>
       }
     }
-<span class="nc" id="L485">    throw new IllegalArgumentException(&quot;Invalid distance range: &quot; + value);</span>
+<span class="nc" id="L487">    throw new IllegalArgumentException(&quot;Invalid distance range: &quot; + value);</span>
   }
 
   public static DistanceUnit.Distance parseDistance(String distance) {
-<span class="nc" id="L489">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
-<span class="nc bnc" id="L490" title="All 2 branches missed.">    if (parsedDistance.getValue() &lt;= 0d) {</span>
-<span class="nc" id="L491">      throw new IllegalArgumentException(&quot;Distance cannot be less than zero&quot;);</span>
+<span class="nc" id="L491">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
+<span class="nc bnc" id="L492" title="All 2 branches missed.">    if (parsedDistance.getValue() &lt;= 0d) {</span>
+<span class="nc" id="L493">      throw new IllegalArgumentException(&quot;Distance cannot be less than zero&quot;);</span>
     }
-<span class="nc" id="L493">    return parsedDistance;</span>
+<span class="nc" id="L495">    return parsedDistance;</span>
   }
 
   /**
    * Validates if the parameter is a valid latitude value.
    */
   private static void validateLatitude(String value) {
-<span class="fc" id="L500">    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);</span>
-<span class="fc" id="L501">  }</span>
+<span class="fc" id="L502">    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);</span>
+<span class="fc" id="L503">  }</span>
 
   /**
    * Validates if the parameter is a valid longitude value.
    */
   private static void validateLongitude(String value) {
-<span class="fc" id="L507">    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);</span>
-<span class="fc" id="L508">  }</span>
+<span class="fc" id="L509">    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);</span>
+<span class="fc" id="L510">  }</span>
 
   private static void validateMonth(Collection&lt;Integer&gt; months) {
-<span class="fc bfc" id="L511" title="All 2 branches covered.">    for (Integer month : months) {</span>
-<span class="pc bpc" id="L512" title="1 of 6 branches missed.">      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {</span>
-<span class="fc" id="L513">        throw new IllegalArgumentException(&quot;Month needs to be between 1 - 12&quot;);</span>
+<span class="fc bfc" id="L513" title="All 2 branches covered.">    for (Integer month : months) {</span>
+<span class="pc bpc" id="L514" title="1 of 6 branches missed.">      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {</span>
+<span class="fc" id="L515">        throw new IllegalArgumentException(&quot;Month needs to be between 1 - 12&quot;);</span>
       }
-<span class="fc" id="L515">    }</span>
-<span class="fc" id="L516">  }</span>
+<span class="fc" id="L517">    }</span>
+<span class="fc" id="L518">  }</span>
 
+  private static void validateDay(Collection&lt;Integer&gt; days) {
+<span class="fc bfc" id="L521" title="All 2 branches covered.">    for (Integer day : days) {</span>
+<span class="pc bpc" id="L522" title="1 of 6 branches missed.">      if (day != null &amp;&amp; (day &lt; 1 || day &gt; 31)) {</span>
+<span class="fc" id="L523">        throw new IllegalArgumentException(&quot;Day needs to be between 1 - 31&quot;);</span>
+      }
+<span class="fc" id="L525">    }</span>
+<span class="fc" id="L526">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

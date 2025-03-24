@@ -66,16 +66,26 @@ import java.util.UUID;
 <span class="fc" id="L66">  MONTH(Integer.class),</span>
 
   /**
-   * The earliest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
-   * leap year, in which case it is 366).
+   * The day of the month.
+   * This parameter accepts comma separated range values, e.g.:
+   * &lt;dl&gt;
+   * &lt;dt&gt;24,28&lt;/dt&gt;
+   * &lt;dd&gt;Day of the month between 24 and 28&lt;/dd&gt;
+   * &lt;/dl&gt;
    */
-<span class="fc" id="L72">  START_DAY_OF_YEAR(Integer.class),</span>
+<span class="fc" id="L76">  DAY(Integer.class),</span>
 
   /**
-   * The latest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
+   * The earliest integer day of the year on which the event occurred (1 for 1 January, 365 for 31 December, except in a
    * leap year, in which case it is 366).
    */
-<span class="fc" id="L78">  END_DAY_OF_YEAR(Integer.class),</span>
+<span class="fc" id="L82">  START_DAY_OF_YEAR(Integer.class),</span>
+
+  /**
+   * The latest integer day of the year on which the event occurred (1 for 1 January, 365 for 31 December, except in a
+   * leap year, in which case it is 366).
+   */
+<span class="fc" id="L88">  END_DAY_OF_YEAR(Integer.class),</span>
 
   /**
    * Event date (date the occurrence was recorded) in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
@@ -99,7 +109,7 @@ import java.util.UUID;
    * &lt;dd&gt;all dates&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L102">  EVENT_DATE(IsoDateInterval.class),</span>
+<span class="fc" id="L112">  EVENT_DATE(IsoDateInterval.class),</span>
 
   /**
    * Lower limit for the range of the event date (date the occurrence was recorded).
@@ -107,29 +117,29 @@ import java.util.UUID;
    * Included for backward compatibility as it mimicks the previous search behaviour:
    * https://github.com/gbif/occurrence/issues/346
    */
-<span class="fc" id="L110">  @Deprecated</span>
+<span class="fc" id="L120">  @Deprecated</span>
   EVENT_DATE_GTE(Date.class),
 
   /**
    * An identifier for the set of information associated with an Event (something that occurs at a place and time).
    * Maybe a global unique identifier or an identifier specific to the data set.
    */
-<span class="fc" id="L117">  EVENT_ID(String.class),</span>
+<span class="fc" id="L127">  EVENT_ID(String.class),</span>
 
   /**
    * An identifier for the broader Event that groups this and potentially other Events.
    */
-<span class="fc" id="L122">  PARENT_EVENT_ID(String.class),</span>
+<span class="fc" id="L132">  PARENT_EVENT_ID(String.class),</span>
 
   /**
    * The name of, reference to, or description of the method or protocol used during an Event.
    */
-<span class="fc" id="L127">  SAMPLING_PROTOCOL(String.class),</span>
+<span class="fc" id="L137">  SAMPLING_PROTOCOL(String.class),</span>
 
   /**
    * A list (concatenated and separated) of previous assignments of names to the organism.
    */
-<span class="fc" id="L132">  PREVIOUS_IDENTIFICATIONS(String.class),</span>
+<span class="fc" id="L142">  PREVIOUS_IDENTIFICATIONS(String.class),</span>
 
   /**
    * Last interpreted date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
@@ -153,7 +163,7 @@ import java.util.UUID;
    * &lt;dd&gt;all dates&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L156">  LAST_INTERPRETED(Date.class),</span>
+<span class="fc" id="L166">  LAST_INTERPRETED(Date.class),</span>
 
 
   /**
@@ -178,17 +188,17 @@ import java.util.UUID;
    * &lt;dd&gt;all dates&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L181">  MODIFIED(Date.class),</span>
+<span class="fc" id="L191">  MODIFIED(Date.class),</span>
 
   /**
    * Latitude in decimals between -90 and 90 based on WGS 84.
    */
-<span class="fc" id="L186">  DECIMAL_LATITUDE(Double.class),</span>
+<span class="fc" id="L196">  DECIMAL_LATITUDE(Double.class),</span>
 
   /**
    * Longitude in decimals between -180 and 180 based on WGS 84.
    */
-<span class="fc" id="L191">  DECIMAL_LONGITUDE(Double.class),</span>
+<span class="fc" id="L201">  DECIMAL_LONGITUDE(Double.class),</span>
 
   /**
    * The uncertainty of the coordinate in meters.
@@ -203,32 +213,32 @@ import java.util.UUID;
    * &lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L206">  COORDINATE_UNCERTAINTY_IN_METERS(Double.class),</span>
+<span class="fc" id="L216">  COORDINATE_UNCERTAINTY_IN_METERS(Double.class),</span>
 
   /**
    * Country the occurrence was recorded in.
    */
-<span class="fc" id="L211">  COUNTRY(Country.class),</span>
+<span class="fc" id="L221">  COUNTRY(Country.class),</span>
 
   /**
    * GBIF region based on country
    */
-<span class="fc" id="L216">  GBIF_REGION(GbifRegion.class),</span>
+<span class="fc" id="L226">  GBIF_REGION(GbifRegion.class),</span>
 
   /**
    * Continent the occurrence was recorded in.
    */
-<span class="fc" id="L221">  CONTINENT(Continent.class),</span>
+<span class="fc" id="L231">  CONTINENT(Continent.class),</span>
 
   /**
    * The country of the organization that publishes the dataset the occurrence belongs to.
    */
-<span class="fc" id="L226">  PUBLISHING_COUNTRY(Country.class),</span>
+<span class="fc" id="L236">  PUBLISHING_COUNTRY(Country.class),</span>
 
   /**
    * GBIF region based on publishibg country
    */
-<span class="fc" id="L231">  PUBLISHED_BY_GBIF_REGION(GbifRegion.class),</span>
+<span class="fc" id="L241">  PUBLISHED_BY_GBIF_REGION(GbifRegion.class),</span>
 
   /**
    * Altitude/elevation in meters above sea level.
@@ -242,7 +252,7 @@ import java.util.UUID;
    * &lt;dd&gt;Altitude between or equals -2m and 8.8m&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L245">  ELEVATION(Double.class),</span>
+<span class="fc" id="L255">  ELEVATION(Double.class),</span>
 
   /**
    * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.
@@ -256,139 +266,139 @@ import java.util.UUID;
    * &lt;dd&gt;Depth between or equals 12.1m and 28.8m&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L259">  DEPTH(Double.class),</span>
+<span class="fc" id="L269">  DEPTH(Double.class),</span>
 
   /**
    * An identifier of any form assigned by the source to identify the institution
    * the record belongs to. Not guaranteed to be unique.
    */
-<span class="fc" id="L265">  INSTITUTION_CODE(String.class),</span>
+<span class="fc" id="L275">  INSTITUTION_CODE(String.class),</span>
 
   /**
    * An identifier of any form assigned by the source to identify the physical collection or digital dataset
    * uniquely within the context of an institution.
    */
-<span class="fc" id="L271">  COLLECTION_CODE(String.class),</span>
+<span class="fc" id="L281">  COLLECTION_CODE(String.class),</span>
 
   /**
    * An identifier of any form assigned by the source within a physical collection or digital dataset for the record
    * which may not be unique, but should be fairly unique in combination with the institution and collection code.
    */
-<span class="fc" id="L277">  CATALOG_NUMBER(String.class),</span>
+<span class="fc" id="L287">  CATALOG_NUMBER(String.class),</span>
 
   /**
    * The person who recorded the occurrence.
    */
-<span class="fc" id="L282">  RECORDED_BY(String.class),</span>
+<span class="fc" id="L292">  RECORDED_BY(String.class),</span>
 
   /**
    * The person who identified the occurrence.
    */
-<span class="fc" id="L287">  IDENTIFIED_BY(String.class),</span>
+<span class="fc" id="L297">  IDENTIFIED_BY(String.class),</span>
 
   /**
    * An identifier given to the Occurrence at the time it was recorded.
    */
-<span class="fc" id="L292">  RECORD_NUMBER(String.class),</span>
+<span class="fc" id="L302">  RECORD_NUMBER(String.class),</span>
 
   /**
    * A basis of record enumeration value.
    */
-<span class="fc" id="L297">  BASIS_OF_RECORD(BasisOfRecord.class),</span>
+<span class="fc" id="L307">  BASIS_OF_RECORD(BasisOfRecord.class),</span>
 
   /**
    * The sex of the biological individual(s) represented in the occurrence.
    */
-<span class="fc" id="L302">  SEX(String.class),</span>
+<span class="fc" id="L312">  SEX(String.class),</span>
 
   /**
    * Presents of associated sequences or an extension
    */
-<span class="fc" id="L307">  IS_SEQUENCED(Boolean.class),</span>
+<span class="fc" id="L317">  IS_SEQUENCED(Boolean.class),</span>
 
   /**
    * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for
    * aves with taxonKey=212 will match all birds, no matter which species.
    */
-<span class="fc" id="L313">  TAXON_KEY(Integer.class),</span>
+<span class="fc" id="L323">  TAXON_KEY(Integer.class),</span>
 
   /**
    * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.
    */
-<span class="fc" id="L318">  ACCEPTED_TAXON_KEY(Integer.class),</span>
+<span class="fc" id="L328">  ACCEPTED_TAXON_KEY(Integer.class),</span>
 
   /**
    * A kingdom key from the GBIF backbone.
    */
-<span class="fc" id="L323">  KINGDOM_KEY(Integer.class),</span>
+<span class="fc" id="L333">  KINGDOM_KEY(Integer.class),</span>
 
   /**
    * A phylum key from the GBIF backbone.
    */
-<span class="fc" id="L328">  PHYLUM_KEY(Integer.class),</span>
+<span class="fc" id="L338">  PHYLUM_KEY(Integer.class),</span>
 
   /**
    * A class key from the GBIF backbone.
    */
-<span class="fc" id="L333">  CLASS_KEY(Integer.class),</span>
+<span class="fc" id="L343">  CLASS_KEY(Integer.class),</span>
 
   /**
    * A order key from the GBIF backbone.
    */
-<span class="fc" id="L338">  ORDER_KEY(Integer.class),</span>
+<span class="fc" id="L348">  ORDER_KEY(Integer.class),</span>
 
   /**
    * A family key from the GBIF backbone.
    */
-<span class="fc" id="L343">  FAMILY_KEY(Integer.class),</span>
+<span class="fc" id="L353">  FAMILY_KEY(Integer.class),</span>
 
   /**
    * A genus key from the GBIF backbone.
    */
-<span class="fc" id="L348">  GENUS_KEY(Integer.class),</span>
+<span class="fc" id="L358">  GENUS_KEY(Integer.class),</span>
 
   /**
    * A subgenus key from the GBIF backbone.
    */
-<span class="fc" id="L353">  SUBGENUS_KEY(Integer.class),</span>
+<span class="fc" id="L363">  SUBGENUS_KEY(Integer.class),</span>
 
   /**
    * A species key from the GBIF backbone.
    */
-<span class="fc" id="L358">  SPECIES_KEY(Integer.class),</span>
+<span class="fc" id="L368">  SPECIES_KEY(Integer.class),</span>
 
   /**
    * Searches the interpreted, full scientific name of the occurrence.
    */
-<span class="fc" id="L363">  SCIENTIFIC_NAME(String.class),</span>
+<span class="fc" id="L373">  SCIENTIFIC_NAME(String.class),</span>
 
   /**
    * Scientific name as provided byt the source.
    */
-<span class="fc" id="L368">  VERBATIM_SCIENTIFIC_NAME(String.class),</span>
+<span class="fc" id="L378">  VERBATIM_SCIENTIFIC_NAME(String.class),</span>
 
   /**
    * Verbatim identifier for the set of taxon information. Maybe a global unique identifier or an identifier specific to
    * the data set.
    */
-<span class="fc" id="L374">  TAXON_ID(String.class),</span>
+<span class="fc" id="L384">  TAXON_ID(String.class),</span>
 
   /**
    * An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a taxon.
    */
-<span class="fc" id="L379">  TAXON_CONCEPT_ID(String.class),</span>
+<span class="fc" id="L389">  TAXON_CONCEPT_ID(String.class),</span>
 
   /**
    * The status of the use of the  GBIF Backbone taxonKey.
    */
-<span class="fc" id="L384">  TAXONOMIC_STATUS(TaxonomicStatus.class),</span>
+<span class="fc" id="L394">  TAXONOMIC_STATUS(TaxonomicStatus.class),</span>
 
   /**
    * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).
    * HAS_COORDINATE=true searches for occurrence records with a coordinate value.
    * HAS_COORDINATE=false searches for occurrence records without a coordinate value.
    */
-<span class="fc" id="L391">  HAS_COORDINATE(Boolean.class),</span>
+<span class="fc" id="L401">  HAS_COORDINATE(Boolean.class),</span>
 
   /**
    * Geometry in &lt;a href=&quot;https://en.wikipedia.org/wiki/Well-known_text&quot;&gt;Well Known Text&lt;/a&gt; (WKT) format.
@@ -402,19 +412,19 @@ import java.util.UUID;
    * &lt;li&gt;LINEARRING&lt;/li&gt;
    * &lt;/ul&gt;
    */
-<span class="fc" id="L405">  GEOMETRY(String.class),</span>
+<span class="fc" id="L415">  GEOMETRY(String.class),</span>
 
   /**
    * Use in combination of LATITUDE and LONGITUDE parameters matches within a given distance.
    * E.g.: geo_distance=100m,40,90 geo_distance=100km,40,90 geo_distance=100mi,40,90.
    * See supported units in {@link org.gbif.api.model.occurrence.geo.DistanceUnit}.
    */
-<span class="fc" id="L412">  GEO_DISTANCE(String.class),</span>
+<span class="fc" id="L422">  GEO_DISTANCE(String.class),</span>
 
   /**
    * The distance from a known centroid, e.g. a country centroid.
    */
-<span class="fc" id="L417">  DISTANCE_FROM_CENTROID_IN_METERS(Double.class),</span>
+<span class="fc" id="L427">  DISTANCE_FROM_CENTROID_IN_METERS(Double.class),</span>
 
   /**
    * Includes/excludes occurrence records which contain geospatial issues for their coordinate.
@@ -423,392 +433,392 @@ import java.util.UUID;
    * HAS_GEOSPATIAL_ISSUE=false exclude records with spatial issues.
    * The absence of this parameter returns any record with or without spatial issues.
    */
-<span class="fc" id="L426">  HAS_GEOSPATIAL_ISSUE(Boolean.class),</span>
+<span class="fc" id="L436">  HAS_GEOSPATIAL_ISSUE(Boolean.class),</span>
 
   /**
    * Searches occurrence for those that have a specific issue.
    */
-<span class="fc" id="L431">  ISSUE(OccurrenceIssue.class),</span>
+<span class="fc" id="L441">  ISSUE(OccurrenceIssue.class),</span>
 
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
-<span class="fc" id="L436">  TYPE_STATUS(String.class),</span>
+<span class="fc" id="L446">  TYPE_STATUS(String.class),</span>
 
   /**
    * The kind of media object.
    * Recommended terms from the DCMI Type Vocabulary are StillImage, Sound or MovingImage for GBIF to index and show the
    * media files.
    */
-<span class="fc" id="L443">  MEDIA_TYPE(MediaType.class),</span>
+<span class="fc" id="L453">  MEDIA_TYPE(MediaType.class),</span>
 
   /**
    *  An identifier for the Occurrence (as opposed to a particular digital record of the occurrence).
    *  In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the
    *  record that will most closely make the occurrenceID globally unique.
    */
-<span class="fc" id="L450">  OCCURRENCE_ID(String.class),</span>
+<span class="fc" id="L460">  OCCURRENCE_ID(String.class),</span>
 
   /**
    * The process by which the biological individual(s) represented in the Occurrence became established at the location.
    */
-<span class="fc" id="L455">  ESTABLISHMENT_MEANS(String.class),</span>
+<span class="fc" id="L465">  ESTABLISHMENT_MEANS(String.class),</span>
 
   /**
    * Provides the controlled vocabulary for information about degree to which an Organism survives, reproduces, and expands its range at the given place and time.
    */
-<span class="fc" id="L460">  DEGREE_OF_ESTABLISHMENT(String.class),</span>
+<span class="fc" id="L470">  DEGREE_OF_ESTABLISHMENT(String.class),</span>
 
   /**
    * Provides the controlled vocabulary for information about the process by which an Organism came to be in a given place at a given time.
    * The pathway of an organism or organisms have been introduced to a given place and time.
    */
-<span class="fc" id="L466">  PATHWAY(String.class),</span>
+<span class="fc" id="L476">  PATHWAY(String.class),</span>
 
   /**
    * Searches for records whose publishing country is different to the country where the record was recorded in.
    */
-<span class="fc" id="L471">  REPATRIATED(Boolean.class),</span>
+<span class="fc" id="L481">  REPATRIATED(Boolean.class),</span>
 
   /**
    * An identifier for the Organism instance (as opposed to a particular digital record of the Organism).
    * May be a globally unique identifier or an identifier specific to the data set.
    */
-<span class="fc" id="L477">  ORGANISM_ID(String.class),</span>
+<span class="fc" id="L487">  ORGANISM_ID(String.class),</span>
 
   /**
    * The name of the next smaller administrative region than country in which the Location occurs.
    */
-<span class="fc" id="L482">  STATE_PROVINCE(String.class),</span>
+<span class="fc" id="L492">  STATE_PROVINCE(String.class),</span>
 
   /**
    * The name of the water body in which the Location occurs.
    */
-<span class="fc" id="L487">  WATER_BODY(String.class),</span>
+<span class="fc" id="L497">  WATER_BODY(String.class),</span>
 
   /**
    * The specific description of the place.
    * It may contain information modified from the original to correct perceived errors or standardize the description.
    */
-<span class="fc" id="L493">  LOCALITY(String.class),</span>
+<span class="fc" id="L503">  LOCALITY(String.class),</span>
 
   /**
    * Protocol used to provide the occurrence record.
    */
-<span class="fc" id="L498">  PROTOCOL(EndpointType.class),</span>
+<span class="fc" id="L508">  PROTOCOL(EndpointType.class),</span>
 
   /**
    * The license applied to the dataset.
    */
-<span class="fc" id="L503">  LICENSE(License.class),</span>
+<span class="fc" id="L513">  LICENSE(License.class),</span>
 
   /**
    * The owning organizations uuid key.
    */
-<span class="fc" id="L508">  PUBLISHING_ORG(UUID.class),</span>
+<span class="fc" id="L518">  PUBLISHING_ORG(UUID.class),</span>
 
   /**
    * The GBIF network that the publishing organisation belongs to.
    */
-<span class="fc" id="L513">  NETWORK_KEY(UUID.class),</span>
+<span class="fc" id="L523">  NETWORK_KEY(UUID.class),</span>
 
   /**
    * The technical installation key that hosts/publishes this record.
    */
-<span class="fc" id="L518">  INSTALLATION_KEY(UUID.class),</span>
+<span class="fc" id="L528">  INSTALLATION_KEY(UUID.class),</span>
 
   /**
    * The organization key of the installation that hosts this record.
    */
-<span class="fc" id="L523">  HOSTING_ORGANIZATION_KEY(UUID.class),</span>
+<span class="fc" id="L533">  HOSTING_ORGANIZATION_KEY(UUID.class),</span>
 
   /**
    * Crawl attempt that harvested this record.
    */
-<span class="fc" id="L528">  CRAWL_ID(Integer.class),</span>
+<span class="fc" id="L538">  CRAWL_ID(Integer.class),</span>
 
   /**
    * GBIF ProjectId.
    */
-<span class="fc" id="L533">  PROJECT_ID(String.class),</span>
+<span class="fc" id="L543">  PROJECT_ID(String.class),</span>
 
   /**
    * GBIF Programme Acronym.
    */
-<span class="fc" id="L538">  PROGRAMME(String.class),</span>
+<span class="fc" id="L548">  PROGRAMME(String.class),</span>
 
   /**
    * A number or enumeration value for the quantity of organisms.
    */
-<span class="fc" id="L543">  ORGANISM_QUANTITY(Double.class),</span>
+<span class="fc" id="L553">  ORGANISM_QUANTITY(Double.class),</span>
 
   /**
    * The type of quantification system used for the quantity of organisms.
    */
-<span class="fc" id="L548">  ORGANISM_QUANTITY_TYPE(String.class),</span>
+<span class="fc" id="L558">  ORGANISM_QUANTITY_TYPE(String.class),</span>
 
   /**
    * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
-<span class="fc" id="L553">  SAMPLE_SIZE_UNIT(String.class),</span>
+<span class="fc" id="L563">  SAMPLE_SIZE_UNIT(String.class),</span>
 
   /**
    * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
-<span class="fc" id="L558">  SAMPLE_SIZE_VALUE(Double.class),</span>
+<span class="fc" id="L568">  SAMPLE_SIZE_VALUE(Double.class),</span>
 
   /**
    * Calculated organismQuantity relative to the sampleSizeValue i.e. -&gt; organismQuantity / sampleSizeValue.
    */
-<span class="fc" id="L563">  RELATIVE_ORGANISM_QUANTITY(Double.class),</span>
+<span class="fc" id="L573">  RELATIVE_ORGANISM_QUANTITY(Double.class),</span>
 
   /**
    * Collection key. It links to the collection to which this record belongs.
    */
-<span class="fc" id="L568">  COLLECTION_KEY(String.class),</span>
+<span class="fc" id="L578">  COLLECTION_KEY(String.class),</span>
 
   /**
    * Institution key. It links to the institution that maintains, recorded or digitized  this record.
    */
-<span class="fc" id="L573">  INSTITUTION_KEY(String.class),</span>
+<span class="fc" id="L583">  INSTITUTION_KEY(String.class),</span>
 
   /**
    * Agent identifiers from GbifTerm.recordedByID
    */
-<span class="fc" id="L578">  RECORDED_BY_ID(String.class),</span>
+<span class="fc" id="L588">  RECORDED_BY_ID(String.class),</span>
 
   /**
    * Agent identifiers from GbifTerm.identifiedByID
    */
-<span class="fc" id="L583">  IDENTIFIED_BY_ID(String.class),</span>
+<span class="fc" id="L593">  IDENTIFIED_BY_ID(String.class),</span>
 
   /**
    * An occurrence status enumeration value.
    */
-<span class="fc" id="L588">  OCCURRENCE_STATUS(OccurrenceStatus.class),</span>
+<span class="fc" id="L598">  OCCURRENCE_STATUS(OccurrenceStatus.class),</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; identifier at any level.
    */
-<span class="fc" id="L593">  GADM_GID(String.class),</span>
+<span class="fc" id="L603">  GADM_GID(String.class),</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; country, island or territory (level zero) identifier.
    */
-<span class="fc" id="L598">  GADM_LEVEL_0_GID(String.class),</span>
+<span class="fc" id="L608">  GADM_LEVEL_0_GID(String.class),</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; first-level identifier.
    */
-<span class="fc" id="L603">  GADM_LEVEL_1_GID(String.class),</span>
+<span class="fc" id="L613">  GADM_LEVEL_1_GID(String.class),</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; second-level identifier.
    */
-<span class="fc" id="L608">  GADM_LEVEL_2_GID(String.class),</span>
+<span class="fc" id="L618">  GADM_LEVEL_2_GID(String.class),</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; third-level identifier.
    */
-<span class="fc" id="L613">  GADM_LEVEL_3_GID(String.class),</span>
+<span class="fc" id="L623">  GADM_LEVEL_3_GID(String.class),</span>
 
   /**
    * The life stage of an occurrence.
    */
-<span class="fc" id="L618">  LIFE_STAGE(String.class),</span>
+<span class="fc" id="L628">  LIFE_STAGE(String.class),</span>
 
   /**
    * Searches for occurrences that are clustered.
    */
-<span class="fc" id="L623">  IS_IN_CLUSTER(Boolean.class),</span>
+<span class="fc" id="L633">  IS_IN_CLUSTER(Boolean.class),</span>
 
   /**
    * Searches for occurrences that have a particular DwC-A extension.
    */
-<span class="fc" id="L628">  DWCA_EXTENSION(String.class),</span>
+<span class="fc" id="L638">  DWCA_EXTENSION(String.class),</span>
 
   /**
    * Searches for occurrences that have a IUCN Red List Category.
    */
-<span class="fc" id="L633">  IUCN_RED_LIST_CATEGORY(String.class),</span>
+<span class="fc" id="L643">  IUCN_RED_LIST_CATEGORY(String.class),</span>
 
   /**
    * The dwc dataset id.
    */
-<span class="fc" id="L638">  DATASET_ID(String.class),</span>
+<span class="fc" id="L648">  DATASET_ID(String.class),</span>
 
   /**
    * The dwc dataset name.
    */
-<span class="fc" id="L643">  DATASET_NAME(String.class),</span>
+<span class="fc" id="L653">  DATASET_NAME(String.class),</span>
 
   /**
    * Other catalog numbers associated to an occurrence.
    */
-<span class="fc" id="L648">  OTHER_CATALOG_NUMBERS(String.class),</span>
+<span class="fc" id="L658">  OTHER_CATALOG_NUMBERS(String.class),</span>
 
   /**
    * Preparations methods of an occurrence.
    */
-<span class="fc" id="L653">  PREPARATIONS(String.class),</span>
+<span class="fc" id="L663">  PREPARATIONS(String.class),</span>
 
   /**
    * The name of the island on or near which the location occurs.
    */
-<span class="fc" id="L658">  ISLAND(String.class),</span>
+<span class="fc" id="L668">  ISLAND(String.class),</span>
 
   /**
    * The name of the island group in which the location occurs.
    */
-<span class="fc" id="L663">  ISLAND_GROUP(String.class),</span>
+<span class="fc" id="L673">  ISLAND_GROUP(String.class),</span>
 
   /**
    * A list (concatenated and separated) of names of people, groups, or organizations who determined the georeference
    * (spatial representation) for the location.
    */
-<span class="fc" id="L669">  GEOREFERENCED_BY(String.class),</span>
+<span class="fc" id="L679">  GEOREFERENCED_BY(String.class),</span>
 
   /**
    * A list (concatenated and separated) of geographic names less specific than the information captured in the locality
    * term.
    */
-<span class="fc" id="L675">  HIGHER_GEOGRAPHY(String.class),</span>
+<span class="fc" id="L685">  HIGHER_GEOGRAPHY(String.class),</span>
 
   /**
    * 	An identifier given to the event in the field. Often serves as a link between field notes and the event.
    */
-<span class="fc" id="L680">  FIELD_NUMBER(String.class),</span>
+<span class="fc" id="L690">  FIELD_NUMBER(String.class),</span>
 
   /**
    * The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal
    * name (&quot;Precambrian&quot;) attributable to the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L686">  EARLIEST_EON_OR_LOWEST_EONOTHEM(String.class),</span>
+<span class="fc" id="L696">  EARLIEST_EON_OR_LOWEST_EONOTHEM(String.class),</span>
 
   /**
    * The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal
    * name (&quot;Precambrian&quot;) attributable to the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L692">  LATEST_EON_OR_HIGHEST_EONOTHEM(String.class),</span>
+<span class="fc" id="L702">  LATEST_EON_OR_HIGHEST_EONOTHEM(String.class),</span>
 
   /**
    * The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L698">  EARLIEST_ERA_OR_LOWEST_ERATHEM(String.class),</span>
+<span class="fc" id="L708">  EARLIEST_ERA_OR_LOWEST_ERATHEM(String.class),</span>
 
   /**
    * The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L704">  LATEST_ERA_OR_HIGHEST_ERATHEM(String.class),</span>
+<span class="fc" id="L714">  LATEST_ERA_OR_HIGHEST_ERATHEM(String.class),</span>
 
   /**
    * The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L710">  EARLIEST_PERIOD_OR_LOWEST_SYSTEM(String.class),</span>
+<span class="fc" id="L720">  EARLIEST_PERIOD_OR_LOWEST_SYSTEM(String.class),</span>
 
   /**
    * The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L716">  LATEST_PERIOD_OR_HIGHEST_SYSTEM(String.class),</span>
+<span class="fc" id="L726">  LATEST_PERIOD_OR_HIGHEST_SYSTEM(String.class),</span>
 
   /**
    * The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L722">  EARLIEST_EPOCH_OR_LOWEST_SERIES(String.class),</span>
+<span class="fc" id="L732">  EARLIEST_EPOCH_OR_LOWEST_SERIES(String.class),</span>
 
   /**
    * The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L728">  LATEST_EPOCH_OR_HIGHEST_SERIES(String.class),</span>
+<span class="fc" id="L738">  LATEST_EPOCH_OR_HIGHEST_SERIES(String.class),</span>
 
   /**
    * The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L734">  EARLIEST_AGE_OR_LOWEST_STAGE(String.class),</span>
+<span class="fc" id="L744">  EARLIEST_AGE_OR_LOWEST_STAGE(String.class),</span>
 
   /**
    * The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L740">  LATEST_AGE_OR_HIGHEST_STAGE(String.class),</span>
+<span class="fc" id="L750">  LATEST_AGE_OR_HIGHEST_STAGE(String.class),</span>
 
   /**
    * The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the
    * MaterialEntity was collected.
    */
-<span class="fc" id="L746">  LOWEST_BIOSTRATIGRAPHIC_ZONE(String.class),</span>
+<span class="fc" id="L756">  LOWEST_BIOSTRATIGRAPHIC_ZONE(String.class),</span>
 
   /**
    * The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the
    * MaterialEntity was collected.
    */
-<span class="fc" id="L752">  HIGHEST_BIOSTRATIGRAPHIC_ZONE(String.class),</span>
+<span class="fc" id="L762">  HIGHEST_BIOSTRATIGRAPHIC_ZONE(String.class),</span>
 
   /**
    * The full name of the lithostratigraphic group from which the MaterialEntity was collected.
    */
-<span class="fc" id="L757">  GROUP(String.class),</span>
+<span class="fc" id="L767">  GROUP(String.class),</span>
 
   /**
    * The full name of the lithostratigraphic formation from which the MaterialEntity was collected.
    */
-<span class="fc" id="L762">  FORMATION(String.class),</span>
+<span class="fc" id="L772">  FORMATION(String.class),</span>
 
   /**
    * The full name of the lithostratigraphic member from which the MaterialEntity was collected.
    */
-<span class="fc" id="L767">  MEMBER(String.class),</span>
+<span class="fc" id="L777">  MEMBER(String.class),</span>
 
   /**
    * The full name of the lithostratigraphic bed from which the MaterialEntity was collected.
    */
-<span class="fc" id="L772">  BED(String.class),</span>
+<span class="fc" id="L782">  BED(String.class),</span>
 
   /**
    * A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of
    * genetic sequence information associated with the material entity.
    */
-<span class="fc" id="L778">  ASSOCIATED_SEQUENCES(String.class),</span>
+<span class="fc" id="L788">  ASSOCIATED_SEQUENCES(String.class),</span>
 
   /**
    * Unique GBIF key for the occurrence.
    */
-<span class="fc" id="L783">  GBIF_ID(String.class),</span>
+<span class="fc" id="L793">  GBIF_ID(String.class),</span>
 
   /**
    * Geological time of an occurrence that searchs in the chronostratigraphy fields.
    */
-<span class="fc" id="L788">  GEOLOGICAL_TIME(String.class),</span>
+<span class="fc" id="L798">  GEOLOGICAL_TIME(String.class),</span>
 
   /**
    * Searchs in the lithostratigraphy fields(bed, formation, group, member).
    */
-<span class="fc" id="L793">  LITHOSTRATIGRAPHY(String.class),</span>
+<span class="fc" id="L803">  LITHOSTRATIGRAPHY(String.class),</span>
 
   /**
    * Searchs in the biostratigraphy fields(lowest and highest biostratigraphy).
    */
-<span class="fc" id="L798">  BIOSTRATIGRAPHY(String.class);</span>
+<span class="fc" id="L808">  BIOSTRATIGRAPHY(String.class);</span>
 
   private final Class&lt;?&gt; type;
 
-<span class="fc" id="L802">  OccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="fc" id="L803">    this.type = type;</span>
-<span class="fc" id="L804">  }</span>
+<span class="fc" id="L812">  OccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="fc" id="L813">    this.type = type;</span>
+<span class="fc" id="L814">  }</span>
 
   /**
    * @return the data type expected for the value of the respective search parameter
    */
   @Override
   public Class&lt;?&gt; type() {
-<span class="fc" id="L811">    return type;</span>
+<span class="fc" id="L821">    return type;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

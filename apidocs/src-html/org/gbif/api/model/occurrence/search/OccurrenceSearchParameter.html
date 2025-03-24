@@ -79,751 +79,761 @@
 <span class="source-line-no">066</span><span id="line-66">  MONTH(Integer.class),</span>
 <span class="source-line-no">067</span><span id="line-67"></span>
 <span class="source-line-no">068</span><span id="line-68">  /**</span>
-<span class="source-line-no">069</span><span id="line-69">   * The earliest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a</span>
-<span class="source-line-no">070</span><span id="line-70">   * leap year, in which case it is 366).</span>
-<span class="source-line-no">071</span><span id="line-71">   */</span>
-<span class="source-line-no">072</span><span id="line-72">  START_DAY_OF_YEAR(Integer.class),</span>
-<span class="source-line-no">073</span><span id="line-73"></span>
-<span class="source-line-no">074</span><span id="line-74">  /**</span>
-<span class="source-line-no">075</span><span id="line-75">   * The latest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a</span>
-<span class="source-line-no">076</span><span id="line-76">   * leap year, in which case it is 366).</span>
-<span class="source-line-no">077</span><span id="line-77">   */</span>
-<span class="source-line-no">078</span><span id="line-78">  END_DAY_OF_YEAR(Integer.class),</span>
-<span class="source-line-no">079</span><span id="line-79"></span>
-<span class="source-line-no">080</span><span id="line-80">  /**</span>
-<span class="source-line-no">081</span><span id="line-81">   * Event date (date the occurrence was recorded) in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.</span>
-<span class="source-line-no">082</span><span id="line-82">   * This parameter accepts comma separated range values, examples of valid ranges are:</span>
-<span class="source-line-no">083</span><span id="line-83">   * &lt;dl&gt;</span>
-<span class="source-line-no">084</span><span id="line-84">   * &lt;dt&gt;2001-02-11,2010-01-10&lt;/dt&gt;</span>
-<span class="source-line-no">085</span><span id="line-85">   * &lt;dd&gt;Dates between 2001-02-11 and 2010-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">086</span><span id="line-86">   * &lt;dt&gt;2001-02,2010-01&lt;/dt&gt;</span>
-<span class="source-line-no">087</span><span id="line-87">   * &lt;dd&gt;Dates between first day of 2001-02 and last day of 2010-01&lt;/dd&gt;</span>
-<span class="source-line-no">088</span><span id="line-88">   * &lt;dt&gt;2001,2010&lt;/dt&gt;</span>
-<span class="source-line-no">089</span><span id="line-89">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010&lt;/dd&gt;</span>
-<span class="source-line-no">090</span><span id="line-90">   * &lt;dt&gt;2001,2010-01&lt;/dt&gt;</span>
-<span class="source-line-no">091</span><span id="line-91">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010-01&lt;/dd&gt;</span>
-<span class="source-line-no">092</span><span id="line-92">   * &lt;dt&gt;2001-01-10,2010&lt;/dt&gt;</span>
-<span class="source-line-no">093</span><span id="line-93">   * &lt;dd&gt;Dates between 2001-01-10 and last day of 2010&lt;/dd&gt;</span>
-<span class="source-line-no">094</span><span id="line-94">   * &lt;dt&gt;2001-01-10,*&lt;/dt&gt;</span>
-<span class="source-line-no">095</span><span id="line-95">   * &lt;dd&gt;Dates after 2001-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">096</span><span id="line-96">   * &lt;dt&gt;*,2001-01-10&lt;/dt&gt;</span>
-<span class="source-line-no">097</span><span id="line-97">   * &lt;dd&gt;Dates before 2001-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">098</span><span id="line-98">   * &lt;dt&gt;*&lt;/dt&gt;</span>
-<span class="source-line-no">099</span><span id="line-99">   * &lt;dd&gt;all dates&lt;/dd&gt;</span>
-<span class="source-line-no">100</span><span id="line-100">   * &lt;/dl&gt;</span>
-<span class="source-line-no">101</span><span id="line-101">   */</span>
-<span class="source-line-no">102</span><span id="line-102">  EVENT_DATE(IsoDateInterval.class),</span>
-<span class="source-line-no">103</span><span id="line-103"></span>
-<span class="source-line-no">104</span><span id="line-104">  /**</span>
-<span class="source-line-no">105</span><span id="line-105">   * Lower limit for the range of the event date (date the occurrence was recorded).</span>
-<span class="source-line-no">106</span><span id="line-106">   *</span>
-<span class="source-line-no">107</span><span id="line-107">   * Included for backward compatibility as it mimicks the previous search behaviour:</span>
-<span class="source-line-no">108</span><span id="line-108">   * https://github.com/gbif/occurrence/issues/346</span>
-<span class="source-line-no">109</span><span id="line-109">   */</span>
-<span class="source-line-no">110</span><span id="line-110">  @Deprecated</span>
-<span class="source-line-no">111</span><span id="line-111">  EVENT_DATE_GTE(Date.class),</span>
-<span class="source-line-no">112</span><span id="line-112"></span>
-<span class="source-line-no">113</span><span id="line-113">  /**</span>
-<span class="source-line-no">114</span><span id="line-114">   * An identifier for the set of information associated with an Event (something that occurs at a place and time).</span>
-<span class="source-line-no">115</span><span id="line-115">   * Maybe a global unique identifier or an identifier specific to the data set.</span>
-<span class="source-line-no">116</span><span id="line-116">   */</span>
-<span class="source-line-no">117</span><span id="line-117">  EVENT_ID(String.class),</span>
-<span class="source-line-no">118</span><span id="line-118"></span>
-<span class="source-line-no">119</span><span id="line-119">  /**</span>
-<span class="source-line-no">120</span><span id="line-120">   * An identifier for the broader Event that groups this and potentially other Events.</span>
-<span class="source-line-no">121</span><span id="line-121">   */</span>
-<span class="source-line-no">122</span><span id="line-122">  PARENT_EVENT_ID(String.class),</span>
-<span class="source-line-no">123</span><span id="line-123"></span>
-<span class="source-line-no">124</span><span id="line-124">  /**</span>
-<span class="source-line-no">125</span><span id="line-125">   * The name of, reference to, or description of the method or protocol used during an Event.</span>
+<span class="source-line-no">069</span><span id="line-69">   * The day of the month.</span>
+<span class="source-line-no">070</span><span id="line-70">   * This parameter accepts comma separated range values, e.g.:</span>
+<span class="source-line-no">071</span><span id="line-71">   * &lt;dl&gt;</span>
+<span class="source-line-no">072</span><span id="line-72">   * &lt;dt&gt;24,28&lt;/dt&gt;</span>
+<span class="source-line-no">073</span><span id="line-73">   * &lt;dd&gt;Day of the month between 24 and 28&lt;/dd&gt;</span>
+<span class="source-line-no">074</span><span id="line-74">   * &lt;/dl&gt;</span>
+<span class="source-line-no">075</span><span id="line-75">   */</span>
+<span class="source-line-no">076</span><span id="line-76">  DAY(Integer.class),</span>
+<span class="source-line-no">077</span><span id="line-77"></span>
+<span class="source-line-no">078</span><span id="line-78">  /**</span>
+<span class="source-line-no">079</span><span id="line-79">   * The earliest integer day of the year on which the event occurred (1 for 1 January, 365 for 31 December, except in a</span>
+<span class="source-line-no">080</span><span id="line-80">   * leap year, in which case it is 366).</span>
+<span class="source-line-no">081</span><span id="line-81">   */</span>
+<span class="source-line-no">082</span><span id="line-82">  START_DAY_OF_YEAR(Integer.class),</span>
+<span class="source-line-no">083</span><span id="line-83"></span>
+<span class="source-line-no">084</span><span id="line-84">  /**</span>
+<span class="source-line-no">085</span><span id="line-85">   * The latest integer day of the year on which the event occurred (1 for 1 January, 365 for 31 December, except in a</span>
+<span class="source-line-no">086</span><span id="line-86">   * leap year, in which case it is 366).</span>
+<span class="source-line-no">087</span><span id="line-87">   */</span>
+<span class="source-line-no">088</span><span id="line-88">  END_DAY_OF_YEAR(Integer.class),</span>
+<span class="source-line-no">089</span><span id="line-89"></span>
+<span class="source-line-no">090</span><span id="line-90">  /**</span>
+<span class="source-line-no">091</span><span id="line-91">   * Event date (date the occurrence was recorded) in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.</span>
+<span class="source-line-no">092</span><span id="line-92">   * This parameter accepts comma separated range values, examples of valid ranges are:</span>
+<span class="source-line-no">093</span><span id="line-93">   * &lt;dl&gt;</span>
+<span class="source-line-no">094</span><span id="line-94">   * &lt;dt&gt;2001-02-11,2010-01-10&lt;/dt&gt;</span>
+<span class="source-line-no">095</span><span id="line-95">   * &lt;dd&gt;Dates between 2001-02-11 and 2010-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">096</span><span id="line-96">   * &lt;dt&gt;2001-02,2010-01&lt;/dt&gt;</span>
+<span class="source-line-no">097</span><span id="line-97">   * &lt;dd&gt;Dates between first day of 2001-02 and last day of 2010-01&lt;/dd&gt;</span>
+<span class="source-line-no">098</span><span id="line-98">   * &lt;dt&gt;2001,2010&lt;/dt&gt;</span>
+<span class="source-line-no">099</span><span id="line-99">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010&lt;/dd&gt;</span>
+<span class="source-line-no">100</span><span id="line-100">   * &lt;dt&gt;2001,2010-01&lt;/dt&gt;</span>
+<span class="source-line-no">101</span><span id="line-101">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010-01&lt;/dd&gt;</span>
+<span class="source-line-no">102</span><span id="line-102">   * &lt;dt&gt;2001-01-10,2010&lt;/dt&gt;</span>
+<span class="source-line-no">103</span><span id="line-103">   * &lt;dd&gt;Dates between 2001-01-10 and last day of 2010&lt;/dd&gt;</span>
+<span class="source-line-no">104</span><span id="line-104">   * &lt;dt&gt;2001-01-10,*&lt;/dt&gt;</span>
+<span class="source-line-no">105</span><span id="line-105">   * &lt;dd&gt;Dates after 2001-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">106</span><span id="line-106">   * &lt;dt&gt;*,2001-01-10&lt;/dt&gt;</span>
+<span class="source-line-no">107</span><span id="line-107">   * &lt;dd&gt;Dates before 2001-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">108</span><span id="line-108">   * &lt;dt&gt;*&lt;/dt&gt;</span>
+<span class="source-line-no">109</span><span id="line-109">   * &lt;dd&gt;all dates&lt;/dd&gt;</span>
+<span class="source-line-no">110</span><span id="line-110">   * &lt;/dl&gt;</span>
+<span class="source-line-no">111</span><span id="line-111">   */</span>
+<span class="source-line-no">112</span><span id="line-112">  EVENT_DATE(IsoDateInterval.class),</span>
+<span class="source-line-no">113</span><span id="line-113"></span>
+<span class="source-line-no">114</span><span id="line-114">  /**</span>
+<span class="source-line-no">115</span><span id="line-115">   * Lower limit for the range of the event date (date the occurrence was recorded).</span>
+<span class="source-line-no">116</span><span id="line-116">   *</span>
+<span class="source-line-no">117</span><span id="line-117">   * Included for backward compatibility as it mimicks the previous search behaviour:</span>
+<span class="source-line-no">118</span><span id="line-118">   * https://github.com/gbif/occurrence/issues/346</span>
+<span class="source-line-no">119</span><span id="line-119">   */</span>
+<span class="source-line-no">120</span><span id="line-120">  @Deprecated</span>
+<span class="source-line-no">121</span><span id="line-121">  EVENT_DATE_GTE(Date.class),</span>
+<span class="source-line-no">122</span><span id="line-122"></span>
+<span class="source-line-no">123</span><span id="line-123">  /**</span>
+<span class="source-line-no">124</span><span id="line-124">   * An identifier for the set of information associated with an Event (something that occurs at a place and time).</span>
+<span class="source-line-no">125</span><span id="line-125">   * Maybe a global unique identifier or an identifier specific to the data set.</span>
 <span class="source-line-no">126</span><span id="line-126">   */</span>
-<span class="source-line-no">127</span><span id="line-127">  SAMPLING_PROTOCOL(String.class),</span>
+<span class="source-line-no">127</span><span id="line-127">  EVENT_ID(String.class),</span>
 <span class="source-line-no">128</span><span id="line-128"></span>
 <span class="source-line-no">129</span><span id="line-129">  /**</span>
-<span class="source-line-no">130</span><span id="line-130">   * A list (concatenated and separated) of previous assignments of names to the organism.</span>
+<span class="source-line-no">130</span><span id="line-130">   * An identifier for the broader Event that groups this and potentially other Events.</span>
 <span class="source-line-no">131</span><span id="line-131">   */</span>
-<span class="source-line-no">132</span><span id="line-132">  PREVIOUS_IDENTIFICATIONS(String.class),</span>
+<span class="source-line-no">132</span><span id="line-132">  PARENT_EVENT_ID(String.class),</span>
 <span class="source-line-no">133</span><span id="line-133"></span>
 <span class="source-line-no">134</span><span id="line-134">  /**</span>
-<span class="source-line-no">135</span><span id="line-135">   * Last interpreted date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.</span>
-<span class="source-line-no">136</span><span id="line-136">   * This parameter accepts comma separated range values, examples of valid ranges are:</span>
-<span class="source-line-no">137</span><span id="line-137">   * &lt;dl&gt;</span>
-<span class="source-line-no">138</span><span id="line-138">   * &lt;dt&gt;2001-02-11,2010-01-10&lt;/dt&gt;</span>
-<span class="source-line-no">139</span><span id="line-139">   * &lt;dd&gt;Dates between 2001-02-11 and 2010-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">140</span><span id="line-140">   * &lt;dt&gt;2001-02,2010-01&lt;/dt&gt;</span>
-<span class="source-line-no">141</span><span id="line-141">   * &lt;dd&gt;Dates between first day of 2001-02 and last day of 2010-01&lt;/dd&gt;</span>
-<span class="source-line-no">142</span><span id="line-142">   * &lt;dt&gt;2001,2010&lt;/dt&gt;</span>
-<span class="source-line-no">143</span><span id="line-143">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010&lt;/dd&gt;</span>
-<span class="source-line-no">144</span><span id="line-144">   * &lt;dt&gt;2001,2010-01&lt;/dt&gt;</span>
-<span class="source-line-no">145</span><span id="line-145">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010-01&lt;/dd&gt;</span>
-<span class="source-line-no">146</span><span id="line-146">   * &lt;dt&gt;2001-01-10,2010&lt;/dt&gt;</span>
-<span class="source-line-no">147</span><span id="line-147">   * &lt;dd&gt;Dates between 2001-01-10 and last day of 2010&lt;/dd&gt;</span>
-<span class="source-line-no">148</span><span id="line-148">   * &lt;dt&gt;2001-01-10,*&lt;/dt&gt;</span>
-<span class="source-line-no">149</span><span id="line-149">   * &lt;dd&gt;Dates after 2001-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">150</span><span id="line-150">   * &lt;dt&gt;*,2001-01-10&lt;/dt&gt;</span>
-<span class="source-line-no">151</span><span id="line-151">   * &lt;dd&gt;Dates before 2001-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">152</span><span id="line-152">   * &lt;dt&gt;*&lt;/dt&gt;</span>
-<span class="source-line-no">153</span><span id="line-153">   * &lt;dd&gt;all dates&lt;/dd&gt;</span>
-<span class="source-line-no">154</span><span id="line-154">   * &lt;/dl&gt;</span>
-<span class="source-line-no">155</span><span id="line-155">   */</span>
-<span class="source-line-no">156</span><span id="line-156">  LAST_INTERPRETED(Date.class),</span>
-<span class="source-line-no">157</span><span id="line-157"></span>
-<span class="source-line-no">158</span><span id="line-158"></span>
-<span class="source-line-no">159</span><span id="line-159">  /**</span>
-<span class="source-line-no">160</span><span id="line-160">   * Modified date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.</span>
-<span class="source-line-no">161</span><span id="line-161">   * This parameter accepts comma separated range values, examples of valid ranges are:</span>
-<span class="source-line-no">162</span><span id="line-162">   * &lt;dl&gt;</span>
-<span class="source-line-no">163</span><span id="line-163">   * &lt;dt&gt;2001-02-11,2010-01-10&lt;/dt&gt;</span>
-<span class="source-line-no">164</span><span id="line-164">   * &lt;dd&gt;Dates between 2001-02-11 and 2010-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">165</span><span id="line-165">   * &lt;dt&gt;2001-02,2010-01&lt;/dt&gt;</span>
-<span class="source-line-no">166</span><span id="line-166">   * &lt;dd&gt;Dates between first day of 2001-02 and last day of 2010-01&lt;/dd&gt;</span>
-<span class="source-line-no">167</span><span id="line-167">   * &lt;dt&gt;2001,2010&lt;/dt&gt;</span>
-<span class="source-line-no">168</span><span id="line-168">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010&lt;/dd&gt;</span>
-<span class="source-line-no">169</span><span id="line-169">   * &lt;dt&gt;2001,2010-01&lt;/dt&gt;</span>
-<span class="source-line-no">170</span><span id="line-170">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010-01&lt;/dd&gt;</span>
-<span class="source-line-no">171</span><span id="line-171">   * &lt;dt&gt;2001-01-10,2010&lt;/dt&gt;</span>
-<span class="source-line-no">172</span><span id="line-172">   * &lt;dd&gt;Dates between 2001-01-10 and last day of 2010&lt;/dd&gt;</span>
-<span class="source-line-no">173</span><span id="line-173">   * &lt;dt&gt;2001-01-10,*&lt;/dt&gt;</span>
-<span class="source-line-no">174</span><span id="line-174">   * &lt;dd&gt;Dates after 2001-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">175</span><span id="line-175">   * &lt;dt&gt;*,2001-01-10&lt;/dt&gt;</span>
-<span class="source-line-no">176</span><span id="line-176">   * &lt;dd&gt;Dates before 2001-01-10&lt;/dd&gt;</span>
-<span class="source-line-no">177</span><span id="line-177">   * &lt;dt&gt;*&lt;/dt&gt;</span>
-<span class="source-line-no">178</span><span id="line-178">   * &lt;dd&gt;all dates&lt;/dd&gt;</span>
-<span class="source-line-no">179</span><span id="line-179">   * &lt;/dl&gt;</span>
-<span class="source-line-no">180</span><span id="line-180">   */</span>
-<span class="source-line-no">181</span><span id="line-181">  MODIFIED(Date.class),</span>
-<span class="source-line-no">182</span><span id="line-182"></span>
-<span class="source-line-no">183</span><span id="line-183">  /**</span>
-<span class="source-line-no">184</span><span id="line-184">   * Latitude in decimals between -90 and 90 based on WGS 84.</span>
-<span class="source-line-no">185</span><span id="line-185">   */</span>
-<span class="source-line-no">186</span><span id="line-186">  DECIMAL_LATITUDE(Double.class),</span>
-<span class="source-line-no">187</span><span id="line-187"></span>
-<span class="source-line-no">188</span><span id="line-188">  /**</span>
-<span class="source-line-no">189</span><span id="line-189">   * Longitude in decimals between -180 and 180 based on WGS 84.</span>
+<span class="source-line-no">135</span><span id="line-135">   * The name of, reference to, or description of the method or protocol used during an Event.</span>
+<span class="source-line-no">136</span><span id="line-136">   */</span>
+<span class="source-line-no">137</span><span id="line-137">  SAMPLING_PROTOCOL(String.class),</span>
+<span class="source-line-no">138</span><span id="line-138"></span>
+<span class="source-line-no">139</span><span id="line-139">  /**</span>
+<span class="source-line-no">140</span><span id="line-140">   * A list (concatenated and separated) of previous assignments of names to the organism.</span>
+<span class="source-line-no">141</span><span id="line-141">   */</span>
+<span class="source-line-no">142</span><span id="line-142">  PREVIOUS_IDENTIFICATIONS(String.class),</span>
+<span class="source-line-no">143</span><span id="line-143"></span>
+<span class="source-line-no">144</span><span id="line-144">  /**</span>
+<span class="source-line-no">145</span><span id="line-145">   * Last interpreted date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.</span>
+<span class="source-line-no">146</span><span id="line-146">   * This parameter accepts comma separated range values, examples of valid ranges are:</span>
+<span class="source-line-no">147</span><span id="line-147">   * &lt;dl&gt;</span>
+<span class="source-line-no">148</span><span id="line-148">   * &lt;dt&gt;2001-02-11,2010-01-10&lt;/dt&gt;</span>
+<span class="source-line-no">149</span><span id="line-149">   * &lt;dd&gt;Dates between 2001-02-11 and 2010-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">150</span><span id="line-150">   * &lt;dt&gt;2001-02,2010-01&lt;/dt&gt;</span>
+<span class="source-line-no">151</span><span id="line-151">   * &lt;dd&gt;Dates between first day of 2001-02 and last day of 2010-01&lt;/dd&gt;</span>
+<span class="source-line-no">152</span><span id="line-152">   * &lt;dt&gt;2001,2010&lt;/dt&gt;</span>
+<span class="source-line-no">153</span><span id="line-153">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010&lt;/dd&gt;</span>
+<span class="source-line-no">154</span><span id="line-154">   * &lt;dt&gt;2001,2010-01&lt;/dt&gt;</span>
+<span class="source-line-no">155</span><span id="line-155">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010-01&lt;/dd&gt;</span>
+<span class="source-line-no">156</span><span id="line-156">   * &lt;dt&gt;2001-01-10,2010&lt;/dt&gt;</span>
+<span class="source-line-no">157</span><span id="line-157">   * &lt;dd&gt;Dates between 2001-01-10 and last day of 2010&lt;/dd&gt;</span>
+<span class="source-line-no">158</span><span id="line-158">   * &lt;dt&gt;2001-01-10,*&lt;/dt&gt;</span>
+<span class="source-line-no">159</span><span id="line-159">   * &lt;dd&gt;Dates after 2001-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">160</span><span id="line-160">   * &lt;dt&gt;*,2001-01-10&lt;/dt&gt;</span>
+<span class="source-line-no">161</span><span id="line-161">   * &lt;dd&gt;Dates before 2001-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">162</span><span id="line-162">   * &lt;dt&gt;*&lt;/dt&gt;</span>
+<span class="source-line-no">163</span><span id="line-163">   * &lt;dd&gt;all dates&lt;/dd&gt;</span>
+<span class="source-line-no">164</span><span id="line-164">   * &lt;/dl&gt;</span>
+<span class="source-line-no">165</span><span id="line-165">   */</span>
+<span class="source-line-no">166</span><span id="line-166">  LAST_INTERPRETED(Date.class),</span>
+<span class="source-line-no">167</span><span id="line-167"></span>
+<span class="source-line-no">168</span><span id="line-168"></span>
+<span class="source-line-no">169</span><span id="line-169">  /**</span>
+<span class="source-line-no">170</span><span id="line-170">   * Modified date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.</span>
+<span class="source-line-no">171</span><span id="line-171">   * This parameter accepts comma separated range values, examples of valid ranges are:</span>
+<span class="source-line-no">172</span><span id="line-172">   * &lt;dl&gt;</span>
+<span class="source-line-no">173</span><span id="line-173">   * &lt;dt&gt;2001-02-11,2010-01-10&lt;/dt&gt;</span>
+<span class="source-line-no">174</span><span id="line-174">   * &lt;dd&gt;Dates between 2001-02-11 and 2010-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">175</span><span id="line-175">   * &lt;dt&gt;2001-02,2010-01&lt;/dt&gt;</span>
+<span class="source-line-no">176</span><span id="line-176">   * &lt;dd&gt;Dates between first day of 2001-02 and last day of 2010-01&lt;/dd&gt;</span>
+<span class="source-line-no">177</span><span id="line-177">   * &lt;dt&gt;2001,2010&lt;/dt&gt;</span>
+<span class="source-line-no">178</span><span id="line-178">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010&lt;/dd&gt;</span>
+<span class="source-line-no">179</span><span id="line-179">   * &lt;dt&gt;2001,2010-01&lt;/dt&gt;</span>
+<span class="source-line-no">180</span><span id="line-180">   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010-01&lt;/dd&gt;</span>
+<span class="source-line-no">181</span><span id="line-181">   * &lt;dt&gt;2001-01-10,2010&lt;/dt&gt;</span>
+<span class="source-line-no">182</span><span id="line-182">   * &lt;dd&gt;Dates between 2001-01-10 and last day of 2010&lt;/dd&gt;</span>
+<span class="source-line-no">183</span><span id="line-183">   * &lt;dt&gt;2001-01-10,*&lt;/dt&gt;</span>
+<span class="source-line-no">184</span><span id="line-184">   * &lt;dd&gt;Dates after 2001-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">185</span><span id="line-185">   * &lt;dt&gt;*,2001-01-10&lt;/dt&gt;</span>
+<span class="source-line-no">186</span><span id="line-186">   * &lt;dd&gt;Dates before 2001-01-10&lt;/dd&gt;</span>
+<span class="source-line-no">187</span><span id="line-187">   * &lt;dt&gt;*&lt;/dt&gt;</span>
+<span class="source-line-no">188</span><span id="line-188">   * &lt;dd&gt;all dates&lt;/dd&gt;</span>
+<span class="source-line-no">189</span><span id="line-189">   * &lt;/dl&gt;</span>
 <span class="source-line-no">190</span><span id="line-190">   */</span>
-<span class="source-line-no">191</span><span id="line-191">  DECIMAL_LONGITUDE(Double.class),</span>
+<span class="source-line-no">191</span><span id="line-191">  MODIFIED(Date.class),</span>
 <span class="source-line-no">192</span><span id="line-192"></span>
 <span class="source-line-no">193</span><span id="line-193">  /**</span>
-<span class="source-line-no">194</span><span id="line-194">   * The uncertainty of the coordinate in meters.</span>
-<span class="source-line-no">195</span><span id="line-195">   * This parameter accepts comma separated range values, e.g.:</span>
-<span class="source-line-no">196</span><span id="line-196">   * &lt;dl&gt;</span>
-<span class="source-line-no">197</span><span id="line-197">   * &lt;dt&gt;*,100&lt;/dt&gt;</span>
-<span class="source-line-no">198</span><span id="line-198">   * &lt;dd&gt;Uncertainty below or equals 100m&lt;/dd&gt;</span>
-<span class="source-line-no">199</span><span id="line-199">   * &lt;dt&gt;10000,*&lt;/dt&gt;</span>
-<span class="source-line-no">200</span><span id="line-200">   * &lt;dd&gt;Uncertainty above or equals 10,000m&lt;/dd&gt;</span>
-<span class="source-line-no">201</span><span id="line-201">   * &lt;dt&gt;1000,5000&lt;/dt&gt;</span>
-<span class="source-line-no">202</span><span id="line-202">   * &lt;dd&gt;Uncertainty between or equals 1000m and 5000m</span>
-<span class="source-line-no">203</span><span id="line-203">   * &lt;/dd&gt;</span>
-<span class="source-line-no">204</span><span id="line-204">   * &lt;/dl&gt;</span>
-<span class="source-line-no">205</span><span id="line-205">   */</span>
-<span class="source-line-no">206</span><span id="line-206">  COORDINATE_UNCERTAINTY_IN_METERS(Double.class),</span>
-<span class="source-line-no">207</span><span id="line-207"></span>
-<span class="source-line-no">208</span><span id="line-208">  /**</span>
-<span class="source-line-no">209</span><span id="line-209">   * Country the occurrence was recorded in.</span>
-<span class="source-line-no">210</span><span id="line-210">   */</span>
-<span class="source-line-no">211</span><span id="line-211">  COUNTRY(Country.class),</span>
-<span class="source-line-no">212</span><span id="line-212"></span>
-<span class="source-line-no">213</span><span id="line-213">  /**</span>
-<span class="source-line-no">214</span><span id="line-214">   * GBIF region based on country</span>
+<span class="source-line-no">194</span><span id="line-194">   * Latitude in decimals between -90 and 90 based on WGS 84.</span>
+<span class="source-line-no">195</span><span id="line-195">   */</span>
+<span class="source-line-no">196</span><span id="line-196">  DECIMAL_LATITUDE(Double.class),</span>
+<span class="source-line-no">197</span><span id="line-197"></span>
+<span class="source-line-no">198</span><span id="line-198">  /**</span>
+<span class="source-line-no">199</span><span id="line-199">   * Longitude in decimals between -180 and 180 based on WGS 84.</span>
+<span class="source-line-no">200</span><span id="line-200">   */</span>
+<span class="source-line-no">201</span><span id="line-201">  DECIMAL_LONGITUDE(Double.class),</span>
+<span class="source-line-no">202</span><span id="line-202"></span>
+<span class="source-line-no">203</span><span id="line-203">  /**</span>
+<span class="source-line-no">204</span><span id="line-204">   * The uncertainty of the coordinate in meters.</span>
+<span class="source-line-no">205</span><span id="line-205">   * This parameter accepts comma separated range values, e.g.:</span>
+<span class="source-line-no">206</span><span id="line-206">   * &lt;dl&gt;</span>
+<span class="source-line-no">207</span><span id="line-207">   * &lt;dt&gt;*,100&lt;/dt&gt;</span>
+<span class="source-line-no">208</span><span id="line-208">   * &lt;dd&gt;Uncertainty below or equals 100m&lt;/dd&gt;</span>
+<span class="source-line-no">209</span><span id="line-209">   * &lt;dt&gt;10000,*&lt;/dt&gt;</span>
+<span class="source-line-no">210</span><span id="line-210">   * &lt;dd&gt;Uncertainty above or equals 10,000m&lt;/dd&gt;</span>
+<span class="source-line-no">211</span><span id="line-211">   * &lt;dt&gt;1000,5000&lt;/dt&gt;</span>
+<span class="source-line-no">212</span><span id="line-212">   * &lt;dd&gt;Uncertainty between or equals 1000m and 5000m</span>
+<span class="source-line-no">213</span><span id="line-213">   * &lt;/dd&gt;</span>
+<span class="source-line-no">214</span><span id="line-214">   * &lt;/dl&gt;</span>
 <span class="source-line-no">215</span><span id="line-215">   */</span>
-<span class="source-line-no">216</span><span id="line-216">  GBIF_REGION(GbifRegion.class),</span>
+<span class="source-line-no">216</span><span id="line-216">  COORDINATE_UNCERTAINTY_IN_METERS(Double.class),</span>
 <span class="source-line-no">217</span><span id="line-217"></span>
 <span class="source-line-no">218</span><span id="line-218">  /**</span>
-<span class="source-line-no">219</span><span id="line-219">   * Continent the occurrence was recorded in.</span>
+<span class="source-line-no">219</span><span id="line-219">   * Country the occurrence was recorded in.</span>
 <span class="source-line-no">220</span><span id="line-220">   */</span>
-<span class="source-line-no">221</span><span id="line-221">  CONTINENT(Continent.class),</span>
+<span class="source-line-no">221</span><span id="line-221">  COUNTRY(Country.class),</span>
 <span class="source-line-no">222</span><span id="line-222"></span>
 <span class="source-line-no">223</span><span id="line-223">  /**</span>
-<span class="source-line-no">224</span><span id="line-224">   * The country of the organization that publishes the dataset the occurrence belongs to.</span>
+<span class="source-line-no">224</span><span id="line-224">   * GBIF region based on country</span>
 <span class="source-line-no">225</span><span id="line-225">   */</span>
-<span class="source-line-no">226</span><span id="line-226">  PUBLISHING_COUNTRY(Country.class),</span>
+<span class="source-line-no">226</span><span id="line-226">  GBIF_REGION(GbifRegion.class),</span>
 <span class="source-line-no">227</span><span id="line-227"></span>
 <span class="source-line-no">228</span><span id="line-228">  /**</span>
-<span class="source-line-no">229</span><span id="line-229">   * GBIF region based on publishibg country</span>
+<span class="source-line-no">229</span><span id="line-229">   * Continent the occurrence was recorded in.</span>
 <span class="source-line-no">230</span><span id="line-230">   */</span>
-<span class="source-line-no">231</span><span id="line-231">  PUBLISHED_BY_GBIF_REGION(GbifRegion.class),</span>
+<span class="source-line-no">231</span><span id="line-231">  CONTINENT(Continent.class),</span>
 <span class="source-line-no">232</span><span id="line-232"></span>
 <span class="source-line-no">233</span><span id="line-233">  /**</span>
-<span class="source-line-no">234</span><span id="line-234">   * Altitude/elevation in meters above sea level.</span>
-<span class="source-line-no">235</span><span id="line-235">   * This parameter accepts comma separated range values, e.g.:</span>
-<span class="source-line-no">236</span><span id="line-236">   * &lt;dl&gt;</span>
-<span class="source-line-no">237</span><span id="line-237">   * &lt;dt&gt;*,100&lt;/dt&gt;</span>
-<span class="source-line-no">238</span><span id="line-238">   * &lt;dd&gt;Altitude below or equals 100m&lt;/dd&gt;</span>
-<span class="source-line-no">239</span><span id="line-239">   * &lt;dt&gt;100,*&lt;/dt&gt;</span>
-<span class="source-line-no">240</span><span id="line-240">   * &lt;dd&gt;Altitude above or equals 100m&lt;/dd&gt;</span>
-<span class="source-line-no">241</span><span id="line-241">   * &lt;dt&gt;-2,8.8&lt;/dt&gt;</span>
-<span class="source-line-no">242</span><span id="line-242">   * &lt;dd&gt;Altitude between or equals -2m and 8.8m&lt;/dd&gt;</span>
-<span class="source-line-no">243</span><span id="line-243">   * &lt;/dl&gt;</span>
-<span class="source-line-no">244</span><span id="line-244">   */</span>
-<span class="source-line-no">245</span><span id="line-245">  ELEVATION(Double.class),</span>
-<span class="source-line-no">246</span><span id="line-246"></span>
-<span class="source-line-no">247</span><span id="line-247">  /**</span>
-<span class="source-line-no">248</span><span id="line-248">   * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.</span>
-<span class="source-line-no">249</span><span id="line-249">   * This parameter accepts comma separated range values, e.g.:</span>
-<span class="source-line-no">250</span><span id="line-250">   * &lt;dl&gt;</span>
-<span class="source-line-no">251</span><span id="line-251">   * &lt;dt&gt;*,10&lt;/dt&gt;</span>
-<span class="source-line-no">252</span><span id="line-252">   * &lt;dd&gt;Depth below or equals 10m&lt;/dd&gt;</span>
-<span class="source-line-no">253</span><span id="line-253">   * &lt;dt&gt;100,*&lt;/dt&gt;</span>
-<span class="source-line-no">254</span><span id="line-254">   * &lt;dd&gt;Depth above or equals 100m&lt;/dd&gt;</span>
-<span class="source-line-no">255</span><span id="line-255">   * &lt;dt&gt;12.1,28.8&lt;/dt&gt;</span>
-<span class="source-line-no">256</span><span id="line-256">   * &lt;dd&gt;Depth between or equals 12.1m and 28.8m&lt;/dd&gt;</span>
-<span class="source-line-no">257</span><span id="line-257">   * &lt;/dl&gt;</span>
-<span class="source-line-no">258</span><span id="line-258">   */</span>
-<span class="source-line-no">259</span><span id="line-259">  DEPTH(Double.class),</span>
-<span class="source-line-no">260</span><span id="line-260"></span>
-<span class="source-line-no">261</span><span id="line-261">  /**</span>
-<span class="source-line-no">262</span><span id="line-262">   * An identifier of any form assigned by the source to identify the institution</span>
-<span class="source-line-no">263</span><span id="line-263">   * the record belongs to. Not guaranteed to be unique.</span>
-<span class="source-line-no">264</span><span id="line-264">   */</span>
-<span class="source-line-no">265</span><span id="line-265">  INSTITUTION_CODE(String.class),</span>
-<span class="source-line-no">266</span><span id="line-266"></span>
-<span class="source-line-no">267</span><span id="line-267">  /**</span>
-<span class="source-line-no">268</span><span id="line-268">   * An identifier of any form assigned by the source to identify the physical collection or digital dataset</span>
-<span class="source-line-no">269</span><span id="line-269">   * uniquely within the context of an institution.</span>
-<span class="source-line-no">270</span><span id="line-270">   */</span>
-<span class="source-line-no">271</span><span id="line-271">  COLLECTION_CODE(String.class),</span>
-<span class="source-line-no">272</span><span id="line-272"></span>
-<span class="source-line-no">273</span><span id="line-273">  /**</span>
-<span class="source-line-no">274</span><span id="line-274">   * An identifier of any form assigned by the source within a physical collection or digital dataset for the record</span>
-<span class="source-line-no">275</span><span id="line-275">   * which may not be unique, but should be fairly unique in combination with the institution and collection code.</span>
-<span class="source-line-no">276</span><span id="line-276">   */</span>
-<span class="source-line-no">277</span><span id="line-277">  CATALOG_NUMBER(String.class),</span>
-<span class="source-line-no">278</span><span id="line-278"></span>
-<span class="source-line-no">279</span><span id="line-279">  /**</span>
-<span class="source-line-no">280</span><span id="line-280">   * The person who recorded the occurrence.</span>
-<span class="source-line-no">281</span><span id="line-281">   */</span>
-<span class="source-line-no">282</span><span id="line-282">  RECORDED_BY(String.class),</span>
-<span class="source-line-no">283</span><span id="line-283"></span>
-<span class="source-line-no">284</span><span id="line-284">  /**</span>
-<span class="source-line-no">285</span><span id="line-285">   * The person who identified the occurrence.</span>
+<span class="source-line-no">234</span><span id="line-234">   * The country of the organization that publishes the dataset the occurrence belongs to.</span>
+<span class="source-line-no">235</span><span id="line-235">   */</span>
+<span class="source-line-no">236</span><span id="line-236">  PUBLISHING_COUNTRY(Country.class),</span>
+<span class="source-line-no">237</span><span id="line-237"></span>
+<span class="source-line-no">238</span><span id="line-238">  /**</span>
+<span class="source-line-no">239</span><span id="line-239">   * GBIF region based on publishibg country</span>
+<span class="source-line-no">240</span><span id="line-240">   */</span>
+<span class="source-line-no">241</span><span id="line-241">  PUBLISHED_BY_GBIF_REGION(GbifRegion.class),</span>
+<span class="source-line-no">242</span><span id="line-242"></span>
+<span class="source-line-no">243</span><span id="line-243">  /**</span>
+<span class="source-line-no">244</span><span id="line-244">   * Altitude/elevation in meters above sea level.</span>
+<span class="source-line-no">245</span><span id="line-245">   * This parameter accepts comma separated range values, e.g.:</span>
+<span class="source-line-no">246</span><span id="line-246">   * &lt;dl&gt;</span>
+<span class="source-line-no">247</span><span id="line-247">   * &lt;dt&gt;*,100&lt;/dt&gt;</span>
+<span class="source-line-no">248</span><span id="line-248">   * &lt;dd&gt;Altitude below or equals 100m&lt;/dd&gt;</span>
+<span class="source-line-no">249</span><span id="line-249">   * &lt;dt&gt;100,*&lt;/dt&gt;</span>
+<span class="source-line-no">250</span><span id="line-250">   * &lt;dd&gt;Altitude above or equals 100m&lt;/dd&gt;</span>
+<span class="source-line-no">251</span><span id="line-251">   * &lt;dt&gt;-2,8.8&lt;/dt&gt;</span>
+<span class="source-line-no">252</span><span id="line-252">   * &lt;dd&gt;Altitude between or equals -2m and 8.8m&lt;/dd&gt;</span>
+<span class="source-line-no">253</span><span id="line-253">   * &lt;/dl&gt;</span>
+<span class="source-line-no">254</span><span id="line-254">   */</span>
+<span class="source-line-no">255</span><span id="line-255">  ELEVATION(Double.class),</span>
+<span class="source-line-no">256</span><span id="line-256"></span>
+<span class="source-line-no">257</span><span id="line-257">  /**</span>
+<span class="source-line-no">258</span><span id="line-258">   * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.</span>
+<span class="source-line-no">259</span><span id="line-259">   * This parameter accepts comma separated range values, e.g.:</span>
+<span class="source-line-no">260</span><span id="line-260">   * &lt;dl&gt;</span>
+<span class="source-line-no">261</span><span id="line-261">   * &lt;dt&gt;*,10&lt;/dt&gt;</span>
+<span class="source-line-no">262</span><span id="line-262">   * &lt;dd&gt;Depth below or equals 10m&lt;/dd&gt;</span>
+<span class="source-line-no">263</span><span id="line-263">   * &lt;dt&gt;100,*&lt;/dt&gt;</span>
+<span class="source-line-no">264</span><span id="line-264">   * &lt;dd&gt;Depth above or equals 100m&lt;/dd&gt;</span>
+<span class="source-line-no">265</span><span id="line-265">   * &lt;dt&gt;12.1,28.8&lt;/dt&gt;</span>
+<span class="source-line-no">266</span><span id="line-266">   * &lt;dd&gt;Depth between or equals 12.1m and 28.8m&lt;/dd&gt;</span>
+<span class="source-line-no">267</span><span id="line-267">   * &lt;/dl&gt;</span>
+<span class="source-line-no">268</span><span id="line-268">   */</span>
+<span class="source-line-no">269</span><span id="line-269">  DEPTH(Double.class),</span>
+<span class="source-line-no">270</span><span id="line-270"></span>
+<span class="source-line-no">271</span><span id="line-271">  /**</span>
+<span class="source-line-no">272</span><span id="line-272">   * An identifier of any form assigned by the source to identify the institution</span>
+<span class="source-line-no">273</span><span id="line-273">   * the record belongs to. Not guaranteed to be unique.</span>
+<span class="source-line-no">274</span><span id="line-274">   */</span>
+<span class="source-line-no">275</span><span id="line-275">  INSTITUTION_CODE(String.class),</span>
+<span class="source-line-no">276</span><span id="line-276"></span>
+<span class="source-line-no">277</span><span id="line-277">  /**</span>
+<span class="source-line-no">278</span><span id="line-278">   * An identifier of any form assigned by the source to identify the physical collection or digital dataset</span>
+<span class="source-line-no">279</span><span id="line-279">   * uniquely within the context of an institution.</span>
+<span class="source-line-no">280</span><span id="line-280">   */</span>
+<span class="source-line-no">281</span><span id="line-281">  COLLECTION_CODE(String.class),</span>
+<span class="source-line-no">282</span><span id="line-282"></span>
+<span class="source-line-no">283</span><span id="line-283">  /**</span>
+<span class="source-line-no">284</span><span id="line-284">   * An identifier of any form assigned by the source within a physical collection or digital dataset for the record</span>
+<span class="source-line-no">285</span><span id="line-285">   * which may not be unique, but should be fairly unique in combination with the institution and collection code.</span>
 <span class="source-line-no">286</span><span id="line-286">   */</span>
-<span class="source-line-no">287</span><span id="line-287">  IDENTIFIED_BY(String.class),</span>
+<span class="source-line-no">287</span><span id="line-287">  CATALOG_NUMBER(String.class),</span>
 <span class="source-line-no">288</span><span id="line-288"></span>
 <span class="source-line-no">289</span><span id="line-289">  /**</span>
-<span class="source-line-no">290</span><span id="line-290">   * An identifier given to the Occurrence at the time it was recorded.</span>
+<span class="source-line-no">290</span><span id="line-290">   * The person who recorded the occurrence.</span>
 <span class="source-line-no">291</span><span id="line-291">   */</span>
-<span class="source-line-no">292</span><span id="line-292">  RECORD_NUMBER(String.class),</span>
+<span class="source-line-no">292</span><span id="line-292">  RECORDED_BY(String.class),</span>
 <span class="source-line-no">293</span><span id="line-293"></span>
 <span class="source-line-no">294</span><span id="line-294">  /**</span>
-<span class="source-line-no">295</span><span id="line-295">   * A basis of record enumeration value.</span>
+<span class="source-line-no">295</span><span id="line-295">   * The person who identified the occurrence.</span>
 <span class="source-line-no">296</span><span id="line-296">   */</span>
-<span class="source-line-no">297</span><span id="line-297">  BASIS_OF_RECORD(BasisOfRecord.class),</span>
+<span class="source-line-no">297</span><span id="line-297">  IDENTIFIED_BY(String.class),</span>
 <span class="source-line-no">298</span><span id="line-298"></span>
 <span class="source-line-no">299</span><span id="line-299">  /**</span>
-<span class="source-line-no">300</span><span id="line-300">   * The sex of the biological individual(s) represented in the occurrence.</span>
+<span class="source-line-no">300</span><span id="line-300">   * An identifier given to the Occurrence at the time it was recorded.</span>
 <span class="source-line-no">301</span><span id="line-301">   */</span>
-<span class="source-line-no">302</span><span id="line-302">  SEX(String.class),</span>
+<span class="source-line-no">302</span><span id="line-302">  RECORD_NUMBER(String.class),</span>
 <span class="source-line-no">303</span><span id="line-303"></span>
 <span class="source-line-no">304</span><span id="line-304">  /**</span>
-<span class="source-line-no">305</span><span id="line-305">   * Presents of associated sequences or an extension</span>
+<span class="source-line-no">305</span><span id="line-305">   * A basis of record enumeration value.</span>
 <span class="source-line-no">306</span><span id="line-306">   */</span>
-<span class="source-line-no">307</span><span id="line-307">  IS_SEQUENCED(Boolean.class),</span>
+<span class="source-line-no">307</span><span id="line-307">  BASIS_OF_RECORD(BasisOfRecord.class),</span>
 <span class="source-line-no">308</span><span id="line-308"></span>
 <span class="source-line-no">309</span><span id="line-309">  /**</span>
-<span class="source-line-no">310</span><span id="line-310">   * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for</span>
-<span class="source-line-no">311</span><span id="line-311">   * aves with taxonKey=212 will match all birds, no matter which species.</span>
-<span class="source-line-no">312</span><span id="line-312">   */</span>
-<span class="source-line-no">313</span><span id="line-313">  TAXON_KEY(Integer.class),</span>
-<span class="source-line-no">314</span><span id="line-314"></span>
-<span class="source-line-no">315</span><span id="line-315">  /**</span>
-<span class="source-line-no">316</span><span id="line-316">   * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.</span>
-<span class="source-line-no">317</span><span id="line-317">   */</span>
-<span class="source-line-no">318</span><span id="line-318">  ACCEPTED_TAXON_KEY(Integer.class),</span>
-<span class="source-line-no">319</span><span id="line-319"></span>
-<span class="source-line-no">320</span><span id="line-320">  /**</span>
-<span class="source-line-no">321</span><span id="line-321">   * A kingdom key from the GBIF backbone.</span>
+<span class="source-line-no">310</span><span id="line-310">   * The sex of the biological individual(s) represented in the occurrence.</span>
+<span class="source-line-no">311</span><span id="line-311">   */</span>
+<span class="source-line-no">312</span><span id="line-312">  SEX(String.class),</span>
+<span class="source-line-no">313</span><span id="line-313"></span>
+<span class="source-line-no">314</span><span id="line-314">  /**</span>
+<span class="source-line-no">315</span><span id="line-315">   * Presents of associated sequences or an extension</span>
+<span class="source-line-no">316</span><span id="line-316">   */</span>
+<span class="source-line-no">317</span><span id="line-317">  IS_SEQUENCED(Boolean.class),</span>
+<span class="source-line-no">318</span><span id="line-318"></span>
+<span class="source-line-no">319</span><span id="line-319">  /**</span>
+<span class="source-line-no">320</span><span id="line-320">   * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for</span>
+<span class="source-line-no">321</span><span id="line-321">   * aves with taxonKey=212 will match all birds, no matter which species.</span>
 <span class="source-line-no">322</span><span id="line-322">   */</span>
-<span class="source-line-no">323</span><span id="line-323">  KINGDOM_KEY(Integer.class),</span>
+<span class="source-line-no">323</span><span id="line-323">  TAXON_KEY(Integer.class),</span>
 <span class="source-line-no">324</span><span id="line-324"></span>
 <span class="source-line-no">325</span><span id="line-325">  /**</span>
-<span class="source-line-no">326</span><span id="line-326">   * A phylum key from the GBIF backbone.</span>
+<span class="source-line-no">326</span><span id="line-326">   * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.</span>
 <span class="source-line-no">327</span><span id="line-327">   */</span>
-<span class="source-line-no">328</span><span id="line-328">  PHYLUM_KEY(Integer.class),</span>
+<span class="source-line-no">328</span><span id="line-328">  ACCEPTED_TAXON_KEY(Integer.class),</span>
 <span class="source-line-no">329</span><span id="line-329"></span>
 <span class="source-line-no">330</span><span id="line-330">  /**</span>
-<span class="source-line-no">331</span><span id="line-331">   * A class key from the GBIF backbone.</span>
+<span class="source-line-no">331</span><span id="line-331">   * A kingdom key from the GBIF backbone.</span>
 <span class="source-line-no">332</span><span id="line-332">   */</span>
-<span class="source-line-no">333</span><span id="line-333">  CLASS_KEY(Integer.class),</span>
+<span class="source-line-no">333</span><span id="line-333">  KINGDOM_KEY(Integer.class),</span>
 <span class="source-line-no">334</span><span id="line-334"></span>
 <span class="source-line-no">335</span><span id="line-335">  /**</span>
-<span class="source-line-no">336</span><span id="line-336">   * A order key from the GBIF backbone.</span>
+<span class="source-line-no">336</span><span id="line-336">   * A phylum key from the GBIF backbone.</span>
 <span class="source-line-no">337</span><span id="line-337">   */</span>
-<span class="source-line-no">338</span><span id="line-338">  ORDER_KEY(Integer.class),</span>
+<span class="source-line-no">338</span><span id="line-338">  PHYLUM_KEY(Integer.class),</span>
 <span class="source-line-no">339</span><span id="line-339"></span>
 <span class="source-line-no">340</span><span id="line-340">  /**</span>
-<span class="source-line-no">341</span><span id="line-341">   * A family key from the GBIF backbone.</span>
+<span class="source-line-no">341</span><span id="line-341">   * A class key from the GBIF backbone.</span>
 <span class="source-line-no">342</span><span id="line-342">   */</span>
-<span class="source-line-no">343</span><span id="line-343">  FAMILY_KEY(Integer.class),</span>
+<span class="source-line-no">343</span><span id="line-343">  CLASS_KEY(Integer.class),</span>
 <span class="source-line-no">344</span><span id="line-344"></span>
 <span class="source-line-no">345</span><span id="line-345">  /**</span>
-<span class="source-line-no">346</span><span id="line-346">   * A genus key from the GBIF backbone.</span>
+<span class="source-line-no">346</span><span id="line-346">   * A order key from the GBIF backbone.</span>
 <span class="source-line-no">347</span><span id="line-347">   */</span>
-<span class="source-line-no">348</span><span id="line-348">  GENUS_KEY(Integer.class),</span>
+<span class="source-line-no">348</span><span id="line-348">  ORDER_KEY(Integer.class),</span>
 <span class="source-line-no">349</span><span id="line-349"></span>
 <span class="source-line-no">350</span><span id="line-350">  /**</span>
-<span class="source-line-no">351</span><span id="line-351">   * A subgenus key from the GBIF backbone.</span>
+<span class="source-line-no">351</span><span id="line-351">   * A family key from the GBIF backbone.</span>
 <span class="source-line-no">352</span><span id="line-352">   */</span>
-<span class="source-line-no">353</span><span id="line-353">  SUBGENUS_KEY(Integer.class),</span>
+<span class="source-line-no">353</span><span id="line-353">  FAMILY_KEY(Integer.class),</span>
 <span class="source-line-no">354</span><span id="line-354"></span>
 <span class="source-line-no">355</span><span id="line-355">  /**</span>
-<span class="source-line-no">356</span><span id="line-356">   * A species key from the GBIF backbone.</span>
+<span class="source-line-no">356</span><span id="line-356">   * A genus key from the GBIF backbone.</span>
 <span class="source-line-no">357</span><span id="line-357">   */</span>
-<span class="source-line-no">358</span><span id="line-358">  SPECIES_KEY(Integer.class),</span>
+<span class="source-line-no">358</span><span id="line-358">  GENUS_KEY(Integer.class),</span>
 <span class="source-line-no">359</span><span id="line-359"></span>
 <span class="source-line-no">360</span><span id="line-360">  /**</span>
-<span class="source-line-no">361</span><span id="line-361">   * Searches the interpreted, full scientific name of the occurrence.</span>
+<span class="source-line-no">361</span><span id="line-361">   * A subgenus key from the GBIF backbone.</span>
 <span class="source-line-no">362</span><span id="line-362">   */</span>
-<span class="source-line-no">363</span><span id="line-363">  SCIENTIFIC_NAME(String.class),</span>
+<span class="source-line-no">363</span><span id="line-363">  SUBGENUS_KEY(Integer.class),</span>
 <span class="source-line-no">364</span><span id="line-364"></span>
 <span class="source-line-no">365</span><span id="line-365">  /**</span>
-<span class="source-line-no">366</span><span id="line-366">   * Scientific name as provided byt the source.</span>
+<span class="source-line-no">366</span><span id="line-366">   * A species key from the GBIF backbone.</span>
 <span class="source-line-no">367</span><span id="line-367">   */</span>
-<span class="source-line-no">368</span><span id="line-368">  VERBATIM_SCIENTIFIC_NAME(String.class),</span>
+<span class="source-line-no">368</span><span id="line-368">  SPECIES_KEY(Integer.class),</span>
 <span class="source-line-no">369</span><span id="line-369"></span>
 <span class="source-line-no">370</span><span id="line-370">  /**</span>
-<span class="source-line-no">371</span><span id="line-371">   * Verbatim identifier for the set of taxon information. Maybe a global unique identifier or an identifier specific to</span>
-<span class="source-line-no">372</span><span id="line-372">   * the data set.</span>
-<span class="source-line-no">373</span><span id="line-373">   */</span>
-<span class="source-line-no">374</span><span id="line-374">  TAXON_ID(String.class),</span>
-<span class="source-line-no">375</span><span id="line-375"></span>
-<span class="source-line-no">376</span><span id="line-376">  /**</span>
-<span class="source-line-no">377</span><span id="line-377">   * An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a taxon.</span>
-<span class="source-line-no">378</span><span id="line-378">   */</span>
-<span class="source-line-no">379</span><span id="line-379">  TAXON_CONCEPT_ID(String.class),</span>
-<span class="source-line-no">380</span><span id="line-380"></span>
-<span class="source-line-no">381</span><span id="line-381">  /**</span>
-<span class="source-line-no">382</span><span id="line-382">   * The status of the use of the  GBIF Backbone taxonKey.</span>
+<span class="source-line-no">371</span><span id="line-371">   * Searches the interpreted, full scientific name of the occurrence.</span>
+<span class="source-line-no">372</span><span id="line-372">   */</span>
+<span class="source-line-no">373</span><span id="line-373">  SCIENTIFIC_NAME(String.class),</span>
+<span class="source-line-no">374</span><span id="line-374"></span>
+<span class="source-line-no">375</span><span id="line-375">  /**</span>
+<span class="source-line-no">376</span><span id="line-376">   * Scientific name as provided byt the source.</span>
+<span class="source-line-no">377</span><span id="line-377">   */</span>
+<span class="source-line-no">378</span><span id="line-378">  VERBATIM_SCIENTIFIC_NAME(String.class),</span>
+<span class="source-line-no">379</span><span id="line-379"></span>
+<span class="source-line-no">380</span><span id="line-380">  /**</span>
+<span class="source-line-no">381</span><span id="line-381">   * Verbatim identifier for the set of taxon information. Maybe a global unique identifier or an identifier specific to</span>
+<span class="source-line-no">382</span><span id="line-382">   * the data set.</span>
 <span class="source-line-no">383</span><span id="line-383">   */</span>
-<span class="source-line-no">384</span><span id="line-384">  TAXONOMIC_STATUS(TaxonomicStatus.class),</span>
+<span class="source-line-no">384</span><span id="line-384">  TAXON_ID(String.class),</span>
 <span class="source-line-no">385</span><span id="line-385"></span>
 <span class="source-line-no">386</span><span id="line-386">  /**</span>
-<span class="source-line-no">387</span><span id="line-387">   * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).</span>
-<span class="source-line-no">388</span><span id="line-388">   * HAS_COORDINATE=true searches for occurrence records with a coordinate value.</span>
-<span class="source-line-no">389</span><span id="line-389">   * HAS_COORDINATE=false searches for occurrence records without a coordinate value.</span>
-<span class="source-line-no">390</span><span id="line-390">   */</span>
-<span class="source-line-no">391</span><span id="line-391">  HAS_COORDINATE(Boolean.class),</span>
-<span class="source-line-no">392</span><span id="line-392"></span>
-<span class="source-line-no">393</span><span id="line-393">  /**</span>
-<span class="source-line-no">394</span><span id="line-394">   * Geometry in &lt;a href="https://en.wikipedia.org/wiki/Well-known_text"&gt;Well Known Text&lt;/a&gt; (WKT) format.</span>
-<span class="source-line-no">395</span><span id="line-395">   * E.g.: POLYGON ((30.0 10.0, 10.12 20.23, 20 40, 40 40, 30 10)).</span>
-<span class="source-line-no">396</span><span id="line-396">   * Multi geometries like MULTIPOLYGON are not supported and multiple parameters should be used instead.</span>
-<span class="source-line-no">397</span><span id="line-397">   * Valid geometries are:</span>
-<span class="source-line-no">398</span><span id="line-398">   * &lt;ul&gt;</span>
-<span class="source-line-no">399</span><span id="line-399">   * &lt;li&gt;POINT&lt;/li&gt;</span>
-<span class="source-line-no">400</span><span id="line-400">   * &lt;li&gt;LINESTRING&lt;/li&gt;</span>
-<span class="source-line-no">401</span><span id="line-401">   * &lt;li&gt;POLYGON&lt;/li&gt;</span>
-<span class="source-line-no">402</span><span id="line-402">   * &lt;li&gt;LINEARRING&lt;/li&gt;</span>
-<span class="source-line-no">403</span><span id="line-403">   * &lt;/ul&gt;</span>
-<span class="source-line-no">404</span><span id="line-404">   */</span>
-<span class="source-line-no">405</span><span id="line-405">  GEOMETRY(String.class),</span>
-<span class="source-line-no">406</span><span id="line-406"></span>
-<span class="source-line-no">407</span><span id="line-407">  /**</span>
-<span class="source-line-no">408</span><span id="line-408">   * Use in combination of LATITUDE and LONGITUDE parameters matches within a given distance.</span>
-<span class="source-line-no">409</span><span id="line-409">   * E.g.: geo_distance=100m,40,90 geo_distance=100km,40,90 geo_distance=100mi,40,90.</span>
-<span class="source-line-no">410</span><span id="line-410">   * See supported units in {@link org.gbif.api.model.occurrence.geo.DistanceUnit}.</span>
-<span class="source-line-no">411</span><span id="line-411">   */</span>
-<span class="source-line-no">412</span><span id="line-412">  GEO_DISTANCE(String.class),</span>
-<span class="source-line-no">413</span><span id="line-413"></span>
-<span class="source-line-no">414</span><span id="line-414">  /**</span>
-<span class="source-line-no">415</span><span id="line-415">   * The distance from a known centroid, e.g. a country centroid.</span>
-<span class="source-line-no">416</span><span id="line-416">   */</span>
-<span class="source-line-no">417</span><span id="line-417">  DISTANCE_FROM_CENTROID_IN_METERS(Double.class),</span>
-<span class="source-line-no">418</span><span id="line-418"></span>
-<span class="source-line-no">419</span><span id="line-419">  /**</span>
-<span class="source-line-no">420</span><span id="line-420">   * Includes/excludes occurrence records which contain geospatial issues for their coordinate.</span>
-<span class="source-line-no">421</span><span id="line-421">   * See {@link org.gbif.api.vocabulary.OccurrenceIssue#GEOSPATIAL_RULES}</span>
-<span class="source-line-no">422</span><span id="line-422">   * HAS_GEOSPATIAL_ISSUE=true include records with spatial issues.</span>
-<span class="source-line-no">423</span><span id="line-423">   * HAS_GEOSPATIAL_ISSUE=false exclude records with spatial issues.</span>
-<span class="source-line-no">424</span><span id="line-424">   * The absence of this parameter returns any record with or without spatial issues.</span>
-<span class="source-line-no">425</span><span id="line-425">   */</span>
-<span class="source-line-no">426</span><span id="line-426">  HAS_GEOSPATIAL_ISSUE(Boolean.class),</span>
-<span class="source-line-no">427</span><span id="line-427"></span>
-<span class="source-line-no">428</span><span id="line-428">  /**</span>
-<span class="source-line-no">429</span><span id="line-429">   * Searches occurrence for those that have a specific issue.</span>
-<span class="source-line-no">430</span><span id="line-430">   */</span>
-<span class="source-line-no">431</span><span id="line-431">  ISSUE(OccurrenceIssue.class),</span>
-<span class="source-line-no">432</span><span id="line-432"></span>
-<span class="source-line-no">433</span><span id="line-433">  /**</span>
-<span class="source-line-no">434</span><span id="line-434">   * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.</span>
+<span class="source-line-no">387</span><span id="line-387">   * An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a taxon.</span>
+<span class="source-line-no">388</span><span id="line-388">   */</span>
+<span class="source-line-no">389</span><span id="line-389">  TAXON_CONCEPT_ID(String.class),</span>
+<span class="source-line-no">390</span><span id="line-390"></span>
+<span class="source-line-no">391</span><span id="line-391">  /**</span>
+<span class="source-line-no">392</span><span id="line-392">   * The status of the use of the  GBIF Backbone taxonKey.</span>
+<span class="source-line-no">393</span><span id="line-393">   */</span>
+<span class="source-line-no">394</span><span id="line-394">  TAXONOMIC_STATUS(TaxonomicStatus.class),</span>
+<span class="source-line-no">395</span><span id="line-395"></span>
+<span class="source-line-no">396</span><span id="line-396">  /**</span>
+<span class="source-line-no">397</span><span id="line-397">   * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).</span>
+<span class="source-line-no">398</span><span id="line-398">   * HAS_COORDINATE=true searches for occurrence records with a coordinate value.</span>
+<span class="source-line-no">399</span><span id="line-399">   * HAS_COORDINATE=false searches for occurrence records without a coordinate value.</span>
+<span class="source-line-no">400</span><span id="line-400">   */</span>
+<span class="source-line-no">401</span><span id="line-401">  HAS_COORDINATE(Boolean.class),</span>
+<span class="source-line-no">402</span><span id="line-402"></span>
+<span class="source-line-no">403</span><span id="line-403">  /**</span>
+<span class="source-line-no">404</span><span id="line-404">   * Geometry in &lt;a href="https://en.wikipedia.org/wiki/Well-known_text"&gt;Well Known Text&lt;/a&gt; (WKT) format.</span>
+<span class="source-line-no">405</span><span id="line-405">   * E.g.: POLYGON ((30.0 10.0, 10.12 20.23, 20 40, 40 40, 30 10)).</span>
+<span class="source-line-no">406</span><span id="line-406">   * Multi geometries like MULTIPOLYGON are not supported and multiple parameters should be used instead.</span>
+<span class="source-line-no">407</span><span id="line-407">   * Valid geometries are:</span>
+<span class="source-line-no">408</span><span id="line-408">   * &lt;ul&gt;</span>
+<span class="source-line-no">409</span><span id="line-409">   * &lt;li&gt;POINT&lt;/li&gt;</span>
+<span class="source-line-no">410</span><span id="line-410">   * &lt;li&gt;LINESTRING&lt;/li&gt;</span>
+<span class="source-line-no">411</span><span id="line-411">   * &lt;li&gt;POLYGON&lt;/li&gt;</span>
+<span class="source-line-no">412</span><span id="line-412">   * &lt;li&gt;LINEARRING&lt;/li&gt;</span>
+<span class="source-line-no">413</span><span id="line-413">   * &lt;/ul&gt;</span>
+<span class="source-line-no">414</span><span id="line-414">   */</span>
+<span class="source-line-no">415</span><span id="line-415">  GEOMETRY(String.class),</span>
+<span class="source-line-no">416</span><span id="line-416"></span>
+<span class="source-line-no">417</span><span id="line-417">  /**</span>
+<span class="source-line-no">418</span><span id="line-418">   * Use in combination of LATITUDE and LONGITUDE parameters matches within a given distance.</span>
+<span class="source-line-no">419</span><span id="line-419">   * E.g.: geo_distance=100m,40,90 geo_distance=100km,40,90 geo_distance=100mi,40,90.</span>
+<span class="source-line-no">420</span><span id="line-420">   * See supported units in {@link org.gbif.api.model.occurrence.geo.DistanceUnit}.</span>
+<span class="source-line-no">421</span><span id="line-421">   */</span>
+<span class="source-line-no">422</span><span id="line-422">  GEO_DISTANCE(String.class),</span>
+<span class="source-line-no">423</span><span id="line-423"></span>
+<span class="source-line-no">424</span><span id="line-424">  /**</span>
+<span class="source-line-no">425</span><span id="line-425">   * The distance from a known centroid, e.g. a country centroid.</span>
+<span class="source-line-no">426</span><span id="line-426">   */</span>
+<span class="source-line-no">427</span><span id="line-427">  DISTANCE_FROM_CENTROID_IN_METERS(Double.class),</span>
+<span class="source-line-no">428</span><span id="line-428"></span>
+<span class="source-line-no">429</span><span id="line-429">  /**</span>
+<span class="source-line-no">430</span><span id="line-430">   * Includes/excludes occurrence records which contain geospatial issues for their coordinate.</span>
+<span class="source-line-no">431</span><span id="line-431">   * See {@link org.gbif.api.vocabulary.OccurrenceIssue#GEOSPATIAL_RULES}</span>
+<span class="source-line-no">432</span><span id="line-432">   * HAS_GEOSPATIAL_ISSUE=true include records with spatial issues.</span>
+<span class="source-line-no">433</span><span id="line-433">   * HAS_GEOSPATIAL_ISSUE=false exclude records with spatial issues.</span>
+<span class="source-line-no">434</span><span id="line-434">   * The absence of this parameter returns any record with or without spatial issues.</span>
 <span class="source-line-no">435</span><span id="line-435">   */</span>
-<span class="source-line-no">436</span><span id="line-436">  TYPE_STATUS(String.class),</span>
+<span class="source-line-no">436</span><span id="line-436">  HAS_GEOSPATIAL_ISSUE(Boolean.class),</span>
 <span class="source-line-no">437</span><span id="line-437"></span>
 <span class="source-line-no">438</span><span id="line-438">  /**</span>
-<span class="source-line-no">439</span><span id="line-439">   * The kind of media object.</span>
-<span class="source-line-no">440</span><span id="line-440">   * Recommended terms from the DCMI Type Vocabulary are StillImage, Sound or MovingImage for GBIF to index and show the</span>
-<span class="source-line-no">441</span><span id="line-441">   * media files.</span>
-<span class="source-line-no">442</span><span id="line-442">   */</span>
-<span class="source-line-no">443</span><span id="line-443">  MEDIA_TYPE(MediaType.class),</span>
-<span class="source-line-no">444</span><span id="line-444"></span>
-<span class="source-line-no">445</span><span id="line-445">  /**</span>
-<span class="source-line-no">446</span><span id="line-446">   *  An identifier for the Occurrence (as opposed to a particular digital record of the occurrence).</span>
-<span class="source-line-no">447</span><span id="line-447">   *  In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the</span>
-<span class="source-line-no">448</span><span id="line-448">   *  record that will most closely make the occurrenceID globally unique.</span>
-<span class="source-line-no">449</span><span id="line-449">   */</span>
-<span class="source-line-no">450</span><span id="line-450">  OCCURRENCE_ID(String.class),</span>
-<span class="source-line-no">451</span><span id="line-451"></span>
-<span class="source-line-no">452</span><span id="line-452">  /**</span>
-<span class="source-line-no">453</span><span id="line-453">   * The process by which the biological individual(s) represented in the Occurrence became established at the location.</span>
-<span class="source-line-no">454</span><span id="line-454">   */</span>
-<span class="source-line-no">455</span><span id="line-455">  ESTABLISHMENT_MEANS(String.class),</span>
-<span class="source-line-no">456</span><span id="line-456"></span>
-<span class="source-line-no">457</span><span id="line-457">  /**</span>
-<span class="source-line-no">458</span><span id="line-458">   * Provides the controlled vocabulary for information about degree to which an Organism survives, reproduces, and expands its range at the given place and time.</span>
+<span class="source-line-no">439</span><span id="line-439">   * Searches occurrence for those that have a specific issue.</span>
+<span class="source-line-no">440</span><span id="line-440">   */</span>
+<span class="source-line-no">441</span><span id="line-441">  ISSUE(OccurrenceIssue.class),</span>
+<span class="source-line-no">442</span><span id="line-442"></span>
+<span class="source-line-no">443</span><span id="line-443">  /**</span>
+<span class="source-line-no">444</span><span id="line-444">   * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.</span>
+<span class="source-line-no">445</span><span id="line-445">   */</span>
+<span class="source-line-no">446</span><span id="line-446">  TYPE_STATUS(String.class),</span>
+<span class="source-line-no">447</span><span id="line-447"></span>
+<span class="source-line-no">448</span><span id="line-448">  /**</span>
+<span class="source-line-no">449</span><span id="line-449">   * The kind of media object.</span>
+<span class="source-line-no">450</span><span id="line-450">   * Recommended terms from the DCMI Type Vocabulary are StillImage, Sound or MovingImage for GBIF to index and show the</span>
+<span class="source-line-no">451</span><span id="line-451">   * media files.</span>
+<span class="source-line-no">452</span><span id="line-452">   */</span>
+<span class="source-line-no">453</span><span id="line-453">  MEDIA_TYPE(MediaType.class),</span>
+<span class="source-line-no">454</span><span id="line-454"></span>
+<span class="source-line-no">455</span><span id="line-455">  /**</span>
+<span class="source-line-no">456</span><span id="line-456">   *  An identifier for the Occurrence (as opposed to a particular digital record of the occurrence).</span>
+<span class="source-line-no">457</span><span id="line-457">   *  In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the</span>
+<span class="source-line-no">458</span><span id="line-458">   *  record that will most closely make the occurrenceID globally unique.</span>
 <span class="source-line-no">459</span><span id="line-459">   */</span>
-<span class="source-line-no">460</span><span id="line-460">  DEGREE_OF_ESTABLISHMENT(String.class),</span>
+<span class="source-line-no">460</span><span id="line-460">  OCCURRENCE_ID(String.class),</span>
 <span class="source-line-no">461</span><span id="line-461"></span>
 <span class="source-line-no">462</span><span id="line-462">  /**</span>
-<span class="source-line-no">463</span><span id="line-463">   * Provides the controlled vocabulary for information about the process by which an Organism came to be in a given place at a given time.</span>
-<span class="source-line-no">464</span><span id="line-464">   * The pathway of an organism or organisms have been introduced to a given place and time.</span>
-<span class="source-line-no">465</span><span id="line-465">   */</span>
-<span class="source-line-no">466</span><span id="line-466">  PATHWAY(String.class),</span>
-<span class="source-line-no">467</span><span id="line-467"></span>
-<span class="source-line-no">468</span><span id="line-468">  /**</span>
-<span class="source-line-no">469</span><span id="line-469">   * Searches for records whose publishing country is different to the country where the record was recorded in.</span>
-<span class="source-line-no">470</span><span id="line-470">   */</span>
-<span class="source-line-no">471</span><span id="line-471">  REPATRIATED(Boolean.class),</span>
-<span class="source-line-no">472</span><span id="line-472"></span>
-<span class="source-line-no">473</span><span id="line-473">  /**</span>
-<span class="source-line-no">474</span><span id="line-474">   * An identifier for the Organism instance (as opposed to a particular digital record of the Organism).</span>
-<span class="source-line-no">475</span><span id="line-475">   * May be a globally unique identifier or an identifier specific to the data set.</span>
-<span class="source-line-no">476</span><span id="line-476">   */</span>
-<span class="source-line-no">477</span><span id="line-477">  ORGANISM_ID(String.class),</span>
-<span class="source-line-no">478</span><span id="line-478"></span>
-<span class="source-line-no">479</span><span id="line-479">  /**</span>
-<span class="source-line-no">480</span><span id="line-480">   * The name of the next smaller administrative region than country in which the Location occurs.</span>
-<span class="source-line-no">481</span><span id="line-481">   */</span>
-<span class="source-line-no">482</span><span id="line-482">  STATE_PROVINCE(String.class),</span>
-<span class="source-line-no">483</span><span id="line-483"></span>
-<span class="source-line-no">484</span><span id="line-484">  /**</span>
-<span class="source-line-no">485</span><span id="line-485">   * The name of the water body in which the Location occurs.</span>
+<span class="source-line-no">463</span><span id="line-463">   * The process by which the biological individual(s) represented in the Occurrence became established at the location.</span>
+<span class="source-line-no">464</span><span id="line-464">   */</span>
+<span class="source-line-no">465</span><span id="line-465">  ESTABLISHMENT_MEANS(String.class),</span>
+<span class="source-line-no">466</span><span id="line-466"></span>
+<span class="source-line-no">467</span><span id="line-467">  /**</span>
+<span class="source-line-no">468</span><span id="line-468">   * Provides the controlled vocabulary for information about degree to which an Organism survives, reproduces, and expands its range at the given place and time.</span>
+<span class="source-line-no">469</span><span id="line-469">   */</span>
+<span class="source-line-no">470</span><span id="line-470">  DEGREE_OF_ESTABLISHMENT(String.class),</span>
+<span class="source-line-no">471</span><span id="line-471"></span>
+<span class="source-line-no">472</span><span id="line-472">  /**</span>
+<span class="source-line-no">473</span><span id="line-473">   * Provides the controlled vocabulary for information about the process by which an Organism came to be in a given place at a given time.</span>
+<span class="source-line-no">474</span><span id="line-474">   * The pathway of an organism or organisms have been introduced to a given place and time.</span>
+<span class="source-line-no">475</span><span id="line-475">   */</span>
+<span class="source-line-no">476</span><span id="line-476">  PATHWAY(String.class),</span>
+<span class="source-line-no">477</span><span id="line-477"></span>
+<span class="source-line-no">478</span><span id="line-478">  /**</span>
+<span class="source-line-no">479</span><span id="line-479">   * Searches for records whose publishing country is different to the country where the record was recorded in.</span>
+<span class="source-line-no">480</span><span id="line-480">   */</span>
+<span class="source-line-no">481</span><span id="line-481">  REPATRIATED(Boolean.class),</span>
+<span class="source-line-no">482</span><span id="line-482"></span>
+<span class="source-line-no">483</span><span id="line-483">  /**</span>
+<span class="source-line-no">484</span><span id="line-484">   * An identifier for the Organism instance (as opposed to a particular digital record of the Organism).</span>
+<span class="source-line-no">485</span><span id="line-485">   * May be a globally unique identifier or an identifier specific to the data set.</span>
 <span class="source-line-no">486</span><span id="line-486">   */</span>
-<span class="source-line-no">487</span><span id="line-487">  WATER_BODY(String.class),</span>
+<span class="source-line-no">487</span><span id="line-487">  ORGANISM_ID(String.class),</span>
 <span class="source-line-no">488</span><span id="line-488"></span>
 <span class="source-line-no">489</span><span id="line-489">  /**</span>
-<span class="source-line-no">490</span><span id="line-490">   * The specific description of the place.</span>
-<span class="source-line-no">491</span><span id="line-491">   * It may contain information modified from the original to correct perceived errors or standardize the description.</span>
-<span class="source-line-no">492</span><span id="line-492">   */</span>
-<span class="source-line-no">493</span><span id="line-493">  LOCALITY(String.class),</span>
-<span class="source-line-no">494</span><span id="line-494"></span>
-<span class="source-line-no">495</span><span id="line-495">  /**</span>
-<span class="source-line-no">496</span><span id="line-496">   * Protocol used to provide the occurrence record.</span>
-<span class="source-line-no">497</span><span id="line-497">   */</span>
-<span class="source-line-no">498</span><span id="line-498">  PROTOCOL(EndpointType.class),</span>
-<span class="source-line-no">499</span><span id="line-499"></span>
-<span class="source-line-no">500</span><span id="line-500">  /**</span>
-<span class="source-line-no">501</span><span id="line-501">   * The license applied to the dataset.</span>
+<span class="source-line-no">490</span><span id="line-490">   * The name of the next smaller administrative region than country in which the Location occurs.</span>
+<span class="source-line-no">491</span><span id="line-491">   */</span>
+<span class="source-line-no">492</span><span id="line-492">  STATE_PROVINCE(String.class),</span>
+<span class="source-line-no">493</span><span id="line-493"></span>
+<span class="source-line-no">494</span><span id="line-494">  /**</span>
+<span class="source-line-no">495</span><span id="line-495">   * The name of the water body in which the Location occurs.</span>
+<span class="source-line-no">496</span><span id="line-496">   */</span>
+<span class="source-line-no">497</span><span id="line-497">  WATER_BODY(String.class),</span>
+<span class="source-line-no">498</span><span id="line-498"></span>
+<span class="source-line-no">499</span><span id="line-499">  /**</span>
+<span class="source-line-no">500</span><span id="line-500">   * The specific description of the place.</span>
+<span class="source-line-no">501</span><span id="line-501">   * It may contain information modified from the original to correct perceived errors or standardize the description.</span>
 <span class="source-line-no">502</span><span id="line-502">   */</span>
-<span class="source-line-no">503</span><span id="line-503">  LICENSE(License.class),</span>
+<span class="source-line-no">503</span><span id="line-503">  LOCALITY(String.class),</span>
 <span class="source-line-no">504</span><span id="line-504"></span>
 <span class="source-line-no">505</span><span id="line-505">  /**</span>
-<span class="source-line-no">506</span><span id="line-506">   * The owning organizations uuid key.</span>
+<span class="source-line-no">506</span><span id="line-506">   * Protocol used to provide the occurrence record.</span>
 <span class="source-line-no">507</span><span id="line-507">   */</span>
-<span class="source-line-no">508</span><span id="line-508">  PUBLISHING_ORG(UUID.class),</span>
+<span class="source-line-no">508</span><span id="line-508">  PROTOCOL(EndpointType.class),</span>
 <span class="source-line-no">509</span><span id="line-509"></span>
 <span class="source-line-no">510</span><span id="line-510">  /**</span>
-<span class="source-line-no">511</span><span id="line-511">   * The GBIF network that the publishing organisation belongs to.</span>
+<span class="source-line-no">511</span><span id="line-511">   * The license applied to the dataset.</span>
 <span class="source-line-no">512</span><span id="line-512">   */</span>
-<span class="source-line-no">513</span><span id="line-513">  NETWORK_KEY(UUID.class),</span>
+<span class="source-line-no">513</span><span id="line-513">  LICENSE(License.class),</span>
 <span class="source-line-no">514</span><span id="line-514"></span>
 <span class="source-line-no">515</span><span id="line-515">  /**</span>
-<span class="source-line-no">516</span><span id="line-516">   * The technical installation key that hosts/publishes this record.</span>
+<span class="source-line-no">516</span><span id="line-516">   * The owning organizations uuid key.</span>
 <span class="source-line-no">517</span><span id="line-517">   */</span>
-<span class="source-line-no">518</span><span id="line-518">  INSTALLATION_KEY(UUID.class),</span>
+<span class="source-line-no">518</span><span id="line-518">  PUBLISHING_ORG(UUID.class),</span>
 <span class="source-line-no">519</span><span id="line-519"></span>
 <span class="source-line-no">520</span><span id="line-520">  /**</span>
-<span class="source-line-no">521</span><span id="line-521">   * The organization key of the installation that hosts this record.</span>
+<span class="source-line-no">521</span><span id="line-521">   * The GBIF network that the publishing organisation belongs to.</span>
 <span class="source-line-no">522</span><span id="line-522">   */</span>
-<span class="source-line-no">523</span><span id="line-523">  HOSTING_ORGANIZATION_KEY(UUID.class),</span>
+<span class="source-line-no">523</span><span id="line-523">  NETWORK_KEY(UUID.class),</span>
 <span class="source-line-no">524</span><span id="line-524"></span>
 <span class="source-line-no">525</span><span id="line-525">  /**</span>
-<span class="source-line-no">526</span><span id="line-526">   * Crawl attempt that harvested this record.</span>
+<span class="source-line-no">526</span><span id="line-526">   * The technical installation key that hosts/publishes this record.</span>
 <span class="source-line-no">527</span><span id="line-527">   */</span>
-<span class="source-line-no">528</span><span id="line-528">  CRAWL_ID(Integer.class),</span>
+<span class="source-line-no">528</span><span id="line-528">  INSTALLATION_KEY(UUID.class),</span>
 <span class="source-line-no">529</span><span id="line-529"></span>
 <span class="source-line-no">530</span><span id="line-530">  /**</span>
-<span class="source-line-no">531</span><span id="line-531">   * GBIF ProjectId.</span>
+<span class="source-line-no">531</span><span id="line-531">   * The organization key of the installation that hosts this record.</span>
 <span class="source-line-no">532</span><span id="line-532">   */</span>
-<span class="source-line-no">533</span><span id="line-533">  PROJECT_ID(String.class),</span>
+<span class="source-line-no">533</span><span id="line-533">  HOSTING_ORGANIZATION_KEY(UUID.class),</span>
 <span class="source-line-no">534</span><span id="line-534"></span>
 <span class="source-line-no">535</span><span id="line-535">  /**</span>
-<span class="source-line-no">536</span><span id="line-536">   * GBIF Programme Acronym.</span>
+<span class="source-line-no">536</span><span id="line-536">   * Crawl attempt that harvested this record.</span>
 <span class="source-line-no">537</span><span id="line-537">   */</span>
-<span class="source-line-no">538</span><span id="line-538">  PROGRAMME(String.class),</span>
+<span class="source-line-no">538</span><span id="line-538">  CRAWL_ID(Integer.class),</span>
 <span class="source-line-no">539</span><span id="line-539"></span>
 <span class="source-line-no">540</span><span id="line-540">  /**</span>
-<span class="source-line-no">541</span><span id="line-541">   * A number or enumeration value for the quantity of organisms.</span>
+<span class="source-line-no">541</span><span id="line-541">   * GBIF ProjectId.</span>
 <span class="source-line-no">542</span><span id="line-542">   */</span>
-<span class="source-line-no">543</span><span id="line-543">  ORGANISM_QUANTITY(Double.class),</span>
+<span class="source-line-no">543</span><span id="line-543">  PROJECT_ID(String.class),</span>
 <span class="source-line-no">544</span><span id="line-544"></span>
 <span class="source-line-no">545</span><span id="line-545">  /**</span>
-<span class="source-line-no">546</span><span id="line-546">   * The type of quantification system used for the quantity of organisms.</span>
+<span class="source-line-no">546</span><span id="line-546">   * GBIF Programme Acronym.</span>
 <span class="source-line-no">547</span><span id="line-547">   */</span>
-<span class="source-line-no">548</span><span id="line-548">  ORGANISM_QUANTITY_TYPE(String.class),</span>
+<span class="source-line-no">548</span><span id="line-548">  PROGRAMME(String.class),</span>
 <span class="source-line-no">549</span><span id="line-549"></span>
 <span class="source-line-no">550</span><span id="line-550">  /**</span>
-<span class="source-line-no">551</span><span id="line-551">   * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.</span>
+<span class="source-line-no">551</span><span id="line-551">   * A number or enumeration value for the quantity of organisms.</span>
 <span class="source-line-no">552</span><span id="line-552">   */</span>
-<span class="source-line-no">553</span><span id="line-553">  SAMPLE_SIZE_UNIT(String.class),</span>
+<span class="source-line-no">553</span><span id="line-553">  ORGANISM_QUANTITY(Double.class),</span>
 <span class="source-line-no">554</span><span id="line-554"></span>
 <span class="source-line-no">555</span><span id="line-555">  /**</span>
-<span class="source-line-no">556</span><span id="line-556">   * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.</span>
+<span class="source-line-no">556</span><span id="line-556">   * The type of quantification system used for the quantity of organisms.</span>
 <span class="source-line-no">557</span><span id="line-557">   */</span>
-<span class="source-line-no">558</span><span id="line-558">  SAMPLE_SIZE_VALUE(Double.class),</span>
+<span class="source-line-no">558</span><span id="line-558">  ORGANISM_QUANTITY_TYPE(String.class),</span>
 <span class="source-line-no">559</span><span id="line-559"></span>
 <span class="source-line-no">560</span><span id="line-560">  /**</span>
-<span class="source-line-no">561</span><span id="line-561">   * Calculated organismQuantity relative to the sampleSizeValue i.e. -&gt; organismQuantity / sampleSizeValue.</span>
+<span class="source-line-no">561</span><span id="line-561">   * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.</span>
 <span class="source-line-no">562</span><span id="line-562">   */</span>
-<span class="source-line-no">563</span><span id="line-563">  RELATIVE_ORGANISM_QUANTITY(Double.class),</span>
+<span class="source-line-no">563</span><span id="line-563">  SAMPLE_SIZE_UNIT(String.class),</span>
 <span class="source-line-no">564</span><span id="line-564"></span>
 <span class="source-line-no">565</span><span id="line-565">  /**</span>
-<span class="source-line-no">566</span><span id="line-566">   * Collection key. It links to the collection to which this record belongs.</span>
+<span class="source-line-no">566</span><span id="line-566">   * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.</span>
 <span class="source-line-no">567</span><span id="line-567">   */</span>
-<span class="source-line-no">568</span><span id="line-568">  COLLECTION_KEY(String.class),</span>
+<span class="source-line-no">568</span><span id="line-568">  SAMPLE_SIZE_VALUE(Double.class),</span>
 <span class="source-line-no">569</span><span id="line-569"></span>
 <span class="source-line-no">570</span><span id="line-570">  /**</span>
-<span class="source-line-no">571</span><span id="line-571">   * Institution key. It links to the institution that maintains, recorded or digitized  this record.</span>
+<span class="source-line-no">571</span><span id="line-571">   * Calculated organismQuantity relative to the sampleSizeValue i.e. -&gt; organismQuantity / sampleSizeValue.</span>
 <span class="source-line-no">572</span><span id="line-572">   */</span>
-<span class="source-line-no">573</span><span id="line-573">  INSTITUTION_KEY(String.class),</span>
+<span class="source-line-no">573</span><span id="line-573">  RELATIVE_ORGANISM_QUANTITY(Double.class),</span>
 <span class="source-line-no">574</span><span id="line-574"></span>
 <span class="source-line-no">575</span><span id="line-575">  /**</span>
-<span class="source-line-no">576</span><span id="line-576">   * Agent identifiers from GbifTerm.recordedByID</span>
+<span class="source-line-no">576</span><span id="line-576">   * Collection key. It links to the collection to which this record belongs.</span>
 <span class="source-line-no">577</span><span id="line-577">   */</span>
-<span class="source-line-no">578</span><span id="line-578">  RECORDED_BY_ID(String.class),</span>
+<span class="source-line-no">578</span><span id="line-578">  COLLECTION_KEY(String.class),</span>
 <span class="source-line-no">579</span><span id="line-579"></span>
 <span class="source-line-no">580</span><span id="line-580">  /**</span>
-<span class="source-line-no">581</span><span id="line-581">   * Agent identifiers from GbifTerm.identifiedByID</span>
+<span class="source-line-no">581</span><span id="line-581">   * Institution key. It links to the institution that maintains, recorded or digitized  this record.</span>
 <span class="source-line-no">582</span><span id="line-582">   */</span>
-<span class="source-line-no">583</span><span id="line-583">  IDENTIFIED_BY_ID(String.class),</span>
+<span class="source-line-no">583</span><span id="line-583">  INSTITUTION_KEY(String.class),</span>
 <span class="source-line-no">584</span><span id="line-584"></span>
 <span class="source-line-no">585</span><span id="line-585">  /**</span>
-<span class="source-line-no">586</span><span id="line-586">   * An occurrence status enumeration value.</span>
+<span class="source-line-no">586</span><span id="line-586">   * Agent identifiers from GbifTerm.recordedByID</span>
 <span class="source-line-no">587</span><span id="line-587">   */</span>
-<span class="source-line-no">588</span><span id="line-588">  OCCURRENCE_STATUS(OccurrenceStatus.class),</span>
+<span class="source-line-no">588</span><span id="line-588">  RECORDED_BY_ID(String.class),</span>
 <span class="source-line-no">589</span><span id="line-589"></span>
 <span class="source-line-no">590</span><span id="line-590">  /**</span>
-<span class="source-line-no">591</span><span id="line-591">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; identifier at any level.</span>
+<span class="source-line-no">591</span><span id="line-591">   * Agent identifiers from GbifTerm.identifiedByID</span>
 <span class="source-line-no">592</span><span id="line-592">   */</span>
-<span class="source-line-no">593</span><span id="line-593">  GADM_GID(String.class),</span>
+<span class="source-line-no">593</span><span id="line-593">  IDENTIFIED_BY_ID(String.class),</span>
 <span class="source-line-no">594</span><span id="line-594"></span>
 <span class="source-line-no">595</span><span id="line-595">  /**</span>
-<span class="source-line-no">596</span><span id="line-596">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; country, island or territory (level zero) identifier.</span>
+<span class="source-line-no">596</span><span id="line-596">   * An occurrence status enumeration value.</span>
 <span class="source-line-no">597</span><span id="line-597">   */</span>
-<span class="source-line-no">598</span><span id="line-598">  GADM_LEVEL_0_GID(String.class),</span>
+<span class="source-line-no">598</span><span id="line-598">  OCCURRENCE_STATUS(OccurrenceStatus.class),</span>
 <span class="source-line-no">599</span><span id="line-599"></span>
 <span class="source-line-no">600</span><span id="line-600">  /**</span>
-<span class="source-line-no">601</span><span id="line-601">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; first-level identifier.</span>
+<span class="source-line-no">601</span><span id="line-601">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; identifier at any level.</span>
 <span class="source-line-no">602</span><span id="line-602">   */</span>
-<span class="source-line-no">603</span><span id="line-603">  GADM_LEVEL_1_GID(String.class),</span>
+<span class="source-line-no">603</span><span id="line-603">  GADM_GID(String.class),</span>
 <span class="source-line-no">604</span><span id="line-604"></span>
 <span class="source-line-no">605</span><span id="line-605">  /**</span>
-<span class="source-line-no">606</span><span id="line-606">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; second-level identifier.</span>
+<span class="source-line-no">606</span><span id="line-606">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; country, island or territory (level zero) identifier.</span>
 <span class="source-line-no">607</span><span id="line-607">   */</span>
-<span class="source-line-no">608</span><span id="line-608">  GADM_LEVEL_2_GID(String.class),</span>
+<span class="source-line-no">608</span><span id="line-608">  GADM_LEVEL_0_GID(String.class),</span>
 <span class="source-line-no">609</span><span id="line-609"></span>
 <span class="source-line-no">610</span><span id="line-610">  /**</span>
-<span class="source-line-no">611</span><span id="line-611">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; third-level identifier.</span>
+<span class="source-line-no">611</span><span id="line-611">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; first-level identifier.</span>
 <span class="source-line-no">612</span><span id="line-612">   */</span>
-<span class="source-line-no">613</span><span id="line-613">  GADM_LEVEL_3_GID(String.class),</span>
+<span class="source-line-no">613</span><span id="line-613">  GADM_LEVEL_1_GID(String.class),</span>
 <span class="source-line-no">614</span><span id="line-614"></span>
 <span class="source-line-no">615</span><span id="line-615">  /**</span>
-<span class="source-line-no">616</span><span id="line-616">   * The life stage of an occurrence.</span>
+<span class="source-line-no">616</span><span id="line-616">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; second-level identifier.</span>
 <span class="source-line-no">617</span><span id="line-617">   */</span>
-<span class="source-line-no">618</span><span id="line-618">  LIFE_STAGE(String.class),</span>
+<span class="source-line-no">618</span><span id="line-618">  GADM_LEVEL_2_GID(String.class),</span>
 <span class="source-line-no">619</span><span id="line-619"></span>
 <span class="source-line-no">620</span><span id="line-620">  /**</span>
-<span class="source-line-no">621</span><span id="line-621">   * Searches for occurrences that are clustered.</span>
+<span class="source-line-no">621</span><span id="line-621">   * A &lt;a href="https://gadm.org"&gt;GADM&lt;/a&gt; third-level identifier.</span>
 <span class="source-line-no">622</span><span id="line-622">   */</span>
-<span class="source-line-no">623</span><span id="line-623">  IS_IN_CLUSTER(Boolean.class),</span>
+<span class="source-line-no">623</span><span id="line-623">  GADM_LEVEL_3_GID(String.class),</span>
 <span class="source-line-no">624</span><span id="line-624"></span>
 <span class="source-line-no">625</span><span id="line-625">  /**</span>
-<span class="source-line-no">626</span><span id="line-626">   * Searches for occurrences that have a particular DwC-A extension.</span>
+<span class="source-line-no">626</span><span id="line-626">   * The life stage of an occurrence.</span>
 <span class="source-line-no">627</span><span id="line-627">   */</span>
-<span class="source-line-no">628</span><span id="line-628">  DWCA_EXTENSION(String.class),</span>
+<span class="source-line-no">628</span><span id="line-628">  LIFE_STAGE(String.class),</span>
 <span class="source-line-no">629</span><span id="line-629"></span>
 <span class="source-line-no">630</span><span id="line-630">  /**</span>
-<span class="source-line-no">631</span><span id="line-631">   * Searches for occurrences that have a IUCN Red List Category.</span>
+<span class="source-line-no">631</span><span id="line-631">   * Searches for occurrences that are clustered.</span>
 <span class="source-line-no">632</span><span id="line-632">   */</span>
-<span class="source-line-no">633</span><span id="line-633">  IUCN_RED_LIST_CATEGORY(String.class),</span>
+<span class="source-line-no">633</span><span id="line-633">  IS_IN_CLUSTER(Boolean.class),</span>
 <span class="source-line-no">634</span><span id="line-634"></span>
 <span class="source-line-no">635</span><span id="line-635">  /**</span>
-<span class="source-line-no">636</span><span id="line-636">   * The dwc dataset id.</span>
+<span class="source-line-no">636</span><span id="line-636">   * Searches for occurrences that have a particular DwC-A extension.</span>
 <span class="source-line-no">637</span><span id="line-637">   */</span>
-<span class="source-line-no">638</span><span id="line-638">  DATASET_ID(String.class),</span>
+<span class="source-line-no">638</span><span id="line-638">  DWCA_EXTENSION(String.class),</span>
 <span class="source-line-no">639</span><span id="line-639"></span>
 <span class="source-line-no">640</span><span id="line-640">  /**</span>
-<span class="source-line-no">641</span><span id="line-641">   * The dwc dataset name.</span>
+<span class="source-line-no">641</span><span id="line-641">   * Searches for occurrences that have a IUCN Red List Category.</span>
 <span class="source-line-no">642</span><span id="line-642">   */</span>
-<span class="source-line-no">643</span><span id="line-643">  DATASET_NAME(String.class),</span>
+<span class="source-line-no">643</span><span id="line-643">  IUCN_RED_LIST_CATEGORY(String.class),</span>
 <span class="source-line-no">644</span><span id="line-644"></span>
 <span class="source-line-no">645</span><span id="line-645">  /**</span>
-<span class="source-line-no">646</span><span id="line-646">   * Other catalog numbers associated to an occurrence.</span>
+<span class="source-line-no">646</span><span id="line-646">   * The dwc dataset id.</span>
 <span class="source-line-no">647</span><span id="line-647">   */</span>
-<span class="source-line-no">648</span><span id="line-648">  OTHER_CATALOG_NUMBERS(String.class),</span>
+<span class="source-line-no">648</span><span id="line-648">  DATASET_ID(String.class),</span>
 <span class="source-line-no">649</span><span id="line-649"></span>
 <span class="source-line-no">650</span><span id="line-650">  /**</span>
-<span class="source-line-no">651</span><span id="line-651">   * Preparations methods of an occurrence.</span>
+<span class="source-line-no">651</span><span id="line-651">   * The dwc dataset name.</span>
 <span class="source-line-no">652</span><span id="line-652">   */</span>
-<span class="source-line-no">653</span><span id="line-653">  PREPARATIONS(String.class),</span>
+<span class="source-line-no">653</span><span id="line-653">  DATASET_NAME(String.class),</span>
 <span class="source-line-no">654</span><span id="line-654"></span>
 <span class="source-line-no">655</span><span id="line-655">  /**</span>
-<span class="source-line-no">656</span><span id="line-656">   * The name of the island on or near which the location occurs.</span>
+<span class="source-line-no">656</span><span id="line-656">   * Other catalog numbers associated to an occurrence.</span>
 <span class="source-line-no">657</span><span id="line-657">   */</span>
-<span class="source-line-no">658</span><span id="line-658">  ISLAND(String.class),</span>
+<span class="source-line-no">658</span><span id="line-658">  OTHER_CATALOG_NUMBERS(String.class),</span>
 <span class="source-line-no">659</span><span id="line-659"></span>
 <span class="source-line-no">660</span><span id="line-660">  /**</span>
-<span class="source-line-no">661</span><span id="line-661">   * The name of the island group in which the location occurs.</span>
+<span class="source-line-no">661</span><span id="line-661">   * Preparations methods of an occurrence.</span>
 <span class="source-line-no">662</span><span id="line-662">   */</span>
-<span class="source-line-no">663</span><span id="line-663">  ISLAND_GROUP(String.class),</span>
+<span class="source-line-no">663</span><span id="line-663">  PREPARATIONS(String.class),</span>
 <span class="source-line-no">664</span><span id="line-664"></span>
 <span class="source-line-no">665</span><span id="line-665">  /**</span>
-<span class="source-line-no">666</span><span id="line-666">   * A list (concatenated and separated) of names of people, groups, or organizations who determined the georeference</span>
-<span class="source-line-no">667</span><span id="line-667">   * (spatial representation) for the location.</span>
-<span class="source-line-no">668</span><span id="line-668">   */</span>
-<span class="source-line-no">669</span><span id="line-669">  GEOREFERENCED_BY(String.class),</span>
-<span class="source-line-no">670</span><span id="line-670"></span>
-<span class="source-line-no">671</span><span id="line-671">  /**</span>
-<span class="source-line-no">672</span><span id="line-672">   * A list (concatenated and separated) of geographic names less specific than the information captured in the locality</span>
-<span class="source-line-no">673</span><span id="line-673">   * term.</span>
-<span class="source-line-no">674</span><span id="line-674">   */</span>
-<span class="source-line-no">675</span><span id="line-675">  HIGHER_GEOGRAPHY(String.class),</span>
-<span class="source-line-no">676</span><span id="line-676"></span>
-<span class="source-line-no">677</span><span id="line-677">  /**</span>
-<span class="source-line-no">678</span><span id="line-678">   *    An identifier given to the event in the field. Often serves as a link between field notes and the event.</span>
-<span class="source-line-no">679</span><span id="line-679">   */</span>
-<span class="source-line-no">680</span><span id="line-680">  FIELD_NUMBER(String.class),</span>
-<span class="source-line-no">681</span><span id="line-681"></span>
-<span class="source-line-no">682</span><span id="line-682">  /**</span>
-<span class="source-line-no">683</span><span id="line-683">   * The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal</span>
-<span class="source-line-no">684</span><span id="line-684">   * name ("Precambrian") attributable to the stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">685</span><span id="line-685">   */</span>
-<span class="source-line-no">686</span><span id="line-686">  EARLIEST_EON_OR_LOWEST_EONOTHEM(String.class),</span>
-<span class="source-line-no">687</span><span id="line-687"></span>
-<span class="source-line-no">688</span><span id="line-688">  /**</span>
-<span class="source-line-no">689</span><span id="line-689">   * The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal</span>
-<span class="source-line-no">690</span><span id="line-690">   * name ("Precambrian") attributable to the stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">691</span><span id="line-691">   */</span>
-<span class="source-line-no">692</span><span id="line-692">  LATEST_EON_OR_HIGHEST_EONOTHEM(String.class),</span>
-<span class="source-line-no">693</span><span id="line-693"></span>
-<span class="source-line-no">694</span><span id="line-694">  /**</span>
-<span class="source-line-no">695</span><span id="line-695">   * The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the</span>
-<span class="source-line-no">696</span><span id="line-696">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">697</span><span id="line-697">   */</span>
-<span class="source-line-no">698</span><span id="line-698">  EARLIEST_ERA_OR_LOWEST_ERATHEM(String.class),</span>
-<span class="source-line-no">699</span><span id="line-699"></span>
-<span class="source-line-no">700</span><span id="line-700">  /**</span>
-<span class="source-line-no">701</span><span id="line-701">   * The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the</span>
-<span class="source-line-no">702</span><span id="line-702">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">703</span><span id="line-703">   */</span>
-<span class="source-line-no">704</span><span id="line-704">  LATEST_ERA_OR_HIGHEST_ERATHEM(String.class),</span>
-<span class="source-line-no">705</span><span id="line-705"></span>
-<span class="source-line-no">706</span><span id="line-706">  /**</span>
-<span class="source-line-no">707</span><span id="line-707">   * The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to</span>
-<span class="source-line-no">708</span><span id="line-708">   * the stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">709</span><span id="line-709">   */</span>
-<span class="source-line-no">710</span><span id="line-710">  EARLIEST_PERIOD_OR_LOWEST_SYSTEM(String.class),</span>
-<span class="source-line-no">711</span><span id="line-711"></span>
-<span class="source-line-no">712</span><span id="line-712">  /**</span>
-<span class="source-line-no">713</span><span id="line-713">   * The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to</span>
-<span class="source-line-no">714</span><span id="line-714">   * the stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">715</span><span id="line-715">   */</span>
-<span class="source-line-no">716</span><span id="line-716">  LATEST_PERIOD_OR_HIGHEST_SYSTEM(String.class),</span>
-<span class="source-line-no">717</span><span id="line-717"></span>
-<span class="source-line-no">718</span><span id="line-718">  /**</span>
-<span class="source-line-no">719</span><span id="line-719">   * The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to</span>
-<span class="source-line-no">720</span><span id="line-720">   * the stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">721</span><span id="line-721">   */</span>
-<span class="source-line-no">722</span><span id="line-722">  EARLIEST_EPOCH_OR_LOWEST_SERIES(String.class),</span>
-<span class="source-line-no">723</span><span id="line-723"></span>
-<span class="source-line-no">724</span><span id="line-724">  /**</span>
-<span class="source-line-no">725</span><span id="line-725">   * The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the</span>
-<span class="source-line-no">726</span><span id="line-726">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">727</span><span id="line-727">   */</span>
-<span class="source-line-no">728</span><span id="line-728">  LATEST_EPOCH_OR_HIGHEST_SERIES(String.class),</span>
-<span class="source-line-no">729</span><span id="line-729"></span>
-<span class="source-line-no">730</span><span id="line-730">  /**</span>
-<span class="source-line-no">731</span><span id="line-731">   * The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the</span>
-<span class="source-line-no">732</span><span id="line-732">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">733</span><span id="line-733">   */</span>
-<span class="source-line-no">734</span><span id="line-734">  EARLIEST_AGE_OR_LOWEST_STAGE(String.class),</span>
-<span class="source-line-no">735</span><span id="line-735"></span>
-<span class="source-line-no">736</span><span id="line-736">  /**</span>
-<span class="source-line-no">737</span><span id="line-737">   * The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the</span>
-<span class="source-line-no">738</span><span id="line-738">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
-<span class="source-line-no">739</span><span id="line-739">   */</span>
-<span class="source-line-no">740</span><span id="line-740">  LATEST_AGE_OR_HIGHEST_STAGE(String.class),</span>
-<span class="source-line-no">741</span><span id="line-741"></span>
-<span class="source-line-no">742</span><span id="line-742">  /**</span>
-<span class="source-line-no">743</span><span id="line-743">   * The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the</span>
-<span class="source-line-no">744</span><span id="line-744">   * MaterialEntity was collected.</span>
-<span class="source-line-no">745</span><span id="line-745">   */</span>
-<span class="source-line-no">746</span><span id="line-746">  LOWEST_BIOSTRATIGRAPHIC_ZONE(String.class),</span>
-<span class="source-line-no">747</span><span id="line-747"></span>
-<span class="source-line-no">748</span><span id="line-748">  /**</span>
-<span class="source-line-no">749</span><span id="line-749">   * The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the</span>
-<span class="source-line-no">750</span><span id="line-750">   * MaterialEntity was collected.</span>
-<span class="source-line-no">751</span><span id="line-751">   */</span>
-<span class="source-line-no">752</span><span id="line-752">  HIGHEST_BIOSTRATIGRAPHIC_ZONE(String.class),</span>
-<span class="source-line-no">753</span><span id="line-753"></span>
-<span class="source-line-no">754</span><span id="line-754">  /**</span>
-<span class="source-line-no">755</span><span id="line-755">   * The full name of the lithostratigraphic group from which the MaterialEntity was collected.</span>
-<span class="source-line-no">756</span><span id="line-756">   */</span>
-<span class="source-line-no">757</span><span id="line-757">  GROUP(String.class),</span>
-<span class="source-line-no">758</span><span id="line-758"></span>
-<span class="source-line-no">759</span><span id="line-759">  /**</span>
-<span class="source-line-no">760</span><span id="line-760">   * The full name of the lithostratigraphic formation from which the MaterialEntity was collected.</span>
+<span class="source-line-no">666</span><span id="line-666">   * The name of the island on or near which the location occurs.</span>
+<span class="source-line-no">667</span><span id="line-667">   */</span>
+<span class="source-line-no">668</span><span id="line-668">  ISLAND(String.class),</span>
+<span class="source-line-no">669</span><span id="line-669"></span>
+<span class="source-line-no">670</span><span id="line-670">  /**</span>
+<span class="source-line-no">671</span><span id="line-671">   * The name of the island group in which the location occurs.</span>
+<span class="source-line-no">672</span><span id="line-672">   */</span>
+<span class="source-line-no">673</span><span id="line-673">  ISLAND_GROUP(String.class),</span>
+<span class="source-line-no">674</span><span id="line-674"></span>
+<span class="source-line-no">675</span><span id="line-675">  /**</span>
+<span class="source-line-no">676</span><span id="line-676">   * A list (concatenated and separated) of names of people, groups, or organizations who determined the georeference</span>
+<span class="source-line-no">677</span><span id="line-677">   * (spatial representation) for the location.</span>
+<span class="source-line-no">678</span><span id="line-678">   */</span>
+<span class="source-line-no">679</span><span id="line-679">  GEOREFERENCED_BY(String.class),</span>
+<span class="source-line-no">680</span><span id="line-680"></span>
+<span class="source-line-no">681</span><span id="line-681">  /**</span>
+<span class="source-line-no">682</span><span id="line-682">   * A list (concatenated and separated) of geographic names less specific than the information captured in the locality</span>
+<span class="source-line-no">683</span><span id="line-683">   * term.</span>
+<span class="source-line-no">684</span><span id="line-684">   */</span>
+<span class="source-line-no">685</span><span id="line-685">  HIGHER_GEOGRAPHY(String.class),</span>
+<span class="source-line-no">686</span><span id="line-686"></span>
+<span class="source-line-no">687</span><span id="line-687">  /**</span>
+<span class="source-line-no">688</span><span id="line-688">   *    An identifier given to the event in the field. Often serves as a link between field notes and the event.</span>
+<span class="source-line-no">689</span><span id="line-689">   */</span>
+<span class="source-line-no">690</span><span id="line-690">  FIELD_NUMBER(String.class),</span>
+<span class="source-line-no">691</span><span id="line-691"></span>
+<span class="source-line-no">692</span><span id="line-692">  /**</span>
+<span class="source-line-no">693</span><span id="line-693">   * The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal</span>
+<span class="source-line-no">694</span><span id="line-694">   * name ("Precambrian") attributable to the stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">695</span><span id="line-695">   */</span>
+<span class="source-line-no">696</span><span id="line-696">  EARLIEST_EON_OR_LOWEST_EONOTHEM(String.class),</span>
+<span class="source-line-no">697</span><span id="line-697"></span>
+<span class="source-line-no">698</span><span id="line-698">  /**</span>
+<span class="source-line-no">699</span><span id="line-699">   * The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal</span>
+<span class="source-line-no">700</span><span id="line-700">   * name ("Precambrian") attributable to the stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">701</span><span id="line-701">   */</span>
+<span class="source-line-no">702</span><span id="line-702">  LATEST_EON_OR_HIGHEST_EONOTHEM(String.class),</span>
+<span class="source-line-no">703</span><span id="line-703"></span>
+<span class="source-line-no">704</span><span id="line-704">  /**</span>
+<span class="source-line-no">705</span><span id="line-705">   * The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the</span>
+<span class="source-line-no">706</span><span id="line-706">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">707</span><span id="line-707">   */</span>
+<span class="source-line-no">708</span><span id="line-708">  EARLIEST_ERA_OR_LOWEST_ERATHEM(String.class),</span>
+<span class="source-line-no">709</span><span id="line-709"></span>
+<span class="source-line-no">710</span><span id="line-710">  /**</span>
+<span class="source-line-no">711</span><span id="line-711">   * The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the</span>
+<span class="source-line-no">712</span><span id="line-712">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">713</span><span id="line-713">   */</span>
+<span class="source-line-no">714</span><span id="line-714">  LATEST_ERA_OR_HIGHEST_ERATHEM(String.class),</span>
+<span class="source-line-no">715</span><span id="line-715"></span>
+<span class="source-line-no">716</span><span id="line-716">  /**</span>
+<span class="source-line-no">717</span><span id="line-717">   * The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to</span>
+<span class="source-line-no">718</span><span id="line-718">   * the stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">719</span><span id="line-719">   */</span>
+<span class="source-line-no">720</span><span id="line-720">  EARLIEST_PERIOD_OR_LOWEST_SYSTEM(String.class),</span>
+<span class="source-line-no">721</span><span id="line-721"></span>
+<span class="source-line-no">722</span><span id="line-722">  /**</span>
+<span class="source-line-no">723</span><span id="line-723">   * The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to</span>
+<span class="source-line-no">724</span><span id="line-724">   * the stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">725</span><span id="line-725">   */</span>
+<span class="source-line-no">726</span><span id="line-726">  LATEST_PERIOD_OR_HIGHEST_SYSTEM(String.class),</span>
+<span class="source-line-no">727</span><span id="line-727"></span>
+<span class="source-line-no">728</span><span id="line-728">  /**</span>
+<span class="source-line-no">729</span><span id="line-729">   * The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to</span>
+<span class="source-line-no">730</span><span id="line-730">   * the stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">731</span><span id="line-731">   */</span>
+<span class="source-line-no">732</span><span id="line-732">  EARLIEST_EPOCH_OR_LOWEST_SERIES(String.class),</span>
+<span class="source-line-no">733</span><span id="line-733"></span>
+<span class="source-line-no">734</span><span id="line-734">  /**</span>
+<span class="source-line-no">735</span><span id="line-735">   * The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the</span>
+<span class="source-line-no">736</span><span id="line-736">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">737</span><span id="line-737">   */</span>
+<span class="source-line-no">738</span><span id="line-738">  LATEST_EPOCH_OR_HIGHEST_SERIES(String.class),</span>
+<span class="source-line-no">739</span><span id="line-739"></span>
+<span class="source-line-no">740</span><span id="line-740">  /**</span>
+<span class="source-line-no">741</span><span id="line-741">   * The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the</span>
+<span class="source-line-no">742</span><span id="line-742">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">743</span><span id="line-743">   */</span>
+<span class="source-line-no">744</span><span id="line-744">  EARLIEST_AGE_OR_LOWEST_STAGE(String.class),</span>
+<span class="source-line-no">745</span><span id="line-745"></span>
+<span class="source-line-no">746</span><span id="line-746">  /**</span>
+<span class="source-line-no">747</span><span id="line-747">   * The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the</span>
+<span class="source-line-no">748</span><span id="line-748">   * stratigraphic horizon from which the MaterialEntity was collected.</span>
+<span class="source-line-no">749</span><span id="line-749">   */</span>
+<span class="source-line-no">750</span><span id="line-750">  LATEST_AGE_OR_HIGHEST_STAGE(String.class),</span>
+<span class="source-line-no">751</span><span id="line-751"></span>
+<span class="source-line-no">752</span><span id="line-752">  /**</span>
+<span class="source-line-no">753</span><span id="line-753">   * The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the</span>
+<span class="source-line-no">754</span><span id="line-754">   * MaterialEntity was collected.</span>
+<span class="source-line-no">755</span><span id="line-755">   */</span>
+<span class="source-line-no">756</span><span id="line-756">  LOWEST_BIOSTRATIGRAPHIC_ZONE(String.class),</span>
+<span class="source-line-no">757</span><span id="line-757"></span>
+<span class="source-line-no">758</span><span id="line-758">  /**</span>
+<span class="source-line-no">759</span><span id="line-759">   * The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the</span>
+<span class="source-line-no">760</span><span id="line-760">   * MaterialEntity was collected.</span>
 <span class="source-line-no">761</span><span id="line-761">   */</span>
-<span class="source-line-no">762</span><span id="line-762">  FORMATION(String.class),</span>
+<span class="source-line-no">762</span><span id="line-762">  HIGHEST_BIOSTRATIGRAPHIC_ZONE(String.class),</span>
 <span class="source-line-no">763</span><span id="line-763"></span>
 <span class="source-line-no">764</span><span id="line-764">  /**</span>
-<span class="source-line-no">765</span><span id="line-765">   * The full name of the lithostratigraphic member from which the MaterialEntity was collected.</span>
+<span class="source-line-no">765</span><span id="line-765">   * The full name of the lithostratigraphic group from which the MaterialEntity was collected.</span>
 <span class="source-line-no">766</span><span id="line-766">   */</span>
-<span class="source-line-no">767</span><span id="line-767">  MEMBER(String.class),</span>
+<span class="source-line-no">767</span><span id="line-767">  GROUP(String.class),</span>
 <span class="source-line-no">768</span><span id="line-768"></span>
 <span class="source-line-no">769</span><span id="line-769">  /**</span>
-<span class="source-line-no">770</span><span id="line-770">   * The full name of the lithostratigraphic bed from which the MaterialEntity was collected.</span>
+<span class="source-line-no">770</span><span id="line-770">   * The full name of the lithostratigraphic formation from which the MaterialEntity was collected.</span>
 <span class="source-line-no">771</span><span id="line-771">   */</span>
-<span class="source-line-no">772</span><span id="line-772">  BED(String.class),</span>
+<span class="source-line-no">772</span><span id="line-772">  FORMATION(String.class),</span>
 <span class="source-line-no">773</span><span id="line-773"></span>
 <span class="source-line-no">774</span><span id="line-774">  /**</span>
-<span class="source-line-no">775</span><span id="line-775">   * A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of</span>
-<span class="source-line-no">776</span><span id="line-776">   * genetic sequence information associated with the material entity.</span>
-<span class="source-line-no">777</span><span id="line-777">   */</span>
-<span class="source-line-no">778</span><span id="line-778">  ASSOCIATED_SEQUENCES(String.class),</span>
-<span class="source-line-no">779</span><span id="line-779"></span>
-<span class="source-line-no">780</span><span id="line-780">  /**</span>
-<span class="source-line-no">781</span><span id="line-781">   * Unique GBIF key for the occurrence.</span>
-<span class="source-line-no">782</span><span id="line-782">   */</span>
-<span class="source-line-no">783</span><span id="line-783">  GBIF_ID(String.class),</span>
-<span class="source-line-no">784</span><span id="line-784"></span>
-<span class="source-line-no">785</span><span id="line-785">  /**</span>
-<span class="source-line-no">786</span><span id="line-786">   * Geological time of an occurrence that searchs in the chronostratigraphy fields.</span>
+<span class="source-line-no">775</span><span id="line-775">   * The full name of the lithostratigraphic member from which the MaterialEntity was collected.</span>
+<span class="source-line-no">776</span><span id="line-776">   */</span>
+<span class="source-line-no">777</span><span id="line-777">  MEMBER(String.class),</span>
+<span class="source-line-no">778</span><span id="line-778"></span>
+<span class="source-line-no">779</span><span id="line-779">  /**</span>
+<span class="source-line-no">780</span><span id="line-780">   * The full name of the lithostratigraphic bed from which the MaterialEntity was collected.</span>
+<span class="source-line-no">781</span><span id="line-781">   */</span>
+<span class="source-line-no">782</span><span id="line-782">  BED(String.class),</span>
+<span class="source-line-no">783</span><span id="line-783"></span>
+<span class="source-line-no">784</span><span id="line-784">  /**</span>
+<span class="source-line-no">785</span><span id="line-785">   * A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of</span>
+<span class="source-line-no">786</span><span id="line-786">   * genetic sequence information associated with the material entity.</span>
 <span class="source-line-no">787</span><span id="line-787">   */</span>
-<span class="source-line-no">788</span><span id="line-788">  GEOLOGICAL_TIME(String.class),</span>
+<span class="source-line-no">788</span><span id="line-788">  ASSOCIATED_SEQUENCES(String.class),</span>
 <span class="source-line-no">789</span><span id="line-789"></span>
 <span class="source-line-no">790</span><span id="line-790">  /**</span>
-<span class="source-line-no">791</span><span id="line-791">   * Searchs in the lithostratigraphy fields(bed, formation, group, member).</span>
+<span class="source-line-no">791</span><span id="line-791">   * Unique GBIF key for the occurrence.</span>
 <span class="source-line-no">792</span><span id="line-792">   */</span>
-<span class="source-line-no">793</span><span id="line-793">  LITHOSTRATIGRAPHY(String.class),</span>
+<span class="source-line-no">793</span><span id="line-793">  GBIF_ID(String.class),</span>
 <span class="source-line-no">794</span><span id="line-794"></span>
 <span class="source-line-no">795</span><span id="line-795">  /**</span>
-<span class="source-line-no">796</span><span id="line-796">   * Searchs in the biostratigraphy fields(lowest and highest biostratigraphy).</span>
+<span class="source-line-no">796</span><span id="line-796">   * Geological time of an occurrence that searchs in the chronostratigraphy fields.</span>
 <span class="source-line-no">797</span><span id="line-797">   */</span>
-<span class="source-line-no">798</span><span id="line-798">  BIOSTRATIGRAPHY(String.class);</span>
+<span class="source-line-no">798</span><span id="line-798">  GEOLOGICAL_TIME(String.class),</span>
 <span class="source-line-no">799</span><span id="line-799"></span>
-<span class="source-line-no">800</span><span id="line-800">  private final Class&lt;?&gt; type;</span>
-<span class="source-line-no">801</span><span id="line-801"></span>
-<span class="source-line-no">802</span><span id="line-802">  OccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="source-line-no">803</span><span id="line-803">    this.type = type;</span>
-<span class="source-line-no">804</span><span id="line-804">  }</span>
-<span class="source-line-no">805</span><span id="line-805"></span>
-<span class="source-line-no">806</span><span id="line-806">  /**</span>
-<span class="source-line-no">807</span><span id="line-807">   * @return the data type expected for the value of the respective search parameter</span>
-<span class="source-line-no">808</span><span id="line-808">   */</span>
-<span class="source-line-no">809</span><span id="line-809">  @Override</span>
-<span class="source-line-no">810</span><span id="line-810">  public Class&lt;?&gt; type() {</span>
-<span class="source-line-no">811</span><span id="line-811">    return type;</span>
-<span class="source-line-no">812</span><span id="line-812">  }</span>
-<span class="source-line-no">813</span><span id="line-813">}</span>
+<span class="source-line-no">800</span><span id="line-800">  /**</span>
+<span class="source-line-no">801</span><span id="line-801">   * Searchs in the lithostratigraphy fields(bed, formation, group, member).</span>
+<span class="source-line-no">802</span><span id="line-802">   */</span>
+<span class="source-line-no">803</span><span id="line-803">  LITHOSTRATIGRAPHY(String.class),</span>
+<span class="source-line-no">804</span><span id="line-804"></span>
+<span class="source-line-no">805</span><span id="line-805">  /**</span>
+<span class="source-line-no">806</span><span id="line-806">   * Searchs in the biostratigraphy fields(lowest and highest biostratigraphy).</span>
+<span class="source-line-no">807</span><span id="line-807">   */</span>
+<span class="source-line-no">808</span><span id="line-808">  BIOSTRATIGRAPHY(String.class);</span>
+<span class="source-line-no">809</span><span id="line-809"></span>
+<span class="source-line-no">810</span><span id="line-810">  private final Class&lt;?&gt; type;</span>
+<span class="source-line-no">811</span><span id="line-811"></span>
+<span class="source-line-no">812</span><span id="line-812">  OccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="source-line-no">813</span><span id="line-813">    this.type = type;</span>
+<span class="source-line-no">814</span><span id="line-814">  }</span>
+<span class="source-line-no">815</span><span id="line-815"></span>
+<span class="source-line-no">816</span><span id="line-816">  /**</span>
+<span class="source-line-no">817</span><span id="line-817">   * @return the data type expected for the value of the respective search parameter</span>
+<span class="source-line-no">818</span><span id="line-818">   */</span>
+<span class="source-line-no">819</span><span id="line-819">  @Override</span>
+<span class="source-line-no">820</span><span id="line-820">  public Class&lt;?&gt; type() {</span>
+<span class="source-line-no">821</span><span id="line-821">    return type;</span>
+<span class="source-line-no">822</span><span id="line-822">  }</span>
+<span class="source-line-no">823</span><span id="line-823">}</span>
 
 
 
