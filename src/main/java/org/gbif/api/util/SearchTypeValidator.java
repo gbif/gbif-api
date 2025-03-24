@@ -215,6 +215,8 @@ public class SearchTypeValidator {
           Collection<Integer> intsFound = validateInteger(value);
           if (OccurrenceSearchParameter.MONTH == param) {
             validateMonth(intsFound);
+          } else if (OccurrenceSearchParameter.DAY == param) {
+            validateDay(intsFound);
           }
 
         } else if (Boolean.class.isAssignableFrom(pType)) {
@@ -515,4 +517,11 @@ public class SearchTypeValidator {
     }
   }
 
+  private static void validateDay(Collection<Integer> days) {
+    for (Integer day : days) {
+      if (day != null && (day < 1 || day > 31)) {
+        throw new IllegalArgumentException("Day needs to be between 1 - 31");
+      }
+    }
+  }
 }

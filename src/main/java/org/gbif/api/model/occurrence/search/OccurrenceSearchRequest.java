@@ -16,6 +16,8 @@ package org.gbif.api.model.occurrence.search;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
@@ -23,16 +25,22 @@ import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
-import org.gbif.api.vocabulary.TypeStatus;
 
 /** Request class for issuing search request to the occurrence search service. */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
+  @Schema(
+    description = "This flag enables the use of case-sensitive matches and aggregations on certain search parameters."
+  )
   private Boolean matchCase;
+
+  @Schema(
+    description = "This flag allows to sort the results in a random order by specifying a seed. The seed makes the " +
+      "random results reproducible so we can use paging. The same seed has to be sent for each page."
+  )
   private String shuffle;
 
   public OccurrenceSearchRequest() {
@@ -48,7 +56,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
    * catalogNumber, collectionCode, institutionCode, eventId, parentEventId, waterBody,
    * stateProvince, recordNumber, identifiedBy, organismId and locality.
    *
-   * <p>This is an experimental feature and its implementation map change or be removed at any time.
+   * <p>This is an experimental feature and its implementation may change or be removed at any time.
    *
    * <p>Be aware that this is not a per-field flag, all possible fields will match case sensitively.
    */
@@ -147,6 +155,10 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
 
   public void addMonthFilter(int month) {
     addParameter(OccurrenceSearchParameter.MONTH, month);
+  }
+
+  public void addDayFilter(int day) {
+    addParameter(OccurrenceSearchParameter.DAY, day);
   }
 
   public void addTaxonKeyFilter(int taxonKey) {

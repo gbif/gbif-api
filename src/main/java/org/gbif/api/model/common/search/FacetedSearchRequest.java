@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.common.search;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.Explode;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -34,10 +35,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
 
 /**
  * Generic request class for search operations requesting facets.
@@ -46,14 +44,33 @@ import static java.lang.annotation.ElementType.PARAMETER;
 @SuppressWarnings("unused")
 public class FacetedSearchRequest<P extends SearchParameter> extends SearchRequest<P> {
 
+  @Schema(
+    description = "Facet names used to retrieve the most frequent values for fields."
+  )
   private Set<P> facets = new HashSet<>();
 
-  private boolean multiSelectFacets;
+  @Schema(
+    description = "Used in combination with the facet parameter. Set `facetMultiSelect=true` to still return counts for values that are not currently filtered."
+  )
+  private boolean facetMultiSelect;
+
+  @Schema(
+    description = "Used in combination with the facet parameter. Set `facetMincount={#}` to exclude facets with a count less than `{#}`."
+  )
   private Integer facetMinCount;
+
+  @Schema(
+    description = "Facet parameters allow paging requests using the parameters facetOffset and facetLimit."
+  )
   private Integer facetLimit = 10;
+
+  @Schema(
+    description = "Facet parameters allow paging requests using the parameters facetOffset and facetLimit."
+  )
   private Integer facetOffset;
 
   //Holds the paging configuration for each requested facet
+  @Hidden
   private Map<P, Pageable> facetPages = new HashMap<>();
 
   /**
@@ -72,9 +89,9 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
         in = ParameterIn.QUERY,
         explode = Explode.TRUE),
       @Parameter(
-        name = "facetMincount",
+        name = "facetMinCount",
         description =
-          "Used in combination with the facet parameter. Set `facetMincount={#}` to exclude facets with a count less than `{#}`.",
+          "Used in combination with the facet parameter. Set `facetMinCount={#}` to exclude facets with a count less than `{#}`.",
         schema = @Schema(implementation = Integer.class),
         in = ParameterIn.QUERY),
       @Parameter(
@@ -144,17 +161,17 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
   }
 
   /**
-   * @return the multiSelectFacets
+   * @return the facetMultiSelect
    */
-  public boolean isMultiSelectFacets() {
-    return multiSelectFacets;
+  public boolean isFacetMultiSelect() {
+    return facetMultiSelect;
   }
 
   /**
-   * @param multiSelectFacets the multiSelectFacets to set
+   * @param facetMultiSelect the facetMultiSelect to set
    */
-  public void setMultiSelectFacets(boolean multiSelectFacets) {
-    this.multiSelectFacets = multiSelectFacets;
+  public void setFacetMultiSelect(boolean facetMultiSelect) {
+    this.facetMultiSelect = facetMultiSelect;
   }
 
   /**

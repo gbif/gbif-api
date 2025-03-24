@@ -33,6 +33,7 @@ public class RangePredicateTest {
 
   @Test
   public void testValidConstructor() {
+    new RangePredicate<>(OccurrenceSearchParameter.DAY, new RangeValue("20", null, "30", null));
     new RangePredicate<>(OccurrenceSearchParameter.MONTH, new RangeValue("1", null, "12", null));
     new RangePredicate<>(
         OccurrenceSearchParameter.YEAR, new RangeValue("2000", null, "2012", null));
