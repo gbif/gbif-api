@@ -66,13 +66,23 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   MONTH(Integer.class),
 
   /**
-   * The earliest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
+   * The day of the month.
+   * This parameter accepts comma separated range values, e.g.:
+   * <dl>
+   * <dt>24,28</dt>
+   * <dd>Day of the month between 24 and 28</dd>
+   * </dl>
+   */
+  DAY(Integer.class),
+
+  /**
+   * The earliest integer day of the year on which the event occurred (1 for 1 January, 365 for 31 December, except in a
    * leap year, in which case it is 366).
    */
   START_DAY_OF_YEAR(Integer.class),
 
   /**
-   * The latest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
+   * The latest integer day of the year on which the event occurred (1 for 1 January, 365 for 31 December, except in a
    * leap year, in which case it is 366).
    */
   END_DAY_OF_YEAR(Integer.class),

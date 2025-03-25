@@ -28,6 +28,7 @@ import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.I
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DAY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DISTANCE_FROM_CENTROID_IN_METERS;
@@ -119,6 +120,12 @@ public class SearchTypeValidatorTest {
       Arguments.of(MONTH, "1", true, false, false),
       Arguments.of(MONTH, "-11", false, false, false),
       Arguments.of(MONTH, "1267", false, false, true),
+      Arguments.of(DAY, "13", true, false, false),
+      Arguments.of(DAY, "1991-01-31", false, false, false),
+      Arguments.of(DAY, "860", false, false, false),
+      Arguments.of(DAY, "13, 30", true, true, false),
+      Arguments.of(DAY, "1", true, false, false),
+      Arguments.of(DAY, "-10", false, false, false),
       // SearchParameter, value, isValid, isNumericRange, isDateRange
       Arguments.of(EVENT_DATE, "1900-06", true, false, true),
       Arguments.of(EVENT_DATE, "01-01", false, false, false),
