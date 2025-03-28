@@ -16,8 +16,8 @@ package org.gbif.api.service.collections;
 import org.gbif.api.model.collections.Collection;
 import org.gbif.api.model.collections.CollectionEntity;
 import org.gbif.api.model.collections.latimercore.ObjectGroup;
+import org.gbif.api.model.collections.latimercore.OrganisationalUnit;
 import org.gbif.api.model.collections.request.CollectionSearchRequest;
-import org.gbif.api.model.collections.request.InstitutionSearchRequest;
 import org.gbif.api.model.collections.view.CollectionView;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
@@ -77,13 +77,4 @@ public interface CollectionService extends CollectionEntityService<Collection> {
    * @return UUID of the created collection
    */
   UUID createFromDataset(UUID datasetKey, String collectionCode);
-
-  /**
-   * Gets collections that belong to institutions matching the provided search criteria.
-   * The method first retrieves all matching institutions using pagination, then returns their collections.
-   *
-   * @param searchRequest the institution search criteria
-   * @return a list of collections
-   */
-  List<CollectionView> getCollectionsForInstitutionsBySearch(InstitutionSearchRequest searchRequest);
 }
