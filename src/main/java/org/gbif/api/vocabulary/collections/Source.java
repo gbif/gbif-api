@@ -4,6 +4,5 @@ package org.gbif.api.vocabulary.collections;
 public enum Source {
   DATASET,
   ORGANIZATION,
-  IH_IRN,
-  CETAF;
+  IH_IRN;
 }

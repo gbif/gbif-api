@@ -9,6 +9,7 @@ public enum CollectionFacetParameter implements CollectionsFacetParameter {
   INSTITUTION_KEY,
   TYPE_STATUS,
   DESCRIPTOR_COUNTRY,
+  TAXON_KEY,
   KINGDOM_KEY,
   PHYLUM_KEY,
   CLASS_KEY,

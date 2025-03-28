@@ -13,6 +13,8 @@
  */
 package org.gbif.api.ws.mixin;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.jackson.EmptyToNullUriDeserializer;
 
 import java.net.URI;
@@ -21,6 +23,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public interface EntityWithLogoMixin {
 
+  @Schema(
+    description = "A URL to a logo image.  Supported file types are SVG, PNG, JPEG and GIF."
+  )
   @JsonDeserialize(using = EmptyToNullUriDeserializer.class)
   URI getLogoUrl();
 }

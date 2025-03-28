@@ -86,6 +86,16 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter MONTH = new OccurrenceSearchParameter("MONTH", Integer.class);
 
   /**
+   * The day of the month.
+   * This parameter accepts comma separated range values, e.g.:
+   * <dl>
+   * <dt>24,28</dt>
+   * <dd>Day of the month between 24 and 28</dd>
+   * </dl>
+   */
+  public final static OccurrenceSearchParameter DAY = new OccurrenceSearchParameter("DAY", Integer.class);
+
+  /**
    * The earliest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
    * leap year, in which case it is 366).
    */
