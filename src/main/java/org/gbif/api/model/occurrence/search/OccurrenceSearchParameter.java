@@ -818,14 +818,20 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter GEOLOGICAL_TIME = new OccurrenceSearchParameter("GEOLOGICAL_TIME", String.class);
 
   /**
-   * Searchs in the lithostratigraphy fields(bed, formation, group, member).
+   * Searches in the lithostratigraphy fields(bed, formation, group, member).
    */
   public final static OccurrenceSearchParameter LITHOSTRATIGRAPHY = new OccurrenceSearchParameter("LITHOSTRATIGRAPHY", String.class);
 
   /**
-   * Searchs in the biostratigraphy fields(lowest and highest biostratigraphy).
+   * Searches in the biostratigraphy fields(lowest and highest biostratigraphy).
    */
   public final static OccurrenceSearchParameter BIOSTRATIGRAPHY = new OccurrenceSearchParameter("BIOSTRATIGRAPHY", String.class);
+
+  /**
+   * @return the data type expected for the value of the respective search parameter
+   */
+  public final static OccurrenceSearchParameter DNA_SEQUENCE_ID = new OccurrenceSearchParameter("DNA_SEQUENCE_ID", String.class);
+
 
   public static OccurrenceSearchParameter[] values(){
 
