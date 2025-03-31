@@ -35,44 +35,45 @@ public interface InterpretationType extends Serializable {
 <span class="nc" id="L35">    AUDUBON,</span>
 <span class="nc" id="L36">    MEASUREMENT_OR_FACT,</span>
 <span class="nc" id="L37">    AMPLIFICATION,</span>
+<span class="nc" id="L38">    DNA_DERIVED_DATA,</span>
     // Specific
-<span class="nc" id="L39">    LOCATION_FEATURE,</span>
+<span class="nc" id="L40">    LOCATION_FEATURE,</span>
     // Tables,
     // Remeber to add mapping to org.gbif.pipelines.core.utils.DwcaExtensionTermUtils
     // and org.gbif.pipelines.ingest.utils.HdfsViewAvroUtils
-<span class="nc" id="L43">    OCCURRENCE,</span>
-<span class="nc" id="L44">    MEASUREMENT_OR_FACT_TABLE,</span>
-<span class="nc" id="L45">    IDENTIFICATION_TABLE,</span>
-<span class="nc" id="L46">    RESOURCE_RELATIONSHIP_TABLE,</span>
-<span class="nc" id="L47">    AMPLIFICATION_TABLE,</span>
-<span class="nc" id="L48">    CLONING_TABLE,</span>
-<span class="nc" id="L49">    GEL_IMAGE_TABLE,</span>
-<span class="nc" id="L50">    LOAN_TABLE,</span>
-<span class="nc" id="L51">    MATERIAL_SAMPLE_TABLE,</span>
-<span class="nc" id="L52">    PERMIT_TABLE,</span>
-<span class="nc" id="L53">    PREPARATION_TABLE,</span>
-<span class="nc" id="L54">    PRESERVATION_TABLE,</span>
-<span class="nc" id="L55">    GERMPLASM_MEASUREMENT_SCORE_TABLE,</span>
-<span class="nc" id="L56">    GERMPLASM_MEASUREMENT_TRAIT_TABLE,</span>
-<span class="nc" id="L57">    GERMPLASM_MEASUREMENT_TRIAL_TABLE,</span>
-<span class="nc" id="L58">    GERMPLASM_ACCESSION_TABLE,</span>
-<span class="nc" id="L59">    EXTENDED_MEASUREMENT_OR_FACT_TABLE,</span>
-<span class="nc" id="L60">    CHRONOMETRIC_AGE_TABLE,</span>
-<span class="nc" id="L61">    REFERENCE_TABLE,</span>
-<span class="nc" id="L62">    IDENTIFIER_TABLE,</span>
-<span class="nc" id="L63">    AUDUBON_TABLE,</span>
-<span class="nc" id="L64">    IMAGE_TABLE,</span>
-<span class="nc" id="L65">    MULTIMEDIA_TABLE,</span>
-<span class="nc" id="L66">    DNA_DERIVED_DATA_TABLE;</span>
+<span class="nc" id="L44">    OCCURRENCE,</span>
+<span class="nc" id="L45">    MEASUREMENT_OR_FACT_TABLE,</span>
+<span class="nc" id="L46">    IDENTIFICATION_TABLE,</span>
+<span class="nc" id="L47">    RESOURCE_RELATIONSHIP_TABLE,</span>
+<span class="nc" id="L48">    AMPLIFICATION_TABLE,</span>
+<span class="nc" id="L49">    CLONING_TABLE,</span>
+<span class="nc" id="L50">    GEL_IMAGE_TABLE,</span>
+<span class="nc" id="L51">    LOAN_TABLE,</span>
+<span class="nc" id="L52">    MATERIAL_SAMPLE_TABLE,</span>
+<span class="nc" id="L53">    PERMIT_TABLE,</span>
+<span class="nc" id="L54">    PREPARATION_TABLE,</span>
+<span class="nc" id="L55">    PRESERVATION_TABLE,</span>
+<span class="nc" id="L56">    GERMPLASM_MEASUREMENT_SCORE_TABLE,</span>
+<span class="nc" id="L57">    GERMPLASM_MEASUREMENT_TRAIT_TABLE,</span>
+<span class="nc" id="L58">    GERMPLASM_MEASUREMENT_TRIAL_TABLE,</span>
+<span class="nc" id="L59">    GERMPLASM_ACCESSION_TABLE,</span>
+<span class="nc" id="L60">    EXTENDED_MEASUREMENT_OR_FACT_TABLE,</span>
+<span class="nc" id="L61">    CHRONOMETRIC_AGE_TABLE,</span>
+<span class="nc" id="L62">    REFERENCE_TABLE,</span>
+<span class="nc" id="L63">    IDENTIFIER_TABLE,</span>
+<span class="nc" id="L64">    AUDUBON_TABLE,</span>
+<span class="nc" id="L65">    IMAGE_TABLE,</span>
+<span class="nc" id="L66">    MULTIMEDIA_TABLE,</span>
+<span class="nc" id="L67">    DNA_DERIVED_DATA_TABLE;</span>
 
     @Override
     public String all() {
-<span class="nc" id="L70">      return ALL.name();</span>
+<span class="nc" id="L71">      return ALL.name();</span>
     }
 
     public static Set&lt;RecordType&gt; getAllInterpretation() {
-<span class="nc" id="L74">      return new HashSet&lt;&gt;(</span>
-<span class="nc" id="L75">        Arrays.asList(</span>
+<span class="nc" id="L75">      return new HashSet&lt;&gt;(</span>
+<span class="nc" id="L76">        Arrays.asList(</span>
           VERBATIM,
           // Core types
           METADATA,
@@ -89,25 +90,26 @@ public interface InterpretationType extends Serializable {
           AUDUBON,
           MEASUREMENT_OR_FACT,
           AMPLIFICATION,
+          DNA_DERIVED_DATA,
           // Specific
           LOCATION_FEATURE,
           OCCURRENCE));
     }
 
     public static Set&lt;String&gt; getAllInterpretationAsString() {
-<span class="nc" id="L98">      return getAllInterpretation().stream().map(RecordType::name).collect(Collectors.toSet());</span>
+<span class="nc" id="L100">      return getAllInterpretation().stream().map(RecordType::name).collect(Collectors.toSet());</span>
     }
 
     public static Set&lt;String&gt; getAllValidatorInterpretationAsString() {
-<span class="nc" id="L102">      Set&lt;String&gt; set = getAllInterpretationAsString();</span>
-<span class="nc" id="L103">      set.add(IDENTIFIER.name());</span>
-<span class="nc" id="L104">      set.remove(IDENTIFIER_ABSENT.name());</span>
-<span class="nc" id="L105">      return set;</span>
+<span class="nc" id="L104">      Set&lt;String&gt; set = getAllInterpretationAsString();</span>
+<span class="nc" id="L105">      set.add(IDENTIFIER.name());</span>
+<span class="nc" id="L106">      set.remove(IDENTIFIER_ABSENT.name());</span>
+<span class="nc" id="L107">      return set;</span>
     }
 
     public static Set&lt;RecordType&gt; getAllTables() {
-<span class="nc" id="L109">      return new HashSet&lt;&gt;(</span>
-<span class="nc" id="L110">        Arrays.asList(</span>
+<span class="nc" id="L111">      return new HashSet&lt;&gt;(</span>
+<span class="nc" id="L112">        Arrays.asList(</span>
           OCCURRENCE,
           MEASUREMENT_OR_FACT_TABLE,
           IDENTIFICATION_TABLE,
