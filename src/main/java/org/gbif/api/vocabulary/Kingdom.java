@@ -53,15 +53,15 @@ public enum Kingdom {
     return this==INCERTAE_SEDIS ? lower : Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
   }
 
-  public int nubUsageKey() {
-    return ordinal();
+  public String nubUsageKey() {
+    return String.valueOf(ordinal());
   }
 
   /**
    * @deprecated please use nubUsageKey() instead
    */
   @Deprecated
-  public Integer nubUsageID() {
+  public String nubUsageID() {
     return nubUsageKey();
   }
 

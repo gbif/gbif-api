@@ -16,6 +16,10 @@ package org.gbif.api.model.predicate;
 import java.io.File;
 import java.io.IOException;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -46,6 +50,12 @@ public class PredicateDeSerTest {
   }
 
   private void assertPredicate(String fileName) throws IOException {
+    MAPPER.registerModule(
+      new SimpleModule().addDeserializer(
+        OccurrenceSearchParameter.class,
+        new OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer()
+      )
+    );
     Predicate predicate = MAPPER.readValue(getTestFile(fileName), Predicate.class);
     Assertions.assertNotNull(predicate);
   }
