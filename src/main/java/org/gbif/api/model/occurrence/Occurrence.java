@@ -14,6 +14,7 @@
 package org.gbif.api.model.occurrence;
 
 import org.gbif.api.annotation.Experimental;
+import org.gbif.api.model.common.Classification;
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
@@ -152,7 +153,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   )
   private String pathway;
 
-  // taxonomy as NUB keys → LinneanClassificationKeys
+
+  @Schema(
+    description = "The list of classifications associated with this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
+  private List<Classification> classifications;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the most specific " +
@@ -162,6 +171,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer taxonKey;
 
   @Schema(
@@ -172,6 +182,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer kingdomKey;
 
   @Schema(
@@ -182,6 +193,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer phylumKey;
 
   @Schema(
@@ -192,6 +204,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer classKey;
 
   @Schema(
@@ -202,6 +215,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer orderKey;
 
   @Schema(
@@ -212,6 +226,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer familyKey;
 
   @Schema(
@@ -222,6 +237,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer genusKey;
 
   @Schema(
@@ -232,6 +248,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer subgenusKey;
 
   @Schema(
@@ -242,6 +259,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer speciesKey;
 
   @Schema(
@@ -252,6 +270,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
+  @Deprecated
   private Integer acceptedTaxonKey;
 
   // taxonomy as name strings → LinneanClassification
@@ -266,6 +285,17 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     )
   )
   private String scientificName;  // the interpreted name matching taxonKey
+
+  @Schema(
+    description = "The scientific name authorship for the taxon from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.  This could be a synonym, see " +
+      "also `acceptedScientificName`.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
+  private String scientificNameAuthorship;
 
   @Schema(
     description = "The accepted scientific name (including authorship) for the taxon from the " +
@@ -1326,6 +1356,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   /**
+   * The scientific name authorship for taxonKey from the GBIF backbone.
+   */
+  @Nullable
+  public String getScientificNameAuthorship() {
+    return scientificNameAuthorship;
+  }
+
+  public void setScientificNameAuthorship(String scientificNameAuthorship) {
+    this.scientificNameAuthorship = scientificNameAuthorship;
+  }
+
+  /**
    * The verbatim scientific name as provided by the source.
    */
   @Nullable
@@ -2291,6 +2333,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setDnaSequenceID(List<String> dnaSequenceID) {
     this.dnaSequenceID = dnaSequenceID;
+  }
+
+  public List<Classification> getClassifications() {
+    return classifications;
+  }
+
+  public void setClassifications(List<Classification> classifications) {
+    this.classifications = classifications;
   }
 
   /**

@@ -21,7 +21,10 @@ import javax.annotation.Nullable;
 
 /**
  * A flat taxonomic classification using the major, Linnean ranks with verbatim names and integer based keys.
+ *
+ * @deprecated
  */
+@Deprecated
 public interface LinneanClassificationKeys {
 
   /**

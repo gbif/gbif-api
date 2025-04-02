@@ -44,29 +44,19 @@ import static java.lang.annotation.ElementType.METHOD;
 @SuppressWarnings("unused")
 public class FacetedSearchRequest<P extends SearchParameter> extends SearchRequest<P> {
 
-  @Schema(
-    description = "Facet names used to retrieve the most frequent values for fields."
-  )
+  @Hidden
   private Set<P> facets = new HashSet<>();
 
-  @Schema(
-    description = "Used in combination with the facet parameter. Set `facetMultiSelect=true` to still return counts for values that are not currently filtered."
-  )
+  @Hidden
   private boolean facetMultiSelect;
 
-  @Schema(
-    description = "Used in combination with the facet parameter. Set `facetMincount={#}` to exclude facets with a count less than `{#}`."
-  )
+  @Hidden
   private Integer facetMinCount;
 
-  @Schema(
-    description = "Facet parameters allow paging requests using the parameters facetOffset and facetLimit."
-  )
+  @Hidden
   private Integer facetLimit = 10;
 
-  @Schema(
-    description = "Facet parameters allow paging requests using the parameters facetOffset and facetLimit."
-  )
+  @Hidden
   private Integer facetOffset;
 
   //Holds the paging configuration for each requested facet

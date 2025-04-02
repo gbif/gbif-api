@@ -13,12 +13,14 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,15 +38,32 @@ public class IsNotNullPredicate<S extends SearchParameter> implements Predicate 
   )
   @NotNull private final S parameter;
 
+  @Schema(
+    description = "Specify which taxonomy to use."
+  )
+  @Experimental
+  @Nullable
+  private final String checklistKey;
+
+  public IsNotNullPredicate(S parameter) {
+    this(parameter, null);
+  }
+
   @JsonCreator
-  public IsNotNullPredicate(@JsonProperty("parameter") S parameter) {
+  public IsNotNullPredicate(@JsonProperty("parameter") S parameter, @Nullable @JsonProperty(value = "checklistKey") String checklistKey) {
     Objects.requireNonNull(parameter, "<parameter> may not be null");
     this.parameter = parameter;
+    this.checklistKey = checklistKey;
     checkPredicateAllowed();
   }
 
   public S getParameter() {
     return parameter;
+  }
+
+  @Experimental
+  public String getChecklistKey() {
+    return checklistKey;
   }
 
   /**

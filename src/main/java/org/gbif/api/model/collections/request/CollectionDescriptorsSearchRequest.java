@@ -21,10 +21,10 @@ import org.gbif.api.vocabulary.collections.CollectionFacetParameter;
 public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest
     implements FacetedSearchRequest<CollectionFacetParameter> {
 
-  @Nullable private List<Integer> usageKey;
+  @Nullable private List<String> usageKey;
   @Nullable private List<String> usageName;
-  @Nullable private List<Rank> usageRank;
-  @Nullable private List<Integer> taxonKey;
+  @Nullable private List<String> usageRank;
+  @Nullable private List<String> taxonKey;
   @Nullable private List<Country> descriptorCountry;
   @Nullable private List<String> individualCount;
   @Nullable private List<String> identifiedBy;
@@ -38,6 +38,8 @@ public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest
   @Builder.Default @Nullable private Set<CollectionFacetParameter> facets = new HashSet<>();
   @Nullable private boolean multiSelectFacets;
   @Nullable private Integer facetMinCount;
+  @Builder.Default
+  private Boolean facetIncludeChildren = Boolean.TRUE;
   @Nullable private Integer facetLimit = 10;
   @Nullable private Integer facetOffset;
 

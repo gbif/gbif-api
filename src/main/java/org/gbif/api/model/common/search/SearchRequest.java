@@ -43,14 +43,10 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
   @Hidden
   private Map<P, Set<String>> parameters = new HashMap<>();
 
-  @Schema(
-    description = "Full-record query parameter."
-  )
+  @Hidden
   private String q;
 
-  @Schema(
-    description = "If highlighted search matches are requested."
-  )
+  @Hidden
   private boolean highlight;
 
   @Hidden
