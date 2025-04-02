@@ -13,10 +13,6 @@
  */
 package org.gbif.api.model.common.search;
 
-import io.swagger.v3.oas.annotations.Hidden;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.util.IsoDateInterval;
@@ -40,29 +36,12 @@ import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFF
 @SuppressWarnings("unused")
 public class SearchRequest<P extends SearchParameter> extends PageableBase {
 
-  @Hidden
   private Map<P, Set<String>> parameters = new HashMap<>();
-
-  @Schema(
-    description = "Full-record query parameter."
-  )
   private String q;
-
-  @Schema(
-    description = "If highlighted search matches are requested."
-  )
   private boolean highlight;
-
-  @Hidden
   private boolean spellCheck;
-
-  @Hidden
   private int spellCheckCount;
-
-  @Hidden
   private Set<QueryField> qFields = new HashSet<>();
-
-  @Hidden
   private Set<QueryField> highlightFields = new HashSet<>();
 
   public interface QueryField {}
@@ -147,12 +126,10 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
   /**
    * Defines whether to match against fields with scientific or vernacular names or both.
    */
-  @Hidden
   public Set<QueryField> getQFields() {
     return qFields;
   }
 
-  @Hidden
   public void setQFields(Set<QueryField> qFields) {
     this.qFields = qFields;
   }
