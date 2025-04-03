@@ -30,7 +30,7 @@ import org.gbif.api.model.common.search.SearchResponse;
  * @param <P> the supported search parameter enumeration
  * @param <R> the supported search request type. For faceted searches this needs to extend {@link FacetedSearchRequest}
  */
-public interface SearchService<T, P extends Enum<?> & SearchParameter, R extends SearchRequest<P>> {
+public interface SearchService<T, P extends SearchParameter, R extends SearchRequest<P>> {
 
   /**
    * Issues a SearchRequest and retrieves a response resulting of the search operation.

@@ -294,4 +294,8 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.DNA_SEQUENCE_ID, dnaSequenceID);
   }
 
+  @Experimental
+  public void addChecklistKeyFilter(String checklistKey) {
+    addParameter(OccurrenceSearchParameter.CHECKLIST_KEY, checklistKey);
+  }
 }
