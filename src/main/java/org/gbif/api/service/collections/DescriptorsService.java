@@ -17,8 +17,14 @@ public interface DescriptorsService {
   /**
    * Creates a new descriptor group.
    *
-   * <p>// TODO
+   * Takes the descriptor group file content, format, title, description, tags, and collection key as input.
    *
+   * @param descriptorsGroupFile The byte array content of the descriptor group file.
+   * @param format The format of the descriptor group file (e.g., CSV, TSV).
+   * @param title The title of the descriptor group.
+   * @param description Optional description for the descriptor group.
+   * @param tags Optional set of tags associated with the descriptor group.
+   * @param collectionKey The UUID key of the collection this descriptor group belongs to.
    * @return key of the created descriptor group.
    */
   long createDescriptorGroup(
@@ -26,6 +32,7 @@ public interface DescriptorsService {
       @NotNull ExportFormat format,
       @NotNull String title,
       String description,
+      Set<String> tags,
       @NotNull UUID collectionKey);
 
   /**
@@ -46,13 +53,19 @@ public interface DescriptorsService {
   /**
    * Updates an existing descriptor group.
    *
-   * @param // TODO
+   * @param descriptorGroupKey The key of the descriptor group to update.
+   * @param descriptorsGroupFile The new byte array content of the descriptor group file.
+   * @param format The format of the new descriptor group file.
+   * @param title The new title for the descriptor group.
+   * @param tags An optional set of new tags for the descriptor group. Existing tags not included will be removed.
+   * @param description An optional new description for the descriptor group.
    */
   void updateDescriptorGroup(
       @NotNull long descriptorGroupKey,
       @NotNull byte[] descriptorsGroupFile,
       @NotNull ExportFormat format,
       @NotNull String title,
+      Set<String> tags,
       String description);
 
   /**
