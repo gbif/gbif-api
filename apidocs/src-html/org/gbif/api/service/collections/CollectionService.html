@@ -29,8 +29,8 @@
 <span class="source-line-no">016</span><span id="line-16">import org.gbif.api.model.collections.Collection;</span>
 <span class="source-line-no">017</span><span id="line-17">import org.gbif.api.model.collections.CollectionEntity;</span>
 <span class="source-line-no">018</span><span id="line-18">import org.gbif.api.model.collections.latimercore.ObjectGroup;</span>
-<span class="source-line-no">019</span><span id="line-19">import org.gbif.api.model.collections.latimercore.OrganisationalUnit;</span>
-<span class="source-line-no">020</span><span id="line-20">import org.gbif.api.model.collections.request.CollectionSearchRequest;</span>
+<span class="source-line-no">019</span><span id="line-19">import org.gbif.api.model.collections.request.CollectionSearchRequest;</span>
+<span class="source-line-no">020</span><span id="line-20">import org.gbif.api.model.collections.request.InstitutionSearchRequest;</span>
 <span class="source-line-no">021</span><span id="line-21">import org.gbif.api.model.collections.view.CollectionView;</span>
 <span class="source-line-no">022</span><span id="line-22">import org.gbif.api.model.common.paging.PagingResponse;</span>
 <span class="source-line-no">023</span><span id="line-23">import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;</span>
@@ -90,7 +90,16 @@
 <span class="source-line-no">077</span><span id="line-77">   * @return UUID of the created collection</span>
 <span class="source-line-no">078</span><span id="line-78">   */</span>
 <span class="source-line-no">079</span><span id="line-79">  UUID createFromDataset(UUID datasetKey, String collectionCode);</span>
-<span class="source-line-no">080</span><span id="line-80">}</span>
+<span class="source-line-no">080</span><span id="line-80"></span>
+<span class="source-line-no">081</span><span id="line-81">  /**</span>
+<span class="source-line-no">082</span><span id="line-82">   * Gets collections that belong to institutions matching the provided search criteria.</span>
+<span class="source-line-no">083</span><span id="line-83">   * The method first retrieves all matching institutions using pagination, then returns their collections.</span>
+<span class="source-line-no">084</span><span id="line-84">   *</span>
+<span class="source-line-no">085</span><span id="line-85">   * @param searchRequest the institution search criteria</span>
+<span class="source-line-no">086</span><span id="line-86">   * @return a list of collections</span>
+<span class="source-line-no">087</span><span id="line-87">   */</span>
+<span class="source-line-no">088</span><span id="line-88">  List&lt;CollectionView&gt; getCollectionsForInstitutionsBySearch(InstitutionSearchRequest searchRequest);</span>
+<span class="source-line-no">089</span><span id="line-89">}</span>
 
 
 
