@@ -324,424 +324,425 @@
 <span class="source-line-no">311</span><span id="line-311">          "Temporal scope or focus of the collection. This free text field can be used to describe both the collection "</span>
 <span class="source-line-no">312</span><span id="line-312">              + "date ranges as well as the geological time group(s) of the collection objects in the context of "</span>
 <span class="source-line-no">313</span><span id="line-313">              + "paleontological collections.")</span>
-<span class="source-line-no">314</span><span id="line-314">  private String temporalCoverage;</span>
-<span class="source-line-no">315</span><span id="line-315"></span>
-<span class="source-line-no">316</span><span id="line-316">  @Schema(</span>
-<span class="source-line-no">317</span><span id="line-317">    description = " Information about ownership, attribution, etc. of the featured image. This value with "</span>
-<span class="source-line-no">318</span><span id="line-318">      + "be used to generate a suggested citation of the image."</span>
-<span class="source-line-no">319</span><span id="line-319">  )</span>
-<span class="source-line-no">320</span><span id="line-320">  private String featuredImageAttribution;</span>
-<span class="source-line-no">321</span><span id="line-321"></span>
-<span class="source-line-no">322</span><span id="line-322">  /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */</span>
-<span class="source-line-no">323</span><span id="line-323">  @Override</span>
-<span class="source-line-no">324</span><span id="line-324">  public List&lt;Identifier&gt; getIdentifiers() {</span>
-<span class="source-line-no">325</span><span id="line-325">    return identifiers;</span>
-<span class="source-line-no">326</span><span id="line-326">  }</span>
-<span class="source-line-no">327</span><span id="line-327"></span>
-<span class="source-line-no">328</span><span id="line-328">  @Override</span>
-<span class="source-line-no">329</span><span id="line-329">  public void setIdentifiers(List&lt;Identifier&gt; identifiers) {</span>
-<span class="source-line-no">330</span><span id="line-330">    this.identifiers = identifiers;</span>
-<span class="source-line-no">331</span><span id="line-331">  }</span>
-<span class="source-line-no">332</span><span id="line-332"></span>
-<span class="source-line-no">333</span><span id="line-333">  /** (Meta)Tags or labels. */</span>
-<span class="source-line-no">334</span><span id="line-334">  @Valid</span>
-<span class="source-line-no">335</span><span id="line-335">  @Override</span>
-<span class="source-line-no">336</span><span id="line-336">  public List&lt;Tag&gt; getTags() {</span>
-<span class="source-line-no">337</span><span id="line-337">    return tags;</span>
-<span class="source-line-no">338</span><span id="line-338">  }</span>
-<span class="source-line-no">339</span><span id="line-339"></span>
-<span class="source-line-no">340</span><span id="line-340">  @Override</span>
-<span class="source-line-no">341</span><span id="line-341">  public void setTags(List&lt;Tag&gt; tags) {</span>
-<span class="source-line-no">342</span><span id="line-342">    this.tags = tags;</span>
-<span class="source-line-no">343</span><span id="line-343">  }</span>
-<span class="source-line-no">344</span><span id="line-344"></span>
-<span class="source-line-no">345</span><span id="line-345">  /** GBIF Unique identifier of this collection. */</span>
-<span class="source-line-no">346</span><span id="line-346">  @Override</span>
-<span class="source-line-no">347</span><span id="line-347">  public UUID getKey() {</span>
-<span class="source-line-no">348</span><span id="line-348">    return key;</span>
-<span class="source-line-no">349</span><span id="line-349">  }</span>
-<span class="source-line-no">350</span><span id="line-350"></span>
-<span class="source-line-no">351</span><span id="line-351">  @Override</span>
-<span class="source-line-no">352</span><span id="line-352">  public void setKey(UUID key) {</span>
-<span class="source-line-no">353</span><span id="line-353">    this.key = key;</span>
-<span class="source-line-no">354</span><span id="line-354">  }</span>
-<span class="source-line-no">355</span><span id="line-355"></span>
-<span class="source-line-no">356</span><span id="line-356">  /** Collection code: identifies a collection at the owner's location. */</span>
-<span class="source-line-no">357</span><span id="line-357">  @NotNull(groups = PrePersist.class)</span>
-<span class="source-line-no">358</span><span id="line-358">  @Override</span>
-<span class="source-line-no">359</span><span id="line-359">  public String getCode() {</span>
-<span class="source-line-no">360</span><span id="line-360">    return code;</span>
-<span class="source-line-no">361</span><span id="line-361">  }</span>
-<span class="source-line-no">362</span><span id="line-362"></span>
-<span class="source-line-no">363</span><span id="line-363">  @Override</span>
-<span class="source-line-no">364</span><span id="line-364">  public void setCode(String code) {</span>
-<span class="source-line-no">365</span><span id="line-365">    this.code = code;</span>
-<span class="source-line-no">366</span><span id="line-366">  }</span>
-<span class="source-line-no">367</span><span id="line-367"></span>
-<span class="source-line-no">368</span><span id="line-368">  /** Descriptive name of a collection. */</span>
-<span class="source-line-no">369</span><span id="line-369">  @NotNull</span>
-<span class="source-line-no">370</span><span id="line-370">  @Override</span>
-<span class="source-line-no">371</span><span id="line-371">  public String getName() {</span>
-<span class="source-line-no">372</span><span id="line-372">    return name;</span>
-<span class="source-line-no">373</span><span id="line-373">  }</span>
-<span class="source-line-no">374</span><span id="line-374"></span>
-<span class="source-line-no">375</span><span id="line-375">  @Override</span>
-<span class="source-line-no">376</span><span id="line-376">  public void setName(String name) {</span>
-<span class="source-line-no">377</span><span id="line-377">    this.name = name;</span>
-<span class="source-line-no">378</span><span id="line-378">  }</span>
-<span class="source-line-no">379</span><span id="line-379"></span>
-<span class="source-line-no">380</span><span id="line-380">  /** Textual description/summary of the contents of a collection. */</span>
-<span class="source-line-no">381</span><span id="line-381">  @Size(min = 1)</span>
-<span class="source-line-no">382</span><span id="line-382">  @Override</span>
-<span class="source-line-no">383</span><span id="line-383">  public String getDescription() {</span>
-<span class="source-line-no">384</span><span id="line-384">    return description;</span>
-<span class="source-line-no">385</span><span id="line-385">  }</span>
-<span class="source-line-no">386</span><span id="line-386"></span>
-<span class="source-line-no">387</span><span id="line-387">  @Override</span>
-<span class="source-line-no">388</span><span id="line-388">  public void setDescription(String description) {</span>
-<span class="source-line-no">389</span><span id="line-389">    this.description = description;</span>
-<span class="source-line-no">390</span><span id="line-390">  }</span>
-<span class="source-line-no">391</span><span id="line-391"></span>
-<span class="source-line-no">392</span><span id="line-392">  /** Is this collection currently active/maintained. */</span>
-<span class="source-line-no">393</span><span id="line-393">  @Override</span>
-<span class="source-line-no">394</span><span id="line-394">  public boolean isActive() {</span>
-<span class="source-line-no">395</span><span id="line-395">    return active;</span>
-<span class="source-line-no">396</span><span id="line-396">  }</span>
-<span class="source-line-no">397</span><span id="line-397"></span>
-<span class="source-line-no">398</span><span id="line-398">  @Override</span>
-<span class="source-line-no">399</span><span id="line-399">  public void setActive(boolean active) {</span>
-<span class="source-line-no">400</span><span id="line-400">    this.active = active;</span>
-<span class="source-line-no">401</span><span id="line-401">  }</span>
-<span class="source-line-no">402</span><span id="line-402"></span>
-<span class="source-line-no">403</span><span id="line-403">  @Override</span>
-<span class="source-line-no">404</span><span id="line-404">  public List&lt;String&gt; getEmail() {</span>
-<span class="source-line-no">405</span><span id="line-405">    return email;</span>
-<span class="source-line-no">406</span><span id="line-406">  }</span>
-<span class="source-line-no">407</span><span id="line-407"></span>
-<span class="source-line-no">408</span><span id="line-408">  @Override</span>
-<span class="source-line-no">409</span><span id="line-409">  public void setEmail(List&lt;String&gt; email) {</span>
-<span class="source-line-no">410</span><span id="line-410">    this.email = email;</span>
-<span class="source-line-no">411</span><span id="line-411">  }</span>
-<span class="source-line-no">412</span><span id="line-412"></span>
-<span class="source-line-no">413</span><span id="line-413">  @Override</span>
-<span class="source-line-no">414</span><span id="line-414">  public List&lt;String&gt; getPhone() {</span>
-<span class="source-line-no">415</span><span id="line-415">    return phone;</span>
-<span class="source-line-no">416</span><span id="line-416">  }</span>
-<span class="source-line-no">417</span><span id="line-417"></span>
-<span class="source-line-no">418</span><span id="line-418">  @Override</span>
-<span class="source-line-no">419</span><span id="line-419">  public void setPhone(List&lt;String&gt; phone) {</span>
-<span class="source-line-no">420</span><span id="line-420">    this.phone = phone;</span>
-<span class="source-line-no">421</span><span id="line-421">  }</span>
-<span class="source-line-no">422</span><span id="line-422"></span>
-<span class="source-line-no">423</span><span id="line-423">  /** URL containing information about a collection. */</span>
-<span class="source-line-no">424</span><span id="line-424">  @HttpURI</span>
-<span class="source-line-no">425</span><span id="line-425">  @Nullable</span>
-<span class="source-line-no">426</span><span id="line-426">  public URI getHomepage() {</span>
-<span class="source-line-no">427</span><span id="line-427">    return homepage;</span>
-<span class="source-line-no">428</span><span id="line-428">  }</span>
-<span class="source-line-no">429</span><span id="line-429"></span>
-<span class="source-line-no">430</span><span id="line-430">  /** URI that exposes data about the catalog associated to a collection. */</span>
-<span class="source-line-no">431</span><span id="line-431">  @Nullable</span>
-<span class="source-line-no">432</span><span id="line-432">  public List&lt;URI&gt; getCatalogUrls() {</span>
-<span class="source-line-no">433</span><span id="line-433">    return catalogUrls;</span>
-<span class="source-line-no">434</span><span id="line-434">  }</span>
-<span class="source-line-no">435</span><span id="line-435"></span>
-<span class="source-line-no">436</span><span id="line-436">  /** Machine consumable endpoint of information about a collection. */</span>
-<span class="source-line-no">437</span><span id="line-437">  @Nullable</span>
-<span class="source-line-no">438</span><span id="line-438">  public List&lt;URI&gt; getApiUrls() {</span>
-<span class="source-line-no">439</span><span id="line-439">    return apiUrls;</span>
-<span class="source-line-no">440</span><span id="line-440">  }</span>
-<span class="source-line-no">441</span><span id="line-441"></span>
-<span class="source-line-no">442</span><span id="line-442">  /** Address used to send/receive physical mail. */</span>
-<span class="source-line-no">443</span><span id="line-443">  @Nullable</span>
-<span class="source-line-no">444</span><span id="line-444">  @Valid</span>
-<span class="source-line-no">445</span><span id="line-445">  @Override</span>
-<span class="source-line-no">446</span><span id="line-446">  public Address getMailingAddress() {</span>
-<span class="source-line-no">447</span><span id="line-447">    return mailingAddress;</span>
-<span class="source-line-no">448</span><span id="line-448">  }</span>
-<span class="source-line-no">449</span><span id="line-449"></span>
-<span class="source-line-no">450</span><span id="line-450">  @Override</span>
-<span class="source-line-no">451</span><span id="line-451">  public void setMailingAddress(Address mailingAddress) {</span>
-<span class="source-line-no">452</span><span id="line-452">    this.mailingAddress = mailingAddress;</span>
-<span class="source-line-no">453</span><span id="line-453">  }</span>
-<span class="source-line-no">454</span><span id="line-454"></span>
-<span class="source-line-no">455</span><span id="line-455">  /** Address where this collection is situated. */</span>
-<span class="source-line-no">456</span><span id="line-456">  @Nullable</span>
-<span class="source-line-no">457</span><span id="line-457">  @Valid</span>
-<span class="source-line-no">458</span><span id="line-458">  @Override</span>
-<span class="source-line-no">459</span><span id="line-459">  public Address getAddress() {</span>
-<span class="source-line-no">460</span><span id="line-460">    return address;</span>
-<span class="source-line-no">461</span><span id="line-461">  }</span>
-<span class="source-line-no">462</span><span id="line-462"></span>
-<span class="source-line-no">463</span><span id="line-463">  @Override</span>
-<span class="source-line-no">464</span><span id="line-464">  public void setAddress(Address address) {</span>
-<span class="source-line-no">465</span><span id="line-465">    this.address = address;</span>
-<span class="source-line-no">466</span><span id="line-466">  }</span>
-<span class="source-line-no">467</span><span id="line-467"></span>
-<span class="source-line-no">468</span><span id="line-468">  @Override</span>
-<span class="source-line-no">469</span><span id="line-469">  public String getCreatedBy() {</span>
-<span class="source-line-no">470</span><span id="line-470">    return createdBy;</span>
-<span class="source-line-no">471</span><span id="line-471">  }</span>
-<span class="source-line-no">472</span><span id="line-472"></span>
-<span class="source-line-no">473</span><span id="line-473">  @Override</span>
-<span class="source-line-no">474</span><span id="line-474">  public void setCreatedBy(String createdBy) {</span>
-<span class="source-line-no">475</span><span id="line-475">    this.createdBy = createdBy;</span>
-<span class="source-line-no">476</span><span id="line-476">  }</span>
-<span class="source-line-no">477</span><span id="line-477"></span>
-<span class="source-line-no">478</span><span id="line-478">  @Override</span>
-<span class="source-line-no">479</span><span id="line-479">  public String getModifiedBy() {</span>
-<span class="source-line-no">480</span><span id="line-480">    return modifiedBy;</span>
-<span class="source-line-no">481</span><span id="line-481">  }</span>
-<span class="source-line-no">482</span><span id="line-482"></span>
-<span class="source-line-no">483</span><span id="line-483">  @Override</span>
-<span class="source-line-no">484</span><span id="line-484">  public void setModifiedBy(String modifiedBy) {</span>
-<span class="source-line-no">485</span><span id="line-485">    this.modifiedBy = modifiedBy;</span>
-<span class="source-line-no">486</span><span id="line-486">  }</span>
-<span class="source-line-no">487</span><span id="line-487"></span>
-<span class="source-line-no">488</span><span id="line-488">  @Override</span>
-<span class="source-line-no">489</span><span id="line-489">  public Date getCreated() {</span>
-<span class="source-line-no">490</span><span id="line-490">    return created;</span>
-<span class="source-line-no">491</span><span id="line-491">  }</span>
-<span class="source-line-no">492</span><span id="line-492"></span>
-<span class="source-line-no">493</span><span id="line-493">  @Override</span>
-<span class="source-line-no">494</span><span id="line-494">  public void setCreated(Date created) {</span>
-<span class="source-line-no">495</span><span id="line-495">    this.created = created;</span>
-<span class="source-line-no">496</span><span id="line-496">  }</span>
-<span class="source-line-no">497</span><span id="line-497"></span>
-<span class="source-line-no">498</span><span id="line-498">  @Override</span>
-<span class="source-line-no">499</span><span id="line-499">  public Date getModified() {</span>
-<span class="source-line-no">500</span><span id="line-500">    return modified;</span>
-<span class="source-line-no">501</span><span id="line-501">  }</span>
-<span class="source-line-no">502</span><span id="line-502"></span>
-<span class="source-line-no">503</span><span id="line-503">  @Override</span>
-<span class="source-line-no">504</span><span id="line-504">  public void setModified(Date modified) {</span>
-<span class="source-line-no">505</span><span id="line-505">    this.modified = modified;</span>
-<span class="source-line-no">506</span><span id="line-506">  }</span>
-<span class="source-line-no">507</span><span id="line-507"></span>
-<span class="source-line-no">508</span><span id="line-508">  @Override</span>
-<span class="source-line-no">509</span><span id="line-509">  public Date getDeleted() {</span>
-<span class="source-line-no">510</span><span id="line-510">    return deleted;</span>
-<span class="source-line-no">511</span><span id="line-511">  }</span>
-<span class="source-line-no">512</span><span id="line-512"></span>
-<span class="source-line-no">513</span><span id="line-513">  @Override</span>
-<span class="source-line-no">514</span><span id="line-514">  public void setDeleted(Date deleted) {</span>
-<span class="source-line-no">515</span><span id="line-515">    this.deleted = deleted;</span>
-<span class="source-line-no">516</span><span id="line-516">  }</span>
-<span class="source-line-no">517</span><span id="line-517"></span>
-<span class="source-line-no">518</span><span id="line-518">  @Valid</span>
-<span class="source-line-no">519</span><span id="line-519">  @Override</span>
-<span class="source-line-no">520</span><span id="line-520">  public List&lt;Contact&gt; getContactPersons() {</span>
-<span class="source-line-no">521</span><span id="line-521">    return contactPersons;</span>
-<span class="source-line-no">522</span><span id="line-522">  }</span>
-<span class="source-line-no">523</span><span id="line-523"></span>
-<span class="source-line-no">524</span><span id="line-524">  @Override</span>
-<span class="source-line-no">525</span><span id="line-525">  public void setContactPersons(List&lt;Contact&gt; contactPersons) {</span>
-<span class="source-line-no">526</span><span id="line-526">    this.contactPersons = contactPersons;</span>
-<span class="source-line-no">527</span><span id="line-527">  }</span>
-<span class="source-line-no">528</span><span id="line-528"></span>
-<span class="source-line-no">529</span><span id="line-529">  @Valid</span>
-<span class="source-line-no">530</span><span id="line-530">  @Override</span>
-<span class="source-line-no">531</span><span id="line-531">  public @NotNull List&lt;MachineTag&gt; getMachineTags() {</span>
-<span class="source-line-no">532</span><span id="line-532">    return machineTags;</span>
-<span class="source-line-no">533</span><span id="line-533">  }</span>
-<span class="source-line-no">534</span><span id="line-534"></span>
-<span class="source-line-no">535</span><span id="line-535">  @Override</span>
-<span class="source-line-no">536</span><span id="line-536">  public void setMachineTags(List&lt;MachineTag&gt; machineTags) {</span>
-<span class="source-line-no">537</span><span id="line-537">    this.machineTags = machineTags;</span>
-<span class="source-line-no">538</span><span id="line-538">  }</span>
-<span class="source-line-no">539</span><span id="line-539"></span>
-<span class="source-line-no">540</span><span id="line-540">  @Override</span>
-<span class="source-line-no">541</span><span id="line-541">  public void addMachineTag(MachineTag machineTag) {</span>
-<span class="source-line-no">542</span><span id="line-542">    machineTags.add(machineTag);</span>
-<span class="source-line-no">543</span><span id="line-543">  }</span>
-<span class="source-line-no">544</span><span id="line-544"></span>
-<span class="source-line-no">545</span><span id="line-545">  /** Alternative codes for a collection. */</span>
-<span class="source-line-no">546</span><span id="line-546">  @Override</span>
-<span class="source-line-no">547</span><span id="line-547">  public List&lt;AlternativeCode&gt; getAlternativeCodes() {</span>
-<span class="source-line-no">548</span><span id="line-548">    return alternativeCodes;</span>
-<span class="source-line-no">549</span><span id="line-549">  }</span>
-<span class="source-line-no">550</span><span id="line-550"></span>
-<span class="source-line-no">551</span><span id="line-551">  @Override</span>
-<span class="source-line-no">552</span><span id="line-552">  public void setAlternativeCodes(List&lt;AlternativeCode&gt; alternativeCodes) {</span>
-<span class="source-line-no">553</span><span id="line-553">    this.alternativeCodes = alternativeCodes;</span>
-<span class="source-line-no">554</span><span id="line-554">  }</span>
-<span class="source-line-no">555</span><span id="line-555"></span>
-<span class="source-line-no">556</span><span id="line-556">  @Override</span>
-<span class="source-line-no">557</span><span id="line-557">  public @NotNull List&lt;Comment&gt; getComments() {</span>
-<span class="source-line-no">558</span><span id="line-558">    return comments;</span>
-<span class="source-line-no">559</span><span id="line-559">  }</span>
-<span class="source-line-no">560</span><span id="line-560"></span>
-<span class="source-line-no">561</span><span id="line-561">  @Override</span>
-<span class="source-line-no">562</span><span id="line-562">  public void setComments(List&lt;Comment&gt; comments) {</span>
-<span class="source-line-no">563</span><span id="line-563">    this.comments = comments;</span>
-<span class="source-line-no">564</span><span id="line-564">  }</span>
-<span class="source-line-no">565</span><span id="line-565"></span>
-<span class="source-line-no">566</span><span id="line-566">  @Override</span>
-<span class="source-line-no">567</span><span id="line-567">  public @NotNull List&lt;OccurrenceMapping&gt; getOccurrenceMappings() {</span>
-<span class="source-line-no">568</span><span id="line-568">    return occurrenceMappings;</span>
-<span class="source-line-no">569</span><span id="line-569">  }</span>
-<span class="source-line-no">570</span><span id="line-570"></span>
-<span class="source-line-no">571</span><span id="line-571">  @Override</span>
-<span class="source-line-no">572</span><span id="line-572">  public void setOccurrenceMappings(List&lt;OccurrenceMapping&gt; occurrenceMappings) {</span>
-<span class="source-line-no">573</span><span id="line-573">    this.occurrenceMappings = occurrenceMappings;</span>
-<span class="source-line-no">574</span><span id="line-574">  }</span>
-<span class="source-line-no">575</span><span id="line-575"></span>
-<span class="source-line-no">576</span><span id="line-576">  @Override</span>
-<span class="source-line-no">577</span><span id="line-577">  public UUID getReplacedBy() {</span>
-<span class="source-line-no">578</span><span id="line-578">    return replacedBy;</span>
-<span class="source-line-no">579</span><span id="line-579">  }</span>
-<span class="source-line-no">580</span><span id="line-580"></span>
-<span class="source-line-no">581</span><span id="line-581">  @Override</span>
-<span class="source-line-no">582</span><span id="line-582">  public void setReplacedBy(UUID replacedBy) {</span>
-<span class="source-line-no">583</span><span id="line-583">    this.replacedBy = replacedBy;</span>
-<span class="source-line-no">584</span><span id="line-584">  }</span>
-<span class="source-line-no">585</span><span id="line-585"></span>
-<span class="source-line-no">586</span><span id="line-586">  @Override</span>
-<span class="source-line-no">587</span><span id="line-587">  public MasterSourceType getMasterSource() {</span>
-<span class="source-line-no">588</span><span id="line-588">    return masterSource;</span>
-<span class="source-line-no">589</span><span id="line-589">  }</span>
-<span class="source-line-no">590</span><span id="line-590"></span>
-<span class="source-line-no">591</span><span id="line-591">  @Override</span>
-<span class="source-line-no">592</span><span id="line-592">  public void setMasterSource(MasterSourceType masterSource) {</span>
-<span class="source-line-no">593</span><span id="line-593">    this.masterSource = masterSource;</span>
-<span class="source-line-no">594</span><span id="line-594">  }</span>
-<span class="source-line-no">595</span><span id="line-595"></span>
-<span class="source-line-no">596</span><span id="line-596">  @Override</span>
-<span class="source-line-no">597</span><span id="line-597">  public MasterSourceMetadata getMasterSourceMetadata() {</span>
-<span class="source-line-no">598</span><span id="line-598">    return masterSourceMetadata;</span>
-<span class="source-line-no">599</span><span id="line-599">  }</span>
-<span class="source-line-no">600</span><span id="line-600"></span>
-<span class="source-line-no">601</span><span id="line-601">  @Override</span>
-<span class="source-line-no">602</span><span id="line-602">  public void setMasterSourceMetadata(MasterSourceMetadata masterSourceMetadata) {</span>
-<span class="source-line-no">603</span><span id="line-603">    this.masterSourceMetadata = masterSourceMetadata;</span>
-<span class="source-line-no">604</span><span id="line-604">  }</span>
-<span class="source-line-no">605</span><span id="line-605"></span>
-<span class="source-line-no">606</span><span id="line-606">  @Override</span>
-<span class="source-line-no">607</span><span id="line-607">  public Boolean getDisplayOnNHCPortal() {</span>
-<span class="source-line-no">608</span><span id="line-608">    return displayOnNHCPortal;</span>
-<span class="source-line-no">609</span><span id="line-609">  }</span>
-<span class="source-line-no">610</span><span id="line-610"></span>
-<span class="source-line-no">611</span><span id="line-611">  @Override</span>
-<span class="source-line-no">612</span><span id="line-612">  public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {</span>
-<span class="source-line-no">613</span><span id="line-613">    this.displayOnNHCPortal = displayOnNHCPortal;</span>
-<span class="source-line-no">614</span><span id="line-614">  }</span>
-<span class="source-line-no">615</span><span id="line-615"></span>
-<span class="source-line-no">616</span><span id="line-616">  @HttpURI</span>
-<span class="source-line-no">617</span><span id="line-617">  @Nullable</span>
-<span class="source-line-no">618</span><span id="line-618">  @Override</span>
-<span class="source-line-no">619</span><span id="line-619">  public URI getFeaturedImageUrl() {</span>
-<span class="source-line-no">620</span><span id="line-620">    return featuredImageUrl;</span>
-<span class="source-line-no">621</span><span id="line-621">  }</span>
-<span class="source-line-no">622</span><span id="line-622"></span>
-<span class="source-line-no">623</span><span id="line-623">  @Override</span>
-<span class="source-line-no">624</span><span id="line-624">  public void setFeaturedImageUrl(URI featuredImageUrl) {</span>
-<span class="source-line-no">625</span><span id="line-625">    this.featuredImageUrl = featuredImageUrl;</span>
-<span class="source-line-no">626</span><span id="line-626">  }</span>
-<span class="source-line-no">627</span><span id="line-627"></span>
-<span class="source-line-no">628</span><span id="line-628">  @Nullable</span>
-<span class="source-line-no">629</span><span id="line-629">  @Override</span>
-<span class="source-line-no">630</span><span id="line-630">  public License getFeaturedImageLicense() {</span>
-<span class="source-line-no">631</span><span id="line-631">    return featuredImageLicense;</span>
-<span class="source-line-no">632</span><span id="line-632">  }</span>
-<span class="source-line-no">633</span><span id="line-633"></span>
-<span class="source-line-no">634</span><span id="line-634">  @Override</span>
-<span class="source-line-no">635</span><span id="line-635">  public void setFeaturedImageLicense(License featuredImageLicense) {</span>
-<span class="source-line-no">636</span><span id="line-636">    this.featuredImageLicense = featuredImageLicense;</span>
-<span class="source-line-no">637</span><span id="line-637">  }</span>
-<span class="source-line-no">638</span><span id="line-638"></span>
-<span class="source-line-no">639</span><span id="line-639">  @Nullable</span>
-<span class="source-line-no">640</span><span id="line-640">  public String getTemporalCoverage() {</span>
-<span class="source-line-no">641</span><span id="line-641">    return temporalCoverage;</span>
-<span class="source-line-no">642</span><span id="line-642">  }</span>
-<span class="source-line-no">643</span><span id="line-643"></span>
-<span class="source-line-no">644</span><span id="line-644">  @Hidden</span>
-<span class="source-line-no">645</span><span id="line-645">  @JsonIgnore</span>
-<span class="source-line-no">646</span><span id="line-646">  public String getCountry() {</span>
-<span class="source-line-no">647</span><span id="line-647">    if (address != null &amp;&amp; address.getCountry() != null) {</span>
-<span class="source-line-no">648</span><span id="line-648">      return address.getCountry().getIso2LetterCode();</span>
-<span class="source-line-no">649</span><span id="line-649">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getCountry() != null) {</span>
-<span class="source-line-no">650</span><span id="line-650">      return mailingAddress.getCountry().getIso2LetterCode();</span>
-<span class="source-line-no">651</span><span id="line-651">    }</span>
-<span class="source-line-no">652</span><span id="line-652">    return null;</span>
-<span class="source-line-no">653</span><span id="line-653">  }</span>
-<span class="source-line-no">654</span><span id="line-654"></span>
-<span class="source-line-no">655</span><span id="line-655">  @Hidden</span>
-<span class="source-line-no">656</span><span id="line-656">  @JsonIgnore</span>
-<span class="source-line-no">657</span><span id="line-657">  public String getCity() {</span>
-<span class="source-line-no">658</span><span id="line-658">    if (address != null &amp;&amp; address.getCity() != null) {</span>
-<span class="source-line-no">659</span><span id="line-659">      return address.getCity();</span>
-<span class="source-line-no">660</span><span id="line-660">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getCity() != null) {</span>
-<span class="source-line-no">661</span><span id="line-661">      return mailingAddress.getCity();</span>
-<span class="source-line-no">662</span><span id="line-662">    }</span>
-<span class="source-line-no">663</span><span id="line-663">    return null;</span>
-<span class="source-line-no">664</span><span id="line-664">  }</span>
-<span class="source-line-no">665</span><span id="line-665"></span>
-<span class="source-line-no">666</span><span id="line-666">  @Hidden</span>
-<span class="source-line-no">667</span><span id="line-667">  @JsonIgnore</span>
-<span class="source-line-no">668</span><span id="line-668">  public String getProvince() {</span>
-<span class="source-line-no">669</span><span id="line-669">    if (address != null &amp;&amp; address.getProvince() != null) {</span>
-<span class="source-line-no">670</span><span id="line-670">      return address.getProvince();</span>
-<span class="source-line-no">671</span><span id="line-671">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getProvince() != null) {</span>
-<span class="source-line-no">672</span><span id="line-672">      return mailingAddress.getProvince();</span>
-<span class="source-line-no">673</span><span id="line-673">    }</span>
-<span class="source-line-no">674</span><span id="line-674">    return null;</span>
-<span class="source-line-no">675</span><span id="line-675">  }</span>
-<span class="source-line-no">676</span><span id="line-676"></span>
-<span class="source-line-no">677</span><span id="line-677">  @Nullable</span>
-<span class="source-line-no">678</span><span id="line-678">  @Override</span>
-<span class="source-line-no">679</span><span id="line-679">  public String getFeaturedImageAttribution() {</span>
-<span class="source-line-no">680</span><span id="line-680">    return featuredImageAttribution;</span>
-<span class="source-line-no">681</span><span id="line-681">  }</span>
-<span class="source-line-no">682</span><span id="line-682"></span>
-<span class="source-line-no">683</span><span id="line-683">  @Override</span>
-<span class="source-line-no">684</span><span id="line-684">  public void setFeaturedImageAttribution(String featuredImageAttribution) {</span>
-<span class="source-line-no">685</span><span id="line-685">    this.featuredImageAttribution = featuredImageAttribution;</span>
-<span class="source-line-no">686</span><span id="line-686">  }</span>
-<span class="source-line-no">687</span><span id="line-687"></span>
-<span class="source-line-no">688</span><span id="line-688">  @Override</span>
-<span class="source-line-no">689</span><span id="line-689">  public boolean lenientEquals(Collection other) {</span>
-<span class="source-line-no">690</span><span id="line-690">    if (this == other) {</span>
-<span class="source-line-no">691</span><span id="line-691">      return true;</span>
-<span class="source-line-no">692</span><span id="line-692">    }</span>
-<span class="source-line-no">693</span><span id="line-693">    return active == other.active</span>
-<span class="source-line-no">694</span><span id="line-694">        &amp;&amp; personalCollection == other.personalCollection</span>
-<span class="source-line-no">695</span><span id="line-695">        &amp;&amp; Objects.equals(key, other.key)</span>
-<span class="source-line-no">696</span><span id="line-696">        &amp;&amp; Objects.equals(code, other.code)</span>
-<span class="source-line-no">697</span><span id="line-697">        &amp;&amp; Objects.equals(name, other.name)</span>
-<span class="source-line-no">698</span><span id="line-698">        &amp;&amp; Objects.equals(description, other.description)</span>
-<span class="source-line-no">699</span><span id="line-699">        &amp;&amp; Objects.equals(contentTypes, other.contentTypes)</span>
-<span class="source-line-no">700</span><span id="line-700">        &amp;&amp; Objects.equals(doi, other.doi)</span>
-<span class="source-line-no">701</span><span id="line-701">        &amp;&amp; Objects.equals(email, other.email)</span>
-<span class="source-line-no">702</span><span id="line-702">        &amp;&amp; Objects.equals(phone, other.phone)</span>
-<span class="source-line-no">703</span><span id="line-703">        &amp;&amp; Objects.equals(homepage, other.homepage)</span>
-<span class="source-line-no">704</span><span id="line-704">        &amp;&amp; Objects.equals(catalogUrls, other.catalogUrls)</span>
-<span class="source-line-no">705</span><span id="line-705">        &amp;&amp; Objects.equals(apiUrls, other.apiUrls)</span>
-<span class="source-line-no">706</span><span id="line-706">        &amp;&amp; Objects.equals(preservationTypes, other.preservationTypes)</span>
-<span class="source-line-no">707</span><span id="line-707">        &amp;&amp; Objects.equals(accessionStatus, other.accessionStatus)</span>
-<span class="source-line-no">708</span><span id="line-708">        &amp;&amp; Objects.equals(institutionKey, other.institutionKey)</span>
-<span class="source-line-no">709</span><span id="line-709">        &amp;&amp; LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)</span>
-<span class="source-line-no">710</span><span id="line-710">        &amp;&amp; LenientEqualsUtils.lenientEquals(address, other.address)</span>
-<span class="source-line-no">711</span><span id="line-711">        &amp;&amp; Objects.equals(deleted, other.deleted)</span>
-<span class="source-line-no">712</span><span id="line-712">        &amp;&amp; Objects.equals(numberSpecimens, other.numberSpecimens)</span>
-<span class="source-line-no">713</span><span id="line-713">        &amp;&amp; Objects.equals(taxonomicCoverage, other.taxonomicCoverage)</span>
-<span class="source-line-no">714</span><span id="line-714">        &amp;&amp; Objects.equals(geographicCoverage, other.geographicCoverage)</span>
-<span class="source-line-no">715</span><span id="line-715">        &amp;&amp; Objects.equals(notes, other.notes)</span>
-<span class="source-line-no">716</span><span id="line-716">        &amp;&amp; Objects.equals(incorporatedCollections, other.incorporatedCollections)</span>
-<span class="source-line-no">717</span><span id="line-717">        &amp;&amp; Objects.equals(alternativeCodes, other.alternativeCodes)</span>
-<span class="source-line-no">718</span><span id="line-718">        &amp;&amp; Objects.equals(comments, other.comments)</span>
-<span class="source-line-no">719</span><span id="line-719">        &amp;&amp; Objects.equals(occurrenceMappings, other.occurrenceMappings)</span>
-<span class="source-line-no">720</span><span id="line-720">        &amp;&amp; Objects.equals(replacedBy, other.replacedBy)</span>
-<span class="source-line-no">721</span><span id="line-721">        &amp;&amp; Objects.equals(masterSource, other.masterSource)</span>
-<span class="source-line-no">722</span><span id="line-722">        &amp;&amp; Objects.equals(masterSourceMetadata, other.masterSourceMetadata)</span>
-<span class="source-line-no">723</span><span id="line-723">        &amp;&amp; Objects.equals(division, other.division)</span>
-<span class="source-line-no">724</span><span id="line-724">        &amp;&amp; Objects.equals(department, other.department)</span>
-<span class="source-line-no">725</span><span id="line-725">        &amp;&amp; Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal)</span>
-<span class="source-line-no">726</span><span id="line-726">        &amp;&amp; Objects.equals(featuredImageUrl, other.featuredImageUrl)</span>
-<span class="source-line-no">727</span><span id="line-727">        &amp;&amp; Objects.equals(featuredImageLicense, other.featuredImageLicense)</span>
-<span class="source-line-no">728</span><span id="line-728">        &amp;&amp; Objects.equals(temporalCoverage, other.temporalCoverage)</span>
-<span class="source-line-no">729</span><span id="line-729">        &amp;&amp; Objects.equals(featuredImageAttribution, other.featuredImageAttribution);</span>
-<span class="source-line-no">730</span><span id="line-730">  }</span>
-<span class="source-line-no">731</span><span id="line-731">}</span>
+<span class="source-line-no">314</span><span id="line-314">  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)</span>
+<span class="source-line-no">315</span><span id="line-315">  private String temporalCoverage;</span>
+<span class="source-line-no">316</span><span id="line-316"></span>
+<span class="source-line-no">317</span><span id="line-317">  @Schema(</span>
+<span class="source-line-no">318</span><span id="line-318">    description = " Information about ownership, attribution, etc. of the featured image. This value with "</span>
+<span class="source-line-no">319</span><span id="line-319">      + "be used to generate a suggested citation of the image."</span>
+<span class="source-line-no">320</span><span id="line-320">  )</span>
+<span class="source-line-no">321</span><span id="line-321">  private String featuredImageAttribution;</span>
+<span class="source-line-no">322</span><span id="line-322"></span>
+<span class="source-line-no">323</span><span id="line-323">  /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */</span>
+<span class="source-line-no">324</span><span id="line-324">  @Override</span>
+<span class="source-line-no">325</span><span id="line-325">  public List&lt;Identifier&gt; getIdentifiers() {</span>
+<span class="source-line-no">326</span><span id="line-326">    return identifiers;</span>
+<span class="source-line-no">327</span><span id="line-327">  }</span>
+<span class="source-line-no">328</span><span id="line-328"></span>
+<span class="source-line-no">329</span><span id="line-329">  @Override</span>
+<span class="source-line-no">330</span><span id="line-330">  public void setIdentifiers(List&lt;Identifier&gt; identifiers) {</span>
+<span class="source-line-no">331</span><span id="line-331">    this.identifiers = identifiers;</span>
+<span class="source-line-no">332</span><span id="line-332">  }</span>
+<span class="source-line-no">333</span><span id="line-333"></span>
+<span class="source-line-no">334</span><span id="line-334">  /** (Meta)Tags or labels. */</span>
+<span class="source-line-no">335</span><span id="line-335">  @Valid</span>
+<span class="source-line-no">336</span><span id="line-336">  @Override</span>
+<span class="source-line-no">337</span><span id="line-337">  public List&lt;Tag&gt; getTags() {</span>
+<span class="source-line-no">338</span><span id="line-338">    return tags;</span>
+<span class="source-line-no">339</span><span id="line-339">  }</span>
+<span class="source-line-no">340</span><span id="line-340"></span>
+<span class="source-line-no">341</span><span id="line-341">  @Override</span>
+<span class="source-line-no">342</span><span id="line-342">  public void setTags(List&lt;Tag&gt; tags) {</span>
+<span class="source-line-no">343</span><span id="line-343">    this.tags = tags;</span>
+<span class="source-line-no">344</span><span id="line-344">  }</span>
+<span class="source-line-no">345</span><span id="line-345"></span>
+<span class="source-line-no">346</span><span id="line-346">  /** GBIF Unique identifier of this collection. */</span>
+<span class="source-line-no">347</span><span id="line-347">  @Override</span>
+<span class="source-line-no">348</span><span id="line-348">  public UUID getKey() {</span>
+<span class="source-line-no">349</span><span id="line-349">    return key;</span>
+<span class="source-line-no">350</span><span id="line-350">  }</span>
+<span class="source-line-no">351</span><span id="line-351"></span>
+<span class="source-line-no">352</span><span id="line-352">  @Override</span>
+<span class="source-line-no">353</span><span id="line-353">  public void setKey(UUID key) {</span>
+<span class="source-line-no">354</span><span id="line-354">    this.key = key;</span>
+<span class="source-line-no">355</span><span id="line-355">  }</span>
+<span class="source-line-no">356</span><span id="line-356"></span>
+<span class="source-line-no">357</span><span id="line-357">  /** Collection code: identifies a collection at the owner's location. */</span>
+<span class="source-line-no">358</span><span id="line-358">  @NotNull(groups = PrePersist.class)</span>
+<span class="source-line-no">359</span><span id="line-359">  @Override</span>
+<span class="source-line-no">360</span><span id="line-360">  public String getCode() {</span>
+<span class="source-line-no">361</span><span id="line-361">    return code;</span>
+<span class="source-line-no">362</span><span id="line-362">  }</span>
+<span class="source-line-no">363</span><span id="line-363"></span>
+<span class="source-line-no">364</span><span id="line-364">  @Override</span>
+<span class="source-line-no">365</span><span id="line-365">  public void setCode(String code) {</span>
+<span class="source-line-no">366</span><span id="line-366">    this.code = code;</span>
+<span class="source-line-no">367</span><span id="line-367">  }</span>
+<span class="source-line-no">368</span><span id="line-368"></span>
+<span class="source-line-no">369</span><span id="line-369">  /** Descriptive name of a collection. */</span>
+<span class="source-line-no">370</span><span id="line-370">  @NotNull</span>
+<span class="source-line-no">371</span><span id="line-371">  @Override</span>
+<span class="source-line-no">372</span><span id="line-372">  public String getName() {</span>
+<span class="source-line-no">373</span><span id="line-373">    return name;</span>
+<span class="source-line-no">374</span><span id="line-374">  }</span>
+<span class="source-line-no">375</span><span id="line-375"></span>
+<span class="source-line-no">376</span><span id="line-376">  @Override</span>
+<span class="source-line-no">377</span><span id="line-377">  public void setName(String name) {</span>
+<span class="source-line-no">378</span><span id="line-378">    this.name = name;</span>
+<span class="source-line-no">379</span><span id="line-379">  }</span>
+<span class="source-line-no">380</span><span id="line-380"></span>
+<span class="source-line-no">381</span><span id="line-381">  /** Textual description/summary of the contents of a collection. */</span>
+<span class="source-line-no">382</span><span id="line-382">  @Size(min = 1)</span>
+<span class="source-line-no">383</span><span id="line-383">  @Override</span>
+<span class="source-line-no">384</span><span id="line-384">  public String getDescription() {</span>
+<span class="source-line-no">385</span><span id="line-385">    return description;</span>
+<span class="source-line-no">386</span><span id="line-386">  }</span>
+<span class="source-line-no">387</span><span id="line-387"></span>
+<span class="source-line-no">388</span><span id="line-388">  @Override</span>
+<span class="source-line-no">389</span><span id="line-389">  public void setDescription(String description) {</span>
+<span class="source-line-no">390</span><span id="line-390">    this.description = description;</span>
+<span class="source-line-no">391</span><span id="line-391">  }</span>
+<span class="source-line-no">392</span><span id="line-392"></span>
+<span class="source-line-no">393</span><span id="line-393">  /** Is this collection currently active/maintained. */</span>
+<span class="source-line-no">394</span><span id="line-394">  @Override</span>
+<span class="source-line-no">395</span><span id="line-395">  public boolean isActive() {</span>
+<span class="source-line-no">396</span><span id="line-396">    return active;</span>
+<span class="source-line-no">397</span><span id="line-397">  }</span>
+<span class="source-line-no">398</span><span id="line-398"></span>
+<span class="source-line-no">399</span><span id="line-399">  @Override</span>
+<span class="source-line-no">400</span><span id="line-400">  public void setActive(boolean active) {</span>
+<span class="source-line-no">401</span><span id="line-401">    this.active = active;</span>
+<span class="source-line-no">402</span><span id="line-402">  }</span>
+<span class="source-line-no">403</span><span id="line-403"></span>
+<span class="source-line-no">404</span><span id="line-404">  @Override</span>
+<span class="source-line-no">405</span><span id="line-405">  public List&lt;String&gt; getEmail() {</span>
+<span class="source-line-no">406</span><span id="line-406">    return email;</span>
+<span class="source-line-no">407</span><span id="line-407">  }</span>
+<span class="source-line-no">408</span><span id="line-408"></span>
+<span class="source-line-no">409</span><span id="line-409">  @Override</span>
+<span class="source-line-no">410</span><span id="line-410">  public void setEmail(List&lt;String&gt; email) {</span>
+<span class="source-line-no">411</span><span id="line-411">    this.email = email;</span>
+<span class="source-line-no">412</span><span id="line-412">  }</span>
+<span class="source-line-no">413</span><span id="line-413"></span>
+<span class="source-line-no">414</span><span id="line-414">  @Override</span>
+<span class="source-line-no">415</span><span id="line-415">  public List&lt;String&gt; getPhone() {</span>
+<span class="source-line-no">416</span><span id="line-416">    return phone;</span>
+<span class="source-line-no">417</span><span id="line-417">  }</span>
+<span class="source-line-no">418</span><span id="line-418"></span>
+<span class="source-line-no">419</span><span id="line-419">  @Override</span>
+<span class="source-line-no">420</span><span id="line-420">  public void setPhone(List&lt;String&gt; phone) {</span>
+<span class="source-line-no">421</span><span id="line-421">    this.phone = phone;</span>
+<span class="source-line-no">422</span><span id="line-422">  }</span>
+<span class="source-line-no">423</span><span id="line-423"></span>
+<span class="source-line-no">424</span><span id="line-424">  /** URL containing information about a collection. */</span>
+<span class="source-line-no">425</span><span id="line-425">  @HttpURI</span>
+<span class="source-line-no">426</span><span id="line-426">  @Nullable</span>
+<span class="source-line-no">427</span><span id="line-427">  public URI getHomepage() {</span>
+<span class="source-line-no">428</span><span id="line-428">    return homepage;</span>
+<span class="source-line-no">429</span><span id="line-429">  }</span>
+<span class="source-line-no">430</span><span id="line-430"></span>
+<span class="source-line-no">431</span><span id="line-431">  /** URI that exposes data about the catalog associated to a collection. */</span>
+<span class="source-line-no">432</span><span id="line-432">  @Nullable</span>
+<span class="source-line-no">433</span><span id="line-433">  public List&lt;URI&gt; getCatalogUrls() {</span>
+<span class="source-line-no">434</span><span id="line-434">    return catalogUrls;</span>
+<span class="source-line-no">435</span><span id="line-435">  }</span>
+<span class="source-line-no">436</span><span id="line-436"></span>
+<span class="source-line-no">437</span><span id="line-437">  /** Machine consumable endpoint of information about a collection. */</span>
+<span class="source-line-no">438</span><span id="line-438">  @Nullable</span>
+<span class="source-line-no">439</span><span id="line-439">  public List&lt;URI&gt; getApiUrls() {</span>
+<span class="source-line-no">440</span><span id="line-440">    return apiUrls;</span>
+<span class="source-line-no">441</span><span id="line-441">  }</span>
+<span class="source-line-no">442</span><span id="line-442"></span>
+<span class="source-line-no">443</span><span id="line-443">  /** Address used to send/receive physical mail. */</span>
+<span class="source-line-no">444</span><span id="line-444">  @Nullable</span>
+<span class="source-line-no">445</span><span id="line-445">  @Valid</span>
+<span class="source-line-no">446</span><span id="line-446">  @Override</span>
+<span class="source-line-no">447</span><span id="line-447">  public Address getMailingAddress() {</span>
+<span class="source-line-no">448</span><span id="line-448">    return mailingAddress;</span>
+<span class="source-line-no">449</span><span id="line-449">  }</span>
+<span class="source-line-no">450</span><span id="line-450"></span>
+<span class="source-line-no">451</span><span id="line-451">  @Override</span>
+<span class="source-line-no">452</span><span id="line-452">  public void setMailingAddress(Address mailingAddress) {</span>
+<span class="source-line-no">453</span><span id="line-453">    this.mailingAddress = mailingAddress;</span>
+<span class="source-line-no">454</span><span id="line-454">  }</span>
+<span class="source-line-no">455</span><span id="line-455"></span>
+<span class="source-line-no">456</span><span id="line-456">  /** Address where this collection is situated. */</span>
+<span class="source-line-no">457</span><span id="line-457">  @Nullable</span>
+<span class="source-line-no">458</span><span id="line-458">  @Valid</span>
+<span class="source-line-no">459</span><span id="line-459">  @Override</span>
+<span class="source-line-no">460</span><span id="line-460">  public Address getAddress() {</span>
+<span class="source-line-no">461</span><span id="line-461">    return address;</span>
+<span class="source-line-no">462</span><span id="line-462">  }</span>
+<span class="source-line-no">463</span><span id="line-463"></span>
+<span class="source-line-no">464</span><span id="line-464">  @Override</span>
+<span class="source-line-no">465</span><span id="line-465">  public void setAddress(Address address) {</span>
+<span class="source-line-no">466</span><span id="line-466">    this.address = address;</span>
+<span class="source-line-no">467</span><span id="line-467">  }</span>
+<span class="source-line-no">468</span><span id="line-468"></span>
+<span class="source-line-no">469</span><span id="line-469">  @Override</span>
+<span class="source-line-no">470</span><span id="line-470">  public String getCreatedBy() {</span>
+<span class="source-line-no">471</span><span id="line-471">    return createdBy;</span>
+<span class="source-line-no">472</span><span id="line-472">  }</span>
+<span class="source-line-no">473</span><span id="line-473"></span>
+<span class="source-line-no">474</span><span id="line-474">  @Override</span>
+<span class="source-line-no">475</span><span id="line-475">  public void setCreatedBy(String createdBy) {</span>
+<span class="source-line-no">476</span><span id="line-476">    this.createdBy = createdBy;</span>
+<span class="source-line-no">477</span><span id="line-477">  }</span>
+<span class="source-line-no">478</span><span id="line-478"></span>
+<span class="source-line-no">479</span><span id="line-479">  @Override</span>
+<span class="source-line-no">480</span><span id="line-480">  public String getModifiedBy() {</span>
+<span class="source-line-no">481</span><span id="line-481">    return modifiedBy;</span>
+<span class="source-line-no">482</span><span id="line-482">  }</span>
+<span class="source-line-no">483</span><span id="line-483"></span>
+<span class="source-line-no">484</span><span id="line-484">  @Override</span>
+<span class="source-line-no">485</span><span id="line-485">  public void setModifiedBy(String modifiedBy) {</span>
+<span class="source-line-no">486</span><span id="line-486">    this.modifiedBy = modifiedBy;</span>
+<span class="source-line-no">487</span><span id="line-487">  }</span>
+<span class="source-line-no">488</span><span id="line-488"></span>
+<span class="source-line-no">489</span><span id="line-489">  @Override</span>
+<span class="source-line-no">490</span><span id="line-490">  public Date getCreated() {</span>
+<span class="source-line-no">491</span><span id="line-491">    return created;</span>
+<span class="source-line-no">492</span><span id="line-492">  }</span>
+<span class="source-line-no">493</span><span id="line-493"></span>
+<span class="source-line-no">494</span><span id="line-494">  @Override</span>
+<span class="source-line-no">495</span><span id="line-495">  public void setCreated(Date created) {</span>
+<span class="source-line-no">496</span><span id="line-496">    this.created = created;</span>
+<span class="source-line-no">497</span><span id="line-497">  }</span>
+<span class="source-line-no">498</span><span id="line-498"></span>
+<span class="source-line-no">499</span><span id="line-499">  @Override</span>
+<span class="source-line-no">500</span><span id="line-500">  public Date getModified() {</span>
+<span class="source-line-no">501</span><span id="line-501">    return modified;</span>
+<span class="source-line-no">502</span><span id="line-502">  }</span>
+<span class="source-line-no">503</span><span id="line-503"></span>
+<span class="source-line-no">504</span><span id="line-504">  @Override</span>
+<span class="source-line-no">505</span><span id="line-505">  public void setModified(Date modified) {</span>
+<span class="source-line-no">506</span><span id="line-506">    this.modified = modified;</span>
+<span class="source-line-no">507</span><span id="line-507">  }</span>
+<span class="source-line-no">508</span><span id="line-508"></span>
+<span class="source-line-no">509</span><span id="line-509">  @Override</span>
+<span class="source-line-no">510</span><span id="line-510">  public Date getDeleted() {</span>
+<span class="source-line-no">511</span><span id="line-511">    return deleted;</span>
+<span class="source-line-no">512</span><span id="line-512">  }</span>
+<span class="source-line-no">513</span><span id="line-513"></span>
+<span class="source-line-no">514</span><span id="line-514">  @Override</span>
+<span class="source-line-no">515</span><span id="line-515">  public void setDeleted(Date deleted) {</span>
+<span class="source-line-no">516</span><span id="line-516">    this.deleted = deleted;</span>
+<span class="source-line-no">517</span><span id="line-517">  }</span>
+<span class="source-line-no">518</span><span id="line-518"></span>
+<span class="source-line-no">519</span><span id="line-519">  @Valid</span>
+<span class="source-line-no">520</span><span id="line-520">  @Override</span>
+<span class="source-line-no">521</span><span id="line-521">  public List&lt;Contact&gt; getContactPersons() {</span>
+<span class="source-line-no">522</span><span id="line-522">    return contactPersons;</span>
+<span class="source-line-no">523</span><span id="line-523">  }</span>
+<span class="source-line-no">524</span><span id="line-524"></span>
+<span class="source-line-no">525</span><span id="line-525">  @Override</span>
+<span class="source-line-no">526</span><span id="line-526">  public void setContactPersons(List&lt;Contact&gt; contactPersons) {</span>
+<span class="source-line-no">527</span><span id="line-527">    this.contactPersons = contactPersons;</span>
+<span class="source-line-no">528</span><span id="line-528">  }</span>
+<span class="source-line-no">529</span><span id="line-529"></span>
+<span class="source-line-no">530</span><span id="line-530">  @Valid</span>
+<span class="source-line-no">531</span><span id="line-531">  @Override</span>
+<span class="source-line-no">532</span><span id="line-532">  public @NotNull List&lt;MachineTag&gt; getMachineTags() {</span>
+<span class="source-line-no">533</span><span id="line-533">    return machineTags;</span>
+<span class="source-line-no">534</span><span id="line-534">  }</span>
+<span class="source-line-no">535</span><span id="line-535"></span>
+<span class="source-line-no">536</span><span id="line-536">  @Override</span>
+<span class="source-line-no">537</span><span id="line-537">  public void setMachineTags(List&lt;MachineTag&gt; machineTags) {</span>
+<span class="source-line-no">538</span><span id="line-538">    this.machineTags = machineTags;</span>
+<span class="source-line-no">539</span><span id="line-539">  }</span>
+<span class="source-line-no">540</span><span id="line-540"></span>
+<span class="source-line-no">541</span><span id="line-541">  @Override</span>
+<span class="source-line-no">542</span><span id="line-542">  public void addMachineTag(MachineTag machineTag) {</span>
+<span class="source-line-no">543</span><span id="line-543">    machineTags.add(machineTag);</span>
+<span class="source-line-no">544</span><span id="line-544">  }</span>
+<span class="source-line-no">545</span><span id="line-545"></span>
+<span class="source-line-no">546</span><span id="line-546">  /** Alternative codes for a collection. */</span>
+<span class="source-line-no">547</span><span id="line-547">  @Override</span>
+<span class="source-line-no">548</span><span id="line-548">  public List&lt;AlternativeCode&gt; getAlternativeCodes() {</span>
+<span class="source-line-no">549</span><span id="line-549">    return alternativeCodes;</span>
+<span class="source-line-no">550</span><span id="line-550">  }</span>
+<span class="source-line-no">551</span><span id="line-551"></span>
+<span class="source-line-no">552</span><span id="line-552">  @Override</span>
+<span class="source-line-no">553</span><span id="line-553">  public void setAlternativeCodes(List&lt;AlternativeCode&gt; alternativeCodes) {</span>
+<span class="source-line-no">554</span><span id="line-554">    this.alternativeCodes = alternativeCodes;</span>
+<span class="source-line-no">555</span><span id="line-555">  }</span>
+<span class="source-line-no">556</span><span id="line-556"></span>
+<span class="source-line-no">557</span><span id="line-557">  @Override</span>
+<span class="source-line-no">558</span><span id="line-558">  public @NotNull List&lt;Comment&gt; getComments() {</span>
+<span class="source-line-no">559</span><span id="line-559">    return comments;</span>
+<span class="source-line-no">560</span><span id="line-560">  }</span>
+<span class="source-line-no">561</span><span id="line-561"></span>
+<span class="source-line-no">562</span><span id="line-562">  @Override</span>
+<span class="source-line-no">563</span><span id="line-563">  public void setComments(List&lt;Comment&gt; comments) {</span>
+<span class="source-line-no">564</span><span id="line-564">    this.comments = comments;</span>
+<span class="source-line-no">565</span><span id="line-565">  }</span>
+<span class="source-line-no">566</span><span id="line-566"></span>
+<span class="source-line-no">567</span><span id="line-567">  @Override</span>
+<span class="source-line-no">568</span><span id="line-568">  public @NotNull List&lt;OccurrenceMapping&gt; getOccurrenceMappings() {</span>
+<span class="source-line-no">569</span><span id="line-569">    return occurrenceMappings;</span>
+<span class="source-line-no">570</span><span id="line-570">  }</span>
+<span class="source-line-no">571</span><span id="line-571"></span>
+<span class="source-line-no">572</span><span id="line-572">  @Override</span>
+<span class="source-line-no">573</span><span id="line-573">  public void setOccurrenceMappings(List&lt;OccurrenceMapping&gt; occurrenceMappings) {</span>
+<span class="source-line-no">574</span><span id="line-574">    this.occurrenceMappings = occurrenceMappings;</span>
+<span class="source-line-no">575</span><span id="line-575">  }</span>
+<span class="source-line-no">576</span><span id="line-576"></span>
+<span class="source-line-no">577</span><span id="line-577">  @Override</span>
+<span class="source-line-no">578</span><span id="line-578">  public UUID getReplacedBy() {</span>
+<span class="source-line-no">579</span><span id="line-579">    return replacedBy;</span>
+<span class="source-line-no">580</span><span id="line-580">  }</span>
+<span class="source-line-no">581</span><span id="line-581"></span>
+<span class="source-line-no">582</span><span id="line-582">  @Override</span>
+<span class="source-line-no">583</span><span id="line-583">  public void setReplacedBy(UUID replacedBy) {</span>
+<span class="source-line-no">584</span><span id="line-584">    this.replacedBy = replacedBy;</span>
+<span class="source-line-no">585</span><span id="line-585">  }</span>
+<span class="source-line-no">586</span><span id="line-586"></span>
+<span class="source-line-no">587</span><span id="line-587">  @Override</span>
+<span class="source-line-no">588</span><span id="line-588">  public MasterSourceType getMasterSource() {</span>
+<span class="source-line-no">589</span><span id="line-589">    return masterSource;</span>
+<span class="source-line-no">590</span><span id="line-590">  }</span>
+<span class="source-line-no">591</span><span id="line-591"></span>
+<span class="source-line-no">592</span><span id="line-592">  @Override</span>
+<span class="source-line-no">593</span><span id="line-593">  public void setMasterSource(MasterSourceType masterSource) {</span>
+<span class="source-line-no">594</span><span id="line-594">    this.masterSource = masterSource;</span>
+<span class="source-line-no">595</span><span id="line-595">  }</span>
+<span class="source-line-no">596</span><span id="line-596"></span>
+<span class="source-line-no">597</span><span id="line-597">  @Override</span>
+<span class="source-line-no">598</span><span id="line-598">  public MasterSourceMetadata getMasterSourceMetadata() {</span>
+<span class="source-line-no">599</span><span id="line-599">    return masterSourceMetadata;</span>
+<span class="source-line-no">600</span><span id="line-600">  }</span>
+<span class="source-line-no">601</span><span id="line-601"></span>
+<span class="source-line-no">602</span><span id="line-602">  @Override</span>
+<span class="source-line-no">603</span><span id="line-603">  public void setMasterSourceMetadata(MasterSourceMetadata masterSourceMetadata) {</span>
+<span class="source-line-no">604</span><span id="line-604">    this.masterSourceMetadata = masterSourceMetadata;</span>
+<span class="source-line-no">605</span><span id="line-605">  }</span>
+<span class="source-line-no">606</span><span id="line-606"></span>
+<span class="source-line-no">607</span><span id="line-607">  @Override</span>
+<span class="source-line-no">608</span><span id="line-608">  public Boolean getDisplayOnNHCPortal() {</span>
+<span class="source-line-no">609</span><span id="line-609">    return displayOnNHCPortal;</span>
+<span class="source-line-no">610</span><span id="line-610">  }</span>
+<span class="source-line-no">611</span><span id="line-611"></span>
+<span class="source-line-no">612</span><span id="line-612">  @Override</span>
+<span class="source-line-no">613</span><span id="line-613">  public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {</span>
+<span class="source-line-no">614</span><span id="line-614">    this.displayOnNHCPortal = displayOnNHCPortal;</span>
+<span class="source-line-no">615</span><span id="line-615">  }</span>
+<span class="source-line-no">616</span><span id="line-616"></span>
+<span class="source-line-no">617</span><span id="line-617">  @HttpURI</span>
+<span class="source-line-no">618</span><span id="line-618">  @Nullable</span>
+<span class="source-line-no">619</span><span id="line-619">  @Override</span>
+<span class="source-line-no">620</span><span id="line-620">  public URI getFeaturedImageUrl() {</span>
+<span class="source-line-no">621</span><span id="line-621">    return featuredImageUrl;</span>
+<span class="source-line-no">622</span><span id="line-622">  }</span>
+<span class="source-line-no">623</span><span id="line-623"></span>
+<span class="source-line-no">624</span><span id="line-624">  @Override</span>
+<span class="source-line-no">625</span><span id="line-625">  public void setFeaturedImageUrl(URI featuredImageUrl) {</span>
+<span class="source-line-no">626</span><span id="line-626">    this.featuredImageUrl = featuredImageUrl;</span>
+<span class="source-line-no">627</span><span id="line-627">  }</span>
+<span class="source-line-no">628</span><span id="line-628"></span>
+<span class="source-line-no">629</span><span id="line-629">  @Nullable</span>
+<span class="source-line-no">630</span><span id="line-630">  @Override</span>
+<span class="source-line-no">631</span><span id="line-631">  public License getFeaturedImageLicense() {</span>
+<span class="source-line-no">632</span><span id="line-632">    return featuredImageLicense;</span>
+<span class="source-line-no">633</span><span id="line-633">  }</span>
+<span class="source-line-no">634</span><span id="line-634"></span>
+<span class="source-line-no">635</span><span id="line-635">  @Override</span>
+<span class="source-line-no">636</span><span id="line-636">  public void setFeaturedImageLicense(License featuredImageLicense) {</span>
+<span class="source-line-no">637</span><span id="line-637">    this.featuredImageLicense = featuredImageLicense;</span>
+<span class="source-line-no">638</span><span id="line-638">  }</span>
+<span class="source-line-no">639</span><span id="line-639"></span>
+<span class="source-line-no">640</span><span id="line-640">  @Nullable</span>
+<span class="source-line-no">641</span><span id="line-641">  public String getTemporalCoverage() {</span>
+<span class="source-line-no">642</span><span id="line-642">    return temporalCoverage;</span>
+<span class="source-line-no">643</span><span id="line-643">  }</span>
+<span class="source-line-no">644</span><span id="line-644"></span>
+<span class="source-line-no">645</span><span id="line-645">  @Hidden</span>
+<span class="source-line-no">646</span><span id="line-646">  @JsonIgnore</span>
+<span class="source-line-no">647</span><span id="line-647">  public String getCountry() {</span>
+<span class="source-line-no">648</span><span id="line-648">    if (address != null &amp;&amp; address.getCountry() != null) {</span>
+<span class="source-line-no">649</span><span id="line-649">      return address.getCountry().getIso2LetterCode();</span>
+<span class="source-line-no">650</span><span id="line-650">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getCountry() != null) {</span>
+<span class="source-line-no">651</span><span id="line-651">      return mailingAddress.getCountry().getIso2LetterCode();</span>
+<span class="source-line-no">652</span><span id="line-652">    }</span>
+<span class="source-line-no">653</span><span id="line-653">    return null;</span>
+<span class="source-line-no">654</span><span id="line-654">  }</span>
+<span class="source-line-no">655</span><span id="line-655"></span>
+<span class="source-line-no">656</span><span id="line-656">  @Hidden</span>
+<span class="source-line-no">657</span><span id="line-657">  @JsonIgnore</span>
+<span class="source-line-no">658</span><span id="line-658">  public String getCity() {</span>
+<span class="source-line-no">659</span><span id="line-659">    if (address != null &amp;&amp; address.getCity() != null) {</span>
+<span class="source-line-no">660</span><span id="line-660">      return address.getCity();</span>
+<span class="source-line-no">661</span><span id="line-661">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getCity() != null) {</span>
+<span class="source-line-no">662</span><span id="line-662">      return mailingAddress.getCity();</span>
+<span class="source-line-no">663</span><span id="line-663">    }</span>
+<span class="source-line-no">664</span><span id="line-664">    return null;</span>
+<span class="source-line-no">665</span><span id="line-665">  }</span>
+<span class="source-line-no">666</span><span id="line-666"></span>
+<span class="source-line-no">667</span><span id="line-667">  @Hidden</span>
+<span class="source-line-no">668</span><span id="line-668">  @JsonIgnore</span>
+<span class="source-line-no">669</span><span id="line-669">  public String getProvince() {</span>
+<span class="source-line-no">670</span><span id="line-670">    if (address != null &amp;&amp; address.getProvince() != null) {</span>
+<span class="source-line-no">671</span><span id="line-671">      return address.getProvince();</span>
+<span class="source-line-no">672</span><span id="line-672">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getProvince() != null) {</span>
+<span class="source-line-no">673</span><span id="line-673">      return mailingAddress.getProvince();</span>
+<span class="source-line-no">674</span><span id="line-674">    }</span>
+<span class="source-line-no">675</span><span id="line-675">    return null;</span>
+<span class="source-line-no">676</span><span id="line-676">  }</span>
+<span class="source-line-no">677</span><span id="line-677"></span>
+<span class="source-line-no">678</span><span id="line-678">  @Nullable</span>
+<span class="source-line-no">679</span><span id="line-679">  @Override</span>
+<span class="source-line-no">680</span><span id="line-680">  public String getFeaturedImageAttribution() {</span>
+<span class="source-line-no">681</span><span id="line-681">    return featuredImageAttribution;</span>
+<span class="source-line-no">682</span><span id="line-682">  }</span>
+<span class="source-line-no">683</span><span id="line-683"></span>
+<span class="source-line-no">684</span><span id="line-684">  @Override</span>
+<span class="source-line-no">685</span><span id="line-685">  public void setFeaturedImageAttribution(String featuredImageAttribution) {</span>
+<span class="source-line-no">686</span><span id="line-686">    this.featuredImageAttribution = featuredImageAttribution;</span>
+<span class="source-line-no">687</span><span id="line-687">  }</span>
+<span class="source-line-no">688</span><span id="line-688"></span>
+<span class="source-line-no">689</span><span id="line-689">  @Override</span>
+<span class="source-line-no">690</span><span id="line-690">  public boolean lenientEquals(Collection other) {</span>
+<span class="source-line-no">691</span><span id="line-691">    if (this == other) {</span>
+<span class="source-line-no">692</span><span id="line-692">      return true;</span>
+<span class="source-line-no">693</span><span id="line-693">    }</span>
+<span class="source-line-no">694</span><span id="line-694">    return active == other.active</span>
+<span class="source-line-no">695</span><span id="line-695">        &amp;&amp; personalCollection == other.personalCollection</span>
+<span class="source-line-no">696</span><span id="line-696">        &amp;&amp; Objects.equals(key, other.key)</span>
+<span class="source-line-no">697</span><span id="line-697">        &amp;&amp; Objects.equals(code, other.code)</span>
+<span class="source-line-no">698</span><span id="line-698">        &amp;&amp; Objects.equals(name, other.name)</span>
+<span class="source-line-no">699</span><span id="line-699">        &amp;&amp; Objects.equals(description, other.description)</span>
+<span class="source-line-no">700</span><span id="line-700">        &amp;&amp; Objects.equals(contentTypes, other.contentTypes)</span>
+<span class="source-line-no">701</span><span id="line-701">        &amp;&amp; Objects.equals(doi, other.doi)</span>
+<span class="source-line-no">702</span><span id="line-702">        &amp;&amp; Objects.equals(email, other.email)</span>
+<span class="source-line-no">703</span><span id="line-703">        &amp;&amp; Objects.equals(phone, other.phone)</span>
+<span class="source-line-no">704</span><span id="line-704">        &amp;&amp; Objects.equals(homepage, other.homepage)</span>
+<span class="source-line-no">705</span><span id="line-705">        &amp;&amp; Objects.equals(catalogUrls, other.catalogUrls)</span>
+<span class="source-line-no">706</span><span id="line-706">        &amp;&amp; Objects.equals(apiUrls, other.apiUrls)</span>
+<span class="source-line-no">707</span><span id="line-707">        &amp;&amp; Objects.equals(preservationTypes, other.preservationTypes)</span>
+<span class="source-line-no">708</span><span id="line-708">        &amp;&amp; Objects.equals(accessionStatus, other.accessionStatus)</span>
+<span class="source-line-no">709</span><span id="line-709">        &amp;&amp; Objects.equals(institutionKey, other.institutionKey)</span>
+<span class="source-line-no">710</span><span id="line-710">        &amp;&amp; LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)</span>
+<span class="source-line-no">711</span><span id="line-711">        &amp;&amp; LenientEqualsUtils.lenientEquals(address, other.address)</span>
+<span class="source-line-no">712</span><span id="line-712">        &amp;&amp; Objects.equals(deleted, other.deleted)</span>
+<span class="source-line-no">713</span><span id="line-713">        &amp;&amp; Objects.equals(numberSpecimens, other.numberSpecimens)</span>
+<span class="source-line-no">714</span><span id="line-714">        &amp;&amp; Objects.equals(taxonomicCoverage, other.taxonomicCoverage)</span>
+<span class="source-line-no">715</span><span id="line-715">        &amp;&amp; Objects.equals(geographicCoverage, other.geographicCoverage)</span>
+<span class="source-line-no">716</span><span id="line-716">        &amp;&amp; Objects.equals(notes, other.notes)</span>
+<span class="source-line-no">717</span><span id="line-717">        &amp;&amp; Objects.equals(incorporatedCollections, other.incorporatedCollections)</span>
+<span class="source-line-no">718</span><span id="line-718">        &amp;&amp; Objects.equals(alternativeCodes, other.alternativeCodes)</span>
+<span class="source-line-no">719</span><span id="line-719">        &amp;&amp; Objects.equals(comments, other.comments)</span>
+<span class="source-line-no">720</span><span id="line-720">        &amp;&amp; Objects.equals(occurrenceMappings, other.occurrenceMappings)</span>
+<span class="source-line-no">721</span><span id="line-721">        &amp;&amp; Objects.equals(replacedBy, other.replacedBy)</span>
+<span class="source-line-no">722</span><span id="line-722">        &amp;&amp; Objects.equals(masterSource, other.masterSource)</span>
+<span class="source-line-no">723</span><span id="line-723">        &amp;&amp; Objects.equals(masterSourceMetadata, other.masterSourceMetadata)</span>
+<span class="source-line-no">724</span><span id="line-724">        &amp;&amp; Objects.equals(division, other.division)</span>
+<span class="source-line-no">725</span><span id="line-725">        &amp;&amp; Objects.equals(department, other.department)</span>
+<span class="source-line-no">726</span><span id="line-726">        &amp;&amp; Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal)</span>
+<span class="source-line-no">727</span><span id="line-727">        &amp;&amp; Objects.equals(featuredImageUrl, other.featuredImageUrl)</span>
+<span class="source-line-no">728</span><span id="line-728">        &amp;&amp; Objects.equals(featuredImageLicense, other.featuredImageLicense)</span>
+<span class="source-line-no">729</span><span id="line-729">        &amp;&amp; Objects.equals(temporalCoverage, other.temporalCoverage)</span>
+<span class="source-line-no">730</span><span id="line-730">        &amp;&amp; Objects.equals(featuredImageAttribution, other.featuredImageAttribution);</span>
+<span class="source-line-no">731</span><span id="line-731">  }</span>
+<span class="source-line-no">732</span><span id="line-732">}</span>
 
 
 
