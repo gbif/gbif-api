@@ -55,6 +55,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * the {@link NameUsageContainer} class.
  */
 @SuppressWarnings("unused")
+@Deprecated
 public class NameUsage implements LinneanClassification, LinneanClassificationKeys {
 
   private Integer key;
