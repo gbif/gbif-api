@@ -1065,6 +1065,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   )
   private String samplingProtocol;
 
+  @Schema(
+    description = "**Experimental.**  The DNA sequence ID of an occurrence."
+  )
+  @Experimental
+  private List<String> dnaSequenceID = new ArrayList<>();
+
   public Occurrence() {
 
   }
@@ -2319,6 +2325,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setSamplingProtocol(String samplingProtocol) {
     this.samplingProtocol = samplingProtocol;
+  }
+
+  public List<String> getDnaSequenceID() {
+    return dnaSequenceID;
+  }
+
+  public void setDnaSequenceID(List<String> dnaSequenceID) {
+    this.dnaSequenceID = dnaSequenceID;
   }
 
   public List<Classification> getClassifications() {

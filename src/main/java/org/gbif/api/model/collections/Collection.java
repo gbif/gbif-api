@@ -311,6 +311,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
           "Temporal scope or focus of the collection. This free text field can be used to describe both the collection "
               + "date ranges as well as the geological time group(s) of the collection objects in the context of "
               + "paleontological collections.")
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String temporalCoverage;
 
   @Schema(

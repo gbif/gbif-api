@@ -63,7 +63,7 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
   private final Boolean matchCase;
 
   @Schema(
-    description = "Whether to use ."
+    description = "Sepcify which taxonomy to use."
   )
   @Experimental
   @Nullable
