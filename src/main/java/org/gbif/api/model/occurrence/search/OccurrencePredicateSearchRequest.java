@@ -24,6 +24,9 @@ public class OccurrencePredicateSearchRequest extends OccurrenceSearchRequest {
 
   private Predicate predicate;
 
+  public OccurrencePredicateSearchRequest() {
+  }
+
   public OccurrencePredicateSearchRequest(Pageable page) {
     super(page);
   }
