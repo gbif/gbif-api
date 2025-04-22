@@ -16,7 +16,8 @@ package org.gbif.api.model.occurrence.search;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
-import io.swagger.v3.oas.annotations.media.Schema;
+
+import io.swagger.v3.oas.annotations.Hidden;
 
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.paging.Pageable;
@@ -32,21 +33,11 @@ import org.gbif.api.vocabulary.OccurrenceStatus;
 /** Request class for issuing search request to the occurrence search service. */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
-  @Schema(
-    description = "This flag enables the use of case-sensitive matches and aggregations on certain search parameters."
-  )
+  @Hidden
   private Boolean matchCase;
 
-  @Schema(
-    description = "This flag allows to sort the results in a random order by specifying a seed. The seed makes the " +
-      "random results reproducible so we can use paging. The same seed has to be sent for each page."
-  )
+  @Hidden
   private String shuffle;
-
-  public OccurrenceSearchRequest() {
-    // empty block
-    super();
-  }
 
   /**
    * This flag enables the use of case-sensitive matches and aggregations on certain search
@@ -56,7 +47,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
    * catalogNumber, collectionCode, institutionCode, eventId, parentEventId, waterBody,
    * stateProvince, recordNumber, identifiedBy, organismId and locality.
    *
-   * <p>This is an experimental feature and its implementation may change or be removed at any time.
+   * <p>This is an experimental feature, and its implementation may change or be removed at any time.
    *
    * <p>Be aware that this is not a per-field flag, all possible fields will match case sensitively.
    */
@@ -84,12 +75,11 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     this.shuffle = shuffle;
   }
 
-  public OccurrenceSearchRequest(long offset, int limit) {
-    super(offset, limit);
-  }
-
   public OccurrenceSearchRequest(Pageable page) {
     super(page);
+  }
+
+  public OccurrenceSearchRequest() {
   }
 
   public void addOccurrenceIDFilter(String occurrenceID) {
@@ -160,39 +150,39 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.DAY, day);
   }
 
-  public void addTaxonKeyFilter(int taxonKey) {
+  public void addTaxonKeyFilter(String taxonKey) {
     addParameter(OccurrenceSearchParameter.TAXON_KEY, taxonKey);
   }
 
-  public void addKingdomKeyFilter(int kingdomKey) {
+  public void addKingdomKeyFilter(String kingdomKey) {
     addParameter(OccurrenceSearchParameter.KINGDOM_KEY, kingdomKey);
   }
 
-  public void addPhylumKeyFilter(int phylumKey) {
+  public void addPhylumKeyFilter(String phylumKey) {
     addParameter(OccurrenceSearchParameter.PHYLUM_KEY, phylumKey);
   }
 
-  public void addClassKeyFilter(int classKey) {
+  public void addClassKeyFilter(String classKey) {
     addParameter(OccurrenceSearchParameter.CLASS_KEY, classKey);
   }
 
-  public void addOrderKeyFilter(int orderKey) {
+  public void addOrderKeyFilter(String orderKey) {
     addParameter(OccurrenceSearchParameter.ORDER_KEY, orderKey);
   }
 
-  public void addFamilyKeyFilter(int familyKey) {
+  public void addFamilyKeyFilter(String familyKey) {
     addParameter(OccurrenceSearchParameter.FAMILY_KEY, familyKey);
   }
 
-  public void addGenusKeyFilter(int genusKey) {
+  public void addGenusKeyFilter(String genusKey) {
     addParameter(OccurrenceSearchParameter.GENUS_KEY, genusKey);
   }
 
-  public void addSubGenusKeyFilter(int subGenusKey) {
+  public void addSubGenusKeyFilter(String subGenusKey) {
     addParameter(OccurrenceSearchParameter.SUBGENUS_KEY, subGenusKey);
   }
 
-  public void addSpeciesKeyFilter(int speciesKey) {
+  public void addSpeciesKeyFilter(String speciesKey) {
     addParameter(OccurrenceSearchParameter.SPECIES_KEY, speciesKey);
   }
 
