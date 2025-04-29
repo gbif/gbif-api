@@ -50,7 +50,7 @@ public interface DescriptorsService {
    */
   void updateDescriptorGroup(
       @NotNull long descriptorGroupKey,
-      @NotNull byte[] descriptorsGroupFile,
+      byte[] descriptorsGroupFile,
       @NotNull ExportFormat format,
       @NotNull String title,
       String description);
