@@ -24,6 +24,8 @@ public class Classification {
   private RankedName usage;
   /** The accepted usage of the taxon */
   private RankedName acceptedUsage;
+  /** The taxonomic status **/
+  private String taxonomicStatus;
   /** The full taxonomic classification of the taxon */
   private List<RankedName> classification;
   /** The IUCN status of the taxon */

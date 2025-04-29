@@ -288,4 +288,9 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   public void addChecklistKeyFilter(String checklistKey) {
     addParameter(OccurrenceSearchParameter.CHECKLIST_KEY, checklistKey);
   }
+
+  @Experimental
+  public void addTaxonomicIssueFilter(String taxonomicIssue) {
+    addParameter(OccurrenceSearchParameter.TAXONOMIC_ISSUE, taxonomicIssue);
+  }
 }

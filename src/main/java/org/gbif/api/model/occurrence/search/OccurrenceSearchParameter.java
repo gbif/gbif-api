@@ -461,6 +461,12 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter ISSUE = new OccurrenceSearchParameter("ISSUE", OccurrenceIssue.class);
 
   /**
+   * Searches occurrence for those that have a specific taxonomic issue. This is separated out from the general issue
+   * field as taxonomic issues will be tied to a specific checklist.
+   */
+  public final static OccurrenceSearchParameter TAXONOMIC_ISSUE = new OccurrenceSearchParameter("TAXONOMIC_ISSUE", String.class);
+
+  /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
   public final static OccurrenceSearchParameter TYPE_STATUS = new OccurrenceSearchParameter("TYPE_STATUS", String.class);
@@ -899,9 +905,9 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   }
 
   /**
-   * TODO move to abstract super class with generics
-   * @param name
-   * @return
+   * Lookup a parameter by its name.
+   * @param name the name of the parameter
+   * @return the parameter if found, otherwise empty
    */
   public static Optional<OccurrenceSearchParameter> lookup(String name) {
     String normedType = name.toUpperCase().replaceAll("[. _-]", "");
@@ -944,7 +950,6 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
     @Override
     public OccurrenceSearchParameter deserialize(com.fasterxml.jackson.core.JsonParser jsonParser, com.fasterxml.jackson.databind.DeserializationContext deserializationContext) throws IOException, JacksonException {
 
-      // FIXME this logic will be moved out of this api class...
       Field[] values = OccurrenceSearchParameter.class.getFields();
       try {
         String value = jsonParser.getText();
