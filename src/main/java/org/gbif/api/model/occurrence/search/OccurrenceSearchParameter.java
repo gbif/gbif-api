@@ -953,10 +953,6 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
       Field[] values = OccurrenceSearchParameter.class.getFields();
       try {
         String value = jsonParser.getText();
-        if (value.startsWith("TAXON_DEPTH_")) {
-          return new OccurrenceSearchParameter(value, String.class);
-        }
-
         for (Field field: values) {
           if (field.getName().equalsIgnoreCase(value)) {
             return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
