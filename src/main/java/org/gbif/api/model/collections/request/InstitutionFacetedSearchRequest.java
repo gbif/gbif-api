@@ -34,6 +34,7 @@ public class InstitutionFacetedSearchRequest extends InstitutionSearchRequest
   @Builder.Default @Nullable private Set<InstitutionFacetParameter> facets = new HashSet<>();
   @Nullable private boolean multiSelectFacets;
   @Nullable private Integer facetMinCount;
+  @Nullable private boolean includeChildren;
   @Nullable private Integer facetLimit = 10;
   @Nullable private Integer facetOffset;
 
