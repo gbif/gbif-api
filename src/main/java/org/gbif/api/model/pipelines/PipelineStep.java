@@ -13,9 +13,9 @@
  */
 package org.gbif.api.model.pipelines;
 
-import org.gbif.api.jackson.LocalDateTimeSerDe;
-import org.gbif.api.model.registry.LenientEquals;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -23,14 +23,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
+import org.gbif.api.jackson.LocalDateTimeSerDe;
+import org.gbif.api.model.registry.LenientEquals;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-/**
- * Models a step in pipelines.
- */
+/** Models a step in pipelines. */
 public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   private static final long serialVersionUID = 460047082156621661L;
@@ -76,7 +72,8 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     };
 
   /**
-   * Comparator that sorts pipeline steps by start date and then by finished date in ascending order.
+   * Comparator that sorts pipeline steps by start date and then by finished date in ascending
+   * order.
    */
   public static final Comparator<PipelineStep> STEPS_BY_FINISHED_ASC =
     (s1, s2) -> {
@@ -158,8 +155,9 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return this;
   }
 
-  public void setKey(long key) {
+  public PipelineStep setKey(long key) {
     this.key = key;
+    return this;
   }
 
   public Long getNumberRecords() {
@@ -221,9 +219,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return this;
   }
 
-  /**
-   * Enum to represent the status of a step.
-   */
+  /** Enum to represent the status of a step. */
   public enum Status {
     RUNNING,
     FAILED,
@@ -233,9 +229,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     QUEUED
   }
 
-  /**
-   * Inner class to store metrics.
-   */
+  /** Inner class to store metrics. */
   public static class MetricInfo implements Serializable {
 
     private static final long serialVersionUID = 1872427841009786709L;
