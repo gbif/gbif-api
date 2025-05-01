@@ -29,7 +29,7 @@ public class Classification {
   /** The full taxonomic classification of the taxon */
   private List<RankedName> classification;
   /** The IUCN status of the taxon */
-  private String iucnRedListCategory;
+  private String iucnRedListCategoryCode;
   /** The issues associated with the match to this classification */
   private List<String> issues;
 }
