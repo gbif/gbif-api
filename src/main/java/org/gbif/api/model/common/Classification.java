@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.gbif.api.v2.RankedName;
+import org.gbif.api.v2.Usage;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class Classification {
   /** The checklist associated with this classification e.g. GBIF Backbone, CoL. */
   private String checklistKey;
   /** The usage that has been matched to */
-  private RankedName usage;
+  private Usage usage;
   /** The accepted usage of the taxon */
   private RankedName acceptedUsage;
   /** The taxonomic status **/
