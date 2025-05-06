@@ -24,7 +24,7 @@ public class Classification {
   /** The usage that has been matched to */
   private Usage usage;
   /** The accepted usage of the taxon */
-  private RankedName acceptedUsage;
+  private Usage acceptedUsage;
   /** The taxonomic status **/
   private String taxonomicStatus;
   /** The full taxonomic classification of the taxon */
