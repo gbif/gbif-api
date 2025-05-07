@@ -25,8 +25,8 @@ import lombok.experimental.SuperBuilder;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.collections.InstitutionFacetParameter;
 
-<span class="nc bnc" id="L28" title="All 52 branches missed.">@EqualsAndHashCode(callSuper = true)</span>
-<span class="nc bnc" id="L29" title="All 4 branches missed.">@SuperBuilder</span>
+<span class="nc bnc" id="L28" title="All 60 branches missed.">@EqualsAndHashCode(callSuper = true)</span>
+<span class="nc bnc" id="L29" title="All 6 branches missed.">@SuperBuilder</span>
 <span class="nc" id="L30">@Data</span>
 public class InstitutionFacetedSearchRequest extends InstitutionSearchRequest
     implements FacetedSearchRequest&lt;InstitutionFacetParameter&gt; {
@@ -34,11 +34,13 @@ public class InstitutionFacetedSearchRequest extends InstitutionSearchRequest
 <span class="nc" id="L34">  @Builder.Default @Nullable private Set&lt;InstitutionFacetParameter&gt; facets = new HashSet&lt;&gt;();</span>
 <span class="nc" id="L35">  @Nullable private boolean multiSelectFacets;</span>
 <span class="nc" id="L36">  @Nullable private Integer facetMinCount;</span>
-<span class="nc" id="L37">  @Nullable private Integer facetLimit = 10;</span>
-<span class="nc" id="L38">  @Nullable private Integer facetOffset;</span>
+  @Builder.Default
+<span class="nc" id="L38">  private Boolean facetIncludeChildren = Boolean.TRUE;</span>
+<span class="nc" id="L39">  @Nullable private Integer facetLimit = 10;</span>
+<span class="nc" id="L40">  @Nullable private Integer facetOffset;</span>
 
   // Holds the paging configuration for each requested facet
   @Builder.Default @Nullable
-<span class="nc" id="L42">  private Map&lt;InstitutionFacetParameter, Pageable&gt; facetPages = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L44">  private Map&lt;InstitutionFacetParameter, Pageable&gt; facetPages = new HashMap&lt;&gt;();</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
