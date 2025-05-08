@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 
 import javax.annotation.Nullable;
@@ -34,12 +35,30 @@ import io.swagger.v3.oas.annotations.media.Schema;
 )
 public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S> {
 
+  @Schema(
+    description = "Specify which taxonomy to use."
+  )
+  @Experimental
+  @Nullable
+  private final String checklistKey;
+
+  public LikePredicate(S key, String value, Boolean matchCase) {
+    this(key, value, null, matchCase);
+  }
+
+  @Experimental
+  public String getChecklistKey() {
+    return checklistKey;
+  }
+
   @JsonCreator
   public LikePredicate(
       @JsonProperty("key") S key,
       @JsonProperty("value") String value,
+      @Nullable @JsonProperty(value = "checklistKey") String checklistKey,
       @Nullable @JsonProperty(value = "matchCase") Boolean matchCase) {
     super(false, key, value, matchCase);
+    this.checklistKey = checklistKey;
     // make sure we deal with a String type
     if (!String.class.equals(key.type())) {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);

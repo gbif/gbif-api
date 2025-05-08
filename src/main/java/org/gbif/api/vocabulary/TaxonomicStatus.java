@@ -53,7 +53,18 @@ public enum TaxonomicStatus {
   /**
    * More specific subclass of SYNONYM.
    */
-  MISAPPLIED;
+  MISAPPLIED,
+
+  /**
+   * Names which are ambiguous because they point at the current species and one or more others
+   * e.g. homonyms, pro-parte synonyms (in other words, names which appear more than in one place in the Catalogue).
+   */
+  AMBIGUOUS_SYNONYM,
+
+  /**
+   * "Treated as accepted, but doubtful whether this is correct." (as used in ChecklistBank).
+   */
+  PROVISIONALLY_ACCEPTED;
 
   public boolean isSynonym() {
     return !isAccepted();
