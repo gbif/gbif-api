@@ -15,6 +15,10 @@ public interface FacetedSearchRequest<F extends CollectionsFacetParameter> {
 
   void setMultiSelectFacets(boolean multiSelectFacets);
 
+  Boolean getFacetIncludeChildren();
+
+  void setFacetIncludeChildren(Boolean includeChildren);
+
   Integer getFacetMinCount();
 
   void setFacetMinCount(Integer facetMinCount);

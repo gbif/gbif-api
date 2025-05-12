@@ -236,4 +236,11 @@ public interface PipelinesHistoryService {
    * @param message cause of the issue
    */
   void notifyAbsentIdentifiers(UUID datasetKey, int attempt, long executionKey, String message);
+
+  /**
+   * Sets the pipeline step state QUEUED only if it's in SUBMITTED state.
+   *
+   * @param key pipeline step key
+   */
+  void setSubmittedPipelineStepToQueued(long key);
 }
