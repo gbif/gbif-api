@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -549,6 +550,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.infraspecificEpithet,
       DwcTerm.scientificNameID,
       DwcTerm.taxonConceptID,
+      DwcTerm.taxonID,
     };
 
     static final Term[] INSTITUTION_TERMS = {
@@ -609,4 +611,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
               PRESUMED_SWAPPED_COORDINATE,
               PRESUMED_NEGATED_LONGITUDE,
               PRESUMED_NEGATED_LATITUDE));
+
+  /**
+   * All issues related to taxonomic fields.
+   */
+  public static final List<OccurrenceIssue> TAXONOMIC_RULES =
+    Set.of(OccurrenceIssue.values()).stream()
+        .filter(issue -> issue.getRelatedTerms().stream().anyMatch(term -> Set.of(TermsGroup.TAXONOMY_TERMS).contains(term)))
+        .collect(Collectors.toList());
 }

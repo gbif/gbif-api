@@ -13,11 +13,14 @@
  */
 package org.gbif.api.jackson;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.DownloadType;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
 import org.gbif.api.model.occurrence.SqlDownloadRequest;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.Extension;
@@ -162,6 +165,13 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       //if (predicate == null) {
       //  throw new RuntimeException("A predicate must be specified. Use {} for everything.");
       //}
+      MAPPER.registerModule(
+          new SimpleModule().addDeserializer(
+            OccurrenceSearchParameter.class,
+            new OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer()
+          )
+        );
+
       Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
       return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, description, machineDescription, extensions);
     }
