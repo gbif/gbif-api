@@ -2,6 +2,8 @@ package org.gbif.api.model.collections.descriptors;
 
 import java.util.Date;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -57,6 +59,11 @@ public class DescriptorChangeSuggestion {
    * Description of the Descriptor Group
    */
   private String description;
+
+  /**
+   * Tags of the Descriptor Group
+   */
+  private Set<String> tags;
 
   /**
    * The current status: PENDING, APPROVED, or DISCARDED.
