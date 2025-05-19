@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import org.gbif.api.model.collections.suggestions.Status;
 import org.gbif.api.model.collections.suggestions.Type;
 import org.gbif.api.model.common.export.ExportFormat;
+import org.gbif.api.vocabulary.Country;
 
 /**
  * Domain model representing a change suggestion for a descriptor.
@@ -107,6 +108,11 @@ public class DescriptorChangeSuggestion {
    * Optional comments.
    */
   private List<String> comments;
+
+  /**
+   * Country of the related collection
+   */
+  private Country country;
 
   /**
    * Timestamp when the suggestion was last modified.
