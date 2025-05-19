@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -24,6 +25,7 @@ public class DescriptorGroup implements LenientEquals<DescriptorGroup>, Serializ
   private Date modified;
   private String modifiedBy;
   private Date deleted;
+  private Set<String> tags;
 
   @Override
   public boolean lenientEquals(DescriptorGroup other) {
@@ -32,8 +34,9 @@ public class DescriptorGroup implements LenientEquals<DescriptorGroup>, Serializ
     }
 
     return key == other.key
-        && Objects.equals(title, other.title)
-        && Objects.equals(description, other.description)
-        && Objects.equals(collectionKey, other.collectionKey);
+      && Objects.equals(title, other.title)
+      && Objects.equals(description, other.description)
+      && Objects.equals(collectionKey, other.collectionKey)
+      && Objects.equals(tags, other.tags);
   }
 }
