@@ -28,7 +28,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * An ordered taxonomic rank enumeration with the most frequently used values.
  * Several static methods, lists, sets and maps are provided to help with ordering and lookup from strings.
  *
- * @see <a href="http://rs.gbif.org/vocabulary/gbif/rank.xml">rs.gbif.org vocabulary</a>
+ * Deprecated.
+ * Please use the name parser enum instead.
+ * https://github.com/gbif/name-parser/blob/master/name-parser-api/src/main/java/org/gbif/nameparser/api/Rank.java
  */
 @Schema(
   externalDocs = @ExternalDocumentation(
@@ -37,6 +39,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
   )
 )
 @SuppressWarnings("unused")
+// use name parser enum instead:
+// https://github.com/gbif/name-parser/blob/master/name-parser-api/src/main/java/org/gbif/nameparser/api/Rank.java
+@Deprecated
 public enum Rank {
 
   DOMAIN("dom."),

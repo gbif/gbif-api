@@ -19,7 +19,13 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * A short classification of scientific name strings used in Checklist Bank.
+ *
+ * Deprecated.
+ * Please use the name parser enum instead.
+ * https://github.com/gbif/name-parser/blob/master/name-parser-api/src/main/java/org/gbif/nameparser/api/NameType.java
  */
+
+@Deprecated
 public enum NameType {
 
   /**

@@ -19,7 +19,13 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Enumeration to indicate a part of a canonical scientific name.
+ *
+ * Deprecated.
+ * Please use the name parser enum instead.
+ * https://github.com/gbif/name-parser/blob/master/name-parser-api/src/main/java/org/gbif/nameparser/api/NamePart.java
  */
+
+@Deprecated
 public enum NamePart {
 
   GENERIC,

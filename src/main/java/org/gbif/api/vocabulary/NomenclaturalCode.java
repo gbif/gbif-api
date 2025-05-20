@@ -25,7 +25,12 @@ package org.gbif.api.vocabulary;
  * different in the way they work.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Nomenclature_codes">Nomenclature codes (Wikipedia)</a>
- */
+ *
+ * Deprecated.
+ * Please use the name parser enum instead.
+ * https://github.com/gbif/name-parser/blob/master/name-parser-api/src/main/java/org/gbif/nameparser/api/NomCode.java
+*/
+@Deprecated
 public enum NomenclaturalCode {
 
   BACTERIAL("ICNB", "International Code of Nomenclature of Bacteria", "http://www.ncbi.nlm.nih.gov/books/NBK8808/"),

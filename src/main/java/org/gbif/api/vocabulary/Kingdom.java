@@ -16,8 +16,12 @@
 package org.gbif.api.vocabulary;
 
 /**
- * A simple enumeration of all kingdoms found in the GBIF Backbone Taxonomy and also Catalogue of Life.
+ * A simple enumeration of all kingdoms found in the GBIF Backbone Taxonomy.
+ *
+ * The Catalogue of Life has many more kingdoms these days and data keeps changing,
+ * thus this enumeration is deprecated.
  */
+@Deprecated
 public enum Kingdom {
 
   INCERTAE_SEDIS,
