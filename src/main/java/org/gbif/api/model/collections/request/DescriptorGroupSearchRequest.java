@@ -1,6 +1,7 @@
 package org.gbif.api.model.collections.request;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class DescriptorGroupSearchRequest extends PageableBase implements Serial
   @Nullable private String title;
   @Nullable private String description;
   @Nullable private Boolean deleted;
+  @Nullable private Set<String> tags;
 
   public Pageable getPage() {
     return new PagingRequest(getOffset(), getLimit());
