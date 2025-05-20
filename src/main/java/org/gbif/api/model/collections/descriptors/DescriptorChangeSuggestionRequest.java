@@ -2,6 +2,7 @@ package org.gbif.api.model.collections.descriptors;
 
 import java.util.List;
 
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.Data;
@@ -17,6 +18,7 @@ public class DescriptorChangeSuggestionRequest {
   private ExportFormat format = ExportFormat.CSV;
   private String proposerEmail;
   private List<String> comments;
+  private Set<String> tags;
   private Long descriptorGroupKey;
   private UUID collectionKey;
   private Type type;
