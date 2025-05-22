@@ -2,7 +2,7 @@
 
 The GBIF API library provides:
  * The model objects used by the GBIF service interfaces and the internal messaging systems
- * Enumerations representing standardized vocabularies (country codes, databased enumerations etc)
+ * Enumerations representing standardized vocabularies (country codes, databased enumerations, etc.)
  * The Java interface definitions for the public GBIF API (note: each implementation is responsible for mapping to the RESTful URL)
  * Utilities to simplify common operations when working with model objects (JSON serialization, filtered iterators etc)
 
@@ -16,9 +16,9 @@ mvn clean install
  * A pre-commit peer review on all commits, ideally referencing the review in the commit message. Simple changes can be committed without review.
  * All commits must reference a GitHub issue to which they relate
  * PR are preferred for complex functionality. **Please target the dev branch**.
- 
- Dev and master versions must be different to avoid issues with many work-in-progress tasks. When master version is released increment _patch_ version, when released version is merged with development, increment minor version manually. 
- 
+
+ Dev and master versions must be different to avoid issues with many work-in-progress tasks. When master version is released increment _patch_ version, when released version is merged with development, increment minor version manually.
+
  **Example** of releasing **dev** branch:
   * Current dev and master versions
     ```
