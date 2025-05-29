@@ -92,7 +92,6 @@ public class PredicateDownloadRequest extends DownloadRequest {
   private Set<Extension> verbatimExtensions;
 
   public PredicateDownloadRequest() {
-
   }
 
   /**
