@@ -48,7 +48,8 @@ public class SqlDownloadRequest extends DownloadRequest {
     @JsonProperty("format") @Nullable DownloadFormat format,
     @JsonProperty("type") @Nullable DownloadType type,
     @JsonProperty("description") @Nullable String description,
-    @JsonProperty("machineDescription") @Nullable JsonNode machineDescription
+    @JsonProperty("machineDescription") @Nullable JsonNode machineDescription,
+    @JsonProperty("checklistKey") @Nullable String checklistKey
     ) {
     // Check the format is suitable for an SQL download, and check predicate formats are suitable for predicate downloads.
     super(
@@ -58,7 +59,8 @@ public class SqlDownloadRequest extends DownloadRequest {
       format == null ? DEFAULT_DOWNLOAD_FORMAT : format,
       type == null ? DownloadType.OCCURRENCE : type,
       description,
-      machineDescription
+      machineDescription,
+      checklistKey
     );
     this.sql = sql;
   }
