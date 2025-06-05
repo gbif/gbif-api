@@ -13,19 +13,16 @@
  */
 package org.gbif.api.vocabulary;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 import org.gbif.api.jackson.ExtensionDeserializer;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionKeySerializer;
 import org.gbif.api.jackson.ExtensionSerializer;
-
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
@@ -189,12 +186,7 @@ public enum Extension {
   /**
    * @see <a href="http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2022-02-23.xml">extension definition</a>
    */
-  DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData"),
-
-  /**
-   * @see <a href="http://rs.tdwg.org/dwc/terms/Occurrence">extension definition</a>
-   */
-  OCCURRENCE("http://rs.tdwg.org/dwc/terms/Occurrence");
+  DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData");
 
 
   private final String rowType;
@@ -249,7 +241,6 @@ public enum Extension {
     AVAILABLE_EXTENSION_MAP.put(REFERENCE, "http://rs.gbif.org/extension/gbif/1.0/references.xml");
     AVAILABLE_EXTENSION_MAP.put(IDENTIFIER, "http://rs.gbif.org/extension/gbif/1.0/identifier.xml");
     AVAILABLE_EXTENSION_MAP.put(DNA_DERIVED_DATA, "http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2022-02-23.xml");
-    AVAILABLE_EXTENSION_MAP.put(OCCURRENCE, "https://rs.gbif.org/core/dwc_occurrence_2024-02-23.xml");
   }
 
   public static Map<Extension, String> availableExtensionResources() {
