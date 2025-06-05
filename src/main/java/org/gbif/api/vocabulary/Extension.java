@@ -189,7 +189,12 @@ public enum Extension {
   /**
    * @see <a href="http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2022-02-23.xml">extension definition</a>
    */
-  DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData");
+  DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData"),
+
+  /**
+   * @see <a href="http://rs.tdwg.org/dwc/terms/Occurrence">extension definition</a>
+   */
+  OCCURRENCE("http://rs.tdwg.org/dwc/terms/Occurrence");
 
 
   private final String rowType;
