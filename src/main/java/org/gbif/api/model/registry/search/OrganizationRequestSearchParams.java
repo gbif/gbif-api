@@ -18,6 +18,7 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.gbif.api.util.Range;
 import org.gbif.api.vocabulary.Country;
 
 @Getter
@@ -30,4 +31,5 @@ public class OrganizationRequestSearchParams extends RequestSearchParams {
   private Boolean isEndorsed;
   private UUID networkKey;
   private Country country;
+  private Range<Integer> numPublishedDatasets;
 }
