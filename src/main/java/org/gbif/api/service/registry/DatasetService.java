@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 public interface DatasetService extends NetworkEntityService<Dataset> {
@@ -149,4 +151,25 @@ public interface DatasetService extends NetworkEntityService<Dataset> {
    * @return list of datasets ordered by creation date with the latest coming first
    */
   PagingResponse<Dataset> list(DatasetRequestSearchParams searchParams);
+
+
+  /**
+   * Add a new Contact to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param contact         Contact to add
+   *
+   * @return key of Contact added
+   */
+  void createDwcaData(UUID datasetKey, @NotNull @Valid Dataset.DwcA dwcA);
+
+  /**
+   * Add a new Contact to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param contact         Contact to add
+   *
+   * @return key of Contact added
+   */
+  void updateDwcaData(UUID datasetKey, @NotNull @Valid Dataset.DwcA dwcA);
 }

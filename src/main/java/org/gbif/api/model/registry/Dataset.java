@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.registry;
 
+import lombok.Data;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
 import org.gbif.api.model.registry.eml.DataDescription;
@@ -45,6 +47,7 @@ import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -439,6 +442,12 @@ public class Dataset
     accessMode = Schema.AccessMode.READ_ONLY
   )
   private License license;
+
+  @Schema(
+    description = "Basic metadata of the Darwin Core Archive (DwC-A) associated with this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private DwcA dwca;
 
   @Override
   public UUID getKey() {
@@ -1106,6 +1115,14 @@ public class Dataset
     this.pubDate = pubDate;
   }
 
+  public DwcA getDwca() {
+    return dwca;
+  }
+
+  public void setDwca(DwcA dwca) {
+    this.dwca = dwca;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -1172,7 +1189,8 @@ public class Dataset
         && Objects.equals(pubDate, dataset.pubDate)
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
-        && license == dataset.license;
+        && license == dataset.license
+        && Objects.equals(dwca, dataset.dwca);
   }
 
   @Override
@@ -1235,7 +1253,8 @@ public class Dataset
         pubDate,
         maintenanceUpdateFrequency,
         maintenanceDescription,
-        license);
+        license,
+        dwca);
   }
 
   @Override
@@ -1299,6 +1318,7 @@ public class Dataset
         .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
         .add("maintenanceDescription='" + maintenanceDescription + "'")
         .add("license=" + license)
+        .add("dwca=" + dwca)
         .toString();
   }
 
@@ -1332,6 +1352,32 @@ public class Dataset
         && Objects.equals(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
         && Objects.equals(this.deleted, other.deleted)
         && Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
-        && Objects.equals(this.maintenanceDescription, other.maintenanceDescription);
+        && Objects.equals(this.maintenanceDescription, other.maintenanceDescription)
+        && Objects.equals(this.dwca, other.dwca);
+  }
+
+  /**
+   * Metadata of dataset that has been published as a Darwin Core Archive (DwC-A).
+   */
+  @Data
+  public static class DwcA {
+    @Schema(
+      description = "This attribute, within the <core>, indicates the specific " +
+                    "type of data being represented in the core data file.**."
+    )
+    private String rowType;
+
+    @Schema(
+      description = "This attribute, within the <extensions>, indicates the specific " +
+                    "type of data being represented in the associated extension data file.**."
+    )
+    private List<String> extensions;
+
+    @Schema(
+      description = "Timestamp of when the dataset was modified.",
+      accessMode = Schema.AccessMode.READ_ONLY
+    )
+    @Null(groups = {PrePersist.class})
+    private Date modified;
   }
 }
