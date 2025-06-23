@@ -2,6 +2,8 @@
 
 import java.util.Date;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,109 +16,120 @@ import lombok.NoArgsConstructor;
 import org.gbif.api.model.collections.suggestions.Status;
 import org.gbif.api.model.collections.suggestions.Type;
 import org.gbif.api.model.common.export.ExportFormat;
+import org.gbif.api.vocabulary.Country;
 
 /**
  * Domain model representing a change suggestion for a descriptor.
  */
-<span class="nc bnc" id="L21" title="All 152 branches missed.">@Data</span>
-<span class="nc" id="L22">@Builder</span>
-<span class="nc" id="L23">@AllArgsConstructor</span>
-<span class="nc" id="L24">@NoArgsConstructor</span>
+<span class="nc bnc" id="L24" title="All 168 branches missed.">@Data</span>
+<span class="nc" id="L25">@Builder</span>
+<span class="nc" id="L26">@AllArgsConstructor</span>
+<span class="nc" id="L27">@NoArgsConstructor</span>
 public class DescriptorChangeSuggestion {
   /**
    * Auto-generated key from the database sequence.
    */
-<span class="nc" id="L29">  private long key;</span>
+<span class="nc" id="L32">  private long key;</span>
 
   /**
    * Collection identifier to which this change suggestion applies.
    */
-<span class="nc" id="L34">  private UUID collectionKey;</span>
+<span class="nc" id="L37">  private UUID collectionKey;</span>
 
   /**
    * Descriptor Group identifier to which this change suggestion applies.
    */
-<span class="nc" id="L39">  private Long descriptorGroupKey;</span>
+<span class="nc" id="L42">  private Long descriptorGroupKey;</span>
 
   /**
    * Format of the Descriptor Group
    */
-<span class="nc" id="L44">  private ExportFormat format;</span>
+<span class="nc" id="L47">  private ExportFormat format;</span>
 
   /**
    * The type of change: CREATE, UPDATE, or DELETE.
    */
-<span class="nc" id="L49">  private Type type;</span>
+<span class="nc" id="L52">  private Type type;</span>
 
   /**
    * Title of the Descriptor Group
    */
-<span class="nc" id="L54">  private String title;</span>
+<span class="nc" id="L57">  private String title;</span>
 
   /**
    * Description of the Descriptor Group
    */
-<span class="nc" id="L59">  private String description;</span>
+<span class="nc" id="L62">  private String description;</span>
+
+  /**
+   * Tags of the Descriptor Group
+   */
+<span class="nc" id="L67">  private Set&lt;String&gt; tags;</span>
 
   /**
    * The current status: PENDING, APPROVED, or DISCARDED.
    */
-<span class="nc" id="L64">  private Status status;</span>
+<span class="nc" id="L72">  private Status status;</span>
 
   /**
    * Timestamp when the suggestion was proposed.
    */
-<span class="nc" id="L69">  private Date proposed;</span>
+<span class="nc" id="L77">  private Date proposed;</span>
 
   /**
    * Username of the proposer.
    */
-<span class="nc" id="L74">  private String proposedBy;</span>
+<span class="nc" id="L82">  private String proposedBy;</span>
 
   /**
    * Email address of the proposer.
    */
-<span class="nc" id="L79">  private String proposerEmail;</span>
+<span class="nc" id="L87">  private String proposerEmail;</span>
 
   /**
    * Timestamp when the suggestion was applied.
    */
-<span class="nc" id="L84">  private Date applied;</span>
+<span class="nc" id="L92">  private Date applied;</span>
 
   /**
    * Username who applied the suggestion.
    */
-<span class="nc" id="L89">  private String appliedBy;</span>
+<span class="nc" id="L97">  private String appliedBy;</span>
 
   /**
    * Timestamp when the suggestion was discarded.
    */
-<span class="nc" id="L94">  private Date discarded;</span>
+<span class="nc" id="L102">  private Date discarded;</span>
 
   /**
    * Username who discarded the suggestion.
    */
-<span class="nc" id="L99">  private String discardedBy;</span>
+<span class="nc" id="L107">  private String discardedBy;</span>
 
   /**
    * Path to the suggested file stored on disk.
    */
-<span class="nc" id="L104">  private String suggestedFile;</span>
+<span class="nc" id="L112">  private String suggestedFile;</span>
 
   /**
    * Optional comments.
    */
-<span class="nc" id="L109">  private List&lt;String&gt; comments;</span>
+<span class="nc" id="L117">  private List&lt;String&gt; comments;</span>
+
+  /**
+   * Country of the related collection
+   */
+<span class="nc" id="L122">  private Country country;</span>
 
   /**
    * Timestamp when the suggestion was last modified.
    */
-<span class="nc" id="L114">  private Date modified;</span>
+<span class="nc" id="L127">  private Date modified;</span>
 
   /**
    * Username who last modified the suggestion.
    */
-<span class="nc" id="L119">  private String modifiedBy;</span>
+<span class="nc" id="L132">  private String modifiedBy;</span>
 }
 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

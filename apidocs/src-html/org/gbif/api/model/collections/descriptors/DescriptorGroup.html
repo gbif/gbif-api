@@ -19,37 +19,40 @@
 <span class="source-line-no">006</span><span id="line-6">import java.util.Date;</span>
 <span class="source-line-no">007</span><span id="line-7">import java.util.Objects;</span>
 <span class="source-line-no">008</span><span id="line-8">import java.util.UUID;</span>
-<span class="source-line-no">009</span><span id="line-9"></span>
-<span class="source-line-no">010</span><span id="line-10">import javax.validation.constraints.NotBlank;</span>
-<span class="source-line-no">011</span><span id="line-11">import javax.validation.constraints.NotNull;</span>
-<span class="source-line-no">012</span><span id="line-12"></span>
-<span class="source-line-no">013</span><span id="line-13">import lombok.Data;</span>
-<span class="source-line-no">014</span><span id="line-14"></span>
-<span class="source-line-no">015</span><span id="line-15">@Data</span>
-<span class="source-line-no">016</span><span id="line-16">public class DescriptorGroup implements LenientEquals&lt;DescriptorGroup&gt;, Serializable {</span>
-<span class="source-line-no">017</span><span id="line-17"></span>
-<span class="source-line-no">018</span><span id="line-18">  private long key;</span>
-<span class="source-line-no">019</span><span id="line-19">  @NotBlank private String title;</span>
-<span class="source-line-no">020</span><span id="line-20">  private String description;</span>
-<span class="source-line-no">021</span><span id="line-21">  @NotNull private UUID collectionKey;</span>
-<span class="source-line-no">022</span><span id="line-22">  private Date created;</span>
-<span class="source-line-no">023</span><span id="line-23">  private String createdBy;</span>
-<span class="source-line-no">024</span><span id="line-24">  private Date modified;</span>
-<span class="source-line-no">025</span><span id="line-25">  private String modifiedBy;</span>
-<span class="source-line-no">026</span><span id="line-26">  private Date deleted;</span>
-<span class="source-line-no">027</span><span id="line-27"></span>
-<span class="source-line-no">028</span><span id="line-28">  @Override</span>
-<span class="source-line-no">029</span><span id="line-29">  public boolean lenientEquals(DescriptorGroup other) {</span>
-<span class="source-line-no">030</span><span id="line-30">    if (this == other) {</span>
-<span class="source-line-no">031</span><span id="line-31">      return true;</span>
-<span class="source-line-no">032</span><span id="line-32">    }</span>
-<span class="source-line-no">033</span><span id="line-33"></span>
-<span class="source-line-no">034</span><span id="line-34">    return key == other.key</span>
-<span class="source-line-no">035</span><span id="line-35">        &amp;&amp; Objects.equals(title, other.title)</span>
-<span class="source-line-no">036</span><span id="line-36">        &amp;&amp; Objects.equals(description, other.description)</span>
-<span class="source-line-no">037</span><span id="line-37">        &amp;&amp; Objects.equals(collectionKey, other.collectionKey);</span>
-<span class="source-line-no">038</span><span id="line-38">  }</span>
-<span class="source-line-no">039</span><span id="line-39">}</span>
+<span class="source-line-no">009</span><span id="line-9">import java.util.Set;</span>
+<span class="source-line-no">010</span><span id="line-10"></span>
+<span class="source-line-no">011</span><span id="line-11">import javax.validation.constraints.NotBlank;</span>
+<span class="source-line-no">012</span><span id="line-12">import javax.validation.constraints.NotNull;</span>
+<span class="source-line-no">013</span><span id="line-13"></span>
+<span class="source-line-no">014</span><span id="line-14">import lombok.Data;</span>
+<span class="source-line-no">015</span><span id="line-15"></span>
+<span class="source-line-no">016</span><span id="line-16">@Data</span>
+<span class="source-line-no">017</span><span id="line-17">public class DescriptorGroup implements LenientEquals&lt;DescriptorGroup&gt;, Serializable {</span>
+<span class="source-line-no">018</span><span id="line-18"></span>
+<span class="source-line-no">019</span><span id="line-19">  private long key;</span>
+<span class="source-line-no">020</span><span id="line-20">  @NotBlank private String title;</span>
+<span class="source-line-no">021</span><span id="line-21">  private String description;</span>
+<span class="source-line-no">022</span><span id="line-22">  @NotNull private UUID collectionKey;</span>
+<span class="source-line-no">023</span><span id="line-23">  private Date created;</span>
+<span class="source-line-no">024</span><span id="line-24">  private String createdBy;</span>
+<span class="source-line-no">025</span><span id="line-25">  private Date modified;</span>
+<span class="source-line-no">026</span><span id="line-26">  private String modifiedBy;</span>
+<span class="source-line-no">027</span><span id="line-27">  private Date deleted;</span>
+<span class="source-line-no">028</span><span id="line-28">  private Set&lt;String&gt; tags;</span>
+<span class="source-line-no">029</span><span id="line-29"></span>
+<span class="source-line-no">030</span><span id="line-30">  @Override</span>
+<span class="source-line-no">031</span><span id="line-31">  public boolean lenientEquals(DescriptorGroup other) {</span>
+<span class="source-line-no">032</span><span id="line-32">    if (this == other) {</span>
+<span class="source-line-no">033</span><span id="line-33">      return true;</span>
+<span class="source-line-no">034</span><span id="line-34">    }</span>
+<span class="source-line-no">035</span><span id="line-35"></span>
+<span class="source-line-no">036</span><span id="line-36">    return key == other.key</span>
+<span class="source-line-no">037</span><span id="line-37">      &amp;&amp; Objects.equals(title, other.title)</span>
+<span class="source-line-no">038</span><span id="line-38">      &amp;&amp; Objects.equals(description, other.description)</span>
+<span class="source-line-no">039</span><span id="line-39">      &amp;&amp; Objects.equals(collectionKey, other.collectionKey)</span>
+<span class="source-line-no">040</span><span id="line-40">      &amp;&amp; Objects.equals(tags, other.tags);</span>
+<span class="source-line-no">041</span><span id="line-41">  }</span>
+<span class="source-line-no">042</span><span id="line-42">}</span>
 
 
 
