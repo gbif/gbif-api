@@ -2,6 +2,8 @@ package org.gbif.api.model.collections.descriptors;
 
 import java.util.Date;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 import org.gbif.api.model.collections.suggestions.Status;
 import org.gbif.api.model.collections.suggestions.Type;
 import org.gbif.api.model.common.export.ExportFormat;
+import org.gbif.api.vocabulary.Country;
 
 /**
  * Domain model representing a change suggestion for a descriptor.
@@ -57,6 +60,11 @@ public class DescriptorChangeSuggestion {
    * Description of the Descriptor Group
    */
   private String description;
+
+  /**
+   * Tags of the Descriptor Group
+   */
+  private Set<String> tags;
 
   /**
    * The current status: PENDING, APPROVED, or DISCARDED.
@@ -107,6 +115,11 @@ public class DescriptorChangeSuggestion {
    * Optional comments.
    */
   private List<String> comments;
+
+  /**
+   * Country of the related collection
+   */
+  private Country country;
 
   /**
    * Timestamp when the suggestion was last modified.

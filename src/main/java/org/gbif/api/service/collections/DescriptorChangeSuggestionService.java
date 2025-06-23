@@ -10,6 +10,7 @@ import org.gbif.api.model.collections.suggestions.Status;
 import org.gbif.api.model.collections.suggestions.Type;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.vocabulary.Country;
 
 /**
  * Service interface for managing descriptor change suggestions in collections.
@@ -95,9 +96,10 @@ public interface DescriptorChangeSuggestionService {
    * @param type Filter by type (CREATE, UPDATE, DELETE)
    * @param proposerEmail Filter by proposer's email
    * @param collectionKey Filter by collection key
+   * @param country Filter by collection's country
    * @return PagingResponse containing the filtered suggestions
    */
-  PagingResponse<DescriptorChangeSuggestion> list(Pageable pageable, Status status, Type type, String proposerEmail, UUID collectionKey);
+  PagingResponse<DescriptorChangeSuggestion> list(Pageable pageable, Status status, Type type, String proposerEmail, UUID collectionKey, Country country);
 
   /**
    * Counts the total number of descriptor change suggestions based on filters.
@@ -106,7 +108,8 @@ public interface DescriptorChangeSuggestionService {
    * @param type Filter by type
    * @param proposerEmail Filter by proposer's email
    * @param collectionKey Filter by collection key
+   * @param country Filter by collection's country
    * @return Total number of matching suggestions
    */
-  long count(Status status, Type type, String proposerEmail, UUID collectionKey);
+  long count(Status status, Type type, String proposerEmail, UUID collectionKey, Country country);
 }
