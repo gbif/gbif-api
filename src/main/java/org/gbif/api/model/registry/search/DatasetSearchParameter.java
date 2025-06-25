@@ -155,9 +155,14 @@ public enum DatasetSearchParameter implements SearchParameter {
   ENDPOINT_TYPE(EndpointType.class),
 
   /**
-   * Searches for occurrences that have a particular DwC-A extension.
+   * Published DwC-A extension.
    */
-  DWCA_EXTENSION(String.class);
+  DWCA_EXTENSION(String.class),
+
+  /**
+   * Published DwC-A row/core type.
+   */
+  DWCA_ROW_TYPE(String.class);
 
 
   DatasetSearchParameter(Class<?> type) {
