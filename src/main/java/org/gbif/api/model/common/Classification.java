@@ -19,8 +19,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Classification {
 
-  /** The checklist associated with this classification e.g. GBIF Backbone, CoL. */
-  private String checklistKey;
   /** The usage that has been matched to */
   private Usage usage;
   /** The accepted usage of the taxon */
