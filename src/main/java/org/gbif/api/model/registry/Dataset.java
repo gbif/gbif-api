@@ -14,6 +14,7 @@
 package org.gbif.api.model.registry;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
@@ -1115,6 +1116,8 @@ public class Dataset
     this.pubDate = pubDate;
   }
 
+  @Nullable
+  @Valid
   public DwcA getDwca() {
     return dwca;
   }
@@ -1359,6 +1362,7 @@ public class Dataset
   /**
    * Metadata of dataset that has been published as a Darwin Core Archive (DwC-A).
    */
+  @NoArgsConstructor
   @Data
   public static class DwcA {
     @Schema(
@@ -1379,5 +1383,32 @@ public class Dataset
     )
     @Null(groups = {PrePersist.class})
     private Date modified;
+
+
+    public String getRowType() {
+      return rowType;
+    }
+
+    public void setRowType(String rowType) {
+      this.rowType = rowType;
+    }
+
+    @Nullable
+    public List<String> getExtensions() {
+      return extensions;
+    }
+
+    public void setExtensions(List<String> extensions) {
+      this.extensions = extensions;
+    }
+
+    @Nullable
+    public Date getModified() {
+      return modified;
+    }
+
+    public void setModified(Date modified) {
+      this.modified = modified;
+    }
   }
 }
