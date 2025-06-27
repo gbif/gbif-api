@@ -1369,7 +1369,7 @@ public class Dataset
       description = "This attribute, within the <core>, indicates the specific " +
                     "type of data being represented in the core data file.**."
     )
-    private String rowType;
+    private String coreType;
 
     @Schema(
       description = "This attribute, within the <extensions>, indicates the specific " +
@@ -1385,12 +1385,12 @@ public class Dataset
     private Date modified;
 
 
-    public String getRowType() {
-      return rowType;
+    public String getCoreType() {
+      return coreType;
     }
 
-    public void setRowType(String rowType) {
-      this.rowType = rowType;
+    public void setCoreType(String coreType) {
+      this.coreType = coreType;
     }
 
     @Nullable
