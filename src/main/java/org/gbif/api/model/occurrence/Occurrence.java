@@ -155,13 +155,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
 
   @Schema(
-    description = "The list of classifications associated with this occurrence.",
+    description = "The map of classifications associated with this occurrence keyed by checklistKey.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private List<Classification> classifications;
+  private Map<String, Classification> classifications;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the most specific " +
@@ -2335,11 +2335,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.dnaSequenceID = dnaSequenceID;
   }
 
-  public List<Classification> getClassifications() {
+  public Map<String, Classification> getClassifications() {
     return classifications;
   }
 
-  public void setClassifications(List<Classification> classifications) {
+  public void setClassifications(Map<String, Classification> classifications) {
     this.classifications = classifications;
   }
 
