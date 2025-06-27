@@ -52,7 +52,7 @@ public enum DatasetSearchParameter implements SearchParameter {
   HOSTING_ORG(UUID.class),
 
   /**
-   * A case insensitive plain text keyword from coverages or serialized tag as created by Tag.toString().
+   * A case-insensitive plain text keyword from coverages or serialized tag as created by Tag.toString().
    */
   KEYWORD(String.class),
 
@@ -155,9 +155,14 @@ public enum DatasetSearchParameter implements SearchParameter {
   ENDPOINT_TYPE(EndpointType.class),
 
   /**
-   * Searches for occurrences that have a particular DwC-A extension.
+   * Published DwC-A extension.
    */
-  DWCA_EXTENSION(String.class);
+  DWCA_EXTENSION(String.class),
+
+  /**
+   * Published DwC-A row/core type.
+   */
+  DWCA_CORE_TYPE(String.class);
 
 
   DatasetSearchParameter(Class<?> type) {
