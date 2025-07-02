@@ -25,6 +25,7 @@ import org.gbif.api.vocabulary.License;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.Set;
 
 /**
  * Each value in the enum represents a possible facet for the Dataset search.
@@ -152,7 +153,12 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * EndpointType associated to a dataset.
    */
-  ENDPOINT_TYPE(EndpointType.class);
+  ENDPOINT_TYPE(EndpointType.class),
+
+  /**
+   * Category of the dataset.
+   */
+  CATEGORY(String.class);
 
   DatasetSearchParameter(Class<?> type) {
     this.type = type;

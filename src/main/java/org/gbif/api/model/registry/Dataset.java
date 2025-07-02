@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
 import org.gbif.api.model.registry.eml.DataDescription;
@@ -439,6 +441,12 @@ public class Dataset
     accessMode = Schema.AccessMode.READ_ONLY
   )
   private License license;
+
+  @Schema(
+    description = "Category of this dataset.",
+    accessMode = AccessMode.READ_ONLY
+  )
+  private Set<String> category;
 
   @Override
   public UUID getKey() {
@@ -1106,6 +1114,14 @@ public class Dataset
     this.pubDate = pubDate;
   }
 
+  public Set<String> getCategory() {
+    return category;
+  }
+
+  public void setCategory(Set<String> category) {
+    this.category = category;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -1172,7 +1188,8 @@ public class Dataset
         && Objects.equals(pubDate, dataset.pubDate)
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
-        && license == dataset.license;
+        && license == dataset.license
+        && Objects.equals(category, dataset.category);
   }
 
   @Override
@@ -1235,7 +1252,8 @@ public class Dataset
         pubDate,
         maintenanceUpdateFrequency,
         maintenanceDescription,
-        license);
+        license,
+        category);
   }
 
   @Override
@@ -1298,7 +1316,8 @@ public class Dataset
         .add("pubDate=" + pubDate)
         .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
         .add("maintenanceDescription='" + maintenanceDescription + "'")
-        .add("license=" + license)
+        .add("license=" + license )
+        .add("category=" + category)
         .toString();
   }
 
@@ -1332,6 +1351,7 @@ public class Dataset
         && Objects.equals(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
         && Objects.equals(this.deleted, other.deleted)
         && Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
-        && Objects.equals(this.maintenanceDescription, other.maintenanceDescription);
+        && Objects.equals(this.maintenanceDescription, other.maintenanceDescription)
+        && Objects.equals(this.category, other.category);
   }
 }
