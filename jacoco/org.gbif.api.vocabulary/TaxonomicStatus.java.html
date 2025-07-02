@@ -53,14 +53,25 @@ package org.gbif.api.vocabulary;
   /**
    * More specific subclass of SYNONYM.
    */
-<span class="fc" id="L56">  MISAPPLIED;</span>
+<span class="fc" id="L56">  MISAPPLIED,</span>
+
+  /**
+   * Names which are ambiguous because they point at the current species and one or more others
+   * e.g. homonyms, pro-parte synonyms (in other words, names which appear more than in one place in the Catalogue).
+   */
+<span class="fc" id="L62">  AMBIGUOUS_SYNONYM,</span>
+
+  /**
+   * &quot;Treated as accepted, but doubtful whether this is correct.&quot; (as used in ChecklistBank).
+   */
+<span class="fc" id="L67">  PROVISIONALLY_ACCEPTED;</span>
 
   public boolean isSynonym() {
-<span class="fc bfc" id="L59" title="All 2 branches covered.">    return !isAccepted();</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">    return !isAccepted();</span>
   }
 
   public boolean isAccepted() {
-<span class="fc bfc" id="L63" title="All 4 branches covered.">    return this == ACCEPTED || this == DOUBTFUL;</span>
+<span class="pc bpc" id="L74" title="1 of 4 branches missed.">    return this == ACCEPTED || this == DOUBTFUL;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

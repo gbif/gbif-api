@@ -16,7 +16,7 @@ package org.gbif.api.model.common.paging;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
@@ -27,52 +27,46 @@ import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFF
  */
 public class PageableBase implements Pageable {
 
-  @Schema(
-    description = &quot;The offset of the results within all the search results.\n\n&quot; +
-      &quot;Subsequent pages can be retrieved by using `offset + count` as the new offset.&quot;
-  )
+  @Hidden
   protected long offset;
 
-  @Schema(
-    description = &quot;The limit used.  Note the limit returned may be lower than the limit &quot; +
-      &quot;requested.&quot;
-  )
+  @Hidden
   protected int limit;
 
   /**
    * Default constructor with default paging values.
    */
-<span class="nc" id="L45">  protected PageableBase() {</span>
-<span class="nc" id="L46">    offset = DEFAULT_PARAM_OFFSET;</span>
-<span class="nc" id="L47">    limit = DEFAULT_PARAM_LIMIT;</span>
-<span class="nc" id="L48">  }</span>
+<span class="nc" id="L39">  protected PageableBase() {</span>
+<span class="nc" id="L40">    offset = DEFAULT_PARAM_OFFSET;</span>
+<span class="nc" id="L41">    limit = DEFAULT_PARAM_LIMIT;</span>
+<span class="nc" id="L42">  }</span>
 
   /**
    * Full constructor based on a request.
    *
    * @throws IllegalArgumentException if negative offset or limit.
    */
-<span class="nc" id="L55">  protected PageableBase(Pageable page) {</span>
-<span class="nc" id="L56">    setOffset(page.getOffset());</span>
-<span class="nc" id="L57">    setLimit(page.getLimit());</span>
-<span class="nc" id="L58">  }</span>
+<span class="nc" id="L49">  protected PageableBase(Pageable page) {</span>
+<span class="nc" id="L50">    setOffset(page.getOffset());</span>
+<span class="nc" id="L51">    setLimit(page.getLimit());</span>
+<span class="nc" id="L52">  }</span>
 
   /**
    * Full constructor.
    *
    * @throws IllegalArgumentException if negative offset or limit.
    */
-<span class="fc" id="L65">  protected PageableBase(long offset, int limit) {</span>
-<span class="fc" id="L66">    setOffset(offset);</span>
-<span class="fc" id="L67">    setLimit(limit);</span>
-<span class="fc" id="L68">  }</span>
+<span class="fc" id="L59">  protected PageableBase(long offset, int limit) {</span>
+<span class="fc" id="L60">    setOffset(offset);</span>
+<span class="fc" id="L61">    setLimit(limit);</span>
+<span class="fc" id="L62">  }</span>
 
   /**
    * Total of rows that are returned.
    */
   @Override
   public int getLimit() {
-<span class="fc" id="L75">    return limit;</span>
+<span class="fc" id="L69">    return limit;</span>
   }
 
   /**
@@ -81,18 +75,18 @@ public class PageableBase implements Pageable {
    * @throws IllegalArgumentException if negative
    */
   public void setLimit(int limit) {
-<span class="fc bfc" id="L84" title="All 2 branches covered.">    if (limit &lt; 0) {</span>
-<span class="fc" id="L85">      throw new IllegalArgumentException(&quot;Limit cannot be negative&quot;);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">    if (limit &lt; 0) {</span>
+<span class="fc" id="L79">      throw new IllegalArgumentException(&quot;Limit cannot be negative&quot;);</span>
     }
-<span class="fc" id="L87">    this.limit = limit;</span>
-<span class="fc" id="L88">  }</span>
+<span class="fc" id="L81">    this.limit = limit;</span>
+<span class="fc" id="L82">  }</span>
 
   /**
    * Defines how many items to skip before beginning to return rows.
    */
   @Override
   public long getOffset() {
-<span class="fc" id="L95">    return offset;</span>
+<span class="fc" id="L89">    return offset;</span>
   }
 
   /**
@@ -101,11 +95,11 @@ public class PageableBase implements Pageable {
    * @throws IllegalArgumentException if negative
    */
   public void setOffset(long offset) {
-<span class="fc bfc" id="L104" title="All 2 branches covered.">    if (offset &lt; 0) {</span>
-<span class="fc" id="L105">      throw new IllegalArgumentException(&quot;Offset cannot be negative&quot;);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">    if (offset &lt; 0) {</span>
+<span class="fc" id="L99">      throw new IllegalArgumentException(&quot;Offset cannot be negative&quot;);</span>
     }
-<span class="fc" id="L107">    this.offset = offset;</span>
-<span class="fc" id="L108">  }</span>
+<span class="fc" id="L101">    this.offset = offset;</span>
+<span class="fc" id="L102">  }</span>
 
   /**
    * Adds to existing offset, setting offset to zero if it would be negative.
@@ -113,44 +107,44 @@ public class PageableBase implements Pageable {
    * @param offsetDiff to be added to existing offset.
    */
   public void addOffset(long offsetDiff) {
-<span class="nc" id="L116">    offset += offsetDiff;</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">    if (offset &lt; 0) {</span>
-<span class="nc" id="L118">      offset = 0;</span>
+<span class="nc" id="L110">    offset += offsetDiff;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">    if (offset &lt; 0) {</span>
+<span class="nc" id="L112">      offset = 0;</span>
     }
-<span class="nc" id="L120">  }</span>
+<span class="nc" id="L114">  }</span>
 
   /**
    * Utility method to copy paging values.
    */
   public void copyPagingValues(Pageable pageable) {
-<span class="nc" id="L126">    limit = pageable.getLimit();</span>
-<span class="nc" id="L127">    offset = pageable.getOffset();</span>
-<span class="nc" id="L128">  }</span>
+<span class="nc" id="L120">    limit = pageable.getLimit();</span>
+<span class="nc" id="L121">    offset = pageable.getOffset();</span>
+<span class="nc" id="L122">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L133">      return true;</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L127">      return true;</span>
     }
-<span class="pc bpc" id="L135" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L136">      return false;</span>
+<span class="pc bpc" id="L129" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L130">      return false;</span>
     }
-<span class="fc" id="L138">    PageableBase that = (PageableBase) o;</span>
-<span class="pc bpc" id="L139" title="2 of 4 branches missed.">    return offset == that.offset &amp;&amp;</span>
+<span class="fc" id="L132">    PageableBase that = (PageableBase) o;</span>
+<span class="pc bpc" id="L133" title="2 of 4 branches missed.">    return offset == that.offset &amp;&amp;</span>
       limit == that.limit;
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L145">    return Objects.hash(offset, limit);</span>
+<span class="nc" id="L139">    return Objects.hash(offset, limit);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L150">    return new StringJoiner(&quot;, &quot;, PageableBase.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L151">      .add(&quot;offset=&quot; + offset)</span>
-<span class="nc" id="L152">      .add(&quot;limit=&quot; + limit)</span>
-<span class="nc" id="L153">      .toString();</span>
+<span class="nc" id="L144">    return new StringJoiner(&quot;, &quot;, PageableBase.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L145">      .add(&quot;offset=&quot; + offset)</span>
+<span class="nc" id="L146">      .add(&quot;limit=&quot; + limit)</span>
+<span class="nc" id="L147">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

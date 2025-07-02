@@ -22,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 /**
  * This predicate checks if its {@code key} is equal to its {@code value}.
  */
@@ -29,12 +32,56 @@ import io.swagger.v3.oas.annotations.media.Schema;
   description = &quot;This predicate checks if its `key` is equal to its `value`.&quot;
 )
 public class EqualsPredicate&lt;S extends SearchParameter&gt; extends SimplePredicate&lt;S&gt; {
+
+  private final String checklistKey;
+
+  public EqualsPredicate(S key, String value, Boolean matchCase) {
+<span class="fc" id="L39">    this(key, value, matchCase, null);</span>
+<span class="fc" id="L40">  }</span>
+
   @JsonCreator
   public EqualsPredicate(
     @JsonProperty(&quot;key&quot;) S key,
     @JsonProperty(&quot;value&quot;) String value,
-    @Nullable @JsonProperty(value = &quot;matchCase&quot;) Boolean matchCase) {
-<span class="fc" id="L37">    super(false, key, value, matchCase);</span>
-<span class="fc" id="L38">  }</span>
+    @Nullable @JsonProperty(value = &quot;matchCase&quot;) Boolean matchCase,
+    @Nullable @JsonProperty(value = &quot;checklistKey&quot;) String checklistKey
+    ) {
+<span class="fc" id="L49">    super(false, key, value, matchCase);</span>
+<span class="fc" id="L50">    this.checklistKey = checklistKey;</span>
+<span class="fc" id="L51">  }</span>
+
+  public String getChecklistKey() {
+<span class="fc" id="L54">    return checklistKey;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L60">      return true;</span>
+    }
+<span class="pc bpc" id="L62" title="1 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="fc" id="L63">      return false;</span>
+    }
+<span class="fc" id="L65">    SimplePredicate&lt;S&gt; that = (SimplePredicate&lt;S&gt;) o;</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">    return this.getKey() == that.getKey()</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">      &amp;&amp; Objects.equals(this.getValue(), that.getValue())</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">      &amp;&amp; this.isMatchCase() == that.isMatchCase()</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">      &amp;&amp; Objects.equals(this.checklistKey, ((EqualsPredicate&lt;?&gt;) o).checklistKey);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L74">    return Objects.hash(getKey(), this.getValue(), this.isMatchCase(), checklistKey);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L79">    return new StringJoiner(&quot;, &quot;, this.getClass().getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="fc" id="L80">      .add(&quot;key=&quot; + getKey())</span>
+<span class="fc" id="L81">      .add(&quot;value='&quot; + getValue() + &quot;'&quot;)</span>
+<span class="fc" id="L82">      .add(&quot;matchCase='&quot; + this.isMatchCase() + &quot;'&quot;)</span>
+<span class="fc" id="L83">      .add(&quot;checklistKey='&quot; + checklistKey + &quot;'&quot;)</span>
+<span class="fc" id="L84">      .toString();</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

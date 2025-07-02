@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 
 import javax.annotation.Nullable;
@@ -34,16 +35,34 @@ import io.swagger.v3.oas.annotations.media.Schema;
 )
 public class LikePredicate&lt;S extends SearchParameter&gt; extends SimplePredicate&lt;S&gt; {
 
+  @Schema(
+    description = &quot;Specify which taxonomy to use.&quot;
+  )
+  @Experimental
+  @Nullable
+  private final String checklistKey;
+
+  public LikePredicate(S key, String value, Boolean matchCase) {
+<span class="fc" id="L46">    this(key, value, null, matchCase);</span>
+<span class="fc" id="L47">  }</span>
+
+  @Experimental
+  public String getChecklistKey() {
+<span class="nc" id="L51">    return checklistKey;</span>
+  }
+
   @JsonCreator
   public LikePredicate(
       @JsonProperty(&quot;key&quot;) S key,
       @JsonProperty(&quot;value&quot;) String value,
+      @Nullable @JsonProperty(value = &quot;checklistKey&quot;) String checklistKey,
       @Nullable @JsonProperty(value = &quot;matchCase&quot;) Boolean matchCase) {
-<span class="fc" id="L42">    super(false, key, value, matchCase);</span>
+<span class="fc" id="L60">    super(false, key, value, matchCase);</span>
+<span class="fc" id="L61">    this.checklistKey = checklistKey;</span>
     // make sure we deal with a String type
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">    if (!String.class.equals(key.type())) {</span>
-<span class="nc" id="L45">      throw new IllegalArgumentException(&quot;Like comparisons are only allowed for strings but not parameter &quot; + key);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">    if (!String.class.equals(key.type())) {</span>
+<span class="nc" id="L64">      throw new IllegalArgumentException(&quot;Like comparisons are only allowed for strings but not parameter &quot; + key);</span>
     }
-<span class="fc" id="L47">  }</span>
+<span class="fc" id="L66">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

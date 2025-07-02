@@ -29,10 +29,10 @@
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="CollectionDescriptorsSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/CollectionDescriptorsSearchRequest.html#CollectionDescriptorsSearchRequest">CollectionDescriptorsSearchRequest</a> <strong class="jxr_keyword">extends</strong> <a name="CollectionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/CollectionSearchRequest.html#CollectionSearchRequest">CollectionSearchRequest</a>
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>      <strong class="jxr_keyword">implements</strong> FacetedSearchRequest&lt;CollectionFacetParameter&gt; {
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Integer&gt; usageKey;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; usageKey;
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; usageName;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Rank&gt; usageRank;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Integer&gt; taxonKey;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; usageRank;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; taxonKey;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Country&gt; descriptorCountry;
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; individualCount;
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; identifiedBy;
@@ -46,15 +46,13 @@
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>    @Builder.Default @Nullable <strong class="jxr_keyword">private</strong> Set&lt;CollectionFacetParameter&gt; facets = <strong class="jxr_keyword">new</strong> HashSet&lt;&gt;();
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>    @Nullable <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> multiSelectFacets;
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer facetMinCount;
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>    @Builder.Default
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>    <strong class="jxr_keyword">private</strong> Boolean facetIncludeChildren = Boolean.TRUE;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer facetLimit = 10;
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer facetOffset;
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>    <em class="jxr_comment">// Holds the paging configuration for each requested facet</em>
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>    @Builder.Default @Nullable
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>    <strong class="jxr_keyword">private</strong> Map&lt;CollectionFacetParameter, Pageable&gt; facetPages = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  }
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer facetLimit = 10;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer facetOffset;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>    <em class="jxr_comment">// Holds the paging configuration for each requested facet</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>    @Builder.Default @Nullable
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    <strong class="jxr_keyword">private</strong> Map&lt;CollectionFacetParameter, Pageable&gt; facetPages = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2025 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>

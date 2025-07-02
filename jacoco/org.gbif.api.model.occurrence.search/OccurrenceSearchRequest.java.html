@@ -16,7 +16,8 @@ package org.gbif.api.model.occurrence.search;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
-import io.swagger.v3.oas.annotations.media.Schema;
+
+import io.swagger.v3.oas.annotations.Hidden;
 
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.paging.Pageable;
@@ -32,21 +33,11 @@ import org.gbif.api.vocabulary.OccurrenceStatus;
 /** Request class for issuing search request to the occurrence search service. */
 public class OccurrenceSearchRequest extends FacetedSearchRequest&lt;OccurrenceSearchParameter&gt; {
 
-  @Schema(
-    description = &quot;This flag enables the use of case-sensitive matches and aggregations on certain search parameters.&quot;
-  )
+  @Hidden
   private Boolean matchCase;
 
-  @Schema(
-    description = &quot;This flag allows to sort the results in a random order by specifying a seed. The seed makes the &quot; +
-      &quot;random results reproducible so we can use paging. The same seed has to be sent for each page.&quot;
-  )
+  @Hidden
   private String shuffle;
-
-  public OccurrenceSearchRequest() {
-    // empty block
-<span class="nc" id="L48">    super();</span>
-<span class="nc" id="L49">  }</span>
 
   /**
    * This flag enables the use of case-sensitive matches and aggregations on certain search
@@ -56,19 +47,19 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest&lt;OccurrenceS
    * catalogNumber, collectionCode, institutionCode, eventId, parentEventId, waterBody,
    * stateProvince, recordNumber, identifiedBy, organismId and locality.
    *
-   * &lt;p&gt;This is an experimental feature and its implementation may change or be removed at any time.
+   * &lt;p&gt;This is an experimental feature, and its implementation may change or be removed at any time.
    *
    * &lt;p&gt;Be aware that this is not a per-field flag, all possible fields will match case sensitively.
    */
   @Experimental
   public Boolean isMatchCase() {
-<span class="nc" id="L65">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
+<span class="nc" id="L56">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
   }
 
   @Experimental
   public void setMatchCase(Boolean matchCase) {
-<span class="nc" id="L70">    this.matchCase = matchCase;</span>
-<span class="nc" id="L71">  }</span>
+<span class="nc" id="L61">    this.matchCase = matchCase;</span>
+<span class="nc" id="L62">  }</span>
 
   /**
    * This flag allows to sort the results in a random order by specifying a seed. The seed makes the
@@ -76,223 +67,231 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest&lt;OccurrenceS
    */
   @Experimental
   public String getShuffle() {
-<span class="nc" id="L79">    return shuffle;</span>
+<span class="nc" id="L70">    return shuffle;</span>
   }
 
   @Experimental
   public void setShuffle(String shuffle) {
-<span class="nc" id="L84">    this.shuffle = shuffle;</span>
-<span class="nc" id="L85">  }</span>
-
-  public OccurrenceSearchRequest(long offset, int limit) {
-<span class="nc" id="L88">    super(offset, limit);</span>
-<span class="nc" id="L89">  }</span>
+<span class="nc" id="L75">    this.shuffle = shuffle;</span>
+<span class="nc" id="L76">  }</span>
 
   public OccurrenceSearchRequest(Pageable page) {
-<span class="nc" id="L92">    super(page);</span>
-<span class="nc" id="L93">  }</span>
+<span class="nc" id="L79">    super(page);</span>
+<span class="nc" id="L80">  }</span>
+
+<span class="nc" id="L82">  public OccurrenceSearchRequest() {</span>
+<span class="nc" id="L83">  }</span>
 
   public void addOccurrenceIDFilter(String occurrenceID) {
-<span class="nc" id="L96">    addParameter(OccurrenceSearchParameter.OCCURRENCE_ID, occurrenceID);</span>
-<span class="nc" id="L97">  }</span>
+<span class="nc" id="L86">    addParameter(OccurrenceSearchParameter.OCCURRENCE_ID, occurrenceID);</span>
+<span class="nc" id="L87">  }</span>
 
   public void addEstablishmentMeansFilter(String establishmentMeans) {
-<span class="nc" id="L100">    addParameter(OccurrenceSearchParameter.ESTABLISHMENT_MEANS, establishmentMeans);</span>
-<span class="nc" id="L101">  }</span>
+<span class="nc" id="L90">    addParameter(OccurrenceSearchParameter.ESTABLISHMENT_MEANS, establishmentMeans);</span>
+<span class="nc" id="L91">  }</span>
 
   public void addBasisOfRecordFilter(BasisOfRecord basisOfRecord) {
-<span class="nc" id="L104">    addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, basisOfRecord);</span>
-<span class="nc" id="L105">  }</span>
+<span class="nc" id="L94">    addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, basisOfRecord);</span>
+<span class="nc" id="L95">  }</span>
 
   public void addTypeStatusFilter(String typeStatus) {
-<span class="nc" id="L108">    addParameter(OccurrenceSearchParameter.TYPE_STATUS, typeStatus);</span>
-<span class="nc" id="L109">  }</span>
+<span class="nc" id="L98">    addParameter(OccurrenceSearchParameter.TYPE_STATUS, typeStatus);</span>
+<span class="nc" id="L99">  }</span>
 
   public void addCatalogNumberFilter(String catalogNumber) {
-<span class="nc" id="L112">    addParameter(OccurrenceSearchParameter.CATALOG_NUMBER, catalogNumber);</span>
-<span class="nc" id="L113">  }</span>
+<span class="nc" id="L102">    addParameter(OccurrenceSearchParameter.CATALOG_NUMBER, catalogNumber);</span>
+<span class="nc" id="L103">  }</span>
 
   public void addRecordedByFilter(String collectorName) {
-<span class="nc" id="L116">    addParameter(OccurrenceSearchParameter.RECORDED_BY, collectorName);</span>
-<span class="nc" id="L117">  }</span>
+<span class="nc" id="L106">    addParameter(OccurrenceSearchParameter.RECORDED_BY, collectorName);</span>
+<span class="nc" id="L107">  }</span>
 
   public void addIdentifiedByFilter(String collectorName) {
-<span class="nc" id="L120">    addParameter(OccurrenceSearchParameter.IDENTIFIED_BY, collectorName);</span>
-<span class="nc" id="L121">  }</span>
+<span class="nc" id="L110">    addParameter(OccurrenceSearchParameter.IDENTIFIED_BY, collectorName);</span>
+<span class="nc" id="L111">  }</span>
 
   public void addRecordNumberFilter(String recordNumber) {
-<span class="nc" id="L124">    addParameter(OccurrenceSearchParameter.RECORD_NUMBER, recordNumber);</span>
-<span class="nc" id="L125">  }</span>
+<span class="nc" id="L114">    addParameter(OccurrenceSearchParameter.RECORD_NUMBER, recordNumber);</span>
+<span class="nc" id="L115">  }</span>
 
   public void addCountryFilter(Country country) {
-<span class="nc" id="L128">    addParameter(OccurrenceSearchParameter.COUNTRY, country.getIso2LetterCode());</span>
-<span class="nc" id="L129">  }</span>
+<span class="nc" id="L118">    addParameter(OccurrenceSearchParameter.COUNTRY, country.getIso2LetterCode());</span>
+<span class="nc" id="L119">  }</span>
 
   public void addContinentFilter(Continent continent) {
-<span class="nc" id="L132">    addParameter(OccurrenceSearchParameter.CONTINENT, continent);</span>
-<span class="nc" id="L133">  }</span>
+<span class="nc" id="L122">    addParameter(OccurrenceSearchParameter.CONTINENT, continent);</span>
+<span class="nc" id="L123">  }</span>
 
   public void addDatasetKeyFilter(UUID datasetKey) {
-<span class="nc" id="L136">    addParameter(OccurrenceSearchParameter.DATASET_KEY, datasetKey.toString());</span>
-<span class="nc" id="L137">  }</span>
+<span class="nc" id="L126">    addParameter(OccurrenceSearchParameter.DATASET_KEY, datasetKey.toString());</span>
+<span class="nc" id="L127">  }</span>
 
   public void addGeometryFilter(String geometryAsWkt) {
-<span class="nc" id="L140">    addParameter(OccurrenceSearchParameter.GEOMETRY, geometryAsWkt);</span>
-<span class="nc" id="L141">  }</span>
+<span class="nc" id="L130">    addParameter(OccurrenceSearchParameter.GEOMETRY, geometryAsWkt);</span>
+<span class="nc" id="L131">  }</span>
 
   public void addDecimalLatitudeFilter(double latitude) {
-<span class="nc" id="L144">    addParameter(OccurrenceSearchParameter.DECIMAL_LATITUDE, latitude);</span>
-<span class="nc" id="L145">  }</span>
+<span class="nc" id="L134">    addParameter(OccurrenceSearchParameter.DECIMAL_LATITUDE, latitude);</span>
+<span class="nc" id="L135">  }</span>
 
   public void addDecimalLongitudeFilter(double longitude) {
-<span class="nc" id="L148">    addParameter(OccurrenceSearchParameter.DECIMAL_LONGITUDE, longitude);</span>
-<span class="nc" id="L149">  }</span>
+<span class="nc" id="L138">    addParameter(OccurrenceSearchParameter.DECIMAL_LONGITUDE, longitude);</span>
+<span class="nc" id="L139">  }</span>
 
   public void addCoordinateUncertaintyInMetersFilter(double uncertainty) {
-<span class="nc" id="L152">    addParameter(OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS, uncertainty);</span>
-<span class="nc" id="L153">  }</span>
+<span class="nc" id="L142">    addParameter(OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS, uncertainty);</span>
+<span class="nc" id="L143">  }</span>
 
   public void addMonthFilter(int month) {
-<span class="nc" id="L156">    addParameter(OccurrenceSearchParameter.MONTH, month);</span>
-<span class="nc" id="L157">  }</span>
+<span class="nc" id="L146">    addParameter(OccurrenceSearchParameter.MONTH, month);</span>
+<span class="nc" id="L147">  }</span>
 
   public void addDayFilter(int day) {
-<span class="nc" id="L160">    addParameter(OccurrenceSearchParameter.DAY, day);</span>
-<span class="nc" id="L161">  }</span>
+<span class="nc" id="L150">    addParameter(OccurrenceSearchParameter.DAY, day);</span>
+<span class="nc" id="L151">  }</span>
 
-  public void addTaxonKeyFilter(int taxonKey) {
-<span class="nc" id="L164">    addParameter(OccurrenceSearchParameter.TAXON_KEY, taxonKey);</span>
-<span class="nc" id="L165">  }</span>
+  public void addTaxonKeyFilter(String taxonKey) {
+<span class="nc" id="L154">    addParameter(OccurrenceSearchParameter.TAXON_KEY, taxonKey);</span>
+<span class="nc" id="L155">  }</span>
 
-  public void addKingdomKeyFilter(int kingdomKey) {
-<span class="nc" id="L168">    addParameter(OccurrenceSearchParameter.KINGDOM_KEY, kingdomKey);</span>
-<span class="nc" id="L169">  }</span>
+  public void addKingdomKeyFilter(String kingdomKey) {
+<span class="nc" id="L158">    addParameter(OccurrenceSearchParameter.KINGDOM_KEY, kingdomKey);</span>
+<span class="nc" id="L159">  }</span>
 
-  public void addPhylumKeyFilter(int phylumKey) {
-<span class="nc" id="L172">    addParameter(OccurrenceSearchParameter.PHYLUM_KEY, phylumKey);</span>
-<span class="nc" id="L173">  }</span>
+  public void addPhylumKeyFilter(String phylumKey) {
+<span class="nc" id="L162">    addParameter(OccurrenceSearchParameter.PHYLUM_KEY, phylumKey);</span>
+<span class="nc" id="L163">  }</span>
 
-  public void addClassKeyFilter(int classKey) {
-<span class="nc" id="L176">    addParameter(OccurrenceSearchParameter.CLASS_KEY, classKey);</span>
-<span class="nc" id="L177">  }</span>
+  public void addClassKeyFilter(String classKey) {
+<span class="nc" id="L166">    addParameter(OccurrenceSearchParameter.CLASS_KEY, classKey);</span>
+<span class="nc" id="L167">  }</span>
 
-  public void addOrderKeyFilter(int orderKey) {
-<span class="nc" id="L180">    addParameter(OccurrenceSearchParameter.ORDER_KEY, orderKey);</span>
-<span class="nc" id="L181">  }</span>
+  public void addOrderKeyFilter(String orderKey) {
+<span class="nc" id="L170">    addParameter(OccurrenceSearchParameter.ORDER_KEY, orderKey);</span>
+<span class="nc" id="L171">  }</span>
 
-  public void addFamilyKeyFilter(int familyKey) {
-<span class="nc" id="L184">    addParameter(OccurrenceSearchParameter.FAMILY_KEY, familyKey);</span>
-<span class="nc" id="L185">  }</span>
+  public void addFamilyKeyFilter(String familyKey) {
+<span class="nc" id="L174">    addParameter(OccurrenceSearchParameter.FAMILY_KEY, familyKey);</span>
+<span class="nc" id="L175">  }</span>
 
-  public void addGenusKeyFilter(int genusKey) {
-<span class="nc" id="L188">    addParameter(OccurrenceSearchParameter.GENUS_KEY, genusKey);</span>
-<span class="nc" id="L189">  }</span>
+  public void addGenusKeyFilter(String genusKey) {
+<span class="nc" id="L178">    addParameter(OccurrenceSearchParameter.GENUS_KEY, genusKey);</span>
+<span class="nc" id="L179">  }</span>
 
-  public void addSubGenusKeyFilter(int subGenusKey) {
-<span class="nc" id="L192">    addParameter(OccurrenceSearchParameter.SUBGENUS_KEY, subGenusKey);</span>
-<span class="nc" id="L193">  }</span>
+  public void addSubGenusKeyFilter(String subGenusKey) {
+<span class="nc" id="L182">    addParameter(OccurrenceSearchParameter.SUBGENUS_KEY, subGenusKey);</span>
+<span class="nc" id="L183">  }</span>
 
-  public void addSpeciesKeyFilter(int speciesKey) {
-<span class="nc" id="L196">    addParameter(OccurrenceSearchParameter.SPECIES_KEY, speciesKey);</span>
-<span class="nc" id="L197">  }</span>
+  public void addSpeciesKeyFilter(String speciesKey) {
+<span class="nc" id="L186">    addParameter(OccurrenceSearchParameter.SPECIES_KEY, speciesKey);</span>
+<span class="nc" id="L187">  }</span>
 
   public void addYearFilter(int year) {
-<span class="nc" id="L200">    addParameter(OccurrenceSearchParameter.YEAR, year);</span>
-<span class="nc" id="L201">  }</span>
+<span class="nc" id="L190">    addParameter(OccurrenceSearchParameter.YEAR, year);</span>
+<span class="nc" id="L191">  }</span>
 
   public void addEventDateFilter(IsoDateInterval date) {
-<span class="nc" id="L204">    addParameter(OccurrenceSearchParameter.EVENT_DATE, date);</span>
-<span class="nc" id="L205">  }</span>
+<span class="nc" id="L194">    addParameter(OccurrenceSearchParameter.EVENT_DATE, date);</span>
+<span class="nc" id="L195">  }</span>
 
   public void addLastInterpretedFilter(Date modified) {
-<span class="nc" id="L208">    addParameter(OccurrenceSearchParameter.LAST_INTERPRETED, modified);</span>
-<span class="nc" id="L209">  }</span>
+<span class="nc" id="L198">    addParameter(OccurrenceSearchParameter.LAST_INTERPRETED, modified);</span>
+<span class="nc" id="L199">  }</span>
 
   public void addPublishingCountryFilter(Country country) {
-<span class="nc" id="L212">    addParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY, country.getIso2LetterCode());</span>
-<span class="nc" id="L213">  }</span>
+<span class="nc" id="L202">    addParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY, country.getIso2LetterCode());</span>
+<span class="nc" id="L203">  }</span>
 
   public void addInstitutionCodeFilter(String code) {
-<span class="nc" id="L216">    addParameter(OccurrenceSearchParameter.INSTITUTION_CODE, code);</span>
-<span class="nc" id="L217">  }</span>
+<span class="nc" id="L206">    addParameter(OccurrenceSearchParameter.INSTITUTION_CODE, code);</span>
+<span class="nc" id="L207">  }</span>
 
   public void addHasCoordinateFilter(boolean hasCoordinate) {
-<span class="nc" id="L220">    addParameter(OccurrenceSearchParameter.HAS_COORDINATE, hasCoordinate);</span>
-<span class="nc" id="L221">  }</span>
+<span class="nc" id="L210">    addParameter(OccurrenceSearchParameter.HAS_COORDINATE, hasCoordinate);</span>
+<span class="nc" id="L211">  }</span>
 
   public void addSpatialIssueFilter(boolean hasSpatialIssue) {
-<span class="nc" id="L224">    addParameter(OccurrenceSearchParameter.HAS_GEOSPATIAL_ISSUE, hasSpatialIssue);</span>
-<span class="nc" id="L225">  }</span>
+<span class="nc" id="L214">    addParameter(OccurrenceSearchParameter.HAS_GEOSPATIAL_ISSUE, hasSpatialIssue);</span>
+<span class="nc" id="L215">  }</span>
 
   public void addIssueFilter(OccurrenceIssue issue) {
-<span class="nc" id="L228">    addParameter(OccurrenceSearchParameter.ISSUE, issue);</span>
-<span class="nc" id="L229">  }</span>
+<span class="nc" id="L218">    addParameter(OccurrenceSearchParameter.ISSUE, issue);</span>
+<span class="nc" id="L219">  }</span>
 
   public void addElevationFilter(double elevation) {
-<span class="nc" id="L232">    addParameter(OccurrenceSearchParameter.ELEVATION, elevation);</span>
-<span class="nc" id="L233">  }</span>
+<span class="nc" id="L222">    addParameter(OccurrenceSearchParameter.ELEVATION, elevation);</span>
+<span class="nc" id="L223">  }</span>
 
   public void addMediaTypeFilter(MediaType mediaType) {
-<span class="nc" id="L236">    addParameter(OccurrenceSearchParameter.MEDIA_TYPE, mediaType);</span>
-<span class="nc" id="L237">  }</span>
+<span class="nc" id="L226">    addParameter(OccurrenceSearchParameter.MEDIA_TYPE, mediaType);</span>
+<span class="nc" id="L227">  }</span>
 
   public void addRecordedByIdsFilter(String recordedByIds) {
-<span class="nc" id="L240">    addParameter(OccurrenceSearchParameter.RECORDED_BY_ID, recordedByIds);</span>
-<span class="nc" id="L241">  }</span>
+<span class="nc" id="L230">    addParameter(OccurrenceSearchParameter.RECORDED_BY_ID, recordedByIds);</span>
+<span class="nc" id="L231">  }</span>
 
   public void addIdentifiedByIdsFilter(String identifiedByIds) {
-<span class="nc" id="L244">    addParameter(OccurrenceSearchParameter.IDENTIFIED_BY_ID, identifiedByIds);</span>
-<span class="nc" id="L245">  }</span>
+<span class="nc" id="L234">    addParameter(OccurrenceSearchParameter.IDENTIFIED_BY_ID, identifiedByIds);</span>
+<span class="nc" id="L235">  }</span>
 
   public void addOccurrenceStatusFilter(OccurrenceStatus occurrenceStatus) {
-<span class="nc" id="L248">    addParameter(OccurrenceSearchParameter.OCCURRENCE_STATUS, occurrenceStatus);</span>
-<span class="nc" id="L249">  }</span>
+<span class="nc" id="L238">    addParameter(OccurrenceSearchParameter.OCCURRENCE_STATUS, occurrenceStatus);</span>
+<span class="nc" id="L239">  }</span>
 
   public void addGadmGidFilter(String gadmGid) {
-<span class="nc" id="L252">    addParameter(OccurrenceSearchParameter.GADM_GID, gadmGid);</span>
-<span class="nc" id="L253">  }</span>
+<span class="nc" id="L242">    addParameter(OccurrenceSearchParameter.GADM_GID, gadmGid);</span>
+<span class="nc" id="L243">  }</span>
 
   public void addGadmLevel0GidFilter(String gadm0) {
-<span class="nc" id="L256">    addParameter(OccurrenceSearchParameter.GADM_LEVEL_0_GID, gadm0);</span>
-<span class="nc" id="L257">  }</span>
+<span class="nc" id="L246">    addParameter(OccurrenceSearchParameter.GADM_LEVEL_0_GID, gadm0);</span>
+<span class="nc" id="L247">  }</span>
 
   public void addGadmLevel1GidFilter(String gadm1) {
-<span class="nc" id="L260">    addParameter(OccurrenceSearchParameter.GADM_LEVEL_1_GID, gadm1);</span>
-<span class="nc" id="L261">  }</span>
+<span class="nc" id="L250">    addParameter(OccurrenceSearchParameter.GADM_LEVEL_1_GID, gadm1);</span>
+<span class="nc" id="L251">  }</span>
 
   public void addGadmLevel2GidFilter(String gadm2) {
-<span class="nc" id="L264">    addParameter(OccurrenceSearchParameter.GADM_LEVEL_2_GID, gadm2);</span>
-<span class="nc" id="L265">  }</span>
+<span class="nc" id="L254">    addParameter(OccurrenceSearchParameter.GADM_LEVEL_2_GID, gadm2);</span>
+<span class="nc" id="L255">  }</span>
 
   public void addGadmLevel3GidFilter(String gadm3) {
-<span class="nc" id="L268">    addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID, gadm3);</span>
-<span class="nc" id="L269">  }</span>
+<span class="nc" id="L258">    addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID, gadm3);</span>
+<span class="nc" id="L259">  }</span>
 
   public void addGeologicalTimeFilter(String geologicalTimeConcept) {
-<span class="nc" id="L272">    addParameter(OccurrenceSearchParameter.GEOLOGICAL_TIME, geologicalTimeConcept);</span>
-<span class="nc" id="L273">  }</span>
+<span class="nc" id="L262">    addParameter(OccurrenceSearchParameter.GEOLOGICAL_TIME, geologicalTimeConcept);</span>
+<span class="nc" id="L263">  }</span>
 
   public void addLithostratigraphyFilter(String lithostratigraphy) {
-<span class="nc" id="L276">    addParameter(OccurrenceSearchParameter.LITHOSTRATIGRAPHY, lithostratigraphy);</span>
-<span class="nc" id="L277">  }</span>
+<span class="nc" id="L266">    addParameter(OccurrenceSearchParameter.LITHOSTRATIGRAPHY, lithostratigraphy);</span>
+<span class="nc" id="L267">  }</span>
 
   public void addBiostratigraphyFilter(String biostratigraphy) {
-<span class="nc" id="L280">    addParameter(OccurrenceSearchParameter.BIOSTRATIGRAPHY, biostratigraphy);</span>
-<span class="nc" id="L281">  }</span>
+<span class="nc" id="L270">    addParameter(OccurrenceSearchParameter.BIOSTRATIGRAPHY, biostratigraphy);</span>
+<span class="nc" id="L271">  }</span>
 
   @Experimental
   public void addInstitutionKeyFilter(String institutionKey) {
-<span class="nc" id="L285">    addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey);</span>
-<span class="nc" id="L286">  }</span>
+<span class="nc" id="L275">    addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey);</span>
+<span class="nc" id="L276">  }</span>
 
   @Experimental
   public void addCollectionKeyFilter(String collectionKey) {
-<span class="nc" id="L290">    addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);</span>
-<span class="nc" id="L291">  }</span>
+<span class="nc" id="L280">    addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);</span>
+<span class="nc" id="L281">  }</span>
 
   public void addDnaSequenceIDFilter(String dnaSequenceID) {
-<span class="nc" id="L294">    addParameter(OccurrenceSearchParameter.DNA_SEQUENCE_ID, dnaSequenceID);</span>
-<span class="nc" id="L295">  }</span>
+<span class="nc" id="L284">    addParameter(OccurrenceSearchParameter.DNA_SEQUENCE_ID, dnaSequenceID);</span>
+<span class="nc" id="L285">  }</span>
 
+  @Experimental
+  public void addChecklistKeyFilter(String checklistKey) {
+<span class="nc" id="L289">    addParameter(OccurrenceSearchParameter.CHECKLIST_KEY, checklistKey);</span>
+<span class="nc" id="L290">  }</span>
+
+  @Experimental
+  public void addTaxonomicIssueFilter(String taxonomicIssue) {
+<span class="nc" id="L294">    addParameter(OccurrenceSearchParameter.TAXONOMIC_ISSUE, taxonomicIssue);</span>
+<span class="nc" id="L295">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

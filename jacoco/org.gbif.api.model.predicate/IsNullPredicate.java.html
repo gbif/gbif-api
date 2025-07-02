@@ -13,12 +13,14 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,48 +38,65 @@ public class IsNullPredicate&lt;S extends SearchParameter&gt; implements Predica
   )
   @NotNull private final S parameter;
 
+  @Schema(
+    description = &quot;Specify which taxonomy to use.&quot;
+  )
+  @Experimental
+  @Nullable
+  private final String checklistKey;
+
+  public IsNullPredicate(S parameter) {
+<span class="nc" id="L49">    this(parameter, null);</span>
+<span class="nc" id="L50">  }</span>
+
   @JsonCreator
-<span class="fc" id="L40">  public IsNullPredicate(@JsonProperty(&quot;parameter&quot;) S parameter) {</span>
-<span class="fc" id="L41">    Objects.requireNonNull(parameter, &quot;&lt;parameter&gt; may not be null&quot;);</span>
-<span class="fc" id="L42">    this.parameter = parameter;</span>
-<span class="fc" id="L43">    checkPredicateAllowed();</span>
-<span class="fc" id="L44">  }</span>
+<span class="fc" id="L53">  public IsNullPredicate(@JsonProperty(&quot;parameter&quot;) S parameter, @Nullable @JsonProperty(value = &quot;checklistKey&quot;) String checklistKey) {</span>
+<span class="fc" id="L54">    Objects.requireNonNull(parameter, &quot;&lt;parameter&gt; may not be null&quot;);</span>
+<span class="fc" id="L55">    this.parameter = parameter;</span>
+<span class="fc" id="L56">    this.checklistKey = checklistKey;</span>
+<span class="fc" id="L57">    checkPredicateAllowed();</span>
+<span class="fc" id="L58">  }</span>
 
   public S getParameter() {
-<span class="nc" id="L47">    return parameter;</span>
+<span class="nc" id="L61">    return parameter;</span>
+  }
+
+  @Experimental
+  public String getChecklistKey() {
+<span class="nc" id="L66">    return checklistKey;</span>
   }
 
   /**
    * @throws IllegalArgumentException if the key SearchParameter is Geometry
    */
   private void checkPredicateAllowed() {
-<span class="pc bpc" id="L54" title="1 of 2 branches missed.">    if (OccurrenceSearchParameter.GEOMETRY == parameter) {</span>
-<span class="nc" id="L55">      throw new IllegalArgumentException(&quot;IsNull predicate is not supported for Geometry parameter&quot;);</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">    if (OccurrenceSearchParameter.GEOMETRY == parameter) {</span>
+<span class="nc" id="L74">      throw new IllegalArgumentException(&quot;IsNull predicate is not supported for Geometry parameter&quot;);</span>
     }
-<span class="fc" id="L57">  }</span>
+<span class="fc" id="L76">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L61" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L62">      return true;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L81">      return true;</span>
     }
-<span class="nc bnc" id="L64" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L65">      return false;</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L84">      return false;</span>
     }
-<span class="nc" id="L67">    IsNullPredicate&lt;S&gt; that = (IsNullPredicate&lt;S&gt;) o;</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">    return parameter == that.parameter;</span>
+<span class="nc" id="L86">    IsNullPredicate&lt;S&gt; that = (IsNullPredicate&lt;S&gt;) o;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    return parameter == that.parameter;</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L73">    return Objects.hash(parameter);</span>
+<span class="nc" id="L92">    return Objects.hash(parameter);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L78">    return new StringJoiner(&quot;, &quot;, IsNullPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L79">      .add(&quot;parameter=&quot; + parameter)</span>
-<span class="nc" id="L80">      .toString();</span>
+<span class="nc" id="L97">    return new StringJoiner(&quot;, &quot;, IsNullPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L98">      .add(&quot;parameter=&quot; + parameter)</span>
+<span class="nc" id="L99">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

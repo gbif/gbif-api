@@ -16,19 +16,23 @@
 package org.gbif.api.vocabulary;
 
 /**
- * A simple enumeration of all kingdoms found in the GBIF Backbone Taxonomy and also Catalogue of Life.
+ * A simple enumeration of all kingdoms found in the GBIF Backbone Taxonomy.
+ *
+ * The Catalogue of Life has many more kingdoms these days and data keeps changing,
+ * thus this enumeration is deprecated.
  */
-<span class="fc" id="L21">public enum Kingdom {</span>
+<span class="fc" id="L24">@Deprecated</span>
+public enum Kingdom {
 
-<span class="fc" id="L23">  INCERTAE_SEDIS,</span>
-<span class="fc" id="L24">  ANIMALIA,</span>
-<span class="fc" id="L25">  ARCHAEA,</span>
-<span class="fc" id="L26">  BACTERIA,</span>
-<span class="fc" id="L27">  CHROMISTA,</span>
-<span class="fc" id="L28">  FUNGI,</span>
-<span class="fc" id="L29">  PLANTAE,</span>
-<span class="fc" id="L30">  PROTOZOA,</span>
-<span class="fc" id="L31">  VIRUSES;</span>
+<span class="fc" id="L27">  INCERTAE_SEDIS,</span>
+<span class="fc" id="L28">  ANIMALIA,</span>
+<span class="fc" id="L29">  ARCHAEA,</span>
+<span class="fc" id="L30">  BACTERIA,</span>
+<span class="fc" id="L31">  CHROMISTA,</span>
+<span class="fc" id="L32">  FUNGI,</span>
+<span class="fc" id="L33">  PLANTAE,</span>
+<span class="fc" id="L34">  PROTOZOA,</span>
+<span class="fc" id="L35">  VIRUSES;</span>
 
   /**
    * Looks up a kingdom by its nub usage key.
@@ -39,9 +43,9 @@ package org.gbif.api.vocabulary;
    */
   public static Kingdom byNubUsageKey(int usageKey) {
     try {
-<span class="fc" id="L42">      return Kingdom.values()[usageKey];</span>
-<span class="fc" id="L43">    } catch (IndexOutOfBoundsException e) {</span>
-<span class="fc" id="L44">      throw new IllegalArgumentException(&quot;There is no kingdom with usage key &quot; + usageKey);</span>
+<span class="fc" id="L46">      return Kingdom.values()[usageKey];</span>
+<span class="fc" id="L47">    } catch (IndexOutOfBoundsException e) {</span>
+<span class="fc" id="L48">      throw new IllegalArgumentException(&quot;There is no kingdom with usage key &quot; + usageKey);</span>
     }
   }
 
@@ -49,20 +53,20 @@ package org.gbif.api.vocabulary;
    * @return a unique single capital char representing the kingdom.
    */
   public String scientificName() {
-<span class="fc" id="L52">    String lower = name().replaceAll(&quot;_&quot;, &quot; &quot;).toLowerCase();</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">    return this==INCERTAE_SEDIS ? lower : Character.toUpperCase(lower.charAt(0)) + lower.substring(1);</span>
+<span class="fc" id="L56">    String lower = name().replaceAll(&quot;_&quot;, &quot; &quot;).toLowerCase();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    return this==INCERTAE_SEDIS ? lower : Character.toUpperCase(lower.charAt(0)) + lower.substring(1);</span>
   }
 
-  public int nubUsageKey() {
-<span class="fc" id="L57">    return ordinal();</span>
+  public String nubUsageKey() {
+<span class="fc" id="L61">    return String.valueOf(ordinal());</span>
   }
 
   /**
    * @deprecated please use nubUsageKey() instead
    */
   @Deprecated
-  public Integer nubUsageID() {
-<span class="nc" id="L65">    return nubUsageKey();</span>
+  public String nubUsageID() {
+<span class="nc" id="L69">    return nubUsageKey();</span>
   }
 
   /**
@@ -70,7 +74,7 @@ package org.gbif.api.vocabulary;
    */
   @Deprecated
   public static Kingdom byNubUsageId(int usageKey) {
-<span class="nc" id="L73">    return byNubUsageKey(usageKey);</span>
+<span class="nc" id="L77">    return byNubUsageKey(usageKey);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

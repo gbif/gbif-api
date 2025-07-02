@@ -52,7 +52,7 @@ import java.util.UUID;
 <span class="nc" id="L52">  HOSTING_ORG(UUID.class),</span>
 
   /**
-   * A case insensitive plain text keyword from coverages or serialized tag as created by Tag.toString().
+   * A case-insensitive plain text keyword from coverages or serialized tag as created by Tag.toString().
    */
 <span class="nc" id="L57">  KEYWORD(String.class),</span>
 
@@ -152,11 +152,22 @@ import java.util.UUID;
   /**
    * EndpointType associated to a dataset.
    */
-<span class="nc" id="L155">  ENDPOINT_TYPE(EndpointType.class);</span>
+<span class="nc" id="L155">  ENDPOINT_TYPE(EndpointType.class),</span>
 
-<span class="nc" id="L157">  DatasetSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="nc" id="L158">    this.type = type;</span>
-<span class="nc" id="L159">  }</span>
+  /**
+   * Published DwC-A extension.
+   */
+<span class="nc" id="L160">  DWCA_EXTENSION(String.class),</span>
+
+  /**
+   * Published DwC-A row/core type.
+   */
+<span class="nc" id="L165">  DWCA_CORE_TYPE(String.class);</span>
+
+
+<span class="nc" id="L168">  DatasetSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="nc" id="L169">    this.type = type;</span>
+<span class="nc" id="L170">  }</span>
 
   private final Class&lt;?&gt; type;
 
@@ -165,7 +176,7 @@ import java.util.UUID;
    */
   @Override
   public Class&lt;?&gt; type() {
-<span class="nc" id="L168">    return type;</span>
+<span class="nc" id="L179">    return type;</span>
   }
 
 }
