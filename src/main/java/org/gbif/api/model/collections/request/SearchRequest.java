@@ -65,6 +65,8 @@ public abstract class SearchRequest implements Serializable {
   @Nullable private List<String> sourceId;
   @Nullable private Long offset;
   @Nullable private Integer limit;
+  @Nullable private String contactUserId;
+  @Nullable private String contactEmail;
 
   public Pageable getPage() {
     return new PagingRequest(
