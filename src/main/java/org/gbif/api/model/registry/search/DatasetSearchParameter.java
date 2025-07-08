@@ -162,7 +162,11 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * Published DwC-A row/core type.
    */
-  DWCA_CORE_TYPE(String.class);
+  DWCA_CORE_TYPE(String.class),
+
+  CONTACT_USER_ID(String.class),
+
+  CONTACT_EMAIL(String.class);
 
 
   DatasetSearchParameter(Class<?> type) {

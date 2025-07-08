@@ -32,4 +32,6 @@ public class OrganizationRequestSearchParams extends RequestSearchParams {
   private UUID networkKey;
   private Country country;
   private Range<Integer> numPublishedDatasets;
+  private String contactUserId;
+  private String contactEmail;
 }
