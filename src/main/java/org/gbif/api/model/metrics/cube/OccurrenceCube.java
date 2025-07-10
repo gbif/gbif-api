@@ -33,7 +33,7 @@ import java.util.UUID;
 public class OccurrenceCube {
 
   public static final Dimension<UUID> DATASET_KEY = new Dimension<>("datasetKey", UUID.class);
-  public static final Dimension<Integer> TAXON_KEY = new Dimension<>("taxonKey", Integer.class);
+  public static final Dimension<String> TAXON_KEY = new Dimension<>("taxonKey", String.class);
   public static final Dimension<BasisOfRecord> BASIS_OF_RECORD = new Dimension<>("basisOfRecord",
     BasisOfRecord.class);
   // georeferenced is different from hasCoordinate and includes a no geospatial issue check!
