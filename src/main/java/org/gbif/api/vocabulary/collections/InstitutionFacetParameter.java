@@ -4,5 +4,6 @@ public enum InstitutionFacetParameter implements CollectionsFacetParameter {
   COUNTRY,
   CITY,
   TYPE,
-  DISCIPLINE;
+  DISCIPLINE,
+  INSTITUTIONAL_GOVERNANCE;
 }

@@ -450,6 +450,12 @@ public class Dataset
   )
   private DwcA dwca;
 
+  @Schema(
+    description = "Category of this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private Set<String> category;
+
   @Override
   public UUID getKey() {
     return key;
@@ -1126,6 +1132,14 @@ public class Dataset
     this.dwca = dwca;
   }
 
+  public Set<String> getCategory() {
+    return category;
+  }
+
+  public void setCategory(Set<String> category) {
+    this.category = category;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -1193,7 +1207,8 @@ public class Dataset
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
         && license == dataset.license
-        && Objects.equals(dwca, dataset.dwca);
+        && Objects.equals(dwca, dataset.dwca)
+        && Objects.equals(category, dataset.category);
   }
 
   @Override
@@ -1257,7 +1272,8 @@ public class Dataset
         maintenanceUpdateFrequency,
         maintenanceDescription,
         license,
-        dwca);
+        dwca,
+        category);
   }
 
   @Override
@@ -1322,6 +1338,7 @@ public class Dataset
         .add("maintenanceDescription='" + maintenanceDescription + "'")
         .add("license=" + license)
         .add("dwca=" + dwca)
+        .add("category=" + category)
         .toString();
   }
 
@@ -1356,7 +1373,8 @@ public class Dataset
         && Objects.equals(this.deleted, other.deleted)
         && Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
         && Objects.equals(this.maintenanceDescription, other.maintenanceDescription)
-        && Objects.equals(this.dwca, other.dwca);
+        && Objects.equals(this.dwca, other.dwca)
+        && Objects.equals(this.category, other.category);
   }
 
   /**

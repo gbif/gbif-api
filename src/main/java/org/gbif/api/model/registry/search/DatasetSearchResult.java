@@ -57,6 +57,7 @@ public class DatasetSearchResult {
   private String projectIdentifier;
   private Integer recordCount;
   private Integer nameUsagesCount;
+  private Set<String> category;
 
   public UUID getKey() {
     return key;
@@ -258,6 +259,15 @@ public class DatasetSearchResult {
     this.nameUsagesCount = nameUsagesCount;
   }
 
+  public Set<String> getCategory() {
+    return category;
+  }
+
+  public void setCategory(Set<String> category) {
+    this.category = category;
+  }
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -288,7 +298,8 @@ public class DatasetSearchResult {
       Objects.equals(projectIdentifier, that.projectIdentifier) &&
       Objects.equals(recordCount, that.recordCount) &&
       Objects.equals(networkKeys, that.networkKeys) &&
-      Objects.equals(nameUsagesCount, that.nameUsagesCount);
+      Objects.equals(nameUsagesCount, that.nameUsagesCount) &&
+      Objects.equals(category, that.category);
   }
 
   @Override
@@ -296,7 +307,7 @@ public class DatasetSearchResult {
     return Objects.hash(key, title, doi, description, type, subtype, fullText, hostingOrganizationKey,
       hostingOrganizationTitle, publisherTitle, countryCoverage, continent, publishingCountry,
       publishingOrganizationKey, publishingOrganizationTitle, license, decades, keywords,
-      projectIdentifier, recordCount, networkKeys, nameUsagesCount);
+      projectIdentifier, recordCount, networkKeys, nameUsagesCount, category);
   }
 
   @Override
@@ -324,6 +335,7 @@ public class DatasetSearchResult {
       .add("recordCount=" + recordCount)
       .add("networkKeys=" + networkKeys)
       .add("nameUsagesCount=" + nameUsagesCount)
+      .add("category=" + category)
       .toString();
   }
 }
