@@ -13,7 +13,8 @@
  */
 package org.gbif.api.model.registry;
 
-import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
@@ -47,6 +48,7 @@ import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -443,8 +445,14 @@ public class Dataset
   private License license;
 
   @Schema(
+    description = "Basic metadata of the Darwin Core Archive (DwC-A) associated with this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private DwcA dwca;
+
+  @Schema(
     description = "Category of this dataset.",
-    accessMode = AccessMode.READ_ONLY
+    accessMode = Schema.AccessMode.READ_ONLY
   )
   private Set<String> category;
 
@@ -1114,6 +1122,16 @@ public class Dataset
     this.pubDate = pubDate;
   }
 
+  @Nullable
+  @Valid
+  public DwcA getDwca() {
+    return dwca;
+  }
+
+  public void setDwca(DwcA dwca) {
+    this.dwca = dwca;
+  }
+
   public Set<String> getCategory() {
     return category;
   }
@@ -1189,6 +1207,7 @@ public class Dataset
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
         && license == dataset.license
+        && Objects.equals(dwca, dataset.dwca)
         && Objects.equals(category, dataset.category);
   }
 
@@ -1253,6 +1272,7 @@ public class Dataset
         maintenanceUpdateFrequency,
         maintenanceDescription,
         license,
+        dwca,
         category);
   }
 
@@ -1316,7 +1336,8 @@ public class Dataset
         .add("pubDate=" + pubDate)
         .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
         .add("maintenanceDescription='" + maintenanceDescription + "'")
-        .add("license=" + license )
+        .add("license=" + license)
+        .add("dwca=" + dwca)
         .add("category=" + category)
         .toString();
   }
@@ -1352,6 +1373,60 @@ public class Dataset
         && Objects.equals(this.deleted, other.deleted)
         && Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
         && Objects.equals(this.maintenanceDescription, other.maintenanceDescription)
+        && Objects.equals(this.dwca, other.dwca)
         && Objects.equals(this.category, other.category);
+  }
+
+  /**
+   * Metadata of dataset that has been published as a Darwin Core Archive (DwC-A).
+   */
+  @NoArgsConstructor
+  @Data
+  public static class DwcA {
+    @Schema(
+      description = "This attribute, within the <core>, indicates the specific " +
+                    "type of data being represented in the core data file.**."
+    )
+    private String coreType;
+
+    @Schema(
+      description = "This attribute, within the <extensions>, indicates the specific " +
+                    "type of data being represented in the associated extension data file.**."
+    )
+    private List<String> extensions;
+
+    @Schema(
+      description = "Timestamp of when the dataset was modified.",
+      accessMode = Schema.AccessMode.READ_ONLY
+    )
+    @Null(groups = {PrePersist.class})
+    private Date modified;
+
+
+    public String getCoreType() {
+      return coreType;
+    }
+
+    public void setCoreType(String coreType) {
+      this.coreType = coreType;
+    }
+
+    @Nullable
+    public List<String> getExtensions() {
+      return extensions;
+    }
+
+    public void setExtensions(List<String> extensions) {
+      this.extensions = extensions;
+    }
+
+    @Nullable
+    public Date getModified() {
+      return modified;
+    }
+
+    public void setModified(Date modified) {
+      this.modified = modified;
+    }
   }
 }

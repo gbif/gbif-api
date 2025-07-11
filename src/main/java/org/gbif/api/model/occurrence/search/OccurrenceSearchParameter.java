@@ -152,6 +152,11 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter PARENT_EVENT_ID = new OccurrenceSearchParameter("PARENT_EVENT_ID", String.class);
 
   /**
+   * An identifier for an Event and its children events.
+   */
+  public final static OccurrenceSearchParameter EVENT_ID_HIERARCHY = new OccurrenceSearchParameter("EVENT_ID_HIERARCHY", String.class);
+
+  /**
    * The name of, reference to, or description of the method or protocol used during an Event.
    */
   public final static OccurrenceSearchParameter SAMPLING_PROTOCOL = new OccurrenceSearchParameter("SAMPLING_PROTOCOL", String.class);

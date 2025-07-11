@@ -30,5 +30,7 @@ public class DatasetRequestSearchParams extends RequestSearchParams {
 
   private DatasetType type; // datasetType
   private Country country;
+  private String contactUserId;
+  private String contactEmail;
   private Set<String> category;
 }
