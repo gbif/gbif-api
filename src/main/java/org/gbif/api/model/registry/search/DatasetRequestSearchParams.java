@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.registry.search;
 
+import java.util.Set;
+
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
 
@@ -30,4 +32,5 @@ public class DatasetRequestSearchParams extends RequestSearchParams {
   private Country country;
   private String contactUserId;
   private String contactEmail;
+  private Set<String> category;
 }
