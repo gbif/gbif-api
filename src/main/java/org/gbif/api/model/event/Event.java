@@ -173,7 +173,7 @@ public class Event extends VerbatimOccurrence {
   private Integer startDayOfYear;
   private Integer endDayOfYear;
   private String locationID;
-  private VocabularyConcept eventType;
+  private String eventType;
   private List<ParentLineage> parentsLineage;
 
   // occurrence fields

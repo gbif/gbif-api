@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -155,6 +157,17 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * An identifier for an Event and its children events.
    */
   public final static OccurrenceSearchParameter EVENT_ID_HIERARCHY = new OccurrenceSearchParameter("EVENT_ID_HIERARCHY", String.class);
+
+  /**
+   * An identifier for the vocabulary-backed Event Type.
+   */
+  public final static OccurrenceSearchParameter EVENT_TYPE = new OccurrenceSearchParameter("EVENT_TYPE", String.class);
+
+  /**
+   * An identifier for the verbatim Event Type.
+   */
+  @Experimental
+  public final static OccurrenceSearchParameter VERBATIM_EVENT_TYPE = new OccurrenceSearchParameter("VERBATIM_EVENT_TYPE", String.class);
 
   /**
    * The name of, reference to, or description of the method or protocol used during an Event.
