@@ -514,6 +514,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TOTAL_AREA_SAMPLED_UNIT_MISSING(INFO, EcoTerm.samplingEffortUnit),
 
   /** Invalid value for numeric fields in Humboldt extension. */
+  SITE_COUNT_INVALID(INFO, EcoTerm.siteCount),
   GEOSPATIAL_SCOPE_AREA_VALUE_INVALID(INFO, EcoTerm.geospatialScopeAreaValue),
   TOTAL_AREA_SAMPLED_VALUE_INVALID(INFO, EcoTerm.totalAreaSampledValue),
   EVENT_DURATION_VALUE_INVALID(INFO, EcoTerm.eventDurationValue),
