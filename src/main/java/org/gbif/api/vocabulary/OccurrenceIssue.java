@@ -533,7 +533,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   IS_ABUNDANCE_REPORTED_INVALID(INFO, EcoTerm.isAbundanceReported),
   IS_ABUNDANCE_CAP_REPORTED_INVALID(INFO, EcoTerm.isAbundanceCapReported),
   IS_VEGETATION_COVER_REPORTED_INVALID(INFO, EcoTerm.isVegetationCoverReported),
-  IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE(
+  IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE_INVALID(
       INFO, EcoTerm.isLeastSpecificTargetCategoryQuantityInclusive),
   HAS_VOUCHERS_INVALID(INFO, EcoTerm.hasVouchers),
   HAS_MATERIAL_SAMPLES_INVALID(INFO, EcoTerm.hasMaterialSamples),
