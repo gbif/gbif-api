@@ -526,7 +526,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   HAS_NON_TARGET_TAXA_INVALID(INFO, EcoTerm.hasNonTargetTaxa),
   ARE_NON_TARGET_TAXA_FULLY_REPORTED_INVALID(INFO, EcoTerm.areNonTargetTaxaFullyReported),
   IS_LIFE_STAGE_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isLifeStageScopeFullyReported),
-  IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED(
+  IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED_INVALID(
       INFO, EcoTerm.isDegreeOfEstablishmentScopeFullyReported),
   IS_GROWTH_FORM_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isGrowthFormScopeFullyReported),
   HAS_NON_TARGET_ORGANISMS_INVALID(INFO, EcoTerm.hasNonTargetOrganisms),
