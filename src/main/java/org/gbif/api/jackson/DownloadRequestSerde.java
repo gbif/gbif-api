@@ -75,7 +75,6 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String MACHINE_DESCRIPTION = "machineDescription";
   private static final String CHECKLIST_KEY = "checklistKey";
 
-
   // Properties we ignore.
   private static final List<String> IGNORED_PROPERTIES =
     Collections.unmodifiableList(
