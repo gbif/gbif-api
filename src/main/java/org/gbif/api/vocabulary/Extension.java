@@ -184,7 +184,7 @@ public enum Extension {
   CHRONOMETRIC_DATE("http://zooarchnet.org/dwc/terms/ChronometricDate"),
 
   /**
-   * @see <a href="http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2022-02-23.xml">extension definition</a>
+   * @see <a href="http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2024-07-11.xml">extension definition</a>
    */
   DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData");
 
