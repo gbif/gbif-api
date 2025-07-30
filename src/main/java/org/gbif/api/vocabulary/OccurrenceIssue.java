@@ -498,7 +498,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * The geospatial scope area is always greater than or equal to the total area sampled as stated
    * in the (<a href="https://eco.tdwg.org/list/#eco_geospatialScopeAreaValue">term definition</a>).
    */
-  GEOSPATIAL_SCOPE_AREA_LOWER_THAN_TOTAL_TOTAL_AREA_SAMPLED(
+  GEOSPATIAL_SCOPE_AREA_LOWER_THAN_TOTAL_AREA_SAMPLED(
       INFO, EcoTerm.geospatialScopeAreaValue, EcoTerm.totalAreaSampledValue),
 
   /** An eco:eventDurationValue must have a corresponding eco:eventDurationUnit. */
