@@ -534,6 +534,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TARGET_DEGREE_OF_ESTABLISHMENT_EXCLUDED(
       INFO, EcoTerm.targetDegreeOfEstablishmentScope, EcoTerm.excludedDegreeOfEstablishmentScope),
 
+  /** Some target growth form scope has been excluded. */
+  TARGET_GROWTH_FORM_EXCLUDED(INFO, EcoTerm.targetGrowthFormScope, EcoTerm.excludedGrowthFormScope),
+
   /** Invalid value for numeric fields in Humboldt extension. */
   SITE_COUNT_INVALID(INFO, EcoTerm.siteCount),
   GEOSPATIAL_SCOPE_AREA_VALUE_INVALID(INFO, EcoTerm.geospatialScopeAreaValue),
