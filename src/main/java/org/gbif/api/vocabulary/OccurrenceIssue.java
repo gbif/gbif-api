@@ -513,6 +513,27 @@ public enum OccurrenceIssue implements InterpretationRemark {
   /** An eco:totalAreaSampledValue must have a corresponding eco:totalAreaSampledUnit. */
   TOTAL_AREA_SAMPLED_UNIT_MISSING(INFO, EcoTerm.samplingEffortUnit),
 
+  /** Non target taxa has been provided but the eco:hasNonTargetTaxa is set to false. */
+  HAS_NON_TARGET_TAXA_MISMATCH(INFO, EcoTerm.hasNonTargetTaxa),
+
+  /** Material sample types have been provided but the eco:hasMaterialSamples is set to false. */
+  HAS_MATERIAL_SAMPLES_MISMATCH(INFO, EcoTerm.hasMaterialSamples),
+
+  /** Some target taxonomic scope has been excluded. */
+  TARGET_TAXONOMIC_SCOPE_EXCLUDED(
+      INFO, EcoTerm.targetTaxonomicScope, EcoTerm.excludedTaxonomicScope),
+
+  /** Some target habitat scope has been excluded. */
+  TARGET_HABITAT_SCOPE_EXCLUDED(INFO, EcoTerm.targetHabitatScope, EcoTerm.excludedHabitatScope),
+
+  /** Some target life stage scope has been excluded. */
+  TARGET_LIFE_STAGE_SCOPE_EXCLUDED(
+      INFO, EcoTerm.targetLifeStageScope, EcoTerm.excludedLifeStageScope),
+
+  /** Some target degree of establishment scope has been excluded. */
+  TARGET_DEGREE_OF_ESTABLISHMENT_EXCLUDED(
+      INFO, EcoTerm.targetDegreeOfEstablishmentScope, EcoTerm.excludedDegreeOfEstablishmentScope),
+
   /** Invalid value for numeric fields in Humboldt extension. */
   SITE_COUNT_INVALID(INFO, EcoTerm.siteCount),
   GEOSPATIAL_SCOPE_AREA_VALUE_INVALID(INFO, EcoTerm.geospatialScopeAreaValue),
