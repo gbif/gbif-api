@@ -115,7 +115,12 @@ public enum IdentifierType {
    * ChecklistBank dataset keys (integer)
    * https://www.checklistbank.org/dataset
    */
-  CLB_DATASET_KEY;
+  CLB_DATASET_KEY,
+
+  /*
+   * RNC Colombia Identifiers
+   */
+  RNC_COLOMBIA;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
@@ -149,6 +154,11 @@ public enum IdentifierType {
         || lcIdentifier.startsWith(org.gbif.api.model.common.DOI.TEST_PREFIX)) {
       return DOI;
     }
+
+    if (IdentifierUtils.isValidRNCColombiaIdentifier(lcIdentifier)) {
+      return RNC_COLOMBIA;
+    }
+
     if (lcIdentifier.startsWith("10.")
         || lcIdentifier.startsWith("doi:10.")
         || lcIdentifier.startsWith("urn:doi:10.")

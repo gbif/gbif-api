@@ -41,6 +41,10 @@ public class IdentifierUtils {
 
   public static final Pattern CLB_DATASET_KEY_PATTERN = Pattern.compile("[1-9]\\d*");
 
+  public static final Pattern RNC_PATTERN =
+    Pattern.compile("https?://rnc\\.humboldt(\\.org\\.co)?(/.*)?");
+
+
   /**
    * Creates a http link for an identifier if possible by passing it to some known resolvers for the
    * specific id type. If no link can be constructed, null is returned.
@@ -125,5 +129,12 @@ public class IdentifierUtils {
 
     // Use a regular expression to check if the identifier is a positive integer
     return CLB_DATASET_KEY_PATTERN.matcher(identifier).matches();
+  }
+
+  public static boolean isValidRNCColombiaIdentifier(String identifier) {
+    if (identifier == null || identifier.isEmpty()) {
+      return false;
+    }
+    return RNC_PATTERN.matcher(identifier).matches();
   }
 }

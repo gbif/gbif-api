@@ -46,12 +46,13 @@ public class IdentifierTypeTest {
     assertEquals(IdentifierType.ROR, IdentifierType.inferFrom("https://ror.org/03yrm5c26"));
     assertEquals(IdentifierType.GRID, IdentifierType.inferFrom("grid.419696.5"));
     assertEquals(IdentifierType.ISIL, IdentifierType.inferFrom("DK-710100"));
+    assertEquals(IdentifierType.RNC_COLOMBIA, IdentifierType.inferFrom("http://rnc.humboldt.org.co/admin/index.php/test/detail/2504"));
   }
 
   @Test
   public void testTypes() {
     List<IdentifierType> identifierTypes = IdentifierType.TYPES;
-    assertEquals(22, identifierTypes.size());
+    assertEquals(23, identifierTypes.size());
   }
 
 }
