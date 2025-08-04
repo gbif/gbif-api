@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -55,12 +57,12 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The dataset key as a UUID.
    */
-<span class="fc" id="L58">  public final static OccurrenceSearchParameter DATASET_KEY = new OccurrenceSearchParameter(&quot;DATASET_KEY&quot;, UUID.class);</span>
+<span class="fc" id="L60">  public final static OccurrenceSearchParameter DATASET_KEY = new OccurrenceSearchParameter(&quot;DATASET_KEY&quot;, UUID.class);</span>
 
   /**
    * The checklist key to use for taxonomy matching.
    */
-<span class="fc" id="L63">  public final static OccurrenceSearchParameter CHECKLIST_KEY = new OccurrenceSearchParameter(&quot;CHECKLIST_KEY&quot;, String.class);</span>
+<span class="fc" id="L65">  public final static OccurrenceSearchParameter CHECKLIST_KEY = new OccurrenceSearchParameter(&quot;CHECKLIST_KEY&quot;, String.class);</span>
 
   /**
    * The 4 digit year. A year of 98 will be 98 common era, not 1998.
@@ -72,7 +74,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;dd&gt;Year between 1848 and 1933&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L75">  public final static OccurrenceSearchParameter YEAR = new OccurrenceSearchParameter(&quot;YEAR&quot;, Integer.class);</span>
+<span class="fc" id="L77">  public final static OccurrenceSearchParameter YEAR = new OccurrenceSearchParameter(&quot;YEAR&quot;, Integer.class);</span>
 
   /**
    * The month of the year, starting with 1 for January.
@@ -83,7 +85,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;dd&gt;Month between April and August&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L86">  public final static OccurrenceSearchParameter MONTH = new OccurrenceSearchParameter(&quot;MONTH&quot;, Integer.class);</span>
+<span class="fc" id="L88">  public final static OccurrenceSearchParameter MONTH = new OccurrenceSearchParameter(&quot;MONTH&quot;, Integer.class);</span>
 
   /**
    * The day of the month.
@@ -93,19 +95,19 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;dd&gt;Day of the month between 24 and 28&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L96">  public final static OccurrenceSearchParameter DAY = new OccurrenceSearchParameter(&quot;DAY&quot;, Integer.class);</span>
+<span class="fc" id="L98">  public final static OccurrenceSearchParameter DAY = new OccurrenceSearchParameter(&quot;DAY&quot;, Integer.class);</span>
 
   /**
    * The earliest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
    * leap year, in which case it is 366).
    */
-<span class="fc" id="L102">  public final static OccurrenceSearchParameter START_DAY_OF_YEAR = new OccurrenceSearchParameter(&quot;START_DAY_OF_YEAR&quot;, Integer.class);</span>
+<span class="fc" id="L104">  public final static OccurrenceSearchParameter START_DAY_OF_YEAR = new OccurrenceSearchParameter(&quot;START_DAY_OF_YEAR&quot;, Integer.class);</span>
 
   /**
    * The latest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
    * leap year, in which case it is 366).
    */
-<span class="fc" id="L108">  public final static OccurrenceSearchParameter END_DAY_OF_YEAR = new OccurrenceSearchParameter(&quot;END_DAY_OF_YEAR&quot;, Integer.class);</span>
+<span class="fc" id="L110">  public final static OccurrenceSearchParameter END_DAY_OF_YEAR = new OccurrenceSearchParameter(&quot;END_DAY_OF_YEAR&quot;, Integer.class);</span>
 
   /**
    * Event date (date the occurrence was recorded) in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
@@ -129,7 +131,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;dd&gt;all dates&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L132">  public final static OccurrenceSearchParameter EVENT_DATE = new OccurrenceSearchParameter(&quot;EVENT_DATE&quot;, IsoDateInterval.class);</span>
+<span class="fc" id="L134">  public final static OccurrenceSearchParameter EVENT_DATE = new OccurrenceSearchParameter(&quot;EVENT_DATE&quot;, IsoDateInterval.class);</span>
 
   /**
    * Lower limit for the range of the event date (date the occurrence was recorded).
@@ -138,33 +140,44 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * https://github.com/gbif/occurrence/issues/346
    */
   @Deprecated
-<span class="fc" id="L141">  public final static OccurrenceSearchParameter EVENT_DATE_GTE = new OccurrenceSearchParameter(&quot;EVENT_DATE_GTE&quot;, Date.class);</span>
+<span class="fc" id="L143">  public final static OccurrenceSearchParameter EVENT_DATE_GTE = new OccurrenceSearchParameter(&quot;EVENT_DATE_GTE&quot;, Date.class);</span>
 
   /**
    * An identifier for the set of information associated with an Event (something that occurs at a place and time).
    * Maybe a global unique identifier or an identifier specific to the data set.
    */
-<span class="fc" id="L147">  public final static OccurrenceSearchParameter EVENT_ID = new OccurrenceSearchParameter(&quot;EVENT_ID&quot;, String.class);</span>
+<span class="fc" id="L149">  public final static OccurrenceSearchParameter EVENT_ID = new OccurrenceSearchParameter(&quot;EVENT_ID&quot;, String.class);</span>
 
   /**
    * An identifier for the broader Event that groups this and potentially other Events.
    */
-<span class="fc" id="L152">  public final static OccurrenceSearchParameter PARENT_EVENT_ID = new OccurrenceSearchParameter(&quot;PARENT_EVENT_ID&quot;, String.class);</span>
+<span class="fc" id="L154">  public final static OccurrenceSearchParameter PARENT_EVENT_ID = new OccurrenceSearchParameter(&quot;PARENT_EVENT_ID&quot;, String.class);</span>
 
   /**
    * An identifier for an Event and its children events.
    */
-<span class="fc" id="L157">  public final static OccurrenceSearchParameter EVENT_ID_HIERARCHY = new OccurrenceSearchParameter(&quot;EVENT_ID_HIERARCHY&quot;, String.class);</span>
+<span class="fc" id="L159">  public final static OccurrenceSearchParameter EVENT_ID_HIERARCHY = new OccurrenceSearchParameter(&quot;EVENT_ID_HIERARCHY&quot;, String.class);</span>
+
+  /**
+   * An identifier for the vocabulary-backed Event Type.
+   */
+<span class="fc" id="L164">  public final static OccurrenceSearchParameter EVENT_TYPE = new OccurrenceSearchParameter(&quot;EVENT_TYPE&quot;, String.class);</span>
+
+  /**
+   * An identifier for the verbatim Event Type.
+   */
+  @Experimental
+<span class="fc" id="L170">  public final static OccurrenceSearchParameter VERBATIM_EVENT_TYPE = new OccurrenceSearchParameter(&quot;VERBATIM_EVENT_TYPE&quot;, String.class);</span>
 
   /**
    * The name of, reference to, or description of the method or protocol used during an Event.
    */
-<span class="fc" id="L162">  public final static OccurrenceSearchParameter SAMPLING_PROTOCOL = new OccurrenceSearchParameter(&quot;SAMPLING_PROTOCOL&quot;, String.class);</span>
+<span class="fc" id="L175">  public final static OccurrenceSearchParameter SAMPLING_PROTOCOL = new OccurrenceSearchParameter(&quot;SAMPLING_PROTOCOL&quot;, String.class);</span>
 
   /**
    * A list (concatenated and separated) of previous assignments of names to the organism.
    */
-<span class="fc" id="L167">  public final static OccurrenceSearchParameter PREVIOUS_IDENTIFICATIONS = new OccurrenceSearchParameter(&quot;PREVIOUS_IDENTIFICATIONS&quot;, String.class);</span>
+<span class="fc" id="L180">  public final static OccurrenceSearchParameter PREVIOUS_IDENTIFICATIONS = new OccurrenceSearchParameter(&quot;PREVIOUS_IDENTIFICATIONS&quot;, String.class);</span>
 
   /**
    * Last interpreted date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
@@ -188,7 +201,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;dd&gt;all dates&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L191">  public final static OccurrenceSearchParameter LAST_INTERPRETED = new OccurrenceSearchParameter(&quot;LAST_INTERPRETED&quot;, Date.class);</span>
+<span class="fc" id="L204">  public final static OccurrenceSearchParameter LAST_INTERPRETED = new OccurrenceSearchParameter(&quot;LAST_INTERPRETED&quot;, Date.class);</span>
 
 
   /**
@@ -213,17 +226,17 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;dd&gt;all dates&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L216">  public final static OccurrenceSearchParameter MODIFIED = new OccurrenceSearchParameter(&quot;MODIFIED&quot;, Date.class);</span>
+<span class="fc" id="L229">  public final static OccurrenceSearchParameter MODIFIED = new OccurrenceSearchParameter(&quot;MODIFIED&quot;, Date.class);</span>
 
   /**
    * Latitude in decimals between -90 and 90 based on WGS 84.
    */
-<span class="fc" id="L221">  public final static OccurrenceSearchParameter DECIMAL_LATITUDE = new OccurrenceSearchParameter(&quot;DECIMAL_LATITUDE&quot;, Double.class);</span>
+<span class="fc" id="L234">  public final static OccurrenceSearchParameter DECIMAL_LATITUDE = new OccurrenceSearchParameter(&quot;DECIMAL_LATITUDE&quot;, Double.class);</span>
 
   /**
    * Longitude in decimals between -180 and 180 based on WGS 84.
    */
-<span class="fc" id="L226">  public final static OccurrenceSearchParameter DECIMAL_LONGITUDE = new OccurrenceSearchParameter(&quot;DECIMAL_LONGITUDE&quot;, Double.class);</span>
+<span class="fc" id="L239">  public final static OccurrenceSearchParameter DECIMAL_LONGITUDE = new OccurrenceSearchParameter(&quot;DECIMAL_LONGITUDE&quot;, Double.class);</span>
 
   /**
    * The uncertainty of the coordinate in meters.
@@ -238,32 +251,32 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L241">  public final static OccurrenceSearchParameter COORDINATE_UNCERTAINTY_IN_METERS = new OccurrenceSearchParameter(&quot;COORDINATE_UNCERTAINTY_IN_METERS&quot;, Double.class);</span>
+<span class="fc" id="L254">  public final static OccurrenceSearchParameter COORDINATE_UNCERTAINTY_IN_METERS = new OccurrenceSearchParameter(&quot;COORDINATE_UNCERTAINTY_IN_METERS&quot;, Double.class);</span>
 
   /**
    * Country the occurrence was recorded in.
    */
-<span class="fc" id="L246">  public final static OccurrenceSearchParameter COUNTRY = new OccurrenceSearchParameter(&quot;COUNTRY&quot;, Country.class);</span>
+<span class="fc" id="L259">  public final static OccurrenceSearchParameter COUNTRY = new OccurrenceSearchParameter(&quot;COUNTRY&quot;, Country.class);</span>
 
   /**
    * GBIF region based on country
    */
-<span class="fc" id="L251">  public final static OccurrenceSearchParameter GBIF_REGION = new OccurrenceSearchParameter(&quot;GBIF_REGION&quot;, GbifRegion.class);</span>
+<span class="fc" id="L264">  public final static OccurrenceSearchParameter GBIF_REGION = new OccurrenceSearchParameter(&quot;GBIF_REGION&quot;, GbifRegion.class);</span>
 
   /**
    * Continent the occurrence was recorded in.
    */
-<span class="fc" id="L256">  public final static OccurrenceSearchParameter CONTINENT = new OccurrenceSearchParameter(&quot;CONTINENT&quot;, Continent.class);</span>
+<span class="fc" id="L269">  public final static OccurrenceSearchParameter CONTINENT = new OccurrenceSearchParameter(&quot;CONTINENT&quot;, Continent.class);</span>
 
   /**
    * The country of the organization that publishes the dataset the occurrence belongs to.
    */
-<span class="fc" id="L261">  public final static OccurrenceSearchParameter PUBLISHING_COUNTRY = new OccurrenceSearchParameter(&quot;PUBLISHING_COUNTRY&quot;, Country.class);</span>
+<span class="fc" id="L274">  public final static OccurrenceSearchParameter PUBLISHING_COUNTRY = new OccurrenceSearchParameter(&quot;PUBLISHING_COUNTRY&quot;, Country.class);</span>
 
   /**
    * GBIF region based on publishibg country
    */
-<span class="fc" id="L266">  public final static OccurrenceSearchParameter PUBLISHED_BY_GBIF_REGION = new OccurrenceSearchParameter(&quot;PUBLISHED_BY_GBIF_REGION&quot;, GbifRegion.class);</span>
+<span class="fc" id="L279">  public final static OccurrenceSearchParameter PUBLISHED_BY_GBIF_REGION = new OccurrenceSearchParameter(&quot;PUBLISHED_BY_GBIF_REGION&quot;, GbifRegion.class);</span>
 
   /**
    * Altitude/elevation in meters above sea level.
@@ -277,7 +290,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;dd&gt;Altitude between or equals -2m and 8.8m&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L280">  public final static OccurrenceSearchParameter ELEVATION = new OccurrenceSearchParameter(&quot;ELEVATION&quot;, Double.class);</span>
+<span class="fc" id="L293">  public final static OccurrenceSearchParameter ELEVATION = new OccurrenceSearchParameter(&quot;ELEVATION&quot;, Double.class);</span>
 
   /**
    * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.
@@ -291,139 +304,139 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;dd&gt;Depth between or equals 12.1m and 28.8m&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L294">  public final static OccurrenceSearchParameter DEPTH = new OccurrenceSearchParameter(&quot;DEPTH&quot;, Double.class);</span>
+<span class="fc" id="L307">  public final static OccurrenceSearchParameter DEPTH = new OccurrenceSearchParameter(&quot;DEPTH&quot;, Double.class);</span>
 
   /**
    * An identifier of any form assigned by the source to identify the institution
    * the record belongs to. Not guaranteed to be unique.
    */
-<span class="fc" id="L300">  public final static OccurrenceSearchParameter INSTITUTION_CODE = new OccurrenceSearchParameter(&quot;INSTITUTION_CODE&quot;, String.class);</span>
+<span class="fc" id="L313">  public final static OccurrenceSearchParameter INSTITUTION_CODE = new OccurrenceSearchParameter(&quot;INSTITUTION_CODE&quot;, String.class);</span>
 
   /**
    * An identifier of any form assigned by the source to identify the physical collection or digital dataset
    * uniquely within the context of an institution.
    */
-<span class="fc" id="L306">  public final static OccurrenceSearchParameter COLLECTION_CODE = new OccurrenceSearchParameter(&quot;COLLECTION_CODE&quot;, String.class);</span>
+<span class="fc" id="L319">  public final static OccurrenceSearchParameter COLLECTION_CODE = new OccurrenceSearchParameter(&quot;COLLECTION_CODE&quot;, String.class);</span>
 
   /**
    * An identifier of any form assigned by the source within a physical collection or digital dataset for the record
    * which may not be unique, but should be fairly unique in combination with the institution and collection code.
    */
-<span class="fc" id="L312">  public final static OccurrenceSearchParameter CATALOG_NUMBER = new OccurrenceSearchParameter(&quot;CATALOG_NUMBER&quot;, String.class);</span>
+<span class="fc" id="L325">  public final static OccurrenceSearchParameter CATALOG_NUMBER = new OccurrenceSearchParameter(&quot;CATALOG_NUMBER&quot;, String.class);</span>
 
   /**
    * The person who recorded the occurrence.
    */
-<span class="fc" id="L317">  public final static OccurrenceSearchParameter RECORDED_BY = new OccurrenceSearchParameter(&quot;RECORDED_BY&quot;, String.class);</span>
+<span class="fc" id="L330">  public final static OccurrenceSearchParameter RECORDED_BY = new OccurrenceSearchParameter(&quot;RECORDED_BY&quot;, String.class);</span>
 
   /**
    * The person who identified the occurrence.
    */
-<span class="fc" id="L322">  public final static OccurrenceSearchParameter IDENTIFIED_BY = new OccurrenceSearchParameter(&quot;IDENTIFIED_BY&quot;, String.class);</span>
+<span class="fc" id="L335">  public final static OccurrenceSearchParameter IDENTIFIED_BY = new OccurrenceSearchParameter(&quot;IDENTIFIED_BY&quot;, String.class);</span>
 
   /**
    * An identifier given to the Occurrence at the time it was recorded.
    */
-<span class="fc" id="L327">  public final static OccurrenceSearchParameter RECORD_NUMBER = new OccurrenceSearchParameter(&quot;RECORD_NUMBER&quot;, String.class);</span>
+<span class="fc" id="L340">  public final static OccurrenceSearchParameter RECORD_NUMBER = new OccurrenceSearchParameter(&quot;RECORD_NUMBER&quot;, String.class);</span>
 
   /**
    * A basis of record enumeration value.
    */
-<span class="fc" id="L332">  public final static OccurrenceSearchParameter BASIS_OF_RECORD = new OccurrenceSearchParameter(&quot;BASIS_OF_RECORD&quot;, BasisOfRecord.class);</span>
+<span class="fc" id="L345">  public final static OccurrenceSearchParameter BASIS_OF_RECORD = new OccurrenceSearchParameter(&quot;BASIS_OF_RECORD&quot;, BasisOfRecord.class);</span>
 
   /**
    * The sex of the biological individual(s) represented in the occurrence.
    */
-<span class="fc" id="L337">  public final static OccurrenceSearchParameter SEX = new OccurrenceSearchParameter(&quot;SEX&quot;, String.class);</span>
+<span class="fc" id="L350">  public final static OccurrenceSearchParameter SEX = new OccurrenceSearchParameter(&quot;SEX&quot;, String.class);</span>
 
   /**
    * Presents of associated sequences or an extension
    */
-<span class="fc" id="L342">  public final static OccurrenceSearchParameter IS_SEQUENCED = new OccurrenceSearchParameter(&quot;IS_SEQUENCED&quot;, Boolean.class);</span>
+<span class="fc" id="L355">  public final static OccurrenceSearchParameter IS_SEQUENCED = new OccurrenceSearchParameter(&quot;IS_SEQUENCED&quot;, Boolean.class);</span>
 
   /**
    * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for
    * aves with taxonKey=212 will match all birds, no matter which species.
    */
-<span class="fc" id="L348">  public final static OccurrenceSearchParameter TAXON_KEY = new OccurrenceSearchParameter(&quot;TAXON_KEY&quot;, String.class);</span>
+<span class="fc" id="L361">  public final static OccurrenceSearchParameter TAXON_KEY = new OccurrenceSearchParameter(&quot;TAXON_KEY&quot;, String.class);</span>
 
   /**
    * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.
    */
-<span class="fc" id="L353">  public final static OccurrenceSearchParameter ACCEPTED_TAXON_KEY = new OccurrenceSearchParameter(&quot;ACCEPTED_TAXON_KEY&quot;, String.class);</span>
+<span class="fc" id="L366">  public final static OccurrenceSearchParameter ACCEPTED_TAXON_KEY = new OccurrenceSearchParameter(&quot;ACCEPTED_TAXON_KEY&quot;, String.class);</span>
 
   /**
    * A kingdom key from the GBIF backbone.
    */
-<span class="fc" id="L358">  public final static OccurrenceSearchParameter KINGDOM_KEY = new OccurrenceSearchParameter(&quot;KINGDOM_KEY&quot;, String.class);</span>
+<span class="fc" id="L371">  public final static OccurrenceSearchParameter KINGDOM_KEY = new OccurrenceSearchParameter(&quot;KINGDOM_KEY&quot;, String.class);</span>
 
   /**
    * A phylum key from the GBIF backbone.
    */
-<span class="fc" id="L363">  public final static OccurrenceSearchParameter PHYLUM_KEY = new OccurrenceSearchParameter(&quot;PHYLUM_KEY&quot;, String.class);</span>
+<span class="fc" id="L376">  public final static OccurrenceSearchParameter PHYLUM_KEY = new OccurrenceSearchParameter(&quot;PHYLUM_KEY&quot;, String.class);</span>
 
   /**
    * A class key from the GBIF backbone.
    */
-<span class="fc" id="L368">  public final static OccurrenceSearchParameter CLASS_KEY = new OccurrenceSearchParameter(&quot;CLASS_KEY&quot;, String.class);</span>
+<span class="fc" id="L381">  public final static OccurrenceSearchParameter CLASS_KEY = new OccurrenceSearchParameter(&quot;CLASS_KEY&quot;, String.class);</span>
 
   /**
    * A order key from the GBIF backbone.
    */
-<span class="fc" id="L373">  public final static OccurrenceSearchParameter ORDER_KEY = new OccurrenceSearchParameter(&quot;ORDER_KEY&quot;, String.class);</span>
+<span class="fc" id="L386">  public final static OccurrenceSearchParameter ORDER_KEY = new OccurrenceSearchParameter(&quot;ORDER_KEY&quot;, String.class);</span>
 
   /**
    * A family key from the GBIF backbone.
    */
-<span class="fc" id="L378">  public final static OccurrenceSearchParameter FAMILY_KEY = new OccurrenceSearchParameter(&quot;FAMILY_KEY&quot;, String.class);</span>
+<span class="fc" id="L391">  public final static OccurrenceSearchParameter FAMILY_KEY = new OccurrenceSearchParameter(&quot;FAMILY_KEY&quot;, String.class);</span>
 
   /**
    * A genus key from the GBIF backbone.
    */
-<span class="fc" id="L383">  public final static OccurrenceSearchParameter GENUS_KEY = new OccurrenceSearchParameter(&quot;GENUS_KEY&quot;, String.class);</span>
+<span class="fc" id="L396">  public final static OccurrenceSearchParameter GENUS_KEY = new OccurrenceSearchParameter(&quot;GENUS_KEY&quot;, String.class);</span>
 
   /**
    * A subgenus key from the GBIF backbone.
    */
-<span class="fc" id="L388">  public final static OccurrenceSearchParameter SUBGENUS_KEY = new OccurrenceSearchParameter(&quot;SUBGENUS_KEY&quot;, String.class);</span>
+<span class="fc" id="L401">  public final static OccurrenceSearchParameter SUBGENUS_KEY = new OccurrenceSearchParameter(&quot;SUBGENUS_KEY&quot;, String.class);</span>
 
   /**
    * A species key from the GBIF backbone.
    */
-<span class="fc" id="L393">  public final static OccurrenceSearchParameter SPECIES_KEY = new OccurrenceSearchParameter(&quot;SPECIES_KEY&quot;, String.class);</span>
+<span class="fc" id="L406">  public final static OccurrenceSearchParameter SPECIES_KEY = new OccurrenceSearchParameter(&quot;SPECIES_KEY&quot;, String.class);</span>
 
   /**
    * Searches the interpreted, full scientific name of the occurrence.
    */
-<span class="fc" id="L398">  public final static OccurrenceSearchParameter SCIENTIFIC_NAME = new OccurrenceSearchParameter(&quot;SCIENTIFIC_NAME&quot;, String.class);</span>
+<span class="fc" id="L411">  public final static OccurrenceSearchParameter SCIENTIFIC_NAME = new OccurrenceSearchParameter(&quot;SCIENTIFIC_NAME&quot;, String.class);</span>
 
   /**
    * Scientific name as provided byt the source.
    */
-<span class="fc" id="L403">  public final static OccurrenceSearchParameter VERBATIM_SCIENTIFIC_NAME = new OccurrenceSearchParameter(&quot;VERBATIM_SCIENTIFIC_NAME&quot;, String.class);</span>
+<span class="fc" id="L416">  public final static OccurrenceSearchParameter VERBATIM_SCIENTIFIC_NAME = new OccurrenceSearchParameter(&quot;VERBATIM_SCIENTIFIC_NAME&quot;, String.class);</span>
 
   /**
    * Verbatim identifier for the set of taxon information. Maybe a global unique identifier or an identifier specific to
    * the data set.
    */
-<span class="fc" id="L409">  public final static OccurrenceSearchParameter TAXON_ID = new OccurrenceSearchParameter(&quot;TAXON_ID&quot;, String.class);</span>
+<span class="fc" id="L422">  public final static OccurrenceSearchParameter TAXON_ID = new OccurrenceSearchParameter(&quot;TAXON_ID&quot;, String.class);</span>
 
   /**
    * An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a taxon.
    */
-<span class="fc" id="L414">  public final static OccurrenceSearchParameter TAXON_CONCEPT_ID = new OccurrenceSearchParameter(&quot;TAXON_CONCEPT_ID&quot;, String.class);</span>
+<span class="fc" id="L427">  public final static OccurrenceSearchParameter TAXON_CONCEPT_ID = new OccurrenceSearchParameter(&quot;TAXON_CONCEPT_ID&quot;, String.class);</span>
 
   /**
    * The status of the use of the  GBIF Backbone taxonKey.
    */
-<span class="fc" id="L419">  public final static OccurrenceSearchParameter TAXONOMIC_STATUS = new OccurrenceSearchParameter(&quot;TAXONOMIC_STATUS&quot;, TaxonomicStatus.class);</span>
+<span class="fc" id="L432">  public final static OccurrenceSearchParameter TAXONOMIC_STATUS = new OccurrenceSearchParameter(&quot;TAXONOMIC_STATUS&quot;, TaxonomicStatus.class);</span>
 
   /**
    * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).
    * HAS_COORDINATE=true searches for occurrence records with a coordinate value.
    * HAS_COORDINATE=false searches for occurrence records without a coordinate value.
    */
-<span class="fc" id="L426">  public final static OccurrenceSearchParameter HAS_COORDINATE = new OccurrenceSearchParameter(&quot;HAS_COORDINATE&quot;, Boolean.class);</span>
+<span class="fc" id="L439">  public final static OccurrenceSearchParameter HAS_COORDINATE = new OccurrenceSearchParameter(&quot;HAS_COORDINATE&quot;, Boolean.class);</span>
 
   /**
    * Geometry in &lt;a href=&quot;https://en.wikipedia.org/wiki/Well-known_text&quot;&gt;Well Known Text&lt;/a&gt; (WKT) format.
@@ -437,19 +450,19 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * &lt;li&gt;LINEARRING&lt;/li&gt;
    * &lt;/ul&gt;
    */
-<span class="fc" id="L440">  public final static OccurrenceSearchParameter GEOMETRY = new OccurrenceSearchParameter(&quot;GEOMETRY&quot;, String.class);</span>
+<span class="fc" id="L453">  public final static OccurrenceSearchParameter GEOMETRY = new OccurrenceSearchParameter(&quot;GEOMETRY&quot;, String.class);</span>
 
   /**
    * Use in combination of LATITUDE and LONGITUDE parameters matches within a given distance.
    * E.g.: geo_distance=100m,40,90 geo_distance=100km,40,90 geo_distance=100mi,40,90.
    * See supported units in {@link org.gbif.api.model.occurrence.geo.DistanceUnit}.
    */
-<span class="fc" id="L447">  public final static OccurrenceSearchParameter GEO_DISTANCE = new OccurrenceSearchParameter(&quot;GEO_DISTANCE&quot;, String.class);</span>
+<span class="fc" id="L460">  public final static OccurrenceSearchParameter GEO_DISTANCE = new OccurrenceSearchParameter(&quot;GEO_DISTANCE&quot;, String.class);</span>
 
   /**
    * The distance from a known centroid, e.g. a country centroid.
    */
-<span class="fc" id="L452">  public final static OccurrenceSearchParameter DISTANCE_FROM_CENTROID_IN_METERS = new OccurrenceSearchParameter(&quot;DISTANCE_FROM_CENTROID_IN_METERS&quot;, Double.class);</span>
+<span class="fc" id="L465">  public final static OccurrenceSearchParameter DISTANCE_FROM_CENTROID_IN_METERS = new OccurrenceSearchParameter(&quot;DISTANCE_FROM_CENTROID_IN_METERS&quot;, Double.class);</span>
 
   /**
    * Includes/excludes occurrence records which contain geospatial issues for their coordinate.
@@ -458,455 +471,455 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * HAS_GEOSPATIAL_ISSUE=false exclude records with spatial issues.
    * The absence of this parameter returns any record with or without spatial issues.
    */
-<span class="fc" id="L461">  public final static OccurrenceSearchParameter HAS_GEOSPATIAL_ISSUE = new OccurrenceSearchParameter(&quot;HAS_GEOSPATIAL_ISSUE&quot;, Boolean.class);</span>
+<span class="fc" id="L474">  public final static OccurrenceSearchParameter HAS_GEOSPATIAL_ISSUE = new OccurrenceSearchParameter(&quot;HAS_GEOSPATIAL_ISSUE&quot;, Boolean.class);</span>
 
   /**
    * Searches occurrence for those that have a specific issue.
    */
-<span class="fc" id="L466">  public final static OccurrenceSearchParameter ISSUE = new OccurrenceSearchParameter(&quot;ISSUE&quot;, OccurrenceIssue.class);</span>
+<span class="fc" id="L479">  public final static OccurrenceSearchParameter ISSUE = new OccurrenceSearchParameter(&quot;ISSUE&quot;, OccurrenceIssue.class);</span>
 
   /**
    * Searches occurrence for those that have a specific taxonomic issue. This is separated out from the general issue
    * field as taxonomic issues will be tied to a specific checklist.
    */
-<span class="fc" id="L472">  public final static OccurrenceSearchParameter TAXONOMIC_ISSUE = new OccurrenceSearchParameter(&quot;TAXONOMIC_ISSUE&quot;, String.class);</span>
+<span class="fc" id="L485">  public final static OccurrenceSearchParameter TAXONOMIC_ISSUE = new OccurrenceSearchParameter(&quot;TAXONOMIC_ISSUE&quot;, String.class);</span>
 
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
-<span class="fc" id="L477">  public final static OccurrenceSearchParameter TYPE_STATUS = new OccurrenceSearchParameter(&quot;TYPE_STATUS&quot;, String.class);</span>
+<span class="fc" id="L490">  public final static OccurrenceSearchParameter TYPE_STATUS = new OccurrenceSearchParameter(&quot;TYPE_STATUS&quot;, String.class);</span>
 
   /**
    * The kind of media object.
    * Recommended terms from the DCMI Type Vocabulary are StillImage, Sound or MovingImage for GBIF to index and show the
    * media files.
    */
-<span class="fc" id="L484">  public final static OccurrenceSearchParameter MEDIA_TYPE = new OccurrenceSearchParameter(&quot;MEDIA_TYPE&quot;, MediaType.class);</span>
+<span class="fc" id="L497">  public final static OccurrenceSearchParameter MEDIA_TYPE = new OccurrenceSearchParameter(&quot;MEDIA_TYPE&quot;, MediaType.class);</span>
 
   /**
    *  An identifier for the Occurrence (as opposed to a particular digital record of the occurrence).
    *  In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the
    *  record that will most closely make the occurrenceID globally unique.
    */
-<span class="fc" id="L491">  public final static OccurrenceSearchParameter OCCURRENCE_ID = new OccurrenceSearchParameter(&quot;OCCURRENCE_ID&quot;, String.class);</span>
+<span class="fc" id="L504">  public final static OccurrenceSearchParameter OCCURRENCE_ID = new OccurrenceSearchParameter(&quot;OCCURRENCE_ID&quot;, String.class);</span>
 
   /**
    * The process by which the biological individual(s) represented in the Occurrence became established at the location.
    */
-<span class="fc" id="L496">  public final static OccurrenceSearchParameter ESTABLISHMENT_MEANS = new OccurrenceSearchParameter(&quot;ESTABLISHMENT_MEANS&quot;, String.class);</span>
+<span class="fc" id="L509">  public final static OccurrenceSearchParameter ESTABLISHMENT_MEANS = new OccurrenceSearchParameter(&quot;ESTABLISHMENT_MEANS&quot;, String.class);</span>
 
   /**
    * Provides the controlled vocabulary for information about degree to which an Organism survives, reproduces, and expands its range at the given place and time.
    */
-<span class="fc" id="L501">  public final static OccurrenceSearchParameter DEGREE_OF_ESTABLISHMENT = new OccurrenceSearchParameter(&quot;DEGREE_OF_ESTABLISHMENT&quot;, String.class);</span>
+<span class="fc" id="L514">  public final static OccurrenceSearchParameter DEGREE_OF_ESTABLISHMENT = new OccurrenceSearchParameter(&quot;DEGREE_OF_ESTABLISHMENT&quot;, String.class);</span>
 
   /**
    * Provides the controlled vocabulary for information about the process by which an Organism came to be in a given place at a given time.
    * The pathway of an organism or organisms have been introduced to a given place and time.
    */
-<span class="fc" id="L507">  public final static OccurrenceSearchParameter PATHWAY = new OccurrenceSearchParameter(&quot;PATHWAY&quot;, String.class);</span>
+<span class="fc" id="L520">  public final static OccurrenceSearchParameter PATHWAY = new OccurrenceSearchParameter(&quot;PATHWAY&quot;, String.class);</span>
 
   /**
    * Searches for records whose publishing country is different to the country where the record was recorded in.
    */
-<span class="fc" id="L512">  public final static OccurrenceSearchParameter REPATRIATED = new OccurrenceSearchParameter(&quot;REPATRIATED&quot;, Boolean.class);</span>
+<span class="fc" id="L525">  public final static OccurrenceSearchParameter REPATRIATED = new OccurrenceSearchParameter(&quot;REPATRIATED&quot;, Boolean.class);</span>
 
   /**
    * An identifier for the Organism instance (as opposed to a particular digital record of the Organism).
    * May be a globally unique identifier or an identifier specific to the data set.
    */
-<span class="fc" id="L518">  public final static OccurrenceSearchParameter ORGANISM_ID = new OccurrenceSearchParameter(&quot;ORGANISM_ID&quot;, String.class);</span>
+<span class="fc" id="L531">  public final static OccurrenceSearchParameter ORGANISM_ID = new OccurrenceSearchParameter(&quot;ORGANISM_ID&quot;, String.class);</span>
 
   /**
    * The name of the next smaller administrative region than country in which the Location occurs.
    */
-<span class="fc" id="L523">  public final static OccurrenceSearchParameter STATE_PROVINCE = new OccurrenceSearchParameter(&quot;STATE_PROVINCE&quot;, String.class);</span>
+<span class="fc" id="L536">  public final static OccurrenceSearchParameter STATE_PROVINCE = new OccurrenceSearchParameter(&quot;STATE_PROVINCE&quot;, String.class);</span>
 
   /**
    * The name of the water body in which the Location occurs.
    */
-<span class="fc" id="L528">  public final static OccurrenceSearchParameter WATER_BODY = new OccurrenceSearchParameter(&quot;WATER_BODY&quot;, String.class);</span>
+<span class="fc" id="L541">  public final static OccurrenceSearchParameter WATER_BODY = new OccurrenceSearchParameter(&quot;WATER_BODY&quot;, String.class);</span>
 
   /**
    * The specific description of the place.
    * It may contain information modified from the original to correct perceived errors or standardize the description.
    */
-<span class="fc" id="L534">  public final static OccurrenceSearchParameter LOCALITY = new OccurrenceSearchParameter(&quot;LOCALITY&quot;, String.class);</span>
+<span class="fc" id="L547">  public final static OccurrenceSearchParameter LOCALITY = new OccurrenceSearchParameter(&quot;LOCALITY&quot;, String.class);</span>
 
   /**
    * Protocol used to provide the occurrence record.
    */
-<span class="fc" id="L539">  public final static OccurrenceSearchParameter PROTOCOL = new OccurrenceSearchParameter(&quot;PROTOCOL&quot;, EndpointType.class);</span>
+<span class="fc" id="L552">  public final static OccurrenceSearchParameter PROTOCOL = new OccurrenceSearchParameter(&quot;PROTOCOL&quot;, EndpointType.class);</span>
 
   /**
    * The license applied to the dataset.
    */
-<span class="fc" id="L544">  public final static OccurrenceSearchParameter LICENSE = new OccurrenceSearchParameter(&quot;LICENSE&quot;, License.class);</span>
+<span class="fc" id="L557">  public final static OccurrenceSearchParameter LICENSE = new OccurrenceSearchParameter(&quot;LICENSE&quot;, License.class);</span>
 
   /**
    * The owning organizations uuid key.
    */
-<span class="fc" id="L549">  public final static OccurrenceSearchParameter PUBLISHING_ORG = new OccurrenceSearchParameter(&quot;PUBLISHING_ORG&quot;, UUID.class);</span>
+<span class="fc" id="L562">  public final static OccurrenceSearchParameter PUBLISHING_ORG = new OccurrenceSearchParameter(&quot;PUBLISHING_ORG&quot;, UUID.class);</span>
 
   /**
    * The GBIF network that the publishing organisation belongs to.
    */
-<span class="fc" id="L554">  public final static OccurrenceSearchParameter NETWORK_KEY = new OccurrenceSearchParameter(&quot;NETWORK_KEY&quot;, UUID.class);</span>
+<span class="fc" id="L567">  public final static OccurrenceSearchParameter NETWORK_KEY = new OccurrenceSearchParameter(&quot;NETWORK_KEY&quot;, UUID.class);</span>
 
   /**
    * The technical installation key that hosts/publishes this record.
    */
-<span class="fc" id="L559">  public final static OccurrenceSearchParameter INSTALLATION_KEY = new OccurrenceSearchParameter(&quot;INSTALLATION_KEY&quot;, UUID.class);</span>
+<span class="fc" id="L572">  public final static OccurrenceSearchParameter INSTALLATION_KEY = new OccurrenceSearchParameter(&quot;INSTALLATION_KEY&quot;, UUID.class);</span>
 
   /**
    * The organization key of the installation that hosts this record.
    */
-<span class="fc" id="L564">  public final static OccurrenceSearchParameter HOSTING_ORGANIZATION_KEY = new OccurrenceSearchParameter(&quot;HOSTING_ORGANIZATION_KEY&quot;, UUID.class);</span>
+<span class="fc" id="L577">  public final static OccurrenceSearchParameter HOSTING_ORGANIZATION_KEY = new OccurrenceSearchParameter(&quot;HOSTING_ORGANIZATION_KEY&quot;, UUID.class);</span>
 
   /**
    * Crawl attempt that harvested this record.
    */
-<span class="fc" id="L569">  public final static OccurrenceSearchParameter CRAWL_ID = new OccurrenceSearchParameter(&quot;CRAWL_ID&quot;, Integer.class);</span>
+<span class="fc" id="L582">  public final static OccurrenceSearchParameter CRAWL_ID = new OccurrenceSearchParameter(&quot;CRAWL_ID&quot;, Integer.class);</span>
 
   /**
    * GBIF ProjectId.
    */
-<span class="fc" id="L574">  public final static OccurrenceSearchParameter PROJECT_ID = new OccurrenceSearchParameter(&quot;PROJECT_ID&quot;, String.class);</span>
+<span class="fc" id="L587">  public final static OccurrenceSearchParameter PROJECT_ID = new OccurrenceSearchParameter(&quot;PROJECT_ID&quot;, String.class);</span>
 
   /**
    * GBIF Programme Acronym.
    */
-<span class="fc" id="L579">  public final static OccurrenceSearchParameter PROGRAMME = new OccurrenceSearchParameter(&quot;PROGRAMME&quot;, String.class);</span>
+<span class="fc" id="L592">  public final static OccurrenceSearchParameter PROGRAMME = new OccurrenceSearchParameter(&quot;PROGRAMME&quot;, String.class);</span>
 
   /**
    * A number or enumeration value for the quantity of organisms.
    */
-<span class="fc" id="L584">  public final static OccurrenceSearchParameter ORGANISM_QUANTITY = new OccurrenceSearchParameter(&quot;ORGANISM_QUANTITY&quot;, Double.class);</span>
+<span class="fc" id="L597">  public final static OccurrenceSearchParameter ORGANISM_QUANTITY = new OccurrenceSearchParameter(&quot;ORGANISM_QUANTITY&quot;, Double.class);</span>
 
   /**
    * The type of quantification system used for the quantity of organisms.
    */
-<span class="fc" id="L589">  public final static OccurrenceSearchParameter ORGANISM_QUANTITY_TYPE = new OccurrenceSearchParameter(&quot;ORGANISM_QUANTITY_TYPE&quot;, String.class);</span>
+<span class="fc" id="L602">  public final static OccurrenceSearchParameter ORGANISM_QUANTITY_TYPE = new OccurrenceSearchParameter(&quot;ORGANISM_QUANTITY_TYPE&quot;, String.class);</span>
 
   /**
    * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
-<span class="fc" id="L594">  public final static OccurrenceSearchParameter SAMPLE_SIZE_UNIT = new OccurrenceSearchParameter(&quot;SAMPLE_SIZE_UNIT&quot;, String.class);</span>
+<span class="fc" id="L607">  public final static OccurrenceSearchParameter SAMPLE_SIZE_UNIT = new OccurrenceSearchParameter(&quot;SAMPLE_SIZE_UNIT&quot;, String.class);</span>
 
   /**
    * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
-<span class="fc" id="L599">  public final static OccurrenceSearchParameter SAMPLE_SIZE_VALUE = new OccurrenceSearchParameter(&quot;SAMPLE_SIZE_VALUE&quot;, Double.class);</span>
+<span class="fc" id="L612">  public final static OccurrenceSearchParameter SAMPLE_SIZE_VALUE = new OccurrenceSearchParameter(&quot;SAMPLE_SIZE_VALUE&quot;, Double.class);</span>
 
   /**
    * Calculated organismQuantity relative to the sampleSizeValue i.e. -&gt; organismQuantity / sampleSizeValue.
    */
-<span class="fc" id="L604">  public final static OccurrenceSearchParameter RELATIVE_ORGANISM_QUANTITY = new OccurrenceSearchParameter(&quot;RELATIVE_ORGANISM_QUANTITY&quot;, Double.class);</span>
+<span class="fc" id="L617">  public final static OccurrenceSearchParameter RELATIVE_ORGANISM_QUANTITY = new OccurrenceSearchParameter(&quot;RELATIVE_ORGANISM_QUANTITY&quot;, Double.class);</span>
 
   /**
    * Collection key. It links to the collection to which this record belongs.
    */
-<span class="fc" id="L609">  public final static OccurrenceSearchParameter COLLECTION_KEY = new OccurrenceSearchParameter(&quot;COLLECTION_KEY&quot;, String.class);</span>
+<span class="fc" id="L622">  public final static OccurrenceSearchParameter COLLECTION_KEY = new OccurrenceSearchParameter(&quot;COLLECTION_KEY&quot;, String.class);</span>
 
   /**
    * Institution key. It links to the institution that maintains, recorded or digitized  this record.
    */
-<span class="fc" id="L614">  public final static OccurrenceSearchParameter INSTITUTION_KEY = new OccurrenceSearchParameter(&quot;INSTITUTION_KEY&quot;, String.class);</span>
+<span class="fc" id="L627">  public final static OccurrenceSearchParameter INSTITUTION_KEY = new OccurrenceSearchParameter(&quot;INSTITUTION_KEY&quot;, String.class);</span>
 
   /**
    * Agent identifiers from GbifTerm.recordedByID
    */
-<span class="fc" id="L619">  public final static OccurrenceSearchParameter RECORDED_BY_ID = new OccurrenceSearchParameter(&quot;RECORDED_BY_ID&quot;, String.class);</span>
+<span class="fc" id="L632">  public final static OccurrenceSearchParameter RECORDED_BY_ID = new OccurrenceSearchParameter(&quot;RECORDED_BY_ID&quot;, String.class);</span>
 
   /**
    * Agent identifiers from GbifTerm.identifiedByID
    */
-<span class="fc" id="L624">  public final static OccurrenceSearchParameter IDENTIFIED_BY_ID = new OccurrenceSearchParameter(&quot;IDENTIFIED_BY_ID&quot;, String.class);</span>
+<span class="fc" id="L637">  public final static OccurrenceSearchParameter IDENTIFIED_BY_ID = new OccurrenceSearchParameter(&quot;IDENTIFIED_BY_ID&quot;, String.class);</span>
 
   /**
    * An occurrence status enumeration value.
    */
-<span class="fc" id="L629">  public final static OccurrenceSearchParameter OCCURRENCE_STATUS = new OccurrenceSearchParameter(&quot;OCCURRENCE_STATUS&quot;, OccurrenceStatus.class);</span>
+<span class="fc" id="L642">  public final static OccurrenceSearchParameter OCCURRENCE_STATUS = new OccurrenceSearchParameter(&quot;OCCURRENCE_STATUS&quot;, OccurrenceStatus.class);</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; identifier at any level.
    */
-<span class="fc" id="L634">  public final static OccurrenceSearchParameter GADM_GID = new OccurrenceSearchParameter(&quot;GADM_GID&quot;, String.class);</span>
+<span class="fc" id="L647">  public final static OccurrenceSearchParameter GADM_GID = new OccurrenceSearchParameter(&quot;GADM_GID&quot;, String.class);</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; country, island or territory (level zero) identifier.
    */
-<span class="fc" id="L639">  public final static OccurrenceSearchParameter GADM_LEVEL_0_GID = new OccurrenceSearchParameter(&quot;GADM_LEVEL_0_GID&quot;, String.class);</span>
+<span class="fc" id="L652">  public final static OccurrenceSearchParameter GADM_LEVEL_0_GID = new OccurrenceSearchParameter(&quot;GADM_LEVEL_0_GID&quot;, String.class);</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; first-level identifier.
    */
-<span class="fc" id="L644">  public final static OccurrenceSearchParameter GADM_LEVEL_1_GID = new OccurrenceSearchParameter(&quot;GADM_LEVEL_1_GID&quot;, String.class);</span>
+<span class="fc" id="L657">  public final static OccurrenceSearchParameter GADM_LEVEL_1_GID = new OccurrenceSearchParameter(&quot;GADM_LEVEL_1_GID&quot;, String.class);</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; second-level identifier.
    */
-<span class="fc" id="L649">  public final static OccurrenceSearchParameter GADM_LEVEL_2_GID = new OccurrenceSearchParameter(&quot;GADM_LEVEL_2_GID&quot;, String.class);</span>
+<span class="fc" id="L662">  public final static OccurrenceSearchParameter GADM_LEVEL_2_GID = new OccurrenceSearchParameter(&quot;GADM_LEVEL_2_GID&quot;, String.class);</span>
 
   /**
    * A &lt;a href=&quot;https://gadm.org&quot;&gt;GADM&lt;/a&gt; third-level identifier.
    */
-<span class="fc" id="L654">  public final static OccurrenceSearchParameter GADM_LEVEL_3_GID = new OccurrenceSearchParameter(&quot;GADM_LEVEL_3_GID&quot;, String.class);</span>
+<span class="fc" id="L667">  public final static OccurrenceSearchParameter GADM_LEVEL_3_GID = new OccurrenceSearchParameter(&quot;GADM_LEVEL_3_GID&quot;, String.class);</span>
 
   /**
    * The life stage of an occurrence.
    */
-<span class="fc" id="L659">  public final static OccurrenceSearchParameter LIFE_STAGE = new OccurrenceSearchParameter(&quot;LIFE_STAGE&quot;, String.class);</span>
+<span class="fc" id="L672">  public final static OccurrenceSearchParameter LIFE_STAGE = new OccurrenceSearchParameter(&quot;LIFE_STAGE&quot;, String.class);</span>
 
   /**
    * Searches for occurrences that are clustered.
    */
-<span class="fc" id="L664">  public final static OccurrenceSearchParameter IS_IN_CLUSTER = new OccurrenceSearchParameter(&quot;IS_IN_CLUSTER&quot;, Boolean.class);</span>
+<span class="fc" id="L677">  public final static OccurrenceSearchParameter IS_IN_CLUSTER = new OccurrenceSearchParameter(&quot;IS_IN_CLUSTER&quot;, Boolean.class);</span>
 
   /**
    * Searches for occurrences that have a particular DwC-A extension.
    */
-<span class="fc" id="L669">  public final static OccurrenceSearchParameter DWCA_EXTENSION = new OccurrenceSearchParameter(&quot;DWCA_EXTENSION&quot;, String.class);</span>
+<span class="fc" id="L682">  public final static OccurrenceSearchParameter DWCA_EXTENSION = new OccurrenceSearchParameter(&quot;DWCA_EXTENSION&quot;, String.class);</span>
 
   /**
    * Searches for occurrences that have a IUCN Red List Category.
    */
-<span class="fc" id="L674">  public final static OccurrenceSearchParameter IUCN_RED_LIST_CATEGORY = new OccurrenceSearchParameter(&quot;IUCN_RED_LIST_CATEGORY&quot;, String.class);</span>
+<span class="fc" id="L687">  public final static OccurrenceSearchParameter IUCN_RED_LIST_CATEGORY = new OccurrenceSearchParameter(&quot;IUCN_RED_LIST_CATEGORY&quot;, String.class);</span>
 
   /**
    * The dwc dataset id.
    */
-<span class="fc" id="L679">  public final static OccurrenceSearchParameter DATASET_ID = new OccurrenceSearchParameter(&quot;DATASET_ID&quot;, String.class);</span>
+<span class="fc" id="L692">  public final static OccurrenceSearchParameter DATASET_ID = new OccurrenceSearchParameter(&quot;DATASET_ID&quot;, String.class);</span>
 
   /**
    * The dwc dataset name.
    */
-<span class="fc" id="L684">  public final static OccurrenceSearchParameter DATASET_NAME = new OccurrenceSearchParameter(&quot;DATASET_NAME&quot;, String.class);</span>
+<span class="fc" id="L697">  public final static OccurrenceSearchParameter DATASET_NAME = new OccurrenceSearchParameter(&quot;DATASET_NAME&quot;, String.class);</span>
 
   /**
    * Other catalog numbers associated to an occurrence.
    */
-<span class="fc" id="L689">  public final static OccurrenceSearchParameter OTHER_CATALOG_NUMBERS = new OccurrenceSearchParameter(&quot;OTHER_CATALOG_NUMBERS&quot;, String.class);</span>
+<span class="fc" id="L702">  public final static OccurrenceSearchParameter OTHER_CATALOG_NUMBERS = new OccurrenceSearchParameter(&quot;OTHER_CATALOG_NUMBERS&quot;, String.class);</span>
 
   /**
    * Preparations methods of an occurrence.
    */
-<span class="fc" id="L694">  public final static OccurrenceSearchParameter PREPARATIONS = new OccurrenceSearchParameter(&quot;PREPARATIONS&quot;, String.class);</span>
+<span class="fc" id="L707">  public final static OccurrenceSearchParameter PREPARATIONS = new OccurrenceSearchParameter(&quot;PREPARATIONS&quot;, String.class);</span>
 
   /**
    * The name of the island on or near which the location occurs.
    */
-<span class="fc" id="L699">  public final static OccurrenceSearchParameter ISLAND = new OccurrenceSearchParameter(&quot;ISLAND&quot;, String.class);</span>
+<span class="fc" id="L712">  public final static OccurrenceSearchParameter ISLAND = new OccurrenceSearchParameter(&quot;ISLAND&quot;, String.class);</span>
 
   /**
    * The name of the island group in which the location occurs.
    */
-<span class="fc" id="L704">  public final static OccurrenceSearchParameter ISLAND_GROUP = new OccurrenceSearchParameter(&quot;ISLAND_GROUP&quot;, String.class);</span>
+<span class="fc" id="L717">  public final static OccurrenceSearchParameter ISLAND_GROUP = new OccurrenceSearchParameter(&quot;ISLAND_GROUP&quot;, String.class);</span>
 
   /**
    * A list (concatenated and separated) of names of people, groups, or organizations who determined the georeference
    * (spatial representation) for the location.
    */
-<span class="fc" id="L710">  public final static OccurrenceSearchParameter GEOREFERENCED_BY = new OccurrenceSearchParameter(&quot;GEOREFERENCED_BY&quot;, String.class);</span>
+<span class="fc" id="L723">  public final static OccurrenceSearchParameter GEOREFERENCED_BY = new OccurrenceSearchParameter(&quot;GEOREFERENCED_BY&quot;, String.class);</span>
 
   /**
    * A list (concatenated and separated) of geographic names less specific than the information captured in the locality
    * term.
    */
-<span class="fc" id="L716">  public final static OccurrenceSearchParameter HIGHER_GEOGRAPHY = new OccurrenceSearchParameter(&quot;HIGHER_GEOGRAPHY&quot;, String.class);</span>
+<span class="fc" id="L729">  public final static OccurrenceSearchParameter HIGHER_GEOGRAPHY = new OccurrenceSearchParameter(&quot;HIGHER_GEOGRAPHY&quot;, String.class);</span>
 
   /**
    * 	An identifier given to the event in the field. Often serves as a link between field notes and the event.
    */
-<span class="fc" id="L721">  public final static OccurrenceSearchParameter FIELD_NUMBER = new OccurrenceSearchParameter(&quot;FIELD_NUMBER&quot;, String.class);</span>
+<span class="fc" id="L734">  public final static OccurrenceSearchParameter FIELD_NUMBER = new OccurrenceSearchParameter(&quot;FIELD_NUMBER&quot;, String.class);</span>
 
   /**
    * The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal
    * name (&quot;Precambrian&quot;) attributable to the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L727">  public final static OccurrenceSearchParameter EARLIEST_EON_OR_LOWEST_EONOTHEM = new OccurrenceSearchParameter(&quot;EARLIEST_EON_OR_LOWEST_EONOTHEM&quot;, String.class);</span>
+<span class="fc" id="L740">  public final static OccurrenceSearchParameter EARLIEST_EON_OR_LOWEST_EONOTHEM = new OccurrenceSearchParameter(&quot;EARLIEST_EON_OR_LOWEST_EONOTHEM&quot;, String.class);</span>
 
   /**
    * The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal
    * name (&quot;Precambrian&quot;) attributable to the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L733">  public final static OccurrenceSearchParameter LATEST_EON_OR_HIGHEST_EONOTHEM = new OccurrenceSearchParameter(&quot;LATEST_EON_OR_HIGHEST_EONOTHEM&quot;, String.class);</span>
+<span class="fc" id="L746">  public final static OccurrenceSearchParameter LATEST_EON_OR_HIGHEST_EONOTHEM = new OccurrenceSearchParameter(&quot;LATEST_EON_OR_HIGHEST_EONOTHEM&quot;, String.class);</span>
 
   /**
    * The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L739">  public final static OccurrenceSearchParameter EARLIEST_ERA_OR_LOWEST_ERATHEM = new OccurrenceSearchParameter(&quot;EARLIEST_ERA_OR_LOWEST_ERATHEM&quot;, String.class);</span>
+<span class="fc" id="L752">  public final static OccurrenceSearchParameter EARLIEST_ERA_OR_LOWEST_ERATHEM = new OccurrenceSearchParameter(&quot;EARLIEST_ERA_OR_LOWEST_ERATHEM&quot;, String.class);</span>
 
   /**
    * The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L745">  public final static OccurrenceSearchParameter LATEST_ERA_OR_HIGHEST_ERATHEM = new OccurrenceSearchParameter(&quot;LATEST_ERA_OR_HIGHEST_ERATHEM&quot;, String.class);</span>
+<span class="fc" id="L758">  public final static OccurrenceSearchParameter LATEST_ERA_OR_HIGHEST_ERATHEM = new OccurrenceSearchParameter(&quot;LATEST_ERA_OR_HIGHEST_ERATHEM&quot;, String.class);</span>
 
   /**
    * The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L751">  public final static OccurrenceSearchParameter EARLIEST_PERIOD_OR_LOWEST_SYSTEM = new OccurrenceSearchParameter(&quot;EARLIEST_PERIOD_OR_LOWEST_SYSTEM&quot;, String.class);</span>
+<span class="fc" id="L764">  public final static OccurrenceSearchParameter EARLIEST_PERIOD_OR_LOWEST_SYSTEM = new OccurrenceSearchParameter(&quot;EARLIEST_PERIOD_OR_LOWEST_SYSTEM&quot;, String.class);</span>
 
   /**
    * The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L757">  public final static OccurrenceSearchParameter LATEST_PERIOD_OR_HIGHEST_SYSTEM = new OccurrenceSearchParameter(&quot;LATEST_PERIOD_OR_HIGHEST_SYSTEM&quot;, String.class);</span>
+<span class="fc" id="L770">  public final static OccurrenceSearchParameter LATEST_PERIOD_OR_HIGHEST_SYSTEM = new OccurrenceSearchParameter(&quot;LATEST_PERIOD_OR_HIGHEST_SYSTEM&quot;, String.class);</span>
 
   /**
    * The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L763">  public final static OccurrenceSearchParameter EARLIEST_EPOCH_OR_LOWEST_SERIES = new OccurrenceSearchParameter(&quot;EARLIEST_EPOCH_OR_LOWEST_SERIES&quot;, String.class);</span>
+<span class="fc" id="L776">  public final static OccurrenceSearchParameter EARLIEST_EPOCH_OR_LOWEST_SERIES = new OccurrenceSearchParameter(&quot;EARLIEST_EPOCH_OR_LOWEST_SERIES&quot;, String.class);</span>
 
   /**
    * The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L769">  public final static OccurrenceSearchParameter LATEST_EPOCH_OR_HIGHEST_SERIES = new OccurrenceSearchParameter(&quot;LATEST_EPOCH_OR_HIGHEST_SERIES&quot;, String.class);</span>
+<span class="fc" id="L782">  public final static OccurrenceSearchParameter LATEST_EPOCH_OR_HIGHEST_SERIES = new OccurrenceSearchParameter(&quot;LATEST_EPOCH_OR_HIGHEST_SERIES&quot;, String.class);</span>
 
   /**
    * The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L775">  public final static OccurrenceSearchParameter EARLIEST_AGE_OR_LOWEST_STAGE = new OccurrenceSearchParameter(&quot;EARLIEST_AGE_OR_LOWEST_STAGE&quot;, String.class);</span>
+<span class="fc" id="L788">  public final static OccurrenceSearchParameter EARLIEST_AGE_OR_LOWEST_STAGE = new OccurrenceSearchParameter(&quot;EARLIEST_AGE_OR_LOWEST_STAGE&quot;, String.class);</span>
 
   /**
    * The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-<span class="fc" id="L781">  public final static OccurrenceSearchParameter LATEST_AGE_OR_HIGHEST_STAGE = new OccurrenceSearchParameter(&quot;LATEST_AGE_OR_HIGHEST_STAGE&quot;, String.class);</span>
+<span class="fc" id="L794">  public final static OccurrenceSearchParameter LATEST_AGE_OR_HIGHEST_STAGE = new OccurrenceSearchParameter(&quot;LATEST_AGE_OR_HIGHEST_STAGE&quot;, String.class);</span>
 
   /**
    * The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the
    * MaterialEntity was collected.
    */
-<span class="fc" id="L787">  public final static OccurrenceSearchParameter LOWEST_BIOSTRATIGRAPHIC_ZONE = new OccurrenceSearchParameter(&quot;LOWEST_BIOSTRATIGRAPHIC_ZONE&quot;, String.class);</span>
+<span class="fc" id="L800">  public final static OccurrenceSearchParameter LOWEST_BIOSTRATIGRAPHIC_ZONE = new OccurrenceSearchParameter(&quot;LOWEST_BIOSTRATIGRAPHIC_ZONE&quot;, String.class);</span>
 
   /**
    * The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the
    * MaterialEntity was collected.
    */
-<span class="fc" id="L793">  public final static OccurrenceSearchParameter HIGHEST_BIOSTRATIGRAPHIC_ZONE = new OccurrenceSearchParameter(&quot;HIGHEST_BIOSTRATIGRAPHIC_ZONE&quot;, String.class);</span>
+<span class="fc" id="L806">  public final static OccurrenceSearchParameter HIGHEST_BIOSTRATIGRAPHIC_ZONE = new OccurrenceSearchParameter(&quot;HIGHEST_BIOSTRATIGRAPHIC_ZONE&quot;, String.class);</span>
 
   /**
    * The full name of the lithostratigraphic group from which the MaterialEntity was collected.
    */
-<span class="fc" id="L798">  public final static OccurrenceSearchParameter GROUP = new OccurrenceSearchParameter(&quot;GROUP&quot;, String.class);</span>
+<span class="fc" id="L811">  public final static OccurrenceSearchParameter GROUP = new OccurrenceSearchParameter(&quot;GROUP&quot;, String.class);</span>
 
   /**
    * The full name of the lithostratigraphic formation from which the MaterialEntity was collected.
    */
-<span class="fc" id="L803">  public final static OccurrenceSearchParameter FORMATION = new OccurrenceSearchParameter(&quot;FORMATION&quot;, String.class);</span>
+<span class="fc" id="L816">  public final static OccurrenceSearchParameter FORMATION = new OccurrenceSearchParameter(&quot;FORMATION&quot;, String.class);</span>
 
   /**
    * The full name of the lithostratigraphic member from which the MaterialEntity was collected.
    */
-<span class="fc" id="L808">  public final static OccurrenceSearchParameter MEMBER = new OccurrenceSearchParameter(&quot;MEMBER&quot;, String.class);</span>
+<span class="fc" id="L821">  public final static OccurrenceSearchParameter MEMBER = new OccurrenceSearchParameter(&quot;MEMBER&quot;, String.class);</span>
 
   /**
    * The full name of the lithostratigraphic bed from which the MaterialEntity was collected.
    */
-<span class="fc" id="L813">  public final static OccurrenceSearchParameter BED = new OccurrenceSearchParameter(&quot;BED&quot;, String.class);</span>
+<span class="fc" id="L826">  public final static OccurrenceSearchParameter BED = new OccurrenceSearchParameter(&quot;BED&quot;, String.class);</span>
 
   /**
    * A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of
    * genetic sequence information associated with the material entity.
    */
-<span class="fc" id="L819">  public final static OccurrenceSearchParameter ASSOCIATED_SEQUENCES = new OccurrenceSearchParameter(&quot;ASSOCIATED_SEQUENCES&quot;, String.class);</span>
+<span class="fc" id="L832">  public final static OccurrenceSearchParameter ASSOCIATED_SEQUENCES = new OccurrenceSearchParameter(&quot;ASSOCIATED_SEQUENCES&quot;, String.class);</span>
 
   /**
    * Unique GBIF key for the occurrence.
    */
-<span class="fc" id="L824">  public final static OccurrenceSearchParameter GBIF_ID = new OccurrenceSearchParameter(&quot;GBIF_ID&quot;, String.class);</span>
+<span class="fc" id="L837">  public final static OccurrenceSearchParameter GBIF_ID = new OccurrenceSearchParameter(&quot;GBIF_ID&quot;, String.class);</span>
 
   /**
    * Geological time of an occurrence that searchs in the chronostratigraphy fields.
    */
-<span class="fc" id="L829">  public final static OccurrenceSearchParameter GEOLOGICAL_TIME = new OccurrenceSearchParameter(&quot;GEOLOGICAL_TIME&quot;, String.class);</span>
+<span class="fc" id="L842">  public final static OccurrenceSearchParameter GEOLOGICAL_TIME = new OccurrenceSearchParameter(&quot;GEOLOGICAL_TIME&quot;, String.class);</span>
 
   /**
    * Searches in the lithostratigraphy fields(bed, formation, group, member).
    */
-<span class="fc" id="L834">  public final static OccurrenceSearchParameter LITHOSTRATIGRAPHY = new OccurrenceSearchParameter(&quot;LITHOSTRATIGRAPHY&quot;, String.class);</span>
+<span class="fc" id="L847">  public final static OccurrenceSearchParameter LITHOSTRATIGRAPHY = new OccurrenceSearchParameter(&quot;LITHOSTRATIGRAPHY&quot;, String.class);</span>
 
   /**
    * Searches in the biostratigraphy fields(lowest and highest biostratigraphy).
    */
-<span class="fc" id="L839">  public final static OccurrenceSearchParameter BIOSTRATIGRAPHY = new OccurrenceSearchParameter(&quot;BIOSTRATIGRAPHY&quot;, String.class);</span>
+<span class="fc" id="L852">  public final static OccurrenceSearchParameter BIOSTRATIGRAPHY = new OccurrenceSearchParameter(&quot;BIOSTRATIGRAPHY&quot;, String.class);</span>
 
   /**
    * @return the data type expected for the value of the respective search parameter
    */
-<span class="fc" id="L844">  public final static OccurrenceSearchParameter DNA_SEQUENCE_ID = new OccurrenceSearchParameter(&quot;DNA_SEQUENCE_ID&quot;, String.class);</span>
+<span class="fc" id="L857">  public final static OccurrenceSearchParameter DNA_SEQUENCE_ID = new OccurrenceSearchParameter(&quot;DNA_SEQUENCE_ID&quot;, String.class);</span>
 
 
   public static OccurrenceSearchParameter[] values(){
 
-<span class="nc" id="L849">    Field[] values = OccurrenceSearchParameter.class.getFields();</span>
-<span class="nc" id="L850">    List&lt;OccurrenceSearchParameter&gt; c = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L851" title="All 2 branches missed.">    for (Field field: values) {</span>
+<span class="nc" id="L862">    Field[] values = OccurrenceSearchParameter.class.getFields();</span>
+<span class="nc" id="L863">    List&lt;OccurrenceSearchParameter&gt; c = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L864" title="All 2 branches missed.">    for (Field field: values) {</span>
       try {
-<span class="nc" id="L853">        c.add((OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class));</span>
-<span class="nc" id="L854">      } catch (IllegalAccessException e) {</span>
-<span class="nc" id="L855">        throw new RuntimeException(e);</span>
-<span class="nc" id="L856">      }</span>
+<span class="nc" id="L866">        c.add((OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class));</span>
+<span class="nc" id="L867">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L868">        throw new RuntimeException(e);</span>
+<span class="nc" id="L869">      }</span>
     }
-<span class="nc" id="L858">    return c.toArray(new OccurrenceSearchParameter[0]);</span>
+<span class="nc" id="L871">    return c.toArray(new OccurrenceSearchParameter[0]);</span>
   }
 
   private Class&lt;?&gt; type;
   private String name;
 
-<span class="nc" id="L864">  public OccurrenceSearchParameter() {}</span>
+<span class="nc" id="L877">  public OccurrenceSearchParameter() {}</span>
 
-<span class="fc" id="L866">  public OccurrenceSearchParameter(String name, Class&lt;?&gt; type) {</span>
-<span class="fc" id="L867">    this.name = name;</span>
-<span class="fc" id="L868">    this.type = type;</span>
-<span class="fc" id="L869">  }</span>
+<span class="fc" id="L879">  public OccurrenceSearchParameter(String name, Class&lt;?&gt; type) {</span>
+<span class="fc" id="L880">    this.name = name;</span>
+<span class="fc" id="L881">    this.type = type;</span>
+<span class="fc" id="L882">  }</span>
 
   @Override
   public String name() {
-<span class="nc" id="L873">    return this.name;</span>
+<span class="nc" id="L886">    return this.name;</span>
   }
 
   public Class&lt;?&gt; getType() {
-<span class="nc" id="L877">    return type;</span>
+<span class="nc" id="L890">    return type;</span>
   }
 
   public String getName() {
-<span class="nc" id="L881">    return name;</span>
+<span class="nc" id="L894">    return name;</span>
   }
 
   @Override
   public Class&lt;?&gt; type() {
-<span class="fc" id="L886">    return this.type;</span>
+<span class="fc" id="L899">    return this.type;</span>
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L891">    return name;</span>
-  }
-
-  @Override
-  public boolean equals(Object o) {
-<span class="pc bpc" id="L896" title="1 of 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L897" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L898">    OccurrenceSearchParameter that = (OccurrenceSearchParameter) o;</span>
-<span class="nc bnc" id="L899" title="All 4 branches missed.">    return Objects.equals(type, that.type) &amp;&amp; Objects.equals(name, that.name);</span>
-  }
-
-  @JsonValue
-  public String getSerializedValue() {
 <span class="fc" id="L904">    return name;</span>
   }
 
   @Override
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L909" title="1 of 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L910" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L911">    OccurrenceSearchParameter that = (OccurrenceSearchParameter) o;</span>
+<span class="nc bnc" id="L912" title="All 4 branches missed.">    return Objects.equals(type, that.type) &amp;&amp; Objects.equals(name, that.name);</span>
+  }
+
+  @JsonValue
+  public String getSerializedValue() {
+<span class="fc" id="L917">    return name;</span>
+  }
+
+  @Override
   public int hashCode() {
-<span class="fc" id="L909">    return Objects.hash(type, name);</span>
+<span class="fc" id="L922">    return Objects.hash(type, name);</span>
   }
 
   /**
@@ -915,72 +928,72 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * @return the parameter if found, otherwise empty
    */
   public static Optional&lt;OccurrenceSearchParameter&gt; lookup(String name) {
-<span class="nc" id="L918">    String normedType = name.toUpperCase().replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
-<span class="nc" id="L919">    java.lang.reflect.Field[] values = OccurrenceSearchParameter.class.getFields();</span>
-<span class="nc bnc" id="L920" title="All 2 branches missed.">    for (Field field: values) {</span>
+<span class="nc" id="L931">    String normedType = name.toUpperCase().replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
+<span class="nc" id="L932">    java.lang.reflect.Field[] values = OccurrenceSearchParameter.class.getFields();</span>
+<span class="nc bnc" id="L933" title="All 2 branches missed.">    for (Field field: values) {</span>
 
-<span class="nc" id="L922">      String fieldName = field.getName();</span>
-<span class="nc" id="L923">      String normedVal = fieldName.replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
-<span class="nc bnc" id="L924" title="All 2 branches missed.">      if (normedType.equals(normedVal)) {</span>
+<span class="nc" id="L935">      String fieldName = field.getName();</span>
+<span class="nc" id="L936">      String normedVal = fieldName.replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
+<span class="nc bnc" id="L937" title="All 2 branches missed.">      if (normedType.equals(normedVal)) {</span>
         try {
-<span class="nc" id="L926">          return Optional.of((OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class));</span>
-<span class="nc" id="L927">        } catch (IllegalAccessException e) {</span>
-<span class="nc" id="L928">          throw new RuntimeException(e);</span>
+<span class="nc" id="L939">          return Optional.of((OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class));</span>
+<span class="nc" id="L940">        } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L941">          throw new RuntimeException(e);</span>
         }
       }
     }
-<span class="nc" id="L932">    return Optional.empty();</span>
+<span class="nc" id="L945">    return Optional.empty();</span>
   }
 
-<span class="nc" id="L935">  public static class OccurrenceSearchParameterKeyDeserializer extends KeyDeserializer {</span>
+<span class="nc" id="L948">  public static class OccurrenceSearchParameterKeyDeserializer extends KeyDeserializer {</span>
 
     @Override
     public Object deserializeKey(String value, DeserializationContext deserializationContext) throws IOException {
-<span class="nc" id="L939">      Field[] values = OccurrenceSearchParameter.class.getFields();</span>
+<span class="nc" id="L952">      Field[] values = OccurrenceSearchParameter.class.getFields();</span>
       try {
-<span class="nc bnc" id="L941" title="All 2 branches missed.">        for (Field field: values) {</span>
-<span class="nc bnc" id="L942" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
-<span class="nc" id="L943">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
+<span class="nc bnc" id="L954" title="All 2 branches missed.">        for (Field field: values) {</span>
+<span class="nc bnc" id="L955" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="nc" id="L956">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
           }
         }
-<span class="nc" id="L946">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L959">      } catch (IllegalAccessException e) {</span>
         // DO NOTHING
-<span class="nc" id="L948">      }</span>
-<span class="nc" id="L949">      return null;</span>
+<span class="nc" id="L961">      }</span>
+<span class="nc" id="L962">      return null;</span>
     }
   }
 
-<span class="fc" id="L953">  public static class OccurrenceSearchParameterDeserializer extends JsonDeserializer&lt;OccurrenceSearchParameter&gt; {</span>
+<span class="fc" id="L966">  public static class OccurrenceSearchParameterDeserializer extends JsonDeserializer&lt;OccurrenceSearchParameter&gt; {</span>
 
     @Override
     public OccurrenceSearchParameter deserialize(com.fasterxml.jackson.core.JsonParser jsonParser, com.fasterxml.jackson.databind.DeserializationContext deserializationContext) throws IOException, JacksonException {
 
-<span class="fc" id="L958">      Field[] values = OccurrenceSearchParameter.class.getFields();</span>
+<span class="fc" id="L971">      Field[] values = OccurrenceSearchParameter.class.getFields();</span>
       try {
-<span class="fc" id="L960">        String value = jsonParser.getText();</span>
-<span class="pc bpc" id="L961" title="1 of 2 branches missed.">        for (Field field: values) {</span>
-<span class="fc bfc" id="L962" title="All 2 branches covered.">          if (field.getName().equalsIgnoreCase(value)) {</span>
-<span class="fc" id="L963">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
+<span class="fc" id="L973">        String value = jsonParser.getText();</span>
+<span class="pc bpc" id="L974" title="1 of 2 branches missed.">        for (Field field: values) {</span>
+<span class="fc bfc" id="L975" title="All 2 branches covered.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="fc" id="L976">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
           }
         }
 
-<span class="nc" id="L967">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L980">      } catch (IllegalAccessException e) {</span>
         // DO NOTHING
-<span class="nc" id="L969">      }</span>
+<span class="nc" id="L982">      }</span>
 
       try {
-<span class="nc" id="L972">        ObjectNode node = jsonParser.getCodec().readTree(jsonParser);</span>
-<span class="nc" id="L973">        String value = node.get(&quot;name&quot;).asText();</span>
-<span class="nc bnc" id="L974" title="All 2 branches missed.">        for (Field field: values) {</span>
-<span class="nc bnc" id="L975" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
-<span class="nc" id="L976">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
+<span class="nc" id="L985">        ObjectNode node = jsonParser.getCodec().readTree(jsonParser);</span>
+<span class="nc" id="L986">        String value = node.get(&quot;name&quot;).asText();</span>
+<span class="nc bnc" id="L987" title="All 2 branches missed.">        for (Field field: values) {</span>
+<span class="nc bnc" id="L988" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="nc" id="L989">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
           }
         }
-<span class="nc" id="L979">      } catch (Exception e) {</span>
+<span class="nc" id="L992">      } catch (Exception e) {</span>
         // DO NOTHING
-<span class="nc" id="L981">      }</span>
+<span class="nc" id="L994">      }</span>
 
-<span class="nc" id="L983">      return null;</span>
+<span class="nc" id="L996">      return null;</span>
     }
   }
 }

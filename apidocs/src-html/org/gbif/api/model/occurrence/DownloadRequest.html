@@ -102,170 +102,182 @@
 <span class="sourceLineNo">093</span><a id="line.93">  @JsonProperty("machineDescription")</a>
 <span class="sourceLineNo">094</span><a id="line.94">  private JsonNode machineDescription;</a>
 <span class="sourceLineNo">095</span><a id="line.95"></a>
-<span class="sourceLineNo">096</span><a id="line.96">  /**</a>
-<span class="sourceLineNo">097</span><a id="line.97">   * Default constructor.</a>
-<span class="sourceLineNo">098</span><a id="line.98">   */</a>
-<span class="sourceLineNo">099</span><a id="line.99">  public DownloadRequest() {</a>
-<span class="sourceLineNo">100</span><a id="line.100">    // Empty constructor required to create instances from the data access layer.</a>
-<span class="sourceLineNo">101</span><a id="line.101">  }</a>
-<span class="sourceLineNo">102</span><a id="line.102"></a>
-<span class="sourceLineNo">103</span><a id="line.103">  public DownloadRequest(String creator, Collection&lt;String&gt; notificationAddresses,</a>
-<span class="sourceLineNo">104</span><a id="line.104">                         Boolean sendNotification, DownloadFormat format,</a>
-<span class="sourceLineNo">105</span><a id="line.105">                         DownloadType downloadType, String description,</a>
-<span class="sourceLineNo">106</span><a id="line.106">                         JsonNode machineDescription</a>
-<span class="sourceLineNo">107</span><a id="line.107">  ) {</a>
-<span class="sourceLineNo">108</span><a id="line.108">    this.creator = creator;</a>
-<span class="sourceLineNo">109</span><a id="line.109">    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :</a>
-<span class="sourceLineNo">110</span><a id="line.110">      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));</a>
-<span class="sourceLineNo">111</span><a id="line.111">    this.sendNotification = sendNotification;</a>
-<span class="sourceLineNo">112</span><a id="line.112">    this.format = format;</a>
-<span class="sourceLineNo">113</span><a id="line.113">    this.type = downloadType;</a>
-<span class="sourceLineNo">114</span><a id="line.114">    this.description = description;</a>
-<span class="sourceLineNo">115</span><a id="line.115">    this.machineDescription = machineDescription;</a>
-<span class="sourceLineNo">116</span><a id="line.116">  }</a>
-<span class="sourceLineNo">117</span><a id="line.117"></a>
-<span class="sourceLineNo">118</span><a id="line.118">  /**</a>
-<span class="sourceLineNo">119</span><a id="line.119">   * @return the user account that initiated the download</a>
-<span class="sourceLineNo">120</span><a id="line.120">   */</a>
-<span class="sourceLineNo">121</span><a id="line.121">  @Nullable</a>
-<span class="sourceLineNo">122</span><a id="line.122">  public String getCreator() {</a>
-<span class="sourceLineNo">123</span><a id="line.123">    return creator;</a>
-<span class="sourceLineNo">124</span><a id="line.124">  }</a>
-<span class="sourceLineNo">125</span><a id="line.125"></a>
-<span class="sourceLineNo">126</span><a id="line.126">  public void setCreator(String creator) {</a>
-<span class="sourceLineNo">127</span><a id="line.127">    this.creator = creator;</a>
-<span class="sourceLineNo">128</span><a id="line.128">  }</a>
-<span class="sourceLineNo">129</span><a id="line.129"></a>
-<span class="sourceLineNo">130</span><a id="line.130">  /**</a>
-<span class="sourceLineNo">131</span><a id="line.131">   * @return set of email addresses for notifications</a>
-<span class="sourceLineNo">132</span><a id="line.132">   */</a>
-<span class="sourceLineNo">133</span><a id="line.133">  @Nullable</a>
-<span class="sourceLineNo">134</span><a id="line.134">  public Set&lt;String&gt; getNotificationAddresses() {</a>
-<span class="sourceLineNo">135</span><a id="line.135">    return notificationAddresses;</a>
-<span class="sourceLineNo">136</span><a id="line.136">  }</a>
-<span class="sourceLineNo">137</span><a id="line.137"></a>
-<span class="sourceLineNo">138</span><a id="line.138">  public void setNotificationAddresses(Set&lt;String&gt; notificationAddresses) {</a>
-<span class="sourceLineNo">139</span><a id="line.139">    this.notificationAddresses = notificationAddresses;</a>
-<span class="sourceLineNo">140</span><a id="line.140">  }</a>
-<span class="sourceLineNo">141</span><a id="line.141"></a>
-<span class="sourceLineNo">142</span><a id="line.142">  /**</a>
-<span class="sourceLineNo">143</span><a id="line.143">   * Returns the notification addresses as single string. The emails are separated by ','.</a>
-<span class="sourceLineNo">144</span><a id="line.144">   */</a>
-<span class="sourceLineNo">145</span><a id="line.145">  @Nullable</a>
-<span class="sourceLineNo">146</span><a id="line.146">  @JsonIgnore</a>
-<span class="sourceLineNo">147</span><a id="line.147">  public String getNotificationAddressesAsString() {</a>
-<span class="sourceLineNo">148</span><a id="line.148">    if (notificationAddresses != null) {</a>
-<span class="sourceLineNo">149</span><a id="line.149">      return notificationAddresses.stream()</a>
-<span class="sourceLineNo">150</span><a id="line.150">        .filter(Objects::nonNull)</a>
-<span class="sourceLineNo">151</span><a id="line.151">        .map(String::trim)</a>
-<span class="sourceLineNo">152</span><a id="line.152">        .collect(Collectors.joining(DELIMITER));</a>
-<span class="sourceLineNo">153</span><a id="line.153">    }</a>
-<span class="sourceLineNo">154</span><a id="line.154">    return null;</a>
-<span class="sourceLineNo">155</span><a id="line.155">  }</a>
-<span class="sourceLineNo">156</span><a id="line.156"></a>
-<span class="sourceLineNo">157</span><a id="line.157">  /**</a>
-<span class="sourceLineNo">158</span><a id="line.158">   * Sets the notificationAddresses using a single String value that is split by ','.</a>
-<span class="sourceLineNo">159</span><a id="line.159">   */</a>
-<span class="sourceLineNo">160</span><a id="line.160">  public void setNotificationAddressesAsString(String notificationAddressesAsString) {</a>
-<span class="sourceLineNo">161</span><a id="line.161">    if (notificationAddressesAsString != null) {</a>
-<span class="sourceLineNo">162</span><a id="line.162">      notificationAddresses = Stream.of(notificationAddressesAsString.split(DELIMITER))</a>
-<span class="sourceLineNo">163</span><a id="line.163">        .filter(StringUtils::isNotEmpty)</a>
-<span class="sourceLineNo">164</span><a id="line.164">        .map(String::trim)</a>
-<span class="sourceLineNo">165</span><a id="line.165">        .collect(Collectors.toSet());</a>
-<span class="sourceLineNo">166</span><a id="line.166">    }</a>
-<span class="sourceLineNo">167</span><a id="line.167">  }</a>
-<span class="sourceLineNo">168</span><a id="line.168"></a>
-<span class="sourceLineNo">169</span><a id="line.169">  @Nullable</a>
-<span class="sourceLineNo">170</span><a id="line.170">  public Boolean getSendNotification() {</a>
-<span class="sourceLineNo">171</span><a id="line.171">    return sendNotification;</a>
-<span class="sourceLineNo">172</span><a id="line.172">  }</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">  /**</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * This parameter determines if the requested download must be notified to the created once it's ready.</a>
-<span class="sourceLineNo">176</span><a id="line.176">   */</a>
-<span class="sourceLineNo">177</span><a id="line.177">  public void setSendNotification(boolean sendNotification) {</a>
-<span class="sourceLineNo">178</span><a id="line.178">    this.sendNotification = sendNotification;</a>
-<span class="sourceLineNo">179</span><a id="line.179">  }</a>
-<span class="sourceLineNo">180</span><a id="line.180"></a>
-<span class="sourceLineNo">181</span><a id="line.181">  public DownloadFormat getFormat() {</a>
-<span class="sourceLineNo">182</span><a id="line.182">    return format;</a>
-<span class="sourceLineNo">183</span><a id="line.183">  }</a>
-<span class="sourceLineNo">184</span><a id="line.184"></a>
-<span class="sourceLineNo">185</span><a id="line.185">  /**</a>
-<span class="sourceLineNo">186</span><a id="line.186">   * This parameter determines the output format of the requested download.</a>
-<span class="sourceLineNo">187</span><a id="line.187">   */</a>
-<span class="sourceLineNo">188</span><a id="line.188">  public void setFormat(DownloadFormat format) {</a>
-<span class="sourceLineNo">189</span><a id="line.189">    this.format = format;</a>
-<span class="sourceLineNo">190</span><a id="line.190">  }</a>
-<span class="sourceLineNo">191</span><a id="line.191"></a>
-<span class="sourceLineNo">192</span><a id="line.192">  public DownloadType getType() {</a>
-<span class="sourceLineNo">193</span><a id="line.193">    return type;</a>
-<span class="sourceLineNo">194</span><a id="line.194">  }</a>
-<span class="sourceLineNo">195</span><a id="line.195"></a>
-<span class="sourceLineNo">196</span><a id="line.196">  /**</a>
-<span class="sourceLineNo">197</span><a id="line.197">   * Download type: Occurrence or Event.</a>
-<span class="sourceLineNo">198</span><a id="line.198">   */</a>
-<span class="sourceLineNo">199</span><a id="line.199">  public void setType(DownloadType type) {</a>
-<span class="sourceLineNo">200</span><a id="line.200">    this.type = type;</a>
-<span class="sourceLineNo">201</span><a id="line.201">  }</a>
-<span class="sourceLineNo">202</span><a id="line.202"></a>
-<span class="sourceLineNo">203</span><a id="line.203">  public String getDescription() {</a>
-<span class="sourceLineNo">204</span><a id="line.204">    return description;</a>
-<span class="sourceLineNo">205</span><a id="line.205">  }</a>
-<span class="sourceLineNo">206</span><a id="line.206"></a>
-<span class="sourceLineNo">207</span><a id="line.207">  public void setDescription(String description) {</a>
-<span class="sourceLineNo">208</span><a id="line.208">    this.description = description;</a>
-<span class="sourceLineNo">209</span><a id="line.209">  }</a>
-<span class="sourceLineNo">210</span><a id="line.210"></a>
-<span class="sourceLineNo">211</span><a id="line.211">  public JsonNode getMachineDescription() {</a>
-<span class="sourceLineNo">212</span><a id="line.212">    return machineDescription;</a>
-<span class="sourceLineNo">213</span><a id="line.213">  }</a>
-<span class="sourceLineNo">214</span><a id="line.214"></a>
-<span class="sourceLineNo">215</span><a id="line.215">  public void setMachineDescription(JsonNode machineDescription) {</a>
-<span class="sourceLineNo">216</span><a id="line.216">    this.machineDescription = machineDescription;</a>
-<span class="sourceLineNo">217</span><a id="line.217">  }</a>
-<span class="sourceLineNo">218</span><a id="line.218"></a>
-<span class="sourceLineNo">219</span><a id="line.219">  @JsonIgnore</a>
-<span class="sourceLineNo">220</span><a id="line.220">  public String getFileExtension() {</a>
-<span class="sourceLineNo">221</span><a id="line.221">    return format.getExtension();</a>
-<span class="sourceLineNo">222</span><a id="line.222">  }</a>
-<span class="sourceLineNo">223</span><a id="line.223"></a>
-<span class="sourceLineNo">224</span><a id="line.224">  @Override</a>
-<span class="sourceLineNo">225</span><a id="line.225">  public boolean equals(Object o) {</a>
-<span class="sourceLineNo">226</span><a id="line.226">    if (this == o) {</a>
-<span class="sourceLineNo">227</span><a id="line.227">      return true;</a>
-<span class="sourceLineNo">228</span><a id="line.228">    }</a>
-<span class="sourceLineNo">229</span><a id="line.229">    if (o == null || getClass() != o.getClass()) {</a>
-<span class="sourceLineNo">230</span><a id="line.230">      return false;</a>
-<span class="sourceLineNo">231</span><a id="line.231">    }</a>
-<span class="sourceLineNo">232</span><a id="line.232">    DownloadRequest that = (DownloadRequest) o;</a>
-<span class="sourceLineNo">233</span><a id="line.233">    return sendNotification == that.sendNotification &amp;&amp;</a>
-<span class="sourceLineNo">234</span><a id="line.234">      Objects.equals(creator, that.creator) &amp;&amp;</a>
-<span class="sourceLineNo">235</span><a id="line.235">      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;</a>
-<span class="sourceLineNo">236</span><a id="line.236">      format == that.format &amp;&amp;</a>
-<span class="sourceLineNo">237</span><a id="line.237">      type == that.type &amp;&amp;</a>
-<span class="sourceLineNo">238</span><a id="line.238">      Objects.equals(description, that.description);// &amp;&amp;</a>
-<span class="sourceLineNo">239</span><a id="line.239">//      Objects.equals(machineDescription, that.machineDescription);</a>
-<span class="sourceLineNo">240</span><a id="line.240">  }</a>
-<span class="sourceLineNo">241</span><a id="line.241"></a>
-<span class="sourceLineNo">242</span><a id="line.242">  @Override</a>
-<span class="sourceLineNo">243</span><a id="line.243">  public int hashCode() {</a>
-<span class="sourceLineNo">244</span><a id="line.244">    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, description, machineDescription);</a>
-<span class="sourceLineNo">245</span><a id="line.245">  }</a>
-<span class="sourceLineNo">246</span><a id="line.246"></a>
-<span class="sourceLineNo">247</span><a id="line.247">  @Override</a>
-<span class="sourceLineNo">248</span><a id="line.248">  public String toString() {</a>
-<span class="sourceLineNo">249</span><a id="line.249">    return new StringJoiner(", ", DownloadRequest.class.getSimpleName() + "[", "]")</a>
-<span class="sourceLineNo">250</span><a id="line.250">      .add("creator='" + creator + "'")</a>
-<span class="sourceLineNo">251</span><a id="line.251">      .add("notificationAddresses=" + notificationAddresses)</a>
-<span class="sourceLineNo">252</span><a id="line.252">      .add("sendNotification=" + sendNotification)</a>
-<span class="sourceLineNo">253</span><a id="line.253">      .add("format=" + format)</a>
-<span class="sourceLineNo">254</span><a id="line.254">      .add("type=" + type)</a>
-<span class="sourceLineNo">255</span><a id="line.255">      .add("description=" + description)</a>
-<span class="sourceLineNo">256</span><a id="line.256">      .add("machineDescription=" + machineDescription)</a>
-<span class="sourceLineNo">257</span><a id="line.257">      .toString();</a>
-<span class="sourceLineNo">258</span><a id="line.258">  }</a>
-<span class="sourceLineNo">259</span><a id="line.259">}</a>
+<span class="sourceLineNo">096</span><a id="line.96">  @JsonProperty("checklistKey")</a>
+<span class="sourceLineNo">097</span><a id="line.97">  private String checklistKey;</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">  /**</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * Default constructor.</a>
+<span class="sourceLineNo">101</span><a id="line.101">   */</a>
+<span class="sourceLineNo">102</span><a id="line.102">  public DownloadRequest() {</a>
+<span class="sourceLineNo">103</span><a id="line.103">    // Empty constructor required to create instances from the data access layer.</a>
+<span class="sourceLineNo">104</span><a id="line.104">  }</a>
+<span class="sourceLineNo">105</span><a id="line.105"></a>
+<span class="sourceLineNo">106</span><a id="line.106">  public DownloadRequest(String creator, Collection&lt;String&gt; notificationAddresses,</a>
+<span class="sourceLineNo">107</span><a id="line.107">                         Boolean sendNotification, DownloadFormat format,</a>
+<span class="sourceLineNo">108</span><a id="line.108">                         DownloadType downloadType, String description,</a>
+<span class="sourceLineNo">109</span><a id="line.109">                         JsonNode machineDescription, String checklistKey) {</a>
+<span class="sourceLineNo">110</span><a id="line.110">    this.creator = creator;</a>
+<span class="sourceLineNo">111</span><a id="line.111">    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :</a>
+<span class="sourceLineNo">112</span><a id="line.112">      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));</a>
+<span class="sourceLineNo">113</span><a id="line.113">    this.sendNotification = sendNotification;</a>
+<span class="sourceLineNo">114</span><a id="line.114">    this.format = format;</a>
+<span class="sourceLineNo">115</span><a id="line.115">    this.type = downloadType;</a>
+<span class="sourceLineNo">116</span><a id="line.116">    this.description = description;</a>
+<span class="sourceLineNo">117</span><a id="line.117">    this.machineDescription = machineDescription;</a>
+<span class="sourceLineNo">118</span><a id="line.118">    this.checklistKey = checklistKey;</a>
+<span class="sourceLineNo">119</span><a id="line.119">  }</a>
+<span class="sourceLineNo">120</span><a id="line.120"></a>
+<span class="sourceLineNo">121</span><a id="line.121">  /**</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * @return the user account that initiated the download</a>
+<span class="sourceLineNo">123</span><a id="line.123">   */</a>
+<span class="sourceLineNo">124</span><a id="line.124">  @Nullable</a>
+<span class="sourceLineNo">125</span><a id="line.125">  public String getCreator() {</a>
+<span class="sourceLineNo">126</span><a id="line.126">    return creator;</a>
+<span class="sourceLineNo">127</span><a id="line.127">  }</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">  public void setCreator(String creator) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">    this.creator = creator;</a>
+<span class="sourceLineNo">131</span><a id="line.131">  }</a>
+<span class="sourceLineNo">132</span><a id="line.132"></a>
+<span class="sourceLineNo">133</span><a id="line.133">  /**</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * @return set of email addresses for notifications</a>
+<span class="sourceLineNo">135</span><a id="line.135">   */</a>
+<span class="sourceLineNo">136</span><a id="line.136">  @Nullable</a>
+<span class="sourceLineNo">137</span><a id="line.137">  public Set&lt;String&gt; getNotificationAddresses() {</a>
+<span class="sourceLineNo">138</span><a id="line.138">    return notificationAddresses;</a>
+<span class="sourceLineNo">139</span><a id="line.139">  }</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">  public void setNotificationAddresses(Set&lt;String&gt; notificationAddresses) {</a>
+<span class="sourceLineNo">142</span><a id="line.142">    this.notificationAddresses = notificationAddresses;</a>
+<span class="sourceLineNo">143</span><a id="line.143">  }</a>
+<span class="sourceLineNo">144</span><a id="line.144"></a>
+<span class="sourceLineNo">145</span><a id="line.145">  /**</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * Returns the notification addresses as single string. The emails are separated by ','.</a>
+<span class="sourceLineNo">147</span><a id="line.147">   */</a>
+<span class="sourceLineNo">148</span><a id="line.148">  @Nullable</a>
+<span class="sourceLineNo">149</span><a id="line.149">  @JsonIgnore</a>
+<span class="sourceLineNo">150</span><a id="line.150">  public String getNotificationAddressesAsString() {</a>
+<span class="sourceLineNo">151</span><a id="line.151">    if (notificationAddresses != null) {</a>
+<span class="sourceLineNo">152</span><a id="line.152">      return notificationAddresses.stream()</a>
+<span class="sourceLineNo">153</span><a id="line.153">        .filter(Objects::nonNull)</a>
+<span class="sourceLineNo">154</span><a id="line.154">        .map(String::trim)</a>
+<span class="sourceLineNo">155</span><a id="line.155">        .collect(Collectors.joining(DELIMITER));</a>
+<span class="sourceLineNo">156</span><a id="line.156">    }</a>
+<span class="sourceLineNo">157</span><a id="line.157">    return null;</a>
+<span class="sourceLineNo">158</span><a id="line.158">  }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">  /**</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * Sets the notificationAddresses using a single String value that is split by ','.</a>
+<span class="sourceLineNo">162</span><a id="line.162">   */</a>
+<span class="sourceLineNo">163</span><a id="line.163">  public void setNotificationAddressesAsString(String notificationAddressesAsString) {</a>
+<span class="sourceLineNo">164</span><a id="line.164">    if (notificationAddressesAsString != null) {</a>
+<span class="sourceLineNo">165</span><a id="line.165">      notificationAddresses = Stream.of(notificationAddressesAsString.split(DELIMITER))</a>
+<span class="sourceLineNo">166</span><a id="line.166">        .filter(StringUtils::isNotEmpty)</a>
+<span class="sourceLineNo">167</span><a id="line.167">        .map(String::trim)</a>
+<span class="sourceLineNo">168</span><a id="line.168">        .collect(Collectors.toSet());</a>
+<span class="sourceLineNo">169</span><a id="line.169">    }</a>
+<span class="sourceLineNo">170</span><a id="line.170">  }</a>
+<span class="sourceLineNo">171</span><a id="line.171"></a>
+<span class="sourceLineNo">172</span><a id="line.172">  @Nullable</a>
+<span class="sourceLineNo">173</span><a id="line.173">  public Boolean getSendNotification() {</a>
+<span class="sourceLineNo">174</span><a id="line.174">    return sendNotification;</a>
+<span class="sourceLineNo">175</span><a id="line.175">  }</a>
+<span class="sourceLineNo">176</span><a id="line.176"></a>
+<span class="sourceLineNo">177</span><a id="line.177">  /**</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * This parameter determines if the requested download must be notified to the created once it's ready.</a>
+<span class="sourceLineNo">179</span><a id="line.179">   */</a>
+<span class="sourceLineNo">180</span><a id="line.180">  public void setSendNotification(boolean sendNotification) {</a>
+<span class="sourceLineNo">181</span><a id="line.181">    this.sendNotification = sendNotification;</a>
+<span class="sourceLineNo">182</span><a id="line.182">  }</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">  public DownloadFormat getFormat() {</a>
+<span class="sourceLineNo">185</span><a id="line.185">    return format;</a>
+<span class="sourceLineNo">186</span><a id="line.186">  }</a>
+<span class="sourceLineNo">187</span><a id="line.187"></a>
+<span class="sourceLineNo">188</span><a id="line.188">  /**</a>
+<span class="sourceLineNo">189</span><a id="line.189">   * This parameter determines the output format of the requested download.</a>
+<span class="sourceLineNo">190</span><a id="line.190">   */</a>
+<span class="sourceLineNo">191</span><a id="line.191">  public void setFormat(DownloadFormat format) {</a>
+<span class="sourceLineNo">192</span><a id="line.192">    this.format = format;</a>
+<span class="sourceLineNo">193</span><a id="line.193">  }</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">  public DownloadType getType() {</a>
+<span class="sourceLineNo">196</span><a id="line.196">    return type;</a>
+<span class="sourceLineNo">197</span><a id="line.197">  }</a>
+<span class="sourceLineNo">198</span><a id="line.198"></a>
+<span class="sourceLineNo">199</span><a id="line.199">  /**</a>
+<span class="sourceLineNo">200</span><a id="line.200">   * Download type: Occurrence or Event.</a>
+<span class="sourceLineNo">201</span><a id="line.201">   */</a>
+<span class="sourceLineNo">202</span><a id="line.202">  public void setType(DownloadType type) {</a>
+<span class="sourceLineNo">203</span><a id="line.203">    this.type = type;</a>
+<span class="sourceLineNo">204</span><a id="line.204">  }</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">  public String getDescription() {</a>
+<span class="sourceLineNo">207</span><a id="line.207">    return description;</a>
+<span class="sourceLineNo">208</span><a id="line.208">  }</a>
+<span class="sourceLineNo">209</span><a id="line.209"></a>
+<span class="sourceLineNo">210</span><a id="line.210">  public void setDescription(String description) {</a>
+<span class="sourceLineNo">211</span><a id="line.211">    this.description = description;</a>
+<span class="sourceLineNo">212</span><a id="line.212">  }</a>
+<span class="sourceLineNo">213</span><a id="line.213"></a>
+<span class="sourceLineNo">214</span><a id="line.214">  public JsonNode getMachineDescription() {</a>
+<span class="sourceLineNo">215</span><a id="line.215">    return machineDescription;</a>
+<span class="sourceLineNo">216</span><a id="line.216">  }</a>
+<span class="sourceLineNo">217</span><a id="line.217"></a>
+<span class="sourceLineNo">218</span><a id="line.218">  public void setMachineDescription(JsonNode machineDescription) {</a>
+<span class="sourceLineNo">219</span><a id="line.219">    this.machineDescription = machineDescription;</a>
+<span class="sourceLineNo">220</span><a id="line.220">  }</a>
+<span class="sourceLineNo">221</span><a id="line.221"></a>
+<span class="sourceLineNo">222</span><a id="line.222">  @JsonIgnore</a>
+<span class="sourceLineNo">223</span><a id="line.223">  public String getFileExtension() {</a>
+<span class="sourceLineNo">224</span><a id="line.224">    return format.getExtension();</a>
+<span class="sourceLineNo">225</span><a id="line.225">  }</a>
+<span class="sourceLineNo">226</span><a id="line.226"></a>
+<span class="sourceLineNo">227</span><a id="line.227">  public String getChecklistKey() {</a>
+<span class="sourceLineNo">228</span><a id="line.228">    return checklistKey;</a>
+<span class="sourceLineNo">229</span><a id="line.229">  }</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">  public void setChecklistKey(String checklistKey) {</a>
+<span class="sourceLineNo">232</span><a id="line.232">    this.checklistKey = checklistKey;</a>
+<span class="sourceLineNo">233</span><a id="line.233">  }</a>
+<span class="sourceLineNo">234</span><a id="line.234"></a>
+<span class="sourceLineNo">235</span><a id="line.235">  @Override</a>
+<span class="sourceLineNo">236</span><a id="line.236">  public boolean equals(Object o) {</a>
+<span class="sourceLineNo">237</span><a id="line.237">    if (this == o) {</a>
+<span class="sourceLineNo">238</span><a id="line.238">      return true;</a>
+<span class="sourceLineNo">239</span><a id="line.239">    }</a>
+<span class="sourceLineNo">240</span><a id="line.240">    if (o == null || getClass() != o.getClass()) {</a>
+<span class="sourceLineNo">241</span><a id="line.241">      return false;</a>
+<span class="sourceLineNo">242</span><a id="line.242">    }</a>
+<span class="sourceLineNo">243</span><a id="line.243">    DownloadRequest that = (DownloadRequest) o;</a>
+<span class="sourceLineNo">244</span><a id="line.244">    return sendNotification == that.sendNotification &amp;&amp;</a>
+<span class="sourceLineNo">245</span><a id="line.245">      Objects.equals(creator, that.creator) &amp;&amp;</a>
+<span class="sourceLineNo">246</span><a id="line.246">      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;</a>
+<span class="sourceLineNo">247</span><a id="line.247">      format == that.format &amp;&amp;</a>
+<span class="sourceLineNo">248</span><a id="line.248">      type == that.type &amp;&amp;</a>
+<span class="sourceLineNo">249</span><a id="line.249">      Objects.equals(checklistKey, that.checklistKey) &amp;&amp;</a>
+<span class="sourceLineNo">250</span><a id="line.250">      Objects.equals(description, that.description);</a>
+<span class="sourceLineNo">251</span><a id="line.251">  }</a>
+<span class="sourceLineNo">252</span><a id="line.252"></a>
+<span class="sourceLineNo">253</span><a id="line.253">  @Override</a>
+<span class="sourceLineNo">254</span><a id="line.254">  public int hashCode() {</a>
+<span class="sourceLineNo">255</span><a id="line.255">    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, description, machineDescription, checklistKey);</a>
+<span class="sourceLineNo">256</span><a id="line.256">  }</a>
+<span class="sourceLineNo">257</span><a id="line.257"></a>
+<span class="sourceLineNo">258</span><a id="line.258">  @Override</a>
+<span class="sourceLineNo">259</span><a id="line.259">  public String toString() {</a>
+<span class="sourceLineNo">260</span><a id="line.260">    return new StringJoiner(", ", DownloadRequest.class.getSimpleName() + "[", "]")</a>
+<span class="sourceLineNo">261</span><a id="line.261">      .add("creator='" + creator + "'")</a>
+<span class="sourceLineNo">262</span><a id="line.262">      .add("notificationAddresses=" + notificationAddresses)</a>
+<span class="sourceLineNo">263</span><a id="line.263">      .add("sendNotification=" + sendNotification)</a>
+<span class="sourceLineNo">264</span><a id="line.264">      .add("format=" + format)</a>
+<span class="sourceLineNo">265</span><a id="line.265">      .add("type=" + type)</a>
+<span class="sourceLineNo">266</span><a id="line.266">      .add("description=" + description)</a>
+<span class="sourceLineNo">267</span><a id="line.267">      .add("machineDescription=" + machineDescription)</a>
+<span class="sourceLineNo">268</span><a id="line.268">      .add("checklistKey=" + checklistKey)</a>
+<span class="sourceLineNo">269</span><a id="line.269">      .toString();</a>
+<span class="sourceLineNo">270</span><a id="line.270">  }</a>
+<span class="sourceLineNo">271</span><a id="line.271">}</a>
 
 
 

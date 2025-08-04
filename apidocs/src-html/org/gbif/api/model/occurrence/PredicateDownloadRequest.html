@@ -117,79 +117,82 @@
 <span class="sourceLineNo">108</span><a id="line.108">    @JsonProperty("type") @Nullable DownloadType type,</a>
 <span class="sourceLineNo">109</span><a id="line.109">    @JsonProperty("description") @Nullable String description,</a>
 <span class="sourceLineNo">110</span><a id="line.110">    @JsonProperty("machineDescription") @Nullable JsonNode machineDescription,</a>
-<span class="sourceLineNo">111</span><a id="line.111">    @JsonProperty("verbatimExtensions") @Nullable Set&lt;Extension&gt; verbatimExtensions) {</a>
-<span class="sourceLineNo">112</span><a id="line.112">    super(</a>
-<span class="sourceLineNo">113</span><a id="line.113">      creator,</a>
-<span class="sourceLineNo">114</span><a id="line.114">      notificationAddresses,</a>
-<span class="sourceLineNo">115</span><a id="line.115">      sendNotification == null ? Boolean.TRUE : sendNotification,</a>
-<span class="sourceLineNo">116</span><a id="line.116">      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,</a>
-<span class="sourceLineNo">117</span><a id="line.117">      type == null ? DownloadType.OCCURRENCE : type,</a>
-<span class="sourceLineNo">118</span><a id="line.118">      description,</a>
-<span class="sourceLineNo">119</span><a id="line.119">      machineDescription</a>
-<span class="sourceLineNo">120</span><a id="line.120">    );</a>
-<span class="sourceLineNo">121</span><a id="line.121">    this.predicate = predicate;</a>
-<span class="sourceLineNo">122</span><a id="line.122">    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;</a>
-<span class="sourceLineNo">123</span><a id="line.123">  }</a>
-<span class="sourceLineNo">124</span><a id="line.124"></a>
-<span class="sourceLineNo">125</span><a id="line.125">  /**</a>
-<span class="sourceLineNo">126</span><a id="line.126">   * @return the download filter</a>
-<span class="sourceLineNo">127</span><a id="line.127">   */</a>
-<span class="sourceLineNo">128</span><a id="line.128">  @Nullable</a>
-<span class="sourceLineNo">129</span><a id="line.129">  @Valid</a>
-<span class="sourceLineNo">130</span><a id="line.130">  public Predicate getPredicate() {</a>
-<span class="sourceLineNo">131</span><a id="line.131">    return predicate;</a>
-<span class="sourceLineNo">132</span><a id="line.132">  }</a>
-<span class="sourceLineNo">133</span><a id="line.133"></a>
-<span class="sourceLineNo">134</span><a id="line.134">  public void setPredicate(Predicate predicate) {</a>
-<span class="sourceLineNo">135</span><a id="line.135">    this.predicate = predicate;</a>
-<span class="sourceLineNo">136</span><a id="line.136">  }</a>
-<span class="sourceLineNo">137</span><a id="line.137"></a>
-<span class="sourceLineNo">138</span><a id="line.138">  /**</a>
-<span class="sourceLineNo">139</span><a id="line.139">   * Requested verbatimExtensions for this download.</a>
-<span class="sourceLineNo">140</span><a id="line.140">   */</a>
-<span class="sourceLineNo">141</span><a id="line.141">  @Nullable</a>
-<span class="sourceLineNo">142</span><a id="line.142">  public Set&lt;Extension&gt; getVerbatimExtensions() {</a>
-<span class="sourceLineNo">143</span><a id="line.143">    return verbatimExtensions;</a>
-<span class="sourceLineNo">144</span><a id="line.144">  }</a>
-<span class="sourceLineNo">145</span><a id="line.145"></a>
-<span class="sourceLineNo">146</span><a id="line.146">  public void setVerbatimExtensions(Set&lt;Extension&gt; verbatimExtensions) {</a>
-<span class="sourceLineNo">147</span><a id="line.147">    this.verbatimExtensions = verbatimExtensions;</a>
-<span class="sourceLineNo">148</span><a id="line.148">  }</a>
-<span class="sourceLineNo">149</span><a id="line.149"></a>
-<span class="sourceLineNo">150</span><a id="line.150">  @Override</a>
-<span class="sourceLineNo">151</span><a id="line.151">  public boolean equals(Object o) {</a>
-<span class="sourceLineNo">152</span><a id="line.152">    if (this == o) {</a>
-<span class="sourceLineNo">153</span><a id="line.153">      return true;</a>
-<span class="sourceLineNo">154</span><a id="line.154">    }</a>
-<span class="sourceLineNo">155</span><a id="line.155">    if (o == null || getClass() != o.getClass()) {</a>
-<span class="sourceLineNo">156</span><a id="line.156">      return false;</a>
+<span class="sourceLineNo">111</span><a id="line.111">    @JsonProperty("verbatimExtensions") @Nullable Set&lt;Extension&gt; verbatimExtensions,</a>
+<span class="sourceLineNo">112</span><a id="line.112">    @JsonProperty("checklistKey") @Nullable String checklistKey</a>
+<span class="sourceLineNo">113</span><a id="line.113">    ) {</a>
+<span class="sourceLineNo">114</span><a id="line.114">    super(</a>
+<span class="sourceLineNo">115</span><a id="line.115">      creator,</a>
+<span class="sourceLineNo">116</span><a id="line.116">      notificationAddresses,</a>
+<span class="sourceLineNo">117</span><a id="line.117">      sendNotification == null ? Boolean.TRUE : sendNotification,</a>
+<span class="sourceLineNo">118</span><a id="line.118">      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,</a>
+<span class="sourceLineNo">119</span><a id="line.119">      type == null ? DownloadType.OCCURRENCE : type,</a>
+<span class="sourceLineNo">120</span><a id="line.120">      description,</a>
+<span class="sourceLineNo">121</span><a id="line.121">      machineDescription,</a>
+<span class="sourceLineNo">122</span><a id="line.122">      checklistKey</a>
+<span class="sourceLineNo">123</span><a id="line.123">    );</a>
+<span class="sourceLineNo">124</span><a id="line.124">    this.predicate = predicate;</a>
+<span class="sourceLineNo">125</span><a id="line.125">    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;</a>
+<span class="sourceLineNo">126</span><a id="line.126">  }</a>
+<span class="sourceLineNo">127</span><a id="line.127"></a>
+<span class="sourceLineNo">128</span><a id="line.128">  /**</a>
+<span class="sourceLineNo">129</span><a id="line.129">   * @return the download filter</a>
+<span class="sourceLineNo">130</span><a id="line.130">   */</a>
+<span class="sourceLineNo">131</span><a id="line.131">  @Nullable</a>
+<span class="sourceLineNo">132</span><a id="line.132">  @Valid</a>
+<span class="sourceLineNo">133</span><a id="line.133">  public Predicate getPredicate() {</a>
+<span class="sourceLineNo">134</span><a id="line.134">    return predicate;</a>
+<span class="sourceLineNo">135</span><a id="line.135">  }</a>
+<span class="sourceLineNo">136</span><a id="line.136"></a>
+<span class="sourceLineNo">137</span><a id="line.137">  public void setPredicate(Predicate predicate) {</a>
+<span class="sourceLineNo">138</span><a id="line.138">    this.predicate = predicate;</a>
+<span class="sourceLineNo">139</span><a id="line.139">  }</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">  /**</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * Requested verbatimExtensions for this download.</a>
+<span class="sourceLineNo">143</span><a id="line.143">   */</a>
+<span class="sourceLineNo">144</span><a id="line.144">  @Nullable</a>
+<span class="sourceLineNo">145</span><a id="line.145">  public Set&lt;Extension&gt; getVerbatimExtensions() {</a>
+<span class="sourceLineNo">146</span><a id="line.146">    return verbatimExtensions;</a>
+<span class="sourceLineNo">147</span><a id="line.147">  }</a>
+<span class="sourceLineNo">148</span><a id="line.148"></a>
+<span class="sourceLineNo">149</span><a id="line.149">  public void setVerbatimExtensions(Set&lt;Extension&gt; verbatimExtensions) {</a>
+<span class="sourceLineNo">150</span><a id="line.150">    this.verbatimExtensions = verbatimExtensions;</a>
+<span class="sourceLineNo">151</span><a id="line.151">  }</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">  @Override</a>
+<span class="sourceLineNo">154</span><a id="line.154">  public boolean equals(Object o) {</a>
+<span class="sourceLineNo">155</span><a id="line.155">    if (this == o) {</a>
+<span class="sourceLineNo">156</span><a id="line.156">      return true;</a>
 <span class="sourceLineNo">157</span><a id="line.157">    }</a>
-<span class="sourceLineNo">158</span><a id="line.158">    if (!super.equals(o)) {</a>
+<span class="sourceLineNo">158</span><a id="line.158">    if (o == null || getClass() != o.getClass()) {</a>
 <span class="sourceLineNo">159</span><a id="line.159">      return false;</a>
 <span class="sourceLineNo">160</span><a id="line.160">    }</a>
-<span class="sourceLineNo">161</span><a id="line.161">    PredicateDownloadRequest that = (PredicateDownloadRequest) o;</a>
-<span class="sourceLineNo">162</span><a id="line.162">    return Objects.equals(predicate, that.predicate) &amp;&amp;</a>
-<span class="sourceLineNo">163</span><a id="line.163">      Objects.equals(verbatimExtensions, that.verbatimExtensions);</a>
-<span class="sourceLineNo">164</span><a id="line.164">  }</a>
-<span class="sourceLineNo">165</span><a id="line.165"></a>
-<span class="sourceLineNo">166</span><a id="line.166">  @Override</a>
-<span class="sourceLineNo">167</span><a id="line.167">  public int hashCode() {</a>
-<span class="sourceLineNo">168</span><a id="line.168">    return Objects.hash(super.hashCode(), predicate, verbatimExtensions);</a>
-<span class="sourceLineNo">169</span><a id="line.169">  }</a>
-<span class="sourceLineNo">170</span><a id="line.170"></a>
-<span class="sourceLineNo">171</span><a id="line.171">  @Override</a>
-<span class="sourceLineNo">172</span><a id="line.172">  public String toString() {</a>
-<span class="sourceLineNo">173</span><a id="line.173">    return new StringJoiner(", ", PredicateDownloadRequest.class.getSimpleName() + "[", "]")</a>
-<span class="sourceLineNo">174</span><a id="line.174">      .add("predicate=" + predicate)</a>
-<span class="sourceLineNo">175</span><a id="line.175">      .add("creator='" + getCreator() + "'")</a>
-<span class="sourceLineNo">176</span><a id="line.176">      .add("notificationAddresses=" + getNotificationAddresses())</a>
-<span class="sourceLineNo">177</span><a id="line.177">      .add("sendNotification=" + getSendNotification())</a>
-<span class="sourceLineNo">178</span><a id="line.178">      .add("format=" + getFormat())</a>
-<span class="sourceLineNo">179</span><a id="line.179">      .add("type=" + getType())</a>
-<span class="sourceLineNo">180</span><a id="line.180">      .add("verbatimExtensions=" + verbatimExtensions)</a>
-<span class="sourceLineNo">181</span><a id="line.181">      .toString();</a>
-<span class="sourceLineNo">182</span><a id="line.182">  }</a>
-<span class="sourceLineNo">183</span><a id="line.183">}</a>
+<span class="sourceLineNo">161</span><a id="line.161">    if (!super.equals(o)) {</a>
+<span class="sourceLineNo">162</span><a id="line.162">      return false;</a>
+<span class="sourceLineNo">163</span><a id="line.163">    }</a>
+<span class="sourceLineNo">164</span><a id="line.164">    PredicateDownloadRequest that = (PredicateDownloadRequest) o;</a>
+<span class="sourceLineNo">165</span><a id="line.165">    return Objects.equals(predicate, that.predicate) &amp;&amp;</a>
+<span class="sourceLineNo">166</span><a id="line.166">      Objects.equals(verbatimExtensions, that.verbatimExtensions);</a>
+<span class="sourceLineNo">167</span><a id="line.167">  }</a>
+<span class="sourceLineNo">168</span><a id="line.168"></a>
+<span class="sourceLineNo">169</span><a id="line.169">  @Override</a>
+<span class="sourceLineNo">170</span><a id="line.170">  public int hashCode() {</a>
+<span class="sourceLineNo">171</span><a id="line.171">    return Objects.hash(super.hashCode(), predicate, verbatimExtensions);</a>
+<span class="sourceLineNo">172</span><a id="line.172">  }</a>
+<span class="sourceLineNo">173</span><a id="line.173"></a>
+<span class="sourceLineNo">174</span><a id="line.174">  @Override</a>
+<span class="sourceLineNo">175</span><a id="line.175">  public String toString() {</a>
+<span class="sourceLineNo">176</span><a id="line.176">    return new StringJoiner(", ", PredicateDownloadRequest.class.getSimpleName() + "[", "]")</a>
+<span class="sourceLineNo">177</span><a id="line.177">      .add("predicate=" + predicate)</a>
+<span class="sourceLineNo">178</span><a id="line.178">      .add("creator='" + getCreator() + "'")</a>
+<span class="sourceLineNo">179</span><a id="line.179">      .add("notificationAddresses=" + getNotificationAddresses())</a>
+<span class="sourceLineNo">180</span><a id="line.180">      .add("sendNotification=" + getSendNotification())</a>
+<span class="sourceLineNo">181</span><a id="line.181">      .add("format=" + getFormat())</a>
+<span class="sourceLineNo">182</span><a id="line.182">      .add("type=" + getType())</a>
+<span class="sourceLineNo">183</span><a id="line.183">      .add("verbatimExtensions=" + verbatimExtensions)</a>
+<span class="sourceLineNo">184</span><a id="line.184">      .toString();</a>
+<span class="sourceLineNo">185</span><a id="line.185">  }</a>
+<span class="sourceLineNo">186</span><a id="line.186">}</a>
 
 
 
