@@ -108,7 +108,9 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty("type") @Nullable DownloadType type,
     @JsonProperty("description") @Nullable String description,
     @JsonProperty("machineDescription") @Nullable JsonNode machineDescription,
-    @JsonProperty("verbatimExtensions") @Nullable Set<Extension> verbatimExtensions) {
+    @JsonProperty("verbatimExtensions") @Nullable Set<Extension> verbatimExtensions,
+    @JsonProperty("checklistKey") @Nullable String checklistKey
+    ) {
     super(
       creator,
       notificationAddresses,
@@ -116,7 +118,8 @@ public class PredicateDownloadRequest extends DownloadRequest {
       format == null ? DEFAULT_DOWNLOAD_FORMAT : format,
       type == null ? DownloadType.OCCURRENCE : type,
       description,
-      machineDescription
+      machineDescription,
+      checklistKey
     );
     this.predicate = predicate;
     this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;
