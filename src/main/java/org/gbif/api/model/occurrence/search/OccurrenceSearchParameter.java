@@ -13,30 +13,12 @@
  */
 package org.gbif.api.model.occurrence.search;
 import com.fasterxml.jackson.annotation.*;
-
 import com.fasterxml.jackson.core.JacksonException;
-
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-
 import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import org.gbif.api.annotation.Experimental;
-import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.util.IsoDateInterval;
-import org.gbif.api.vocabulary.BasisOfRecord;
-import org.gbif.api.vocabulary.Continent;
-import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.EndpointType;
-import org.gbif.api.vocabulary.GbifRegion;
-import org.gbif.api.vocabulary.License;
-import org.gbif.api.vocabulary.MediaType;
-import org.gbif.api.vocabulary.OccurrenceIssue;
-import org.gbif.api.vocabulary.OccurrenceStatus;
-import org.gbif.api.vocabulary.TaxonomicStatus;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -46,6 +28,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import org.gbif.api.annotation.Experimental;
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.util.IsoDateInterval;
+import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Continent;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.DurationUnit;
+import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.GbifRegion;
+import org.gbif.api.vocabulary.License;
+import org.gbif.api.vocabulary.MediaType;
+import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.OccurrenceStatus;
+import org.gbif.api.vocabulary.TaxonomicStatus;
 
 /**
  * Supported query parameters by the occurrence search and download service.
@@ -669,7 +665,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The life stage of an occurrence.
    */
-  public final static OccurrenceSearchParameter LIFE_STAGE = new OccurrenceSearchParameter("LIFE_STAGE", String.class);
+  public final static OccurrenceSearchParameter   LIFE_STAGE = new OccurrenceSearchParameter("LIFE_STAGE", String.class);
 
   /**
    * Searches for occurrences that are clustered.
@@ -856,6 +852,48 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    */
   public final static OccurrenceSearchParameter DNA_SEQUENCE_ID = new OccurrenceSearchParameter("DNA_SEQUENCE_ID", String.class);
 
+  /** Humboldt fields **/
+  public final static OccurrenceSearchParameter HUMBOLDT_SITE_COUNT = new OccurrenceSearchParameter("HUMBOLDT_SITE_COUNT", Integer.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_VERBATIM_SITE_NAMES = new OccurrenceSearchParameter("HUMBOLDT_VERBATIM_SITE_NAMES", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_GEOSPATIAL_SCOPE_AREA_VALUE = new OccurrenceSearchParameter("HUMBOLDT_GEOSPATIAL_SCOPE_AREA_VALUE", Double.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_GEOSPATIAL_SCOPE_AREA_UNIT = new OccurrenceSearchParameter("HUMBOLDT_GEOSPATIAL_SCOPE_AREA_UNIT", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TOTAL_AREA_SAMPLED_VALUE = new OccurrenceSearchParameter("HUMBOLDT_TOTAL_AREA_SAMPLED_VALUE", Double.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TOTAL_AREA_SAMPLED_UNIT = new OccurrenceSearchParameter("HUMBOLDT_TOTAL_AREA_SAMPLED_UNIT", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TARGET_HABITAT_SCOPE = new OccurrenceSearchParameter("HUMBOLDT_TARGET_HABITAT_SCOPE", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_EVENT_DURATION_VALUE = new OccurrenceSearchParameter("HUMBOLDT_EVENT_DURATION_VALUE", Double.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_EVENT_DURATION_UNIT = new OccurrenceSearchParameter("HUMBOLDT_EVENT_DURATION_UNIT", DurationUnit.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME = new OccurrenceSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY = new OccurrenceSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY = new OccurrenceSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS = new OccurrenceSearchParameter("HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_TAXONOMIC_SCOPE_FULLY_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_TAXONOMIC_SCOPE_FULLY_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_ABSENCE_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_ABSENCE_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_HAS_NON_TARGET_TAXA = new OccurrenceSearchParameter("HUMBOLDT_HAS_NON_TARGET_TAXA", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_ARE_NON_TARGET_TAXA_FULLY_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_ARE_NON_TARGET_TAXA_FULLY_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TARGET_LIFE_STAGE_SCOPE = new OccurrenceSearchParameter("HUMBOLDT_TARGET_LIFE_STAGE_SCOPE", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_LIFE_STAGE_SCOPE_FULLY_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_LIFE_STAGE_SCOPE_FULLY_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TARGET_DEGREE_OF_ESTABLISHMENT_SCOPE = new OccurrenceSearchParameter("HUMBOLDT_TARGET_DEGREE_OF_ESTABLISHMENT_SCOPE", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_TARGET_GROWTH_FORM_SCOPE = new OccurrenceSearchParameter("HUMBOLDT_TARGET_GROWTH_FORM_SCOPE", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_GROWTH_FORM_SCOPE_FULLY_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_GROWTH_FORM_SCOPE_FULLY_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_HAS_NON_TARGET_ORGANISMS = new OccurrenceSearchParameter("HUMBOLDT_HAS_NON_TARGET_ORGANISMS", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_COMPILATION_TYPES = new OccurrenceSearchParameter("HUMBOLDT_COMPILATION_TYPES", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_COMPILATION_SOURCE_TYPES = new OccurrenceSearchParameter("HUMBOLDT_COMPILATION_SOURCE_TYPES", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_INVENTORY_TYPES = new OccurrenceSearchParameter("HUMBOLDT_INVENTORY_TYPES", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_PROTOCOL_NAMES = new OccurrenceSearchParameter("HUMBOLDT_PROTOCOL_NAMES", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_ABUNDANCE_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_ABUNDANCE_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_ABUNDANCE_CAP_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_ABUNDANCE_CAP_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_ABUNDANCE_CAP = new OccurrenceSearchParameter("HUMBOLDT_ABUNDANCE_CAP", Integer.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_VEGETATION_COVER_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_VEGETATION_COVER_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE = new OccurrenceSearchParameter("HUMBOLDT_IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_HAS_VOUCHERS = new OccurrenceSearchParameter("HUMBOLDT_HAS_VOUCHERS", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_VOUCHER_INSTITUTIONS = new OccurrenceSearchParameter("HUMBOLDT_VOUCHER_INSTITUTIONS", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_HAS_MATERIAL_SAMPLES = new OccurrenceSearchParameter("HUMBOLDT_HAS_MATERIAL_SAMPLES", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_MATERIAL_SAMPLE_TYPES = new OccurrenceSearchParameter("HUMBOLDT_MATERIAL_SAMPLE_TYPES", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_SAMPLING_PERFORMED_BY = new OccurrenceSearchParameter("HUMBOLDT_SAMPLING_PERFORMED_BY", String.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_IS_SAMPLING_EFFORT_REPORTED = new OccurrenceSearchParameter("HUMBOLDT_IS_SAMPLING_EFFORT_REPORTED", Boolean.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_SAMPLING_EFFORT_VALUE = new OccurrenceSearchParameter("HUMBOLDT_SAMPLING_EFFORT_VALUE", Double.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_SAMPLING_EFFORT_UNIT = new OccurrenceSearchParameter("HUMBOLDT_SAMPLING_EFFORT_UNIT", String.class);
 
   public static OccurrenceSearchParameter[] values(){
 
