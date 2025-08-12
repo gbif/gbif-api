@@ -93,6 +93,9 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty("machineDescription")
   private JsonNode machineDescription;
 
+  @JsonProperty("checklistKey")
+  private String checklistKey;
+
   /**
    * Default constructor.
    */
@@ -103,8 +106,7 @@ public abstract class DownloadRequest implements Serializable {
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
                          Boolean sendNotification, DownloadFormat format,
                          DownloadType downloadType, String description,
-                         JsonNode machineDescription
-  ) {
+                         JsonNode machineDescription, String checklistKey) {
     this.creator = creator;
     this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
       Collections.unmodifiableSet(new HashSet<>(notificationAddresses));
@@ -113,6 +115,7 @@ public abstract class DownloadRequest implements Serializable {
     this.type = downloadType;
     this.description = description;
     this.machineDescription = machineDescription;
+    this.checklistKey = checklistKey;
   }
 
   /**
@@ -221,6 +224,14 @@ public abstract class DownloadRequest implements Serializable {
     return format.getExtension();
   }
 
+  public String getChecklistKey() {
+    return checklistKey;
+  }
+
+  public void setChecklistKey(String checklistKey) {
+    this.checklistKey = checklistKey;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -235,13 +246,13 @@ public abstract class DownloadRequest implements Serializable {
       Objects.equals(notificationAddresses, that.notificationAddresses) &&
       format == that.format &&
       type == that.type &&
-      Objects.equals(description, that.description);// &&
-//      Objects.equals(machineDescription, that.machineDescription);
+      Objects.equals(checklistKey, that.checklistKey) &&
+      Objects.equals(description, that.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, description, machineDescription);
+    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, description, machineDescription, checklistKey);
   }
 
   @Override
@@ -254,6 +265,7 @@ public abstract class DownloadRequest implements Serializable {
       .add("type=" + type)
       .add("description=" + description)
       .add("machineDescription=" + machineDescription)
+      .add("checklistKey=" + checklistKey)
       .toString();
   }
 }

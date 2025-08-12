@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.model.Constants;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.predicate.EqualsPredicate;
 import org.gbif.api.model.predicate.Predicate;
@@ -106,7 +107,7 @@ public class DownloadRequestTest {
   private static PredicateDownloadRequest newDownload(Predicate p, String user) {
     return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA, DownloadType.OCCURRENCE,
                                         "Unit test download", null,
-                                        Collections.singleton(Extension.AUDUBON));
+                                        Collections.singleton(Extension.AUDUBON), Constants.NUB_DATASET_KEY.toString());
   }
 
   @Test
