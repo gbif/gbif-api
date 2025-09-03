@@ -860,7 +860,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter HUMBOLDT_TOTAL_AREA_SAMPLED_VALUE = new OccurrenceSearchParameter("HUMBOLDT_TOTAL_AREA_SAMPLED_VALUE", Double.class);
   public final static OccurrenceSearchParameter HUMBOLDT_TOTAL_AREA_SAMPLED_UNIT = new OccurrenceSearchParameter("HUMBOLDT_TOTAL_AREA_SAMPLED_UNIT", String.class);
   public final static OccurrenceSearchParameter HUMBOLDT_TARGET_HABITAT_SCOPE = new OccurrenceSearchParameter("HUMBOLDT_TARGET_HABITAT_SCOPE", String.class);
-  public final static OccurrenceSearchParameter HUMBOLDT_EVENT_DURATION_VALUE_IN_MINUTES = new OccurrenceSearchParameter("HUMBOLDT_EVENT_DURATION_VALUE_IN_MINUTES", Double.class);
+  public final static OccurrenceSearchParameter HUMBOLDT_EVENT_DURATION = new OccurrenceSearchParameter("HUMBOLDT_EVENT_DURATION", String.class);
   public final static OccurrenceSearchParameter HUMBOLDT_EVENT_DURATION_VALUE = new OccurrenceSearchParameter("HUMBOLDT_EVENT_DURATION_VALUE", Double.class);
   public final static OccurrenceSearchParameter HUMBOLDT_EVENT_DURATION_UNIT = new OccurrenceSearchParameter("HUMBOLDT_EVENT_DURATION_UNIT", DurationUnit.class);
   public final static OccurrenceSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME = new OccurrenceSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME", String.class);
