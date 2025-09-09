@@ -18,5 +18,6 @@ public enum CollectionFacetParameter implements CollectionsFacetParameter {
   GENUS_KEY,
   SPECIES_KEY,
   OBJECT_CLASSIFICATION,
+  BIOME,
   RECORDED_BY;
 }

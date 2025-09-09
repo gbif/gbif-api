@@ -21,5 +21,6 @@ public class DescriptorMatch {
   private List<String> recordedBy;
   private String discipline;
   private String objectClassification;
+  private String biome;
   private List<String> issues;
 }
