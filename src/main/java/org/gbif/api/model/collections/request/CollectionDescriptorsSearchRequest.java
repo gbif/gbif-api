@@ -34,6 +34,7 @@ public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest
   @Nullable private List<String> discipline;
   @Nullable private List<String> objectClassification;
   @Nullable private List<String> biome;
+  @Nullable private List<String> biomeType;
   @Nullable private List<String> issue;
 
   @Builder.Default @Nullable private Set<CollectionFacetParameter> facets = new HashSet<>();

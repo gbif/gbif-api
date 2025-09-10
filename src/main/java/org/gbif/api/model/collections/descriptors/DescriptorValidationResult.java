@@ -13,19 +13,19 @@ import lombok.Data;
 @Data
 @Builder
 public class DescriptorValidationResult {
-  private String validBiome;
+  private String validBiomeType;
   private String validObjectClassification;
   @Builder.Default
-  private List<String> warnings = new ArrayList<>();
+  private List<String> issues = new ArrayList<>();
 
-  public void addWarning(String warning) {
-    if (warnings == null) {
-      warnings = new ArrayList<>();
+  public void addIssue(String issue) {
+    if (issues == null) {
+      issues = new ArrayList<>();
     }
-    warnings.add(warning);
+    issues.add(issue);
   }
 
-  public boolean hasWarnings() {
-    return warnings != null && !warnings.isEmpty();
+  public boolean hasIssues() {
+    return issues != null && !issues.isEmpty();
   }
 }
