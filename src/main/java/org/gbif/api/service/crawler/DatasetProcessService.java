@@ -75,4 +75,11 @@ public interface DatasetProcessService {
    *         be crawled
    */
   List<DatasetProcessStatus> getPendingCamtrapDpDatasetProcesses();
+
+
+  /**
+   * @return an ordered list of dataset processing statuses for all DwcDP based datasets that are currently waiting to
+   *         be crawled
+   */
+  List<DatasetProcessStatus> getPendingDwcDpDatasetProcesses();
 }

@@ -55,7 +55,8 @@ public class EndpointPriorityComparator implements Comparator<Endpoint>, Seriali
       EndpointType.TAPIR,
       EndpointType.BIOCASE_XML_ARCHIVE,
       EndpointType.DWC_ARCHIVE,
-      EndpointType.CAMTRAP_DP
+      EndpointType.CAMTRAP_DP,
+      EndpointType.DWC_DP
     ));
 
   private static final long serialVersionUID = 8085216142750609841L;
