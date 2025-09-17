@@ -13,9 +13,12 @@
  */
 package org.gbif.api.model.registry;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
 import org.gbif.api.model.registry.eml.DataDescription;
@@ -1396,7 +1399,7 @@ public class Dataset
     private List<String> extensions;
 
     @Schema(
-      description = "Timestamp of when the dataset was modified.",
+      description = "Timestamp of when the dataset DwcA metadata was modified.",
       accessMode = Schema.AccessMode.READ_ONLY
     )
     @Null(groups = {PrePersist.class})
@@ -1418,6 +1421,46 @@ public class Dataset
 
     public void setExtensions(List<String> extensions) {
       this.extensions = extensions;
+    }
+
+    @Nullable
+    public Date getModified() {
+      return modified;
+    }
+
+    public void setModified(Date modified) {
+      this.modified = modified;
+    }
+  }
+
+  /**
+   * Metadata of dataset that has been published as a <a href="https://specs.frictionlessdata.io/data-package/">DataPackage</a>.
+   */
+  @NoArgsConstructor
+  @Data
+  @Experimental
+  public static class DataPackage {
+
+    @Schema(
+      description = "The  content of the <a href=\"https://specs.frictionlessdata.io/schemas/data-package.json\">datapackage.json</a> file."
+    )
+    @JsonRawValue
+    private String metadata;
+
+    @Schema(
+      description = "Timestamp of when the dataset datapackage metadata was modified.",
+      accessMode = Schema.AccessMode.READ_ONLY
+    )
+    @Null(groups = {PrePersist.class})
+    private Date modified;
+
+    @NotNull
+    public String getMetadata() {
+      return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+      this.metadata = metadata;
     }
 
     @Nullable

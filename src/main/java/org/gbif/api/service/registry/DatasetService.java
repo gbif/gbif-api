@@ -154,22 +154,20 @@ public interface DatasetService extends NetworkEntityService<Dataset> {
 
 
   /**
-   * Add a new Contact to a target entity.
+   * Creates DwcA metadata to a target dataset.
    *
-   * @param targetEntityKey key of target entity
-   * @param contact         Contact to add
+   * @param datasetKey   key of target dataset
+   * @param dwcA         dqwcA metadata
    *
-   * @return key of Contact added
    */
   void createDwcaData(UUID datasetKey, @NotNull @Valid Dataset.DwcA dwcA);
 
   /**
-   * Add a new Contact to a target entity.
+   * Updates DwcA metadata to a target dataset.
    *
-   * @param targetEntityKey key of target entity
-   * @param contact         Contact to add
+   * @param datasetKey   key of target dataset
+   * @param dwcA         dqwcA metadata
    *
-   * @return key of Contact added
    */
   void updateDwcaData(UUID datasetKey, @NotNull @Valid Dataset.DwcA dwcA);
 }
