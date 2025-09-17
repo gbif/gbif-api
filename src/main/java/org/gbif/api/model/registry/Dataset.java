@@ -15,6 +15,14 @@ package org.gbif.api.model.registry;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +45,7 @@ import org.gbif.api.vocabulary.Language;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1441,9 +1450,21 @@ public class Dataset
   @Experimental
   public static class DataPackage {
 
+    /**
+     * Custom deserializer to capture raw JSON string.
+     */
+    public class RawJsonDeserializer extends JsonDeserializer<String> {
+      @Override
+      public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        JsonNode node = p.readValueAsTree();
+        return node.toString(); // store the raw JSON as a string
+      }
+    }
+
     @Schema(
       description = "The  content of the <a href=\"https://specs.frictionlessdata.io/schemas/data-package.json\">datapackage.json</a> file."
     )
+    @JsonDeserialize(using = RawJsonDeserializer.class)
     @JsonRawValue
     private String metadata;
 
