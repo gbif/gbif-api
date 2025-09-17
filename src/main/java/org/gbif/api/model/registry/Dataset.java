@@ -1453,7 +1453,7 @@ public class Dataset
     /**
      * Custom deserializer to capture raw JSON string.
      */
-    public class RawJsonDeserializer extends JsonDeserializer<String> {
+    public static class RawJsonDeserializer extends JsonDeserializer<String> {
 
       public RawJsonDeserializer() {
         // Jackson requires this
