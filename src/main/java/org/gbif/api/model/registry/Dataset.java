@@ -1480,6 +1480,13 @@ public class Dataset
     @Null(groups = {PrePersist.class})
     private Date modified;
 
+
+    @Schema(
+      description = "Unique GBIF key for the dataset.",
+      accessMode = Schema.AccessMode.READ_ONLY
+    )
+    private UUID datasetKey;
+
     @NotNull
     public String getMetadata() {
       return metadata;
@@ -1496,6 +1503,15 @@ public class Dataset
 
     public void setModified(Date modified) {
       this.modified = modified;
+    }
+
+    @NotNull
+    public UUID getDatasetKey() {
+      return datasetKey;
+    }
+
+    public void setDatasetKey(UUID datasetKey) {
+      this.datasetKey = datasetKey;
     }
   }
 }

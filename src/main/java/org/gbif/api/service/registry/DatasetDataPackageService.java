@@ -15,9 +15,13 @@
  */
 package org.gbif.api.service.registry;
 
+import org.gbif.api.model.common.paging.PageableBase;
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,7 +37,7 @@ public interface DatasetDataPackageService {
    * @param dataPackage  DataPackage metadata
    *
    */
-  void createDataPackageData(UUID datasetKey, @NotNull @Valid Dataset.DataPackage dataPackage);
+  void create(UUID datasetKey, @NotNull @Valid Dataset.DataPackage dataPackage);
 
   /**
    * Updates <a href="https://specs.frictionlessdata.io/data-package/">DataPackage</a> metadata to a target dataset.
@@ -42,7 +46,7 @@ public interface DatasetDataPackageService {
    * @param dataPackage  DataPackage metadata
    *
    */
-  void updateDataPackageData(UUID datasetKey, @NotNull @Valid Dataset.DataPackage dataPackage);
+  void update(UUID datasetKey, @NotNull @Valid Dataset.DataPackage dataPackage);
 
   /**
    * Retrieves <a href="https://specs.frictionlessdata.io/data-package/">DataPackage</a> metadata of a dataset.
@@ -50,5 +54,36 @@ public interface DatasetDataPackageService {
    * @param datasetKey   key of target dataset
    *
    */
-  Dataset.DataPackage getDataPackageData(UUID datasetKey);
+  Dataset.DataPackage get(UUID datasetKey);
+
+
+  /**
+   * Retrieves the resource metadata information of a dataset data package.
+   * @param datasetKey key of the dataset data package
+   * @param resourceName resource name to retrieve
+   * @return JSON object as String
+   */
+  String getResource(UUID datasetKey, String resourceName);
+
+  /**
+   * Retrieves the list of resources for a dataset data package.
+   * @param datasetKey key of the dataset data package
+   * @return JSON object as String
+   */
+  String getResources(UUID datasetKey);
+
+  /**
+   * Retrieves the list of resources names for a dataset data package.
+   * @param datasetKey key of the dataset data package
+   * @return JSON object as String
+   */
+  List<String> getResourceNames(UUID datasetKey);
+
+  /**
+   * Retrieves a pageable response of the registered data packages.
+   * @param params pageable request
+   * @return paging response containing a list of data packages
+   */
+  PagingResponse<Dataset.DataPackage> list(PageableBase params);
+
 }
