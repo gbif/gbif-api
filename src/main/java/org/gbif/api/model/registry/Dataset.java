@@ -1487,6 +1487,12 @@ public class Dataset
     )
     private UUID datasetKey;
 
+    @Schema(
+      description = "Unique GBIF key for the dataset endpoint.",
+      accessMode = Schema.AccessMode.READ_ONLY
+    )
+    private Integer endpointKey;
+
     @NotNull
     public String getMetadata() {
       return metadata;
@@ -1512,6 +1518,15 @@ public class Dataset
 
     public void setDatasetKey(UUID datasetKey) {
       this.datasetKey = datasetKey;
+    }
+
+    @NotNull
+    public Integer getEndpointKey() {
+      return endpointKey;
+    }
+
+    public void setEndpointKey(Integer endpointKey) {
+      this.endpointKey = endpointKey;
     }
   }
 }
