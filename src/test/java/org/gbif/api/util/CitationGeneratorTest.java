@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.gbif.api.vocabulary.EndpointType;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,36 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Unit tests related to {@link CitationGenerator}. */
 public class CitationGeneratorTest {
+
+  @Test
+  public void testCamtrapCitation() {
+    Organization org = new Organization();
+    org.setTitle("Research Institute for Nature and Forest (INBO)");
+
+    Dataset dataset = getCamtrapDataset();
+    dataset.getContacts().add(createContact("Jim", "Casaer", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Niko", "Boone", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Jan", "Vercammen", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Sander", "Devisscher", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Lynn", "Pallemaerts", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Anneleen", "Rutten", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Martijn", "Bollen", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Peter", "Desmet", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Sanne", "Govaert", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Jim", "Casaer", ContactType.METADATA_AUTHOR));
+    dataset.getContacts().add(createContact("Jim", "Casaer", ContactType.ADMINISTRATIVE_POINT_OF_CONTACT));
+
+    CitationGenerator.CitationData citation = CitationGenerator.generateCitation(dataset, org);
+
+    String expectedCitation = "Casaer J, Boone N, Vercammen J, Devisscher S, Pallemaerts L, Rutten A, Bollen M, "
+        + "Desmet P, Govaert S (2025). GMU8_LEUVEN - Camera trap observations in natural habitats south of Leuven "
+        + "(Belgium). Research Institute for Nature and Forest (INBO). "
+        + "Occurrence dataset https://doi.org/10.15468/4u3wm4 accessed via GBIF.org on "
+        + LocalDate.now(ZoneId.of("UTC"))
+        + ".";
+
+    assertEquals(expectedCitation, citation.getCitation().getText());
+  }
 
   @Test
   public void testAuthorNames() {
@@ -304,6 +335,20 @@ public class CitationGeneratorTest {
     // we can only generate the name for one of them
     assertEquals(
         1, CitationGenerator.generateAuthorsName(getAuthors(dataset.getContacts())).size());
+  }
+
+  private Dataset getCamtrapDataset() {
+    Dataset dataset = new Dataset();
+    dataset.setTitle("GMU8_LEUVEN - Camera trap observations in natural habitats south of Leuven (Belgium)");
+    dataset.setDoi(new DOI("10.15468/4u3wm4"));
+    dataset.setType(DatasetType.OCCURRENCE);
+    dataset.setPubDate(
+        new Date(
+            LocalDate.of(2025, 9, 25).atStartOfDay(ZoneId.of("UTC")).toInstant().toEpochMilli()));
+
+    dataset.setPublishingOrganizationKey(UUID.fromString("1cd669d0-80ea-11de-a9d0-f1765f95f18b"));
+
+    return dataset;
   }
 
   private Dataset getTestDatasetObject() {
