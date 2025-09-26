@@ -217,6 +217,7 @@ public class CitationGeneratorTest {
 
     Dataset dataset = getTestCamtrapOccurrenceDatasetObject();
 
+    dataset.getContacts().add(createContact("Tim", "Robertson", ContactType.ORIGINATOR));
     dataset.getContacts().add(createContact("John D.", "Doe", ContactType.POINT_OF_CONTACT));
     dataset.getContacts().add(createContact("Jim", "Carey", ContactType.PRINCIPAL_INVESTIGATOR));
     dataset.getContacts().add(createContact("Jack", "White", ContactType.CONTENT_PROVIDER));
@@ -226,13 +227,13 @@ public class CitationGeneratorTest {
     CitationGenerator.CitationData citation = CitationGenerator.generateCitation(dataset, org);
 
     assertEquals(
-        "Doe J D, Carey J, White J (2009). Dataset to be cited. Version 2.1. Cited Organization. "
+        "Robertson T (2009). Dataset to be cited. Version 2.1. Cited Organization. "
             + "Occurrence dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
             + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
 
-    assertEquals(3, citation.getContacts().size());
+    assertEquals(1, citation.getContacts().size());
   }
 
   @Test
