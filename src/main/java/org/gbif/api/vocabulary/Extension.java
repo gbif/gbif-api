@@ -252,7 +252,7 @@ public enum Extension {
     AVAILABLE_EXTENSION_MAP.put(IDENTIFIER, "http://rs.gbif.org/extension/gbif/1.0/identifier.xml");
     AVAILABLE_EXTENSION_MAP.put(DNA_DERIVED_DATA, "http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2024-07-11.xml");
     AVAILABLE_EXTENSION_MAP.put(HUMBOLDT, "http://rs.gbif.org/extension/eco/humboldt_2025-07-10.xml");
-    AVAILABLE_EXTENSION_MAP.put(OCCURRENCE, "https://rs.gbif.org/core/dwc_occurrence.xml");
+    AVAILABLE_EXTENSION_MAP.put(OCCURRENCE, "http://rs.gbif.org/core/dwc_occurrence.xml");
   }
 
   public static Map<Extension, String> availableExtensionResources() {
