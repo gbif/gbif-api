@@ -67,7 +67,9 @@ public interface InterpretationType extends Serializable {
     IMAGE_TABLE,
     MULTIMEDIA_TABLE,
     DNA_DERIVED_DATA_TABLE,
-    HUMBOLDT_TABLE;
+    HUMBOLDT_TABLE,
+    // this is the occurrence extension
+    OCCURRENCE_TABLE;
 
     @Override
     public String all() {
@@ -139,7 +141,8 @@ public interface InterpretationType extends Serializable {
           IMAGE_TABLE,
           MULTIMEDIA_TABLE,
           DNA_DERIVED_DATA_TABLE,
-          HUMBOLDT_TABLE));
+          HUMBOLDT_TABLE,
+          OCCURRENCE_TABLE));
     }
   }
 }
