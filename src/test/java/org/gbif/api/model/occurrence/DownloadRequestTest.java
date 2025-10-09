@@ -105,9 +105,18 @@ public class DownloadRequestTest {
   }
 
   private static PredicateDownloadRequest newDownload(Predicate p, String user) {
-    return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA, DownloadType.OCCURRENCE,
-                                        "Unit test download", null,
-                                        Collections.singleton(Extension.AUDUBON), Constants.NUB_DATASET_KEY.toString());
+    return new PredicateDownloadRequest(
+        p,
+        user,
+        Collections.singleton(TEST_EMAIL),
+        false,
+        DownloadFormat.DWCA,
+        DownloadType.OCCURRENCE,
+        "Unit test download",
+        null,
+        Collections.singleton(Extension.AUDUBON),
+        Collections.singleton(Extension.HUMBOLDT),
+        Constants.NUB_DATASET_KEY.toString());
   }
 
   @Test
