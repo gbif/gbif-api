@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -71,6 +72,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String FORMAT = "format";
   private static final String TYPE = "type";
   private static final String VERBATIM_EXTENSIONS = "verbatimExtensions";
+  private static final String INTERPRETED_EXTENSIONS = "interpretedExtensions";
   private static final String DESCRIPTION = "description";
   private static final String MACHINE_DESCRIPTION = "machineDescription";
   private static final String CHECKLIST_KEY = "checklistKey";
@@ -86,7 +88,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
   static {
     Set<String> allProperties = new HashSet<>(Arrays.asList(PREDICATE, SQL, CREATOR, FORMAT, TYPE, VERBATIM_EXTENSIONS,
-      DESCRIPTION, MACHINE_DESCRIPTION, CHECKLIST_KEY));
+      INTERPRETED_EXTENSIONS, DESCRIPTION, MACHINE_DESCRIPTION, CHECKLIST_KEY));
     allProperties.addAll(SEND_NOTIFICATION);
     allProperties.addAll(NOTIFICATION_ADDRESSES);
     allProperties.addAll(IGNORED_PROPERTIES);
@@ -133,18 +135,31 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
     }
 
-    Set<Extension> extensions = Optional.ofNullable(node.get(VERBATIM_EXTENSIONS)).map(jsonNode -> {
+    Function<JsonNode, Set<Extension>> jsonNodeToExtensionsMapper = jsonNode -> {
       try {
         return Arrays.stream(MAPPER.treeToValue(jsonNode, String[].class))
-                .map(Extension::fromRowType)
-                .collect(Collectors.toSet());
+          .map(Extension::fromRowType)
+          .collect(Collectors.toSet());
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-    }).orElse(Collections.emptySet());
+    };
+
+    Set<Extension> verbatimExtensions =
+        Optional.ofNullable(node.get(VERBATIM_EXTENSIONS))
+            .map(jsonNodeToExtensionsMapper)
+            .orElse(Collections.emptySet());
+
+    Set<Extension> interpretedExtensions =
+      Optional.ofNullable(node.get(INTERPRETED_EXTENSIONS))
+        .map(jsonNodeToExtensionsMapper)
+        .orElse(Collections.emptySet());
+
+    Set<Extension> allExtensions = new HashSet<>(verbatimExtensions);
+    allExtensions.addAll(interpretedExtensions);
 
     // Check requested extensions are available for download.
-    for (Extension e : extensions) {
+    for (Extension e : allExtensions) {
       if (!Extension.availableExtensions().contains(e)) {
         throw new RuntimeException("The "+e.getRowType()+" extension is not available for downloads.");
       }
@@ -183,7 +198,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
       Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
       return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification,
-        format, type, description, machineDescription, extensions, checklistKey);
+        format, type, description, machineDescription, verbatimExtensions, interpretedExtensions, checklistKey);
     }
   }
 }
