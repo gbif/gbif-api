@@ -16,7 +16,7 @@
 package org.gbif.api.service.common;
 
 import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.model.common.search.SearchRequest;
+import org.gbif.api.model.common.search.BaseSearchRequest;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import java.util.List;
  * @param <R> the supported search request type. For faceted searches this needs to extend
  *        {@link org.gbif.api.model.common.search.FacetedSearchRequest}
  */
-public interface SuggestService<T, P extends Enum<?> & SearchParameter, R extends SearchRequest<P>> {
+public interface SuggestService<T, P extends Enum<?> & SearchParameter, R extends BaseSearchRequest<P>> {
 
   /**
    * Issues a SearchRequest for a suggest and retrieves the list of matches.

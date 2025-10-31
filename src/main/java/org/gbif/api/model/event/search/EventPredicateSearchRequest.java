@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.api.model.occurrence.search;
+package org.gbif.api.model.event.search;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.gbif.api.model.common.paging.Pageable;
@@ -19,15 +19,15 @@ import org.gbif.api.model.common.search.PredicateSearchRequest;
 import org.gbif.api.model.predicate.Predicate;
 
 /** Search request that uses a predicate filter like the ones used un downloads. */
-@JsonDeserialize(as = OccurrencePredicateSearchRequest.class)
-public class OccurrencePredicateSearchRequest extends OccurrenceSearchRequest
+@JsonDeserialize(as = EventPredicateSearchRequest.class)
+public class EventPredicateSearchRequest extends EventSearchRequest
     implements PredicateSearchRequest {
 
   private Predicate predicate;
 
-  public OccurrencePredicateSearchRequest() {}
+  public EventPredicateSearchRequest() {}
 
-  public OccurrencePredicateSearchRequest(Pageable page) {
+  public EventPredicateSearchRequest(Pageable page) {
     super(page);
   }
 

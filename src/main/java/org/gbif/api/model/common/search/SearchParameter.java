@@ -17,6 +17,8 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.util.Optional;
+
 /**
  * Interface to be implemented by all search parameter enumerations.
  * The enumeration member name should avoid the following names which are already defined as
