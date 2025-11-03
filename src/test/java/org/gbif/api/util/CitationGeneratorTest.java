@@ -29,6 +29,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import org.gbif.api.vocabulary.EndpointType;
 import org.junit.jupiter.api.Test;
@@ -36,10 +38,41 @@ import org.junit.jupiter.api.Test;
 import static org.gbif.api.model.common.DOI.TEST_PREFIX;
 import static org.gbif.api.util.CitationGenerator.getAuthors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Unit tests related to {@link CitationGenerator}. */
 public class CitationGeneratorTest {
+
+  @Test
+  public void testCamtrapCitation() {
+    Organization org = new Organization();
+    org.setTitle("Research Institute for Nature and Forest (INBO)");
+
+    Dataset dataset = getCamtrapDataset();
+    dataset.getContacts().add(createContact("Jim", "Casaer", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Niko", "Boone", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Jan", "Vercammen", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Sander", "Devisscher", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Lynn", "Pallemaerts", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Anneleen", "Rutten", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Martijn", "Bollen", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Peter", "Desmet", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Sanne", "Govaert", ContactType.ORIGINATOR));
+    dataset.getContacts().add(createContact("Jim", "Casaer", ContactType.METADATA_AUTHOR));
+    dataset.getContacts().add(createContact("Jim", "Casaer", ContactType.ADMINISTRATIVE_POINT_OF_CONTACT));
+
+    CitationGenerator.CitationData citation = CitationGenerator.generateCitation(dataset, org);
+
+    String expectedCitation = "Casaer J, Boone N, Vercammen J, Devisscher S, Pallemaerts L, Rutten A, Bollen M, "
+        + "Desmet P, Govaert S (2025). GMU8_LEUVEN - Camera trap observations in natural habitats south of Leuven "
+        + "(Belgium). Research Institute for Nature and Forest (INBO). "
+        + "Occurrence dataset https://doi.org/10.15468/4u3wm4 accessed via GBIF.org on "
+        + LocalDate.now(ZoneId.of("UTC"))
+        + ".";
+
+    assertEquals(expectedCitation, citation.getCitation().getText());
+  }
 
   @Test
   public void testAuthorNames() {
@@ -47,21 +80,21 @@ public class CitationGeneratorTest {
     c.setLastName("Doe");
     c.setFirstName("John D.");
     assertEquals("Doe J D", CitationGenerator.getAuthorName(c));
-    assertEquals(getAuthors(Collections.singletonList(c)).size(), 0);
+    assertEquals(0, getAuthors(Collections.singletonList(c)).size());
 
     // test with missing first name
     c = new Contact();
     c.setLastName("Doe");
     c.setOrganization("Awesome Organization");
     assertEquals("Doe", CitationGenerator.getAuthorName(c));
-    assertEquals(getAuthors(Collections.singletonList(c)).size(), 0);
+    assertEquals(0, getAuthors(Collections.singletonList(c)).size());
 
     // test with missing parts
     c = new Contact();
     c.setFirstName("John");
     c.setOrganization("Awesome Organization");
     assertEquals("Awesome Organization", CitationGenerator.getAuthorName(c));
-    assertEquals(getAuthors(Collections.singletonList(c)).size(), 0);
+    assertEquals(0, getAuthors(Collections.singletonList(c)).size());
   }
 
   @Test
@@ -74,14 +107,13 @@ public class CitationGeneratorTest {
 
     CitationGenerator.CitationData citation = CitationGenerator.generateCitation(dataset, org);
 
-    ;
     assertEquals(
         "Doe J D (2009). Dataset to be cited. Version 2.1. Cited Organization. "
             + "Sampling event dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
-            + LocalDate.now(ZoneId.of("UTC")).toString()
+            + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
-    assertEquals(citation.getContacts().size(), 1);
+    assertEquals(1, citation.getContacts().size());
   }
 
   @Test
@@ -100,11 +132,11 @@ public class CitationGeneratorTest {
     assertEquals(
         "Doe J D, Smith, Mendez (2009). Dataset to be cited. Version 2.1. Cited Organization. "
             + "Sampling event dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
-            + LocalDate.now(ZoneId.of("UTC")).toString()
+            + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
 
-    assertEquals(citation.getContacts().size(), 3);
+    assertEquals(3, citation.getContacts().size());
   }
 
   @Test
@@ -127,11 +159,11 @@ public class CitationGeneratorTest {
     assertEquals(
         "Cited Organization (2009). Dataset to be cited. Version 2.1. "
             + "Sampling event dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
-            + LocalDate.now(ZoneId.of("UTC")).toString()
+            + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
 
-    assertEquals(citation.getContacts().size(), 0);
+    assertEquals(0, citation.getContacts().size());
   }
 
   @Test
@@ -148,11 +180,11 @@ public class CitationGeneratorTest {
     assertEquals(
         "Doe J. Dataset to be cited. Version 2.1. Cited Organization. "
             + "Sampling event dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
-            + LocalDate.now(ZoneId.of("UTC")).toString()
+            + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
 
-    assertEquals(citation.getContacts().size(), 1);
+    assertEquals(1, citation.getContacts().size());
   }
 
   @Test
@@ -171,11 +203,11 @@ public class CitationGeneratorTest {
     assertEquals(
         "Doe J D (2009). Dataset to be cited. Version 2.1. Cited Organization. "
             + "Sampling event dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
-            + LocalDate.now(ZoneId.of("UTC")).toString()
+            + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
 
-    assertEquals(citation.getContacts().size(), 1);
+    assertEquals(1, citation.getContacts().size());
   }
 
   @Test
@@ -185,6 +217,7 @@ public class CitationGeneratorTest {
 
     Dataset dataset = getTestCamtrapOccurrenceDatasetObject();
 
+    dataset.getContacts().add(createContact("Tim", "Robertson", ContactType.ORIGINATOR));
     dataset.getContacts().add(createContact("John D.", "Doe", ContactType.POINT_OF_CONTACT));
     dataset.getContacts().add(createContact("Jim", "Carey", ContactType.PRINCIPAL_INVESTIGATOR));
     dataset.getContacts().add(createContact("Jack", "White", ContactType.CONTENT_PROVIDER));
@@ -194,13 +227,13 @@ public class CitationGeneratorTest {
     CitationGenerator.CitationData citation = CitationGenerator.generateCitation(dataset, org);
 
     assertEquals(
-        "Doe J D, Carey J, White J (2009). Dataset to be cited. Version 2.1. Cited Organization. "
+        "Robertson T (2009). Dataset to be cited. Version 2.1. Cited Organization. "
             + "Occurrence dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
             + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
 
-    assertEquals(citation.getContacts().size(), 3);
+    assertEquals(1, citation.getContacts().size());
   }
 
   @Test
@@ -211,15 +244,14 @@ public class CitationGeneratorTest {
     dataset.getContacts().add(createContact("John D.", "Doe", ContactType.METADATA_AUTHOR));
 
     CitationGenerator.CitationData citation = CitationGenerator.generateCitation(dataset, org);
-    List<CitationContact> contacts = getAuthors(dataset.getContacts());
 
     assertEquals(
         "Cited Organization (2009). Dataset to be cited. Version 2.1. "
             + "Sampling event dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
-            + LocalDate.now(ZoneId.of("UTC")).toString()
+            + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
-    assertEquals(citation.getContacts().size(), 0);
+    assertEquals(0, citation.getContacts().size());
   }
 
   @Test
@@ -236,11 +268,11 @@ public class CitationGeneratorTest {
     assertEquals(
         "Cited Organization (2009). Dataset to be cited. Version 2.1. "
             + "Sampling event dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
-            + LocalDate.now(ZoneId.of("UTC")).toString()
+            + LocalDate.now(ZoneId.of("UTC"))
             + ".",
         citation.getCitation().getText());
 
-    assertEquals(citation.getContacts().size(), 0);
+    assertEquals(0, citation.getContacts().size());
   }
 
   @Test
@@ -285,22 +317,39 @@ public class CitationGeneratorTest {
     // Only one author added
     assertEquals(1, authors.size());
 
-    // The authors keeps the 2 roles
+    // The authors keep the 2 roles
     assertTrue(
         authors
             .get(0)
             .getRoles()
             .containsAll(EnumSet.of(ContactType.ORIGINATOR, ContactType.METADATA_AUTHOR)));
 
+    Set<String> firstAuthorUserId = authors.get(0).getUserId();
+    assertNotNull(firstAuthorUserId);
+
     // The author has 2 users
-    assertTrue(authors.get(0).getUserId().containsAll(Arrays.asList("user1", "user2")));
+    assertTrue(firstAuthorUserId.containsAll(Arrays.asList("user1", "user2")));
 
     // Repeated user is not added twice
-    assertEquals(authors.get(0).getUserId().size(), 2);
+    assertEquals(2, firstAuthorUserId.size());
 
     // we can only generate the name for one of them
     assertEquals(
         1, CitationGenerator.generateAuthorsName(getAuthors(dataset.getContacts())).size());
+  }
+
+  private Dataset getCamtrapDataset() {
+    Dataset dataset = new Dataset();
+    dataset.setTitle("GMU8_LEUVEN - Camera trap observations in natural habitats south of Leuven (Belgium)");
+    dataset.setDoi(new DOI("10.15468/4u3wm4"));
+    dataset.setType(DatasetType.OCCURRENCE);
+    dataset.setPubDate(
+        new Date(
+            LocalDate.of(2025, 9, 25).atStartOfDay(ZoneId.of("UTC")).toInstant().toEpochMilli()));
+
+    dataset.setPublishingOrganizationKey(UUID.fromString("1cd669d0-80ea-11de-a9d0-f1765f95f18b"));
+
+    return dataset;
   }
 
   private Dataset getTestDatasetObject() {

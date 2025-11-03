@@ -23,12 +23,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.ArrayUtils;
-
 import org.gbif.api.util.AnnotationUtils;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.EcoTerm;
 import org.gbif.dwc.terms.Term;
 
 /** An enumeration of validation rules for single occurrence records. */
@@ -95,8 +94,8 @@ public enum OccurrenceIssue implements InterpretationRemark {
   FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),
 
   /**
-   * The Footprint Well-Known-Text conflicts with the interpreted coordinates
-   * (Decimal Latitude, Decimal Longitude etc).
+   * The Footprint Well-Known-Text conflicts with the interpreted coordinates (Decimal Latitude,
+   * Decimal Longitude etc).
    */
   FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),
 
@@ -154,9 +153,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
-  /**
-   * Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match.
-   */
+  /** Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match. */
   TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
@@ -166,20 +163,24 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * Matching to the taxonomic backbone can only be done on a species level,
-   * but the occurrence was in fact considered a broader species aggregate/complex.
+   * Matching to the taxonomic backbone can only be done on a species level, but the occurrence was
+   * in fact considered a broader species aggregate/complex.
    *
-   * @see <a href="https://github.com/gbif/portal-feedback/issues/2935">gbif/portal-feedback#2935</a>
+   * @see <a
+   *     href="https://github.com/gbif/portal-feedback/issues/2935">gbif/portal-feedback#2935</a>
    */
   TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may
+   * indicate one of
+   *
    * <ul>
-   *   <li>The ID uses a pattern not configured for use by GBIF</li>
-   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
-   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
-   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
+   *   <li>The ID uses a pattern not configured for use by GBIF
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist
+   *   <li>The ID found a concept in the checklist which did not map to the backbone
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully
+   *       linked to the backbone
    * </ul>
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
@@ -187,12 +188,15 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, DwcTerm.scientificNameID),
 
   /**
-   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate
+   * one of
+   *
    * <ul>
-   *   <li>The ID uses a pattern not configured for use by GBIF</li>
-   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
-   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
-   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
+   *   <li>The ID uses a pattern not configured for use by GBIF
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist
+   *   <li>The ID found a concept in the checklist which did not map to the backbone
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully
+   *       linked to the backbone
    * </ul>
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
@@ -203,10 +207,11 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of
    *
    * <ul>
-   *   <li>The ID uses a pattern not configured for use by GBIF</li>
-   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
-   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
-   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
+   *   <li>The ID uses a pattern not configured for use by GBIF
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist
+   *   <li>The ID found a concept in the checklist which did not map to the backbone
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully
+   *       linked to the backbone
    * </ul>
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
@@ -215,9 +220,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
 
   /**
    * The scientificNameID matched a known pattern, but it was not found in the associated checklist.
-   * The backbone lookup was performed using either the names or a different ID on the record.
-   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that
-   * isn't yet known in the version of the published checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record. This
+   * may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't
+   * yet known in the version of the published checklist.
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
@@ -225,18 +230,18 @@ public enum OccurrenceIssue implements InterpretationRemark {
 
   /**
    * The taxonConceptID matched a known pattern, but it was not found in the associated checklist.
-   * The backbone lookup was performed using either the names or a different ID on the record.
-   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
-   * known in the version of the published checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record. This
+   * may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't
+   * yet known in the version of the published checklist.
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
   TAXON_CONCEPT_ID_NOT_FOUND(WARNING, DwcTerm.taxonConceptID),
 
   /**
-   * The taxonID matched a known pattern, but it was not found in the associated checklist.
-   * The backbone lookup was performed using either the names or a different ID on the record.
-   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
+   * The taxonID matched a known pattern, but it was not found in the associated checklist. The
+   * backbone lookup was performed using either the names or a different ID on the record. This may
+   * indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
    * known in the version of the published checklist.
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
@@ -333,9 +338,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),
 
-  /**
-   * The given type status contains some words that express uncertainty.
-   */
+  /** The given type status contains some words that express uncertainty. */
   SUSPECTED_TYPE(WARNING, DwcTerm.typeStatus),
 
   /** An invalid date is given for dc:created of a multimedia object. */
@@ -489,7 +492,77 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.earliestEpochOrLowestSeries,
       DwcTerm.latestEpochOrHighestSeries,
       DwcTerm.earliestAgeOrLowestStage,
-      DwcTerm.latestAgeOrHighestStage);
+      DwcTerm.latestAgeOrHighestStage),
+
+  /**
+   * The geospatial scope area is always greater than or equal to the total area sampled as stated
+   * in the (<a href="https://eco.tdwg.org/list/#eco_geospatialScopeAreaValue">term definition</a>).
+   */
+  GEOSPATIAL_SCOPE_AREA_LOWER_THAN_TOTAL_AREA_SAMPLED(
+      INFO, EcoTerm.geospatialScopeAreaValue, EcoTerm.totalAreaSampledValue),
+
+  /** An eco:eventDurationValue must have a corresponding eco:eventDurationUnit. */
+  EVENT_DURATION_UNIT_MISSING(INFO, EcoTerm.eventDurationUnit),
+
+  /** An eco:geospatialScopeAreaValue must have a corresponding eco:geospatialScopeAreaUnit. */
+  GEOSPATIAL_SCOPE_AREA_UNIT_MISSING(INFO, EcoTerm.geospatialScopeAreaUnit),
+
+  /** An eco:samplingEffortValue must have a corresponding eco:samplingEffortUnit. */
+  SAMPLING_EFFORT_UNIT_MISSING(INFO, EcoTerm.samplingEffortUnit),
+
+  /** An eco:totalAreaSampledValue must have a corresponding eco:totalAreaSampledUnit. */
+  TOTAL_AREA_SAMPLED_UNIT_MISSING(INFO, EcoTerm.samplingEffortUnit),
+
+  /** Non target taxa has been provided but the eco:hasNonTargetTaxa is set to false. */
+  HAS_NON_TARGET_TAXA_MISMATCH(INFO, EcoTerm.hasNonTargetTaxa),
+
+  /** Material sample types have been provided but the eco:hasMaterialSamples is set to false. */
+  HAS_MATERIAL_SAMPLES_MISMATCH(INFO, EcoTerm.hasMaterialSamples),
+
+  /** Some target taxonomic scope has been excluded. */
+  TARGET_TAXONOMIC_SCOPE_EXCLUDED(
+      INFO, EcoTerm.targetTaxonomicScope, EcoTerm.excludedTaxonomicScope),
+
+  /** Some target habitat scope has been excluded. */
+  TARGET_HABITAT_SCOPE_EXCLUDED(INFO, EcoTerm.targetHabitatScope, EcoTerm.excludedHabitatScope),
+
+  /** Some target life stage scope has been excluded. */
+  TARGET_LIFE_STAGE_SCOPE_EXCLUDED(
+      INFO, EcoTerm.targetLifeStageScope, EcoTerm.excludedLifeStageScope),
+
+  /** Some target degree of establishment scope has been excluded. */
+  TARGET_DEGREE_OF_ESTABLISHMENT_EXCLUDED(
+      INFO, EcoTerm.targetDegreeOfEstablishmentScope, EcoTerm.excludedDegreeOfEstablishmentScope),
+
+  /** Some target growth form scope has been excluded. */
+  TARGET_GROWTH_FORM_EXCLUDED(INFO, EcoTerm.targetGrowthFormScope, EcoTerm.excludedGrowthFormScope),
+
+  /** Invalid value for numeric fields in Humboldt extension. */
+  SITE_COUNT_INVALID(INFO, EcoTerm.siteCount),
+  GEOSPATIAL_SCOPE_AREA_VALUE_INVALID(INFO, EcoTerm.geospatialScopeAreaValue),
+  TOTAL_AREA_SAMPLED_VALUE_INVALID(INFO, EcoTerm.totalAreaSampledValue),
+  EVENT_DURATION_VALUE_INVALID(INFO, EcoTerm.eventDurationValue),
+  SAMPLING_EFFORT_VALUE_INVALID(INFO, EcoTerm.samplingEffortValue),
+  ABUNDANCE_CAP_INVALID(INFO, EcoTerm.abundanceCap),
+
+  /** Invalid value for boolean fields in Humboldt extension. */
+  IS_TAXONOMIC_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isTaxonomicScopeFullyReported),
+  IS_ABSENCE_REPORTED_INVALID(INFO, EcoTerm.isAbsenceReported),
+  HAS_NON_TARGET_TAXA_INVALID(INFO, EcoTerm.hasNonTargetTaxa),
+  ARE_NON_TARGET_TAXA_FULLY_REPORTED_INVALID(INFO, EcoTerm.areNonTargetTaxaFullyReported),
+  IS_LIFE_STAGE_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isLifeStageScopeFullyReported),
+  IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED_INVALID(
+      INFO, EcoTerm.isDegreeOfEstablishmentScopeFullyReported),
+  IS_GROWTH_FORM_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isGrowthFormScopeFullyReported),
+  HAS_NON_TARGET_ORGANISMS_INVALID(INFO, EcoTerm.hasNonTargetOrganisms),
+  IS_ABUNDANCE_REPORTED_INVALID(INFO, EcoTerm.isAbundanceReported),
+  IS_ABUNDANCE_CAP_REPORTED_INVALID(INFO, EcoTerm.isAbundanceCapReported),
+  IS_VEGETATION_COVER_REPORTED_INVALID(INFO, EcoTerm.isVegetationCoverReported),
+  IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE_INVALID(
+      INFO, EcoTerm.isLeastSpecificTargetCategoryQuantityInclusive),
+  HAS_VOUCHERS_INVALID(INFO, EcoTerm.hasVouchers),
+  HAS_MATERIAL_SAMPLES_INVALID(INFO, EcoTerm.hasMaterialSamples),
+  IS_SAMPLING_EFFORT_REPORTED_INVALID(INFO, EcoTerm.isSamplingEffortReported);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
@@ -612,11 +685,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
               PRESUMED_NEGATED_LONGITUDE,
               PRESUMED_NEGATED_LATITUDE));
 
-  /**
-   * All issues related to taxonomic fields.
-   */
+  /** All issues related to taxonomic fields. */
   public static final List<OccurrenceIssue> TAXONOMIC_RULES =
-    Set.of(OccurrenceIssue.values()).stream()
-        .filter(issue -> issue.getRelatedTerms().stream().anyMatch(term -> Set.of(TermsGroup.TAXONOMY_TERMS).contains(term)))
-        .collect(Collectors.toList());
+      Set.of(OccurrenceIssue.values()).stream()
+          .filter(
+              issue ->
+                  issue.getRelatedTerms().stream()
+                      .anyMatch(term -> Set.of(TermsGroup.TAXONOMY_TERMS).contains(term)))
+          .collect(Collectors.toList());
 }

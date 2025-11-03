@@ -251,6 +251,7 @@ public class Event extends VerbatimOccurrence {
   private String identifiedBy;
   private String preparations;
   private String samplingProtocol;
+  private List<Humboldt> humboldt = new ArrayList<>();
 
   /**
    * Convenience method checking if any spatial validation rule has not passed.

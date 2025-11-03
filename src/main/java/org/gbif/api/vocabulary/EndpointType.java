@@ -84,6 +84,10 @@ public enum EndpointType {
    * <a href="https://tdwg.github.io/camtrap-dp/">CamTrap DP</a>.
    */
   CAMTRAP_DP,
+  /**
+   * <a href="https://gbif.github.io/dwc-dp/">Darwin Core DP</a>.
+   */
+  DWC_DP,
 
   /**
    * The <a href="https://biom-format.org/documentation/format_versions/biom-1.0.html">BIOM JSON</a> file format for representing biological sample by observation contingency tables.

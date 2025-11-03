@@ -17,7 +17,6 @@ import org.gbif.api.model.registry.Citation;
 import org.gbif.api.model.registry.CitationContact;
 import org.gbif.api.model.registry.Contact;
 import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.vocabulary.ContactType;
 
@@ -54,16 +53,12 @@ public final class CitationGenerator {
   private static final ContactType MANDATORY_CONTACT_TYPE = ContactType.ORIGINATOR;
   private static final EnumSet<ContactType> AUTHOR_CONTACT_TYPE =
       EnumSet.of(ContactType.ORIGINATOR, ContactType.METADATA_AUTHOR);
-  private static final EnumSet<ContactType> CAMTRAP_CITATION_CONTACT_TYPE =
-      EnumSet.of(ContactType.POINT_OF_CONTACT, ContactType.PRINCIPAL_INVESTIGATOR, ContactType.CONTENT_PROVIDER);
   private static final Predicate<Contact> IS_NAME_PROVIDED_FCT =
       ctc -> StringUtils.isNotBlank(ctc.getLastName());
   private static final Predicate<CitationContact> IS_CONTACT_NAME_PROVIDED =
       ctc -> StringUtils.isNotBlank(ctc.getLastName());
   private static final Predicate<Contact> IS_ELIGIBLE_CONTACT_TYPE =
       ctc -> AUTHOR_CONTACT_TYPE.contains(ctc.getType());
-  private static final Predicate<Contact> IS_ELIGIBLE_CAMTRAP_CONTACT_TYPE =
-      ctc -> CAMTRAP_CITATION_CONTACT_TYPE.contains(ctc.getType());
 
   /** Utility class */
   private CitationGenerator() {}
@@ -117,7 +112,7 @@ public final class CitationGenerator {
 
     Citation citation = new Citation();
 
-    List<CitationContact> contacts = getAuthors(dataset);
+    List<CitationContact> contacts = getAuthors(dataset.getContacts());
 
     StringJoiner joiner = new StringJoiner(" ");
     List<String> authorsName = generateAuthorsName(contacts);
@@ -168,23 +163,6 @@ public final class CitationGenerator {
     citation.setCitationProvidedBySource(false);
 
     return CitationData.builder().citation(citation).contacts(contacts).build();
-  }
-
-  public static List<CitationContact> getAuthors(Dataset dataset) {
-    boolean isCamtrap = dataset.getEndpoints().stream()
-        .map(Endpoint::getType)
-        .anyMatch(e -> e == EndpointType.CAMTRAP_DP);
-
-    return isCamtrap ? getAuthorsForCamtrap(dataset.getContacts()) : getAuthors(dataset.getContacts());
-  }
-
-  public static List<CitationContact> getAuthorsForCamtrap(List<Contact> contacts) {
-    if (contacts == null || contacts.isEmpty()) {
-      return Collections.emptyList();
-    }
-
-    return getUniqueAuthors(
-        contacts, ctc -> IS_NAME_PROVIDED_FCT.and(IS_ELIGIBLE_CAMTRAP_CONTACT_TYPE).test(ctc));
   }
 
   /**

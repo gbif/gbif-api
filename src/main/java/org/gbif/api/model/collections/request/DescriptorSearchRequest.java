@@ -1,7 +1,6 @@
 package org.gbif.api.model.collections.request;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,6 @@ import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.Rank;
 
 @Data
 @NoArgsConstructor
@@ -35,6 +33,8 @@ public class DescriptorSearchRequest extends PageableBase implements Serializabl
   @Nullable private List<String> recordedBy;
   @Nullable private List<String> discipline;
   @Nullable private List<String> objectClassification;
+  @Nullable private List<String> biome;
+  @Nullable private List<String> biomeType;
   @Nullable private List<String> issues;
 
   public Pageable getPage() {

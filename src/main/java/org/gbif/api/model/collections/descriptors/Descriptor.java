@@ -9,8 +9,6 @@ import java.util.Map;
 import lombok.Data;
 import org.gbif.api.v2.RankedName;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.Rank;
-import org.gbif.api.vocabulary.TypeStatus;
 
 @Data
 public class Descriptor implements Serializable {
@@ -29,6 +27,7 @@ public class Descriptor implements Serializable {
   private String discipline;
   private String objectClassification;
   private String biome;
+  private String biomeType;
   private List<RankedName> taxonClassification;
   private List<String> issues = new ArrayList<>();
   private Map<String, String> verbatim = new HashMap<>();

@@ -13,9 +13,20 @@
  */
 package org.gbif.api.model.registry;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
 import org.gbif.api.model.registry.eml.DataDescription;
@@ -34,6 +45,7 @@ import org.gbif.api.vocabulary.Language;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1396,7 +1408,7 @@ public class Dataset
     private List<String> extensions;
 
     @Schema(
-      description = "Timestamp of when the dataset was modified.",
+      description = "Timestamp of when the dataset DwcA metadata was modified.",
       accessMode = Schema.AccessMode.READ_ONLY
     )
     @Null(groups = {PrePersist.class})
@@ -1427,6 +1439,94 @@ public class Dataset
 
     public void setModified(Date modified) {
       this.modified = modified;
+    }
+  }
+
+  /**
+   * Metadata of dataset that has been published as a <a href="https://specs.frictionlessdata.io/data-package/">DataPackage</a>.
+   */
+  @NoArgsConstructor
+  @Data
+  @Experimental
+  public static class DataPackage {
+
+    /**
+     * Custom deserializer to capture raw JSON string.
+     */
+    public static class RawJsonDeserializer extends JsonDeserializer<String> {
+
+      public RawJsonDeserializer() {
+        // Jackson requires this
+      }
+
+      @Override
+      public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        JsonNode node = p.readValueAsTree();
+        return node.toString(); // store the raw JSON as a string
+      }
+    }
+
+    @Schema(
+      description = "The  content of the <a href=\"https://specs.frictionlessdata.io/schemas/data-package.json\">datapackage.json</a> file."
+    )
+    @JsonDeserialize(using = RawJsonDeserializer.class)
+    @JsonRawValue
+    private String metadata;
+
+    @Schema(
+      description = "Timestamp of when the dataset datapackage metadata was modified.",
+      accessMode = Schema.AccessMode.READ_ONLY
+    )
+    @Null(groups = {PrePersist.class})
+    private Date modified;
+
+
+    @Schema(
+      description = "Unique GBIF key for the dataset.",
+      accessMode = Schema.AccessMode.READ_ONLY
+    )
+    private UUID datasetKey;
+
+    @Schema(
+      description = "Unique GBIF key for the dataset endpoint.",
+      accessMode = Schema.AccessMode.READ_ONLY
+    )
+    private Integer endpointKey;
+
+    @NotNull
+    public String getMetadata() {
+      return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+      this.metadata = metadata;
+    }
+
+    @Nullable
+    public Date getModified() {
+      return modified;
+    }
+
+    public void setModified(Date modified) {
+      this.modified = modified;
+    }
+
+    @NotNull
+    public UUID getDatasetKey() {
+      return datasetKey;
+    }
+
+    public void setDatasetKey(UUID datasetKey) {
+      this.datasetKey = datasetKey;
+    }
+
+    @NotNull
+    public Integer getEndpointKey() {
+      return endpointKey;
+    }
+
+    public void setEndpointKey(Integer endpointKey) {
+      this.endpointKey = endpointKey;
     }
   }
 }
