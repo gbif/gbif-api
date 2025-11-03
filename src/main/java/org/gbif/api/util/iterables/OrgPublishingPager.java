@@ -23,7 +23,7 @@ import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Iterates over all datasets published by a given organisation.

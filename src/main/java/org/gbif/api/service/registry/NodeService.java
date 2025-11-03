@@ -28,8 +28,8 @@ import org.gbif.api.vocabulary.Country;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Actions on a GBIF node. Be aware that of 2013 Nodes DO NOT support the ContactInterface although

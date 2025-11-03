@@ -2,8 +2,8 @@ package org.gbif.api.service.collections;
 
 import java.util.Set;
 import java.util.UUID;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.gbif.api.model.collections.descriptors.Descriptor;
 import org.gbif.api.model.collections.descriptors.DescriptorGroup;
 import org.gbif.api.model.collections.request.DescriptorGroupSearchRequest;

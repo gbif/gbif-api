@@ -23,9 +23,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 public interface NetworkEntityService<T>

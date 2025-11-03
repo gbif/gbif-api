@@ -26,8 +26,8 @@ import org.gbif.api.service.common.SearchService;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.Min;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.Min;
 
 /**
  * Interface that provides search operations over Occurrences.

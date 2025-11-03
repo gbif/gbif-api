@@ -21,7 +21,7 @@ import org.gbif.api.model.occurrence.VerbatimOccurrence;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface OccurrenceService {
 

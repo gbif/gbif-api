@@ -28,6 +28,7 @@ public class Descriptor implements Serializable {
   private List<String> recordedBy;
   private String discipline;
   private String objectClassification;
+  private String biome;
   private List<RankedName> taxonClassification;
   private List<String> issues = new ArrayList<>();
   private Map<String, String> verbatim = new HashMap<>();

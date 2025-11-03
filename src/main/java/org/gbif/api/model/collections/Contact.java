@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.PostPersist;
@@ -28,9 +28,9 @@ import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.util.validators.email.ValidEmail;
 import org.gbif.api.vocabulary.Country;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 /** Contact associated to a GRSciColl {@link Collection} or {@link Institution}. */
 public class Contact implements LenientEquals<Contact>, Serializable {

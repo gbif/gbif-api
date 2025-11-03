@@ -19,8 +19,8 @@ import org.gbif.api.model.occurrence.DownloadRequest;
 import java.io.File;
 import java.io.InputStream;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Provides services to manage download requests and retrieve the download file. The services provided are:

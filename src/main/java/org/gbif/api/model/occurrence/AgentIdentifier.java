@@ -20,7 +20,7 @@ import org.gbif.api.vocabulary.AgentIdentifierType;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public class AgentIdentifier {
 

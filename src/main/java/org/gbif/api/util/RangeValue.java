@@ -15,7 +15,7 @@ package org.gbif.api.util;
 
 import java.util.Objects;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

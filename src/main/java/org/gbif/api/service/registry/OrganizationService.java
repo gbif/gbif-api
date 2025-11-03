@@ -27,8 +27,8 @@ import org.gbif.api.vocabulary.Country;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 import org.geojson.FeatureCollection;
 

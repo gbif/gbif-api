@@ -38,31 +38,34 @@
   </distributionManagement>
 
   <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
 
-    <commons-lang3.version>3.12.0</commons-lang3.version>
-    <commons-validator.version>1.7</commons-validator.version>
+    <commons-lang3.version>3.14.0</commons-lang3.version>
+    <commons-validator.version>1.8.0</commons-validator.version>
     <dwc-api.version>2.1.5</dwc-api.version>
     <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
-    <jackson.version>2.14.1</jackson.version>
-    <jts.version>1.16.1</jts.version>
-    <logback.version>1.2.11</logback.version>
-    <lombok.version>1.18.24</lombok.version>
-    <slf4j.version>1.7.36</slf4j.version>
-    <spatial4j.version>0.7</spatial4j.version>
-    <swagger-annotations.version>2.2.3</swagger-annotations.version>
+    <jackson.version>2.17.2</jackson.version>
+    <jts.version>1.19.0</jts.version>
+    <logback.version>1.4.14</logback.version>
+    <lombok.version>1.18.30</lombok.version>
+    <slf4j.version>2.0.9</slf4j.version>
+    <spatial4j.version>0.8</spatial4j.version>
+    <swagger-annotations.version>2.2.22</swagger-annotations.version>
     <validation-api.version>2.0.1.Final</validation-api.version>
     <geojson.version>1.14</geojson.version>
-    <commons-codec.version>1.11</commons-codec.version>
+    <commons-codec.version>1.16.0</commons-codec.version>
 
     <!-- Test dependencies -->
-    <junit.version>5.9.1</junit.version>
-    <mockito.version>4.9.0</mockito.version>
+    <junit.version>5.10.3</junit.version>
+    <mockito.version>5.12.0</mockito.version>
     <hamcrest.version>2.2</hamcrest.version>
-    <commons-text.version>1.10.0</commons-text.version>
-    <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
-    <jakarta.el.version>3.0.4</jakarta.el.version>
+    <commons-text.version>1.11.0</commons-text.version>
+    <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+    <jakarta.el.version>4.0.2</jakarta.el.version>
+    <jakarta-validation.version>3.0.2</jakarta-validation.version>
+    <jakarta-annotation.version>2.1.1</jakarta-annotation.version>
+    <guava.version>33.2.1-jre</guava.version>
 
     <!-- Sonar -->
     <sonar.language>java</sonar.language>
@@ -99,6 +102,22 @@
           <java>
             <ratchetFrom>origin/master</ratchetFrom>
           </java>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>17</source>
+          <target>17</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
         </configuration>
       </plugin>
 
@@ -254,9 +273,30 @@
 
     <!-- Validation dependencies -->
     <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>${validation-api.version}</version>
+      <groupId>jakarta.validation</groupId>
+      <artifactId>jakarta.validation-api</artifactId>
+      <version>${jakarta-validation.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>${jakarta-annotation.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>4.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <version>4.0.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate.validator</groupId>

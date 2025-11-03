@@ -3,7 +3,7 @@ package org.gbif.api.model.collections.request;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
