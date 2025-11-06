@@ -14,6 +14,7 @@
 package org.gbif.api.util;
 
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Utility class for null-safe OffsetDateTime operations.
@@ -35,7 +36,7 @@ public class OffsetDateTimeUtils {
     if (dt1 == dt2) return 0;
     if (dt1 == null) return 1;
     if (dt2 == null) return -1;
-    return dt1.toInstant().compareTo(dt2.toInstant());
+    return dt1.toInstant().truncatedTo(ChronoUnit.MICROS).compareTo(dt2.toInstant().truncatedTo(ChronoUnit.MICROS));
   }
 
   /**
@@ -48,7 +49,7 @@ public class OffsetDateTimeUtils {
   public static boolean isEqualOffsetDateTime(OffsetDateTime dt1, OffsetDateTime dt2) {
     if (dt1 == dt2) return true;
     if (dt1 == null || dt2 == null) return false;
-    return dt1.isEqual(dt2);
+    return dt1.toInstant().truncatedTo(ChronoUnit.MICROS).equals(dt2.toInstant().truncatedTo(ChronoUnit.MICROS));
   }
 }
 
