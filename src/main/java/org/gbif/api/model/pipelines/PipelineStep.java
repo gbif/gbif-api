@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.StringJoiner;
 import org.gbif.api.jackson.OffsetDateTimeSerDe;
 import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.util.OffsetDateTimeUtils;
 
 /** Models a step in pipelines. */
 public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
@@ -90,11 +91,11 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
           return -1;
         }
 
-        if (finished1.isEqual(finished2)) {
+        if (OffsetDateTimeUtils.isEqualOffsetDateTime(finished1, finished2)) {
           return STEPS_BY_TYPE_ASC.compare(s1, s2);
         }
 
-        return finished1.toInstant().compareTo(finished2.toInstant());
+        return OffsetDateTimeUtils.compareOffsetDateTime(finished1, finished2);
       };
 
   public long getKey() {
@@ -350,7 +351,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     if (this == other) return true;
     return Objects.equals(type, other.type)
         && Objects.equals(runner, other.runner)
-        && finished.isEqual(other.finished)
+        && OffsetDateTimeUtils.isEqualOffsetDateTime(finished, other.finished)
         && state == other.state
         && Objects.equals(message, other.message)
         && Objects.equals(metrics, other.metrics)

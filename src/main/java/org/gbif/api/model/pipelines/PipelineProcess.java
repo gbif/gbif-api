@@ -14,6 +14,7 @@
 package org.gbif.api.model.pipelines;
 
 import org.gbif.api.jackson.OffsetDateTimeSerDe;
+import org.gbif.api.util.OffsetDateTimeUtils;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -58,13 +59,7 @@ public class PipelineProcess implements Serializable {
       OffsetDateTime created1 = e1 != null ? e1.getCreated() : null;
       OffsetDateTime created2 = e2 != null ? e2.getCreated() : null;
 
-      if (created1 == null) {
-        return created2 == null ? 0 : 1;
-      } else if (created2 == null) {
-        return -1;
-      }
-
-      return created1.toInstant().compareTo(created2.toInstant());
+      return OffsetDateTimeUtils.compareOffsetDateTime(created1, created2);
     };
 
   /**
@@ -138,11 +133,11 @@ public class PipelineProcess implements Serializable {
 
       // steps that are running have preference
       if (step1.getState() == RUNNING) {
-        return step2.getState() == RUNNING ? step1.getStarted().compareTo(step2.getStarted()) : 1;
+        return step2.getState() == RUNNING ? OffsetDateTimeUtils.compareOffsetDateTime(step1.getStarted(), step2.getStarted()) : 1;
       } else if (step2.getState() == RUNNING) {
         return -1;
       } else {
-        return step1.getStarted().toInstant().compareTo(step2.getStarted().toInstant());
+        return OffsetDateTimeUtils.compareOffsetDateTime(step1.getStarted(), step2.getStarted());
       }
     };
 
