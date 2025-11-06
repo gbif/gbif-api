@@ -64,7 +64,7 @@ public class PipelineProcess implements Serializable {
         return -1;
       }
 
-      return created1.compareTo(created2);
+      return created1.toInstant().compareTo(created2.toInstant());
     };
 
   /**
@@ -110,7 +110,7 @@ public class PipelineProcess implements Serializable {
         lastStepOpt1 =
           latestExecution1.getSteps().stream()
             .filter(p -> p.getState() != null)
-            .max(Comparator.comparing(PipelineStep::getStarted));
+            .max(Comparator.comparing(pipelineStep -> pipelineStep.getStarted().toInstant()));
       }
 
       Optional<PipelineStep> lastStepOpt2 = Optional.empty();
@@ -142,7 +142,7 @@ public class PipelineProcess implements Serializable {
       } else if (step2.getState() == RUNNING) {
         return -1;
       } else {
-        return step1.getStarted().compareTo(step2.getStarted());
+        return step1.getStarted().toInstant().compareTo(step2.getStarted().toInstant());
       }
     };
 

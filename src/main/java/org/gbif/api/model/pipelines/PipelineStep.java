@@ -90,11 +90,11 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
           return -1;
         }
 
-        if (finished1.equals(finished2)) {
+        if (finished1.isEqual(finished2)) {
           return STEPS_BY_TYPE_ASC.compare(s1, s2);
         }
 
-        return finished1.compareTo(finished2);
+        return finished1.toInstant().compareTo(finished2.toInstant());
       };
 
   public long getKey() {
@@ -350,7 +350,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     if (this == other) return true;
     return Objects.equals(type, other.type)
         && Objects.equals(runner, other.runner)
-        && Objects.equals(finished, other.finished)
+        && finished.isEqual(other.finished)
         && state == other.state
         && Objects.equals(message, other.message)
         && Objects.equals(metrics, other.metrics)
