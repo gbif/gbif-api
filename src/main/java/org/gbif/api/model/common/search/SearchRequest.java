@@ -190,4 +190,9 @@ public interface SearchRequest<P extends SearchParameter> extends Pageable {
    * @param value date value of the parameter to add
    */
   void addParameter(P parameter, IsoDateInterval value);
+
+  /**
+   * Utility method to copy paging values.
+   */
+  void copyPagingValues(Pageable pageable);
 }

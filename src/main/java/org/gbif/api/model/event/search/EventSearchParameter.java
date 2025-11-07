@@ -87,10 +87,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter SAMPLING_PROTOCOL =
       new EventSearchParameter(OccurrenceSearchParameter.SAMPLING_PROTOCOL);
 
-  /** See @link {@link OccurrenceSearchParameter#PREVIOUS_IDENTIFICATIONS} */
-  public static final EventSearchParameter PREVIOUS_IDENTIFICATIONS =
-      new EventSearchParameter(OccurrenceSearchParameter.PREVIOUS_IDENTIFICATIONS);
-
   /** See @link {@link OccurrenceSearchParameter#LAST_INTERPRETED} */
   public static final EventSearchParameter LAST_INTERPRETED =
       new EventSearchParameter(OccurrenceSearchParameter.LAST_INTERPRETED);
@@ -155,10 +151,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter RECORD_NUMBER =
       new EventSearchParameter(OccurrenceSearchParameter.RECORD_NUMBER);
 
-  /** See @link {@link OccurrenceSearchParameter#IS_SEQUENCED} */
-  public static final EventSearchParameter IS_SEQUENCED =
-      new EventSearchParameter(OccurrenceSearchParameter.IS_SEQUENCED);
-
   /** See @link {@link OccurrenceSearchParameter#TAXON_KEY} */
   public static final EventSearchParameter TAXON_KEY =
       new EventSearchParameter(OccurrenceSearchParameter.TAXON_KEY);
@@ -211,10 +203,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter TAXON_ID =
       new EventSearchParameter(OccurrenceSearchParameter.TAXON_ID);
 
-  /** See @link {@link OccurrenceSearchParameter#TAXON_CONCEPT_ID} */
-  public static final EventSearchParameter TAXON_CONCEPT_ID =
-      new EventSearchParameter(OccurrenceSearchParameter.TAXON_CONCEPT_ID);
-
   /** See @link {@link OccurrenceSearchParameter#TAXONOMIC_STATUS} */
   public static final EventSearchParameter TAXONOMIC_STATUS =
       new EventSearchParameter(OccurrenceSearchParameter.TAXONOMIC_STATUS);
@@ -230,10 +218,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** See @link {@link OccurrenceSearchParameter#GEO_DISTANCE} */
   public static final EventSearchParameter GEO_DISTANCE =
       new EventSearchParameter(OccurrenceSearchParameter.GEO_DISTANCE);
-
-  /** See @link {@link OccurrenceSearchParameter#DISTANCE_FROM_CENTROID_IN_METERS} */
-  public static final EventSearchParameter DISTANCE_FROM_CENTROID_IN_METERS =
-      new EventSearchParameter(OccurrenceSearchParameter.DISTANCE_FROM_CENTROID_IN_METERS);
 
   /** See @link {@link OccurrenceSearchParameter#HAS_GEOSPATIAL_ISSUE} */
   public static final EventSearchParameter HAS_GEOSPATIAL_ISSUE =
@@ -251,17 +235,9 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter MEDIA_TYPE =
       new EventSearchParameter(OccurrenceSearchParameter.MEDIA_TYPE);
 
-  /** See @link {@link OccurrenceSearchParameter#OCCURRENCE_ID} */
-  public static final EventSearchParameter OCCURRENCE_ID =
-      new EventSearchParameter(OccurrenceSearchParameter.OCCURRENCE_ID);
-
   /** See @link {@link OccurrenceSearchParameter#REPATRIATED} */
   public static final EventSearchParameter REPATRIATED =
       new EventSearchParameter(OccurrenceSearchParameter.REPATRIATED);
-
-  /** See @link {@link OccurrenceSearchParameter#ORGANISM_ID} */
-  public static final EventSearchParameter ORGANISM_ID =
-      new EventSearchParameter(OccurrenceSearchParameter.ORGANISM_ID);
 
   /** See @link {@link OccurrenceSearchParameter#STATE_PROVINCE} */
   public static final EventSearchParameter STATE_PROVINCE =
@@ -319,22 +295,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter SAMPLE_SIZE_VALUE =
       new EventSearchParameter(OccurrenceSearchParameter.SAMPLE_SIZE_VALUE);
 
-  /** See @link {@link OccurrenceSearchParameter#ORGANISM_QUANTITY} */
-  public static final EventSearchParameter ORGANISM_QUANTITY =
-      new EventSearchParameter(OccurrenceSearchParameter.ORGANISM_QUANTITY);
-
-  /** See @link {@link OccurrenceSearchParameter#ORGANISM_QUANTITY_TYPE} */
-  public static final EventSearchParameter ORGANISM_QUANTITY_TYPE =
-      new EventSearchParameter(OccurrenceSearchParameter.ORGANISM_QUANTITY_TYPE);
-
-  /** See @link {@link OccurrenceSearchParameter#RELATIVE_ORGANISM_QUANTITY} */
-  public static final EventSearchParameter RELATIVE_ORGANISM_QUANTITY =
-      new EventSearchParameter(OccurrenceSearchParameter.RELATIVE_ORGANISM_QUANTITY);
-
-  /** See @link {@link OccurrenceSearchParameter#OCCURRENCE_STATUS} */
-  public static final EventSearchParameter OCCURRENCE_STATUS =
-      new EventSearchParameter(OccurrenceSearchParameter.OCCURRENCE_STATUS);
-
   /** See @link {@link OccurrenceSearchParameter#GADM_GID} */
   public static final EventSearchParameter GADM_GID =
       new EventSearchParameter(OccurrenceSearchParameter.GADM_GID);
@@ -355,10 +315,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter GADM_LEVEL_3_GID =
       new EventSearchParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID);
 
-  /** See @link {@link OccurrenceSearchParameter#IS_IN_CLUSTER} */
-  public static final EventSearchParameter IS_IN_CLUSTER =
-      new EventSearchParameter(OccurrenceSearchParameter.IS_IN_CLUSTER);
-
   /** See @link {@link OccurrenceSearchParameter#DWCA_EXTENSION} */
   public static final EventSearchParameter DWCA_EXTENSION =
       new EventSearchParameter(OccurrenceSearchParameter.DWCA_EXTENSION);
@@ -378,10 +334,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** See @link {@link OccurrenceSearchParameter#OTHER_CATALOG_NUMBERS} */
   public static final EventSearchParameter OTHER_CATALOG_NUMBERS =
       new EventSearchParameter(OccurrenceSearchParameter.OTHER_CATALOG_NUMBERS);
-
-  /** See @link {@link OccurrenceSearchParameter#PREPARATIONS} */
-  public static final EventSearchParameter PREPARATIONS =
-      new EventSearchParameter(OccurrenceSearchParameter.PREPARATIONS);
 
   /** See @link {@link OccurrenceSearchParameter#ISLAND} */
   public static final EventSearchParameter ISLAND =

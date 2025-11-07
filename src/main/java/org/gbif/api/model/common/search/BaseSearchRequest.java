@@ -349,6 +349,11 @@ public abstract class BaseSearchRequest<P extends SearchParameter> extends Pagea
   }
 
   @Override
+  public void copyPagingValues(Pageable pageable) {
+    super.copyPagingValues(pageable);
+  }
+
+  @Override
   public String toString() {
     return new StringJoiner(", ", BaseSearchRequest.class.getSimpleName() + "[", "]")
         .add("parameters=" + parameters)
