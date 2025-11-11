@@ -227,10 +227,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter OCCURRENCE_ISSUE =
       new EventSearchParameter(OccurrenceSearchParameter.ISSUE);
 
-  /** See @link {@link OccurrenceSearchParameter#TAXONOMIC_ISSUE} */
-  public static final EventSearchParameter TAXONOMIC_ISSUE =
-      new EventSearchParameter(OccurrenceSearchParameter.TAXONOMIC_ISSUE);
-
   /** See @link {@link OccurrenceSearchParameter#MEDIA_TYPE} */
   public static final EventSearchParameter MEDIA_TYPE =
       new EventSearchParameter(OccurrenceSearchParameter.MEDIA_TYPE);
@@ -408,6 +404,9 @@ public class EventSearchParameter implements SearchParameter, Serializable {
       new EventSearchParameter("HUMBOLDT_EVENT_DURATION_VALUE", Double.class);
   public static final EventSearchParameter HUMBOLDT_EVENT_DURATION_UNIT =
       new EventSearchParameter("HUMBOLDT_EVENT_DURATION_UNIT", DurationUnit.class);
+
+  public static final EventSearchParameter HUMBOLDT_TAXONOMIC_ISSUE =
+    new EventSearchParameter("HUMBOLDT_TAXONOMIC_ISSUE", EventIssue.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY =
