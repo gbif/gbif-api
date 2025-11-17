@@ -22,12 +22,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.gbif.api.annotation.Experimental;
+import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.DurationUnit;
 import org.gbif.api.vocabulary.EventIssue;
@@ -39,7 +41,7 @@ import org.gbif.api.vocabulary.EventIssue;
 @JsonDeserialize(
     as = EventSearchParameter.class,
     using = EventSearchParameter.EventSearchParameterDeserializer.class)
-public class EventSearchParameter extends OccurrenceSearchParameter {
+public class EventSearchParameter implements SearchParameter, Serializable {
 
   /** See @link {@link OccurrenceSearchParameter#DATASET_KEY} */
   public static final EventSearchParameter DATASET_KEY =
