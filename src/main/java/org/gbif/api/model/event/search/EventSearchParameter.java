@@ -22,14 +22,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Hidden;
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.gbif.api.annotation.Experimental;
-import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.DurationUnit;
 import org.gbif.api.vocabulary.EventIssue;
@@ -41,7 +39,7 @@ import org.gbif.api.vocabulary.EventIssue;
 @JsonDeserialize(
     as = EventSearchParameter.class,
     using = EventSearchParameter.EventSearchParameterDeserializer.class)
-public class EventSearchParameter implements SearchParameter, Serializable {
+public class EventSearchParameter extends OccurrenceSearchParameter {
 
   /** See @link {@link OccurrenceSearchParameter#DATASET_KEY} */
   public static final EventSearchParameter DATASET_KEY =
@@ -75,7 +73,17 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter EVENT_DATE =
       new EventSearchParameter(OccurrenceSearchParameter.EVENT_DATE);
 
-  /** See {@link OccurrenceSearchParameter#EVENT_ID} */
+  /** See @link {@link OccurrenceSearchParameter#EVENT_DATE_GTE} */
+  @Deprecated
+  public static final EventSearchParameter EVENT_DATE_GTE =
+      new EventSearchParameter(OccurrenceSearchParameter.EVENT_DATE_GTE);
+
+  /**
+   * An identifier for the set of information associated with an Event (something that occurs at a
+   * place and time). Maybe a global unique identifier or an identifier specific to the data set.
+   *
+   * @link {@link OccurrenceSearchParameter#EVENT_ID}
+   */
   public static final EventSearchParameter EVENT_ID =
       new EventSearchParameter(OccurrenceSearchParameter.EVENT_ID);
 
@@ -86,6 +94,10 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** See @link {@link OccurrenceSearchParameter#SAMPLING_PROTOCOL} */
   public static final EventSearchParameter SAMPLING_PROTOCOL =
       new EventSearchParameter(OccurrenceSearchParameter.SAMPLING_PROTOCOL);
+
+  /** See @link {@link OccurrenceSearchParameter#PREVIOUS_IDENTIFICATIONS} */
+  public static final EventSearchParameter PREVIOUS_IDENTIFICATIONS =
+      new EventSearchParameter(OccurrenceSearchParameter.PREVIOUS_IDENTIFICATIONS);
 
   /** See @link {@link OccurrenceSearchParameter#LAST_INTERPRETED} */
   public static final EventSearchParameter LAST_INTERPRETED =
@@ -147,9 +159,29 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter CATALOG_NUMBER =
       new EventSearchParameter(OccurrenceSearchParameter.CATALOG_NUMBER);
 
+  /** See @link {@link OccurrenceSearchParameter#RECORDED_BY} */
+  public static final EventSearchParameter RECORDED_BY =
+      new EventSearchParameter(OccurrenceSearchParameter.RECORDED_BY);
+
+  /** See @link {@link OccurrenceSearchParameter#IDENTIFIED_BY} */
+  public static final EventSearchParameter IDENTIFIED_BY =
+      new EventSearchParameter(OccurrenceSearchParameter.IDENTIFIED_BY);
+
   /** See @link {@link OccurrenceSearchParameter#RECORD_NUMBER} */
   public static final EventSearchParameter RECORD_NUMBER =
       new EventSearchParameter(OccurrenceSearchParameter.RECORD_NUMBER);
+
+  /** See @link {@link OccurrenceSearchParameter#BASIS_OF_RECORD} */
+  public static final EventSearchParameter BASIS_OF_RECORD =
+      new EventSearchParameter(OccurrenceSearchParameter.BASIS_OF_RECORD);
+
+  /** See @link {@link OccurrenceSearchParameter#SEX} */
+  public static final EventSearchParameter SEX =
+      new EventSearchParameter(OccurrenceSearchParameter.SEX);
+
+  /** See @link {@link OccurrenceSearchParameter#IS_SEQUENCED} */
+  public static final EventSearchParameter IS_SEQUENCED =
+      new EventSearchParameter(OccurrenceSearchParameter.IS_SEQUENCED);
 
   /** See @link {@link OccurrenceSearchParameter#TAXON_KEY} */
   public static final EventSearchParameter TAXON_KEY =
@@ -163,7 +195,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter KINGDOM_KEY =
       new EventSearchParameter(OccurrenceSearchParameter.KINGDOM_KEY);
 
-  /** See @link {@link OccurrenceSearchParameter#PHYLUM_KEY} */
   public static final EventSearchParameter PHYLUM_KEY =
       new EventSearchParameter(OccurrenceSearchParameter.PHYLUM_KEY);
 
@@ -406,7 +437,7 @@ public class EventSearchParameter implements SearchParameter, Serializable {
       new EventSearchParameter("HUMBOLDT_EVENT_DURATION_UNIT", DurationUnit.class);
 
   public static final EventSearchParameter HUMBOLDT_TAXONOMIC_ISSUE =
-    new EventSearchParameter("HUMBOLDT_TAXONOMIC_ISSUE", EventIssue.class);
+      new EventSearchParameter("HUMBOLDT_TAXONOMIC_ISSUE", EventIssue.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY =
