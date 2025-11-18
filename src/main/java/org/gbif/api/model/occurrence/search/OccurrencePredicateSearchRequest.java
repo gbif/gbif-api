@@ -18,7 +18,7 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.PredicateSearchRequest;
 import org.gbif.api.model.predicate.Predicate;
 
-/** Search request that uses a predicate filter like the ones used un downloads. */
+/** Search request that uses a predicate filter like the ones used in downloads. */
 @JsonDeserialize(as = OccurrencePredicateSearchRequest.class)
 public class OccurrencePredicateSearchRequest extends OccurrenceSearchRequest
     implements PredicateSearchRequest {
