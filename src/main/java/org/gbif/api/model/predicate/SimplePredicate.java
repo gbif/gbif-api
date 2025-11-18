@@ -35,7 +35,7 @@ public class SimplePredicate<S extends SearchParameter> implements Predicate {
 
   @Schema(
     description = "The search parameter to test.",
-    implementation = OccurrenceSearchParameter.class
+    implementation = SearchParameter.class
   )
   @NotNull
   private final S key;
