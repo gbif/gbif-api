@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
@@ -38,6 +39,7 @@ import org.gbif.api.vocabulary.EventIssue;
  * Supported query parameters by the occurrence search and download service. For download predicates
  * only the numerical types support comparisons other than equals.
  */
+@Slf4j
 @JsonDeserialize(
     as = EventSearchParameter.class,
     using = EventSearchParameter.EventSearchParameterDeserializer.class)
@@ -616,6 +618,7 @@ public class EventSearchParameter implements SearchParameter, Serializable {
           }
         }
       } catch (IllegalAccessException e) {
+        log.warn("Error deserializing event search parameter key", e);
         // DO NOTHING
       }
       return null;
@@ -641,7 +644,7 @@ public class EventSearchParameter implements SearchParameter, Serializable {
         }
 
       } catch (IllegalAccessException e) {
-        // DO NOTHING
+        log.warn("Error deserializing event search parameter", e);
       }
 
       try {
@@ -653,7 +656,7 @@ public class EventSearchParameter implements SearchParameter, Serializable {
           }
         }
       } catch (Exception e) {
-        // DO NOTHING
+        log.warn("Error deserializing event search parameter from name", e);
       }
 
       return null;

@@ -157,11 +157,13 @@ public abstract class BaseSearchRequest<P extends SearchParameter> extends Pagea
 
   /** Defines whether to match against fields with scientific or vernacular names or both. */
   @Hidden
+  @Override
   public Set<QueryField> getQFields() {
     return qFields;
   }
 
   @Hidden
+  @Override
   public void setQFields(Set<QueryField> qFields) {
     this.qFields = qFields;
   }
