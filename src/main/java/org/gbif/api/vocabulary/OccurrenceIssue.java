@@ -492,77 +492,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.earliestEpochOrLowestSeries,
       DwcTerm.latestEpochOrHighestSeries,
       DwcTerm.earliestAgeOrLowestStage,
-      DwcTerm.latestAgeOrHighestStage),
-
-  /**
-   * The geospatial scope area is always greater than or equal to the total area sampled as stated
-   * in the (<a href="https://eco.tdwg.org/list/#eco_geospatialScopeAreaValue">term definition</a>).
-   */
-  GEOSPATIAL_SCOPE_AREA_LOWER_THAN_TOTAL_AREA_SAMPLED(
-      INFO, EcoTerm.geospatialScopeAreaValue, EcoTerm.totalAreaSampledValue),
-
-  /** An eco:eventDurationValue must have a corresponding eco:eventDurationUnit. */
-  EVENT_DURATION_UNIT_MISSING(INFO, EcoTerm.eventDurationUnit),
-
-  /** An eco:geospatialScopeAreaValue must have a corresponding eco:geospatialScopeAreaUnit. */
-  GEOSPATIAL_SCOPE_AREA_UNIT_MISSING(INFO, EcoTerm.geospatialScopeAreaUnit),
-
-  /** An eco:samplingEffortValue must have a corresponding eco:samplingEffortUnit. */
-  SAMPLING_EFFORT_UNIT_MISSING(INFO, EcoTerm.samplingEffortUnit),
-
-  /** An eco:totalAreaSampledValue must have a corresponding eco:totalAreaSampledUnit. */
-  TOTAL_AREA_SAMPLED_UNIT_MISSING(INFO, EcoTerm.samplingEffortUnit),
-
-  /** Non target taxa has been provided but the eco:hasNonTargetTaxa is set to false. */
-  HAS_NON_TARGET_TAXA_MISMATCH(INFO, EcoTerm.hasNonTargetTaxa),
-
-  /** Material sample types have been provided but the eco:hasMaterialSamples is set to false. */
-  HAS_MATERIAL_SAMPLES_MISMATCH(INFO, EcoTerm.hasMaterialSamples),
-
-  /** Some target taxonomic scope has been excluded. */
-  TARGET_TAXONOMIC_SCOPE_EXCLUDED(
-      INFO, EcoTerm.targetTaxonomicScope, EcoTerm.excludedTaxonomicScope),
-
-  /** Some target habitat scope has been excluded. */
-  TARGET_HABITAT_SCOPE_EXCLUDED(INFO, EcoTerm.targetHabitatScope, EcoTerm.excludedHabitatScope),
-
-  /** Some target life stage scope has been excluded. */
-  TARGET_LIFE_STAGE_SCOPE_EXCLUDED(
-      INFO, EcoTerm.targetLifeStageScope, EcoTerm.excludedLifeStageScope),
-
-  /** Some target degree of establishment scope has been excluded. */
-  TARGET_DEGREE_OF_ESTABLISHMENT_EXCLUDED(
-      INFO, EcoTerm.targetDegreeOfEstablishmentScope, EcoTerm.excludedDegreeOfEstablishmentScope),
-
-  /** Some target growth form scope has been excluded. */
-  TARGET_GROWTH_FORM_EXCLUDED(INFO, EcoTerm.targetGrowthFormScope, EcoTerm.excludedGrowthFormScope),
-
-  /** Invalid value for numeric fields in Humboldt extension. */
-  SITE_COUNT_INVALID(INFO, EcoTerm.siteCount),
-  GEOSPATIAL_SCOPE_AREA_VALUE_INVALID(INFO, EcoTerm.geospatialScopeAreaValue),
-  TOTAL_AREA_SAMPLED_VALUE_INVALID(INFO, EcoTerm.totalAreaSampledValue),
-  EVENT_DURATION_VALUE_INVALID(INFO, EcoTerm.eventDurationValue),
-  SAMPLING_EFFORT_VALUE_INVALID(INFO, EcoTerm.samplingEffortValue),
-  ABUNDANCE_CAP_INVALID(INFO, EcoTerm.abundanceCap),
-
-  /** Invalid value for boolean fields in Humboldt extension. */
-  IS_TAXONOMIC_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isTaxonomicScopeFullyReported),
-  IS_ABSENCE_REPORTED_INVALID(INFO, EcoTerm.isAbsenceReported),
-  HAS_NON_TARGET_TAXA_INVALID(INFO, EcoTerm.hasNonTargetTaxa),
-  ARE_NON_TARGET_TAXA_FULLY_REPORTED_INVALID(INFO, EcoTerm.areNonTargetTaxaFullyReported),
-  IS_LIFE_STAGE_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isLifeStageScopeFullyReported),
-  IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED_INVALID(
-      INFO, EcoTerm.isDegreeOfEstablishmentScopeFullyReported),
-  IS_GROWTH_FORM_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isGrowthFormScopeFullyReported),
-  HAS_NON_TARGET_ORGANISMS_INVALID(INFO, EcoTerm.hasNonTargetOrganisms),
-  IS_ABUNDANCE_REPORTED_INVALID(INFO, EcoTerm.isAbundanceReported),
-  IS_ABUNDANCE_CAP_REPORTED_INVALID(INFO, EcoTerm.isAbundanceCapReported),
-  IS_VEGETATION_COVER_REPORTED_INVALID(INFO, EcoTerm.isVegetationCoverReported),
-  IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE_INVALID(
-      INFO, EcoTerm.isLeastSpecificTargetCategoryQuantityInclusive),
-  HAS_VOUCHERS_INVALID(INFO, EcoTerm.hasVouchers),
-  HAS_MATERIAL_SAMPLES_INVALID(INFO, EcoTerm.hasMaterialSamples),
-  IS_SAMPLING_EFFORT_REPORTED_INVALID(INFO, EcoTerm.isSamplingEffortReported);
+      DwcTerm.latestAgeOrHighestStage);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
