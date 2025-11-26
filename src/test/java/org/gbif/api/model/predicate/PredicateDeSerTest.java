@@ -13,22 +13,30 @@
  */
 package org.gbif.api.model.predicate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.File;
 import java.io.IOException;
-
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
+import org.gbif.api.model.event.search.EventSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /** Test cases and examples of serialization or predicates using a mixing. */
 public class PredicateDeSerTest {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
+
+  static {
+    MAPPER.registerModule(
+        new SimpleModule()
+            .addDeserializer(
+                OccurrenceSearchParameter.class,
+                new OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer())
+            .addDeserializer(
+                EventSearchParameter.class,
+                new EventSearchParameter.EventSearchParameterDeserializer()));
+  }
 
   private File getTestFile(String predicateFile) {
     return new File(getClass().getResource("/predicate/" + predicateFile).getFile());
@@ -36,6 +44,10 @@ public class PredicateDeSerTest {
 
   @Test
   public void deserTest() throws IOException {
+    EqualsPredicate<OccurrenceSearchParameter> eq =
+        new EqualsPredicate<>(OccurrenceSearchParameter.OCCURRENCE_STATUS, "present", false);
+    System.out.println(MAPPER.writeValueAsString(eq));
+
     assertPredicate("is_null.json");
     assertPredicate("conjunction.json");
     assertPredicate("within.json");
@@ -47,15 +59,43 @@ public class PredicateDeSerTest {
     assertPredicate("complex_conjunction_with_in.json");
     assertPredicate("range.json");
     assertPredicate("distance.json");
+    assertPredicate("is_null_event.json");
+  }
+
+  @Test
+  public void deserWithSearchParameterTypeTest() throws IOException {
+    Predicate predicate = MAPPER.readValue(getTestFile("conjunction_occs.json"), Predicate.class);
+    ConjunctionPredicate conjunctionPredicateOcc = (ConjunctionPredicate) predicate;
+    Assertions.assertEquals(
+        1,
+        conjunctionPredicateOcc.getPredicates().stream()
+            .map(p -> (EqualsPredicate) p)
+            .filter(p -> p.getKey() == OccurrenceSearchParameter.YEAR)
+            .count());
+    Assertions.assertEquals(
+        1,
+        conjunctionPredicateOcc.getPredicates().stream()
+            .map(p -> (EqualsPredicate) p)
+            .filter(p -> p.getKey() == OccurrenceSearchParameter.DAY)
+            .count());
+
+    predicate = MAPPER.readValue(getTestFile("conjunction_events.json"), Predicate.class);
+    ConjunctionPredicate conjunctionPredicateEvt = (ConjunctionPredicate) predicate;
+    Assertions.assertEquals(
+        1,
+        conjunctionPredicateEvt.getPredicates().stream()
+            .map(p -> (EqualsPredicate) p)
+            .filter(p -> p.getKey() == EventSearchParameter.YEAR)
+            .count());
+    Assertions.assertEquals(
+        1,
+        conjunctionPredicateEvt.getPredicates().stream()
+            .map(p -> (EqualsPredicate) p)
+            .filter(p -> p.getKey() == EventSearchParameter.HUMBOLDT_SITE_COUNT)
+            .count());
   }
 
   private void assertPredicate(String fileName) throws IOException {
-    MAPPER.registerModule(
-      new SimpleModule().addDeserializer(
-        OccurrenceSearchParameter.class,
-        new OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer()
-      )
-    );
     Predicate predicate = MAPPER.readValue(getTestFile(fileName), Predicate.class);
     Assertions.assertNotNull(predicate);
   }

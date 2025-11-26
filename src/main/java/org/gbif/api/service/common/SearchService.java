@@ -17,12 +17,12 @@ package org.gbif.api.service.common;
 
 import org.gbif.api.model.common.search.FacetedSearchRequest;
 import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.model.common.search.SearchRequest;
+import org.gbif.api.model.common.search.BaseSearchRequest;
 import org.gbif.api.model.common.search.SearchResponse;
 
 /**
  * Parameterized generic search interface that supports pagination.
- * The generic {@link SearchResponse} and {@link SearchRequest} are used to provide the basic search parameters
+ * The generic {@link SearchResponse} and {@link BaseSearchRequest} are used to provide the basic search parameters
  * in a request and allow facets for results.
  * This marker interface should be extended by other interfaces that support full text, faceted and paginated search.
  *
@@ -30,7 +30,7 @@ import org.gbif.api.model.common.search.SearchResponse;
  * @param <P> the supported search parameter enumeration
  * @param <R> the supported search request type. For faceted searches this needs to extend {@link FacetedSearchRequest}
  */
-public interface SearchService<T, P extends SearchParameter, R extends SearchRequest<P>> {
+public interface SearchService<T, P extends SearchParameter, R extends BaseSearchRequest<P>> {
 
   /**
    * Issues a SearchRequest and retrieves a response resulting of the search operation.

@@ -15,11 +15,11 @@
  */
 package org.gbif.api.model.registry.search;
 
-import org.gbif.api.model.common.search.SearchRequest;
+import org.gbif.api.model.common.search.BaseSearchRequest;
 
 /**
  * A dataset specific suggest request.
  */
-public class DatasetSuggestRequest extends SearchRequest<DatasetSearchParameter> {
+public class DatasetSuggestRequest extends BaseSearchRequest<DatasetSearchParameter> {
 
 }

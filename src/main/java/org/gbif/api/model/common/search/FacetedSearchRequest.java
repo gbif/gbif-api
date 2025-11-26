@@ -42,7 +42,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * It extends a search request with a list of desired facets and optional settings.
  */
 @SuppressWarnings("unused")
-public class FacetedSearchRequest<P extends SearchParameter> extends SearchRequest<P> {
+public class FacetedSearchRequest<P extends SearchParameter> extends BaseSearchRequest<P> {
 
   @Hidden
   private Set<P> facets = new HashSet<>();
@@ -113,7 +113,7 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
     super(page);
   }
 
-  public FacetedSearchRequest(SearchRequest<P> searchRequest) {
+  public FacetedSearchRequest(BaseSearchRequest<P> searchRequest) {
     super(searchRequest);
     setHighlight(searchRequest.isHighlight());
     setParameters(searchRequest.getParameters());
