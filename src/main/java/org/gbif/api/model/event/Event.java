@@ -195,8 +195,6 @@ public class Event extends VerbatimOccurrence {
   //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795
   private Double coordinatePrecision;
   private Double coordinateUncertaintyInMeters;
-  @Deprecated //see getter
-  private Double coordinateAccuracy;
 
   private Double elevation;
   private Double elevationAccuracy;
