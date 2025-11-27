@@ -242,6 +242,14 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter TAXONOMIC_STATUS =
       new EventSearchParameter(OccurrenceSearchParameter.TAXONOMIC_STATUS);
 
+  /** See @link {@link OccurrenceSearchParameter#TAXONOMIC_ISSUE} */
+  public static final EventSearchParameter TAXONOMIC_ISSUE =
+      new EventSearchParameter(OccurrenceSearchParameter.TAXONOMIC_ISSUE);
+
+  /** See @link {@link OccurrenceSearchParameter#IUCN_RED_LIST_CATEGORY} */
+  public static final EventSearchParameter IUCN_RED_LIST_CATEGORY =
+      new EventSearchParameter(OccurrenceSearchParameter.IUCN_RED_LIST_CATEGORY);
+
   /** See @link {@link OccurrenceSearchParameter#HAS_COORDINATE} */
   public static final EventSearchParameter HAS_COORDINATE =
       new EventSearchParameter(OccurrenceSearchParameter.HAS_COORDINATE);
@@ -257,10 +265,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** See @link {@link OccurrenceSearchParameter#HAS_GEOSPATIAL_ISSUE} */
   public static final EventSearchParameter HAS_GEOSPATIAL_ISSUE =
       new EventSearchParameter(OccurrenceSearchParameter.HAS_GEOSPATIAL_ISSUE);
-
-  /** See @link {@link OccurrenceSearchParameter#ISSUE} */
-  public static final EventSearchParameter OCCURRENCE_ISSUE =
-      new EventSearchParameter(OccurrenceSearchParameter.ISSUE);
 
   /** See @link {@link OccurrenceSearchParameter#MEDIA_TYPE} */
   public static final EventSearchParameter MEDIA_TYPE =
@@ -350,10 +354,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter DWCA_EXTENSION =
       new EventSearchParameter(OccurrenceSearchParameter.DWCA_EXTENSION);
 
-  /** See @link {@link OccurrenceSearchParameter#IUCN_RED_LIST_CATEGORY} */
-  public static final EventSearchParameter IUCN_RED_LIST_CATEGORY =
-      new EventSearchParameter(OccurrenceSearchParameter.IUCN_RED_LIST_CATEGORY);
-
   /** See @link {@link OccurrenceSearchParameter#DATASET_ID} */
   public static final EventSearchParameter DATASET_ID =
       new EventSearchParameter(OccurrenceSearchParameter.DATASET_ID);
@@ -408,7 +408,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
       new EventSearchParameter("VERBATIM_EVENT_TYPE", String.class);
 
   /** Searches events for those that have a specific issue. */
-  // TODO: handle this in the argument resolver to use this instead of the occurrence one
   public static final EventSearchParameter ISSUE =
       new EventSearchParameter("ISSUE", EventIssue.class);
 
@@ -446,8 +445,15 @@ public class EventSearchParameter implements SearchParameter, Serializable {
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY", String.class);
+  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_NAME =
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_NAME", String.class);
+  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY =
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY", String.class);
+  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY =
+      new EventSearchParameter(
+          "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY", String.class);
   public static final EventSearchParameter HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS =
       new EventSearchParameter("HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS", String.class);
   public static final EventSearchParameter HUMBOLDT_IS_TAXONOMIC_SCOPE_FULLY_REPORTED =
