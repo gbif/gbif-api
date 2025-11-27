@@ -93,7 +93,6 @@ public class Event extends VerbatimOccurrence {
     event.setDecimalLatitude(occurrence.getDecimalLatitude());
     event.setCoordinatePrecision(occurrence.getCoordinatePrecision());
     event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());
-    event.setCoordinateAccuracy(occurrence.getCoordinateAccuracy());
     event.setElevation(occurrence.getElevation());
     event.setElevationAccuracy(occurrence.getElevationAccuracy());
     event.setDepth(occurrence.getDepth());
