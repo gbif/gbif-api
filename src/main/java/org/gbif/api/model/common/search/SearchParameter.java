@@ -13,12 +13,15 @@
  */
 package org.gbif.api.model.common.search;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.IOException;
 import java.util.Optional;
 import org.gbif.api.model.event.search.EventSearchParameter;
@@ -38,11 +41,39 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
  *   <li>facet
  * </ul>
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type",
+    defaultImpl = SearchParameter.SearchParameterDefault.class)
+@JsonSubTypes({
+  @JsonSubTypes.Type(
+      value = org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.class,
+      name = "occurrence"),
+  @JsonSubTypes.Type(
+      value = org.gbif.api.model.event.search.EventSearchParameter.class,
+      name = "event")
+})
+@JsonDeserialize(using = SearchParameter.SearchParameterDeserializer.class)
 public interface SearchParameter {
 
   String name();
 
   Class<?> type();
+
+  // Fallback used when no type is provided for backwards compatibility
+  @JsonDeserialize(using = SearchParameter.SearchParameterDeserializer.class)
+  class SearchParameterDefault implements SearchParameter {
+    @Override
+    public String name() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Class<?> type() {
+      return Object.class;
+    }
+  }
 
   // This deserializer is used only when the type property is not set. Otherwise it uses the custom
   // deserializers of each type
