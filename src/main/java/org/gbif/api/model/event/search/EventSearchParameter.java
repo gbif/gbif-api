@@ -155,38 +155,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter INSTITUTION_CODE =
       new EventSearchParameter(OccurrenceSearchParameter.INSTITUTION_CODE);
 
-  /** See @link {@link OccurrenceSearchParameter#COLLECTION_CODE} */
-  public static final EventSearchParameter COLLECTION_CODE =
-      new EventSearchParameter(OccurrenceSearchParameter.COLLECTION_CODE);
-
-  /** See @link {@link OccurrenceSearchParameter#CATALOG_NUMBER} */
-  public static final EventSearchParameter CATALOG_NUMBER =
-      new EventSearchParameter(OccurrenceSearchParameter.CATALOG_NUMBER);
-
-  /** See @link {@link OccurrenceSearchParameter#RECORDED_BY} */
-  public static final EventSearchParameter RECORDED_BY =
-      new EventSearchParameter(OccurrenceSearchParameter.RECORDED_BY);
-
-  /** See @link {@link OccurrenceSearchParameter#IDENTIFIED_BY} */
-  public static final EventSearchParameter IDENTIFIED_BY =
-      new EventSearchParameter(OccurrenceSearchParameter.IDENTIFIED_BY);
-
-  /** See @link {@link OccurrenceSearchParameter#RECORD_NUMBER} */
-  public static final EventSearchParameter RECORD_NUMBER =
-      new EventSearchParameter(OccurrenceSearchParameter.RECORD_NUMBER);
-
-  /** See @link {@link OccurrenceSearchParameter#BASIS_OF_RECORD} */
-  public static final EventSearchParameter BASIS_OF_RECORD =
-      new EventSearchParameter(OccurrenceSearchParameter.BASIS_OF_RECORD);
-
-  /** See @link {@link OccurrenceSearchParameter#SEX} */
-  public static final EventSearchParameter SEX =
-      new EventSearchParameter(OccurrenceSearchParameter.SEX);
-
-  /** See @link {@link OccurrenceSearchParameter#IS_SEQUENCED} */
-  public static final EventSearchParameter IS_SEQUENCED =
-      new EventSearchParameter(OccurrenceSearchParameter.IS_SEQUENCED);
-
   /** See @link {@link OccurrenceSearchParameter#TAXON_KEY} */
   public static final EventSearchParameter TAXON_KEY =
       new EventSearchParameter(OccurrenceSearchParameter.TAXON_KEY);
@@ -229,10 +197,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** See @link {@link OccurrenceSearchParameter#SCIENTIFIC_NAME} */
   public static final EventSearchParameter SCIENTIFIC_NAME =
       new EventSearchParameter(OccurrenceSearchParameter.SCIENTIFIC_NAME);
-
-  /** See @link {@link OccurrenceSearchParameter#VERBATIM_SCIENTIFIC_NAME} */
-  public static final EventSearchParameter VERBATIM_SCIENTIFIC_NAME =
-      new EventSearchParameter(OccurrenceSearchParameter.VERBATIM_SCIENTIFIC_NAME);
 
   /** See @link {@link OccurrenceSearchParameter#TAXON_ID} */
   public static final EventSearchParameter TAXON_ID =
@@ -362,10 +326,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter DATASET_NAME =
       new EventSearchParameter(OccurrenceSearchParameter.DATASET_NAME);
 
-  /** See @link {@link OccurrenceSearchParameter#OTHER_CATALOG_NUMBERS} */
-  public static final EventSearchParameter OTHER_CATALOG_NUMBERS =
-      new EventSearchParameter(OccurrenceSearchParameter.OTHER_CATALOG_NUMBERS);
-
   /** See @link {@link OccurrenceSearchParameter#ISLAND} */
   public static final EventSearchParameter ISLAND =
       new EventSearchParameter(OccurrenceSearchParameter.ISLAND);
@@ -385,10 +345,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** See @link {@link OccurrenceSearchParameter#FIELD_NUMBER} */
   public static final EventSearchParameter FIELD_NUMBER =
       new EventSearchParameter(OccurrenceSearchParameter.FIELD_NUMBER);
-
-  /** See @link {@link OccurrenceSearchParameter#ASSOCIATED_SEQUENCES} */
-  public static final EventSearchParameter ASSOCIATED_SEQUENCES =
-      new EventSearchParameter(OccurrenceSearchParameter.ASSOCIATED_SEQUENCES);
 
   /** See @link {@link OccurrenceSearchParameter#GBIF_ID} */
   public static final EventSearchParameter GBIF_ID =

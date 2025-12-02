@@ -63,6 +63,10 @@ public class Humboldt {
     private String usageKey;
     private String usageName;
     private String usageRank;
+    private String acceptedUsageKey;
+    private String acceptedUsageName;
+    private String acceptedUsageRank;
+    private String iucnRedListCategory;
     private List<RankedName> classification;
     private List<String> issues;
   }

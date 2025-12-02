@@ -59,6 +59,8 @@ import org.gbif.dwc.terms.UnknownTerm;
 @Data
 public class Event extends VerbatimOccurrence {
 
+  // TODO: add derived data from occs?
+
   public static final String GEO_DATUM = "WGS84";
 
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
@@ -123,7 +125,6 @@ public class Event extends VerbatimOccurrence {
     event.setGadm(occurrence.getGadm());
     event.setDatasetID(occurrence.getDatasetID());
     event.setDatasetName(occurrence.getDatasetName());
-    event.setOtherCatalogNumbers(occurrence.getOtherCatalogNumbers());
     event.setPreparations(occurrence.getPreparations());
     event.setSamplingProtocol(occurrence.getSamplingProtocol());
     return event;
@@ -217,7 +218,6 @@ public class Event extends VerbatimOccurrence {
   private Gadm gadm = new Gadm();
   private String datasetID;
   private String datasetName;
-  private String otherCatalogNumbers;
   private String preparations;
   private String samplingProtocol;
   private List<Humboldt> humboldt = new ArrayList<>();
