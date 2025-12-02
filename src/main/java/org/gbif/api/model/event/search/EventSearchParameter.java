@@ -395,8 +395,8 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter HUMBOLDT_EVENT_DURATION_UNIT =
       new EventSearchParameter("HUMBOLDT_EVENT_DURATION_UNIT", DurationUnit.class);
 
-  public static final EventSearchParameter HUMBOLDT_TAXONOMIC_ISSUE =
-      new EventSearchParameter("HUMBOLDT_TAXONOMIC_ISSUE", EventIssue.class);
+  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ISSUE =
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ISSUE", EventIssue.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY =
