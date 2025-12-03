@@ -155,6 +155,10 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter INSTITUTION_CODE =
       new EventSearchParameter(OccurrenceSearchParameter.INSTITUTION_CODE);
 
+  /** See @link {@link OccurrenceSearchParameter#COLLECTION_CODE} */
+  public static final EventSearchParameter COLLECTION_CODE =
+    new EventSearchParameter(OccurrenceSearchParameter.COLLECTION_CODE);
+
   /** See @link {@link OccurrenceSearchParameter#TAXON_KEY} */
   public static final EventSearchParameter TAXON_KEY =
       new EventSearchParameter(OccurrenceSearchParameter.TAXON_KEY);
