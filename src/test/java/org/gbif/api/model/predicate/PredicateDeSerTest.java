@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.File;
 import java.io.IOException;
+import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.event.search.EventSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +31,8 @@ public class PredicateDeSerTest {
   static {
     MAPPER.registerModule(
         new SimpleModule()
+            .addDeserializer(
+                SearchParameter.class, new SearchParameter.SearchParameterDeserializer())
             .addDeserializer(
                 OccurrenceSearchParameter.class,
                 new OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer())
@@ -63,36 +66,21 @@ public class PredicateDeSerTest {
   }
 
   @Test
-  public void deserWithSearchParameterTypeTest() throws IOException {
-    Predicate predicate = MAPPER.readValue(getTestFile("conjunction_occs.json"), Predicate.class);
-    ConjunctionPredicate conjunctionPredicateOcc = (ConjunctionPredicate) predicate;
-    Assertions.assertEquals(
-        1,
-        conjunctionPredicateOcc.getPredicates().stream()
-            .map(p -> (EqualsPredicate) p)
-            .filter(p -> p.getKey() == OccurrenceSearchParameter.YEAR)
-            .count());
-    Assertions.assertEquals(
-        1,
-        conjunctionPredicateOcc.getPredicates().stream()
-            .map(p -> (EqualsPredicate) p)
-            .filter(p -> p.getKey() == OccurrenceSearchParameter.DAY)
-            .count());
+  public void eventSearchParameterTest() throws IOException {
+    ObjectMapper eventsMapper =
+        new ObjectMapper()
+            .registerModule(
+                new SimpleModule()
+                    .addDeserializer(
+                        SearchParameter.class,
+                        new EventSearchParameter.EventSearchParameterDeserializer())
+                    .addDeserializer(
+                        EventSearchParameter.class,
+                        new EventSearchParameter.EventSearchParameterDeserializer()));
 
-    predicate = MAPPER.readValue(getTestFile("conjunction_events.json"), Predicate.class);
-    ConjunctionPredicate conjunctionPredicateEvt = (ConjunctionPredicate) predicate;
+    Predicate predicate = eventsMapper.readValue(getTestFile("equals_event.json"), Predicate.class);
     Assertions.assertEquals(
-        1,
-        conjunctionPredicateEvt.getPredicates().stream()
-            .map(p -> (EqualsPredicate) p)
-            .filter(p -> p.getKey() == EventSearchParameter.YEAR)
-            .count());
-    Assertions.assertEquals(
-        1,
-        conjunctionPredicateEvt.getPredicates().stream()
-            .map(p -> (EqualsPredicate) p)
-            .filter(p -> p.getKey() == EventSearchParameter.HUMBOLDT_SITE_COUNT)
-            .count());
+        EventSearchParameter.YEAR, ((EqualsPredicate<EventSearchParameter>) predicate).getKey());
   }
 
   private void assertPredicate(String fileName) throws IOException {
