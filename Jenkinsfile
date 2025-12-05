@@ -69,6 +69,8 @@ pipeline {
               anyOf {
                     branch 'master'
                     branch 'java17'
+                    branch 'events_review'
+                    branch 'events_review_jdk17'
               }
           }
       }
