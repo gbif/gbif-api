@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

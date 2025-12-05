@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 public abstract class BaseChangeSuggestion<T extends CollectionEntity>
     implements ChangeSuggestion<T> {

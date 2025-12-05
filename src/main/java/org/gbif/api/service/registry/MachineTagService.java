@@ -22,8 +22,8 @@ import org.gbif.api.vocabulary.TagNamespace;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Service provides a set of operations on {@link MachineTag}.

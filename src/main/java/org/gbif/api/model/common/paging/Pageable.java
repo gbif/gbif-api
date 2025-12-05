@@ -15,7 +15,7 @@
  */
 package org.gbif.api.model.common.paging;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

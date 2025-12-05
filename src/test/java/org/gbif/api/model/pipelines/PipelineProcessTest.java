@@ -15,7 +15,7 @@
  */
 package org.gbif.api.model.pipelines;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
@@ -31,9 +31,9 @@ public class PipelineProcessTest {
     PipelineProcess p2 = new PipelineProcess();
 
     // process without steps
-    PipelineExecution e1 = new PipelineExecution().setCreated(LocalDateTime.now());
+    PipelineExecution e1 = new PipelineExecution().setCreated(OffsetDateTime.now());
     p1.addExecution(e1);
-    PipelineExecution e2 = new PipelineExecution().setCreated(LocalDateTime.now());
+    PipelineExecution e2 = new PipelineExecution().setCreated(OffsetDateTime.now());
     p2.addExecution(e2);
     assertEquals(
         0, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC));
@@ -41,7 +41,7 @@ public class PipelineProcessTest {
     // one process without steps
     PipelineStep p1e1s1 =
         new PipelineStep()
-            .setStarted(LocalDateTime.now().minusMinutes(30))
+            .setStarted(OffsetDateTime.now().minusMinutes(30))
             .setState(PipelineStep.Status.RUNNING);
     e1.addStep(p1e1s1);
     assertEquals(
@@ -50,7 +50,7 @@ public class PipelineProcessTest {
     // both processes with steps
     PipelineStep p2e2s1 =
         new PipelineStep()
-            .setStarted(LocalDateTime.now().minusMinutes(35))
+            .setStarted(OffsetDateTime.now().minusMinutes(35))
             .setState(PipelineStep.Status.RUNNING);
     e2.addStep(p2e2s1);
     assertEquals(
@@ -59,7 +59,7 @@ public class PipelineProcessTest {
     // completed steps have less preference over running ones
     PipelineStep p1e1s2 =
         new PipelineStep()
-            .setStarted(LocalDateTime.now().minusMinutes(40))
+            .setStarted(OffsetDateTime.now().minusMinutes(40))
             .setState(PipelineStep.Status.COMPLETED);
     e1.addStep(p1e1s2);
     assertEquals(
@@ -72,7 +72,7 @@ public class PipelineProcessTest {
         1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC));
 
     // steps with start date but no state
-    PipelineStep p1e1s4 = new PipelineStep().setStarted(LocalDateTime.now().minusMinutes(15));
+    PipelineStep p1e1s4 = new PipelineStep().setStarted(OffsetDateTime.now().minusMinutes(15));
     e1.addStep(p1e1s4);
     assertEquals(
         1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC));
@@ -85,15 +85,15 @@ public class PipelineProcessTest {
 
     assertEquals(0, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
 
-    PipelineExecution e1 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(20));
+    PipelineExecution e1 = new PipelineExecution().setCreated(OffsetDateTime.now().minusMinutes(20));
     p1.addExecution(e1);
     assertEquals(-1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
 
-    PipelineExecution e2 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(30));
+    PipelineExecution e2 = new PipelineExecution().setCreated(OffsetDateTime.now().minusMinutes(30));
     p2.addExecution(e2);
     assertEquals(1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
 
-    PipelineExecution e3 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(10));
+    PipelineExecution e3 = new PipelineExecution().setCreated(OffsetDateTime.now().minusMinutes(10));
     p2.addExecution(e3);
     assertEquals(-1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
   }

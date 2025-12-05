@@ -19,8 +19,8 @@ import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Interface to access and persists information about occurrence download events. This interface was

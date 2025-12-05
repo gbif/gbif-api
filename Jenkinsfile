@@ -4,7 +4,7 @@ pipeline {
   agent any
   tools {
     maven 'Maven 3.9.9'
-    jdk 'OpenJDK11'
+    jdk 'OpenJDK17'
   }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -66,7 +66,10 @@ pipeline {
       when {
           allOf {
               expression { params.RELEASE };
-              branch 'master';
+              anyOf {
+                    branch 'master'
+                    branch 'java17'
+              }
           }
       }
       environment {
