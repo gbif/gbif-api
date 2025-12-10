@@ -443,9 +443,6 @@ public enum OccurrenceIssue implements InterpretationRemark {
   AGE_OR_STAGE_RANK_MISMATCH(
       INFO, DwcTerm.earliestAgeOrLowestStage, DwcTerm.latestAgeOrHighestStage),
 
-  /** The earliest eon or eonothem has to be earlier than the latest. */
-  EON_OR_EONOTHEM_INVALID_RANGE(
-      INFO, DwcTerm.earliestEonOrLowestEonothem, DwcTerm.latestEonOrHighestEonothem),
   /** The era or erathem has to be earlier than the latest. */
   ERA_OR_ERATHEM_INVALID_RANGE(
       INFO, DwcTerm.earliestEraOrLowestErathem, DwcTerm.latestEraOrHighestErathem),
