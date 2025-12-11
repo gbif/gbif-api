@@ -51,6 +51,7 @@ pipeline {
                 anyOf {
                       branch 'dev'
                       branch 'java17'
+                      branch 'feature/reverted-offset-change'
                 }
             }
         }
