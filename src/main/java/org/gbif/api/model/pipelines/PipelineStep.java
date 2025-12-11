@@ -17,15 +17,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
-import org.gbif.api.jackson.OffsetDateTimeSerDe;
+import org.gbif.api.jackson.LocalDateTimeSerDe;
 import org.gbif.api.model.registry.LenientEquals;
-import org.gbif.api.util.OffsetDateTimeUtils;
 
 /** Models a step in pipelines. */
 public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
@@ -38,13 +37,13 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private StepType type;
   private StepRunner runner;
 
-  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
-  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
-  private OffsetDateTime started;
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  private LocalDateTime started;
 
-  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
-  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
-  private OffsetDateTime finished;
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  private LocalDateTime finished;
 
   private Status state;
   private String message;
@@ -52,9 +51,9 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private String pipelinesVersion;
   private String createdBy;
 
-  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
-  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
-  private OffsetDateTime modified;
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  private LocalDateTime modified;
 
   private String modifiedBy;
   private Set<MetricInfo> metrics = new HashSet<>();
@@ -78,8 +77,8 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
    */
   public static final Comparator<PipelineStep> STEPS_BY_FINISHED_ASC =
       (s1, s2) -> {
-        OffsetDateTime finished1 = s1 != null ? s1.getFinished() : null;
-        OffsetDateTime finished2 = s2 != null ? s2.getFinished() : null;
+        LocalDateTime finished1 = s1 != null ? s1.getFinished() : null;
+        LocalDateTime finished2 = s2 != null ? s2.getFinished() : null;
 
         if (finished1 == null && finished2 == null) {
           return STEPS_BY_TYPE_ASC.compare(s1, s2);
@@ -91,11 +90,11 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
           return -1;
         }
 
-        if (OffsetDateTimeUtils.isEqualOffsetDateTime(finished1, finished2)) {
+        if (finished1.equals(finished2)) {
           return STEPS_BY_TYPE_ASC.compare(s1, s2);
         }
 
-        return OffsetDateTimeUtils.compareOffsetDateTime(finished1, finished2);
+        return finished1.compareTo(finished2);
       };
 
   public long getKey() {
@@ -120,20 +119,20 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return this;
   }
 
-  public OffsetDateTime getStarted() {
+  public LocalDateTime getStarted() {
     return started;
   }
 
-  public PipelineStep setStarted(OffsetDateTime started) {
+  public PipelineStep setStarted(LocalDateTime started) {
     this.started = started;
     return this;
   }
 
-  public OffsetDateTime getFinished() {
+  public LocalDateTime getFinished() {
     return finished;
   }
 
-  public PipelineStep setFinished(OffsetDateTime finished) {
+  public PipelineStep setFinished(LocalDateTime finished) {
     this.finished = finished;
     return this;
   }
@@ -188,11 +187,11 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return this;
   }
 
-  public OffsetDateTime getModified() {
+  public LocalDateTime getModified() {
     return modified;
   }
 
-  public PipelineStep setModified(OffsetDateTime modified) {
+  public PipelineStep setModified(LocalDateTime modified) {
     this.modified = modified;
     return this;
   }
@@ -351,7 +350,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     if (this == other) return true;
     return Objects.equals(type, other.type)
         && Objects.equals(runner, other.runner)
-        && OffsetDateTimeUtils.isEqualOffsetDateTime(finished, other.finished)
+        && Objects.equals(finished, other.finished)
         && state == other.state
         && Objects.equals(message, other.message)
         && Objects.equals(metrics, other.metrics)

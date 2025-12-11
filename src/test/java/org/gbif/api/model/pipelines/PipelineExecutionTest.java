@@ -13,7 +13,7 @@
  */
 package org.gbif.api.model.pipelines;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
@@ -31,10 +31,10 @@ class PipelineExecutionTest {
     assertEquals(0, Objects.compare(ex1, ex2, PipelineProcess.PIPELINE_EXECUTION_BY_CREATED_ASC));
 
     // add creation dates
-    ex1.setCreated(OffsetDateTime.now());
+    ex1.setCreated(LocalDateTime.now());
     assertEquals(-1, Objects.compare(ex1, ex2, PipelineProcess.PIPELINE_EXECUTION_BY_CREATED_ASC));
 
-    ex2.setCreated(OffsetDateTime.now().minusMinutes(30));
+    ex2.setCreated(LocalDateTime.now().minusMinutes(30));
     assertEquals(1, Objects.compare(ex1, ex2, PipelineProcess.PIPELINE_EXECUTION_BY_CREATED_ASC));
   }
 }

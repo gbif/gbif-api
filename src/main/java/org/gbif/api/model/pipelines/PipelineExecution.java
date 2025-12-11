@@ -13,10 +13,10 @@
  */
 package org.gbif.api.model.pipelines;
 
-import org.gbif.api.jackson.OffsetDateTimeSerDe;
+import org.gbif.api.jackson.LocalDateTimeSerDe;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -39,9 +39,9 @@ public class PipelineExecution implements Serializable {
   private String rerunReason;
   private String remarks;
 
-  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
-  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
-  private OffsetDateTime created;
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  private LocalDateTime created;
 
   private String createdBy;
   private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_FINISHED_ASC);
@@ -83,11 +83,11 @@ public class PipelineExecution implements Serializable {
     return this;
   }
 
-  public OffsetDateTime getCreated() {
+  public LocalDateTime getCreated() {
     return created;
   }
 
-  public PipelineExecution setCreated(OffsetDateTime created) {
+  public PipelineExecution setCreated(LocalDateTime created) {
     this.created = created;
     return this;
   }
