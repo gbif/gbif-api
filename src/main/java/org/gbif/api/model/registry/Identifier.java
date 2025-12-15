@@ -184,6 +184,7 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.type, other.type)
         && Objects.equals(this.identifier, other.identifier);
   }

@@ -160,6 +160,7 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.datasetKey, other.datasetKey)
         && Objects.equals(this.type, other.type)
         && Objects.equals(this.content, other.content);

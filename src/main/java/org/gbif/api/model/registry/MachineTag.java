@@ -201,7 +201,7 @@ public class MachineTag implements LenientEquals<MachineTag>, Serializable {
     if (this == other) {
       return true;
     }
-
+    if (other == null) return false;
     return Objects.equals(this.namespace, other.namespace)
         && Objects.equals(this.name, other.name)
         && Objects.equals(this.value, other.value);

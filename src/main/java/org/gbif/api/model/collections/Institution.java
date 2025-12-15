@@ -644,6 +644,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return active == other.active
         && Objects.equals(key, other.key)
         && Objects.equals(code, other.code)
