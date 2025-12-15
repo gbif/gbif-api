@@ -592,6 +592,7 @@ public class Network
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.title, other.title)
         && Objects.equals(this.description, other.description)
         && Objects.equals(this.language, other.language)

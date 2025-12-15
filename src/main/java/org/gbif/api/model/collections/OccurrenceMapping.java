@@ -164,6 +164,7 @@ public class OccurrenceMapping implements Serializable, LenientEquals<Occurrence
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(code, other.code)
         && Objects.equals(parentCode, other.parentCode)
         && Objects.equals(identifier, other.identifier)

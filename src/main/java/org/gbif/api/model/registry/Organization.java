@@ -734,6 +734,7 @@ public class Organization
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.endorsingNodeKey, other.endorsingNodeKey)
         && Objects.equals(this.endorsementApproved, other.endorsementApproved)
         && Objects.equals(this.endorsementStatus, other.endorsementStatus)

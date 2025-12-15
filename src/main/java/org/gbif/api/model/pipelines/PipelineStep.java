@@ -348,6 +348,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   @Override
   public boolean lenientEquals(PipelineStep other) {
     if (this == other) return true;
+    if (other == null) return false;
     return Objects.equals(type, other.type)
         && Objects.equals(runner, other.runner)
         && Objects.equals(finished, other.finished)

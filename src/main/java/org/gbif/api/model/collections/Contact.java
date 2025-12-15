@@ -261,7 +261,7 @@ public class Contact implements LenientEquals<Contact>, Serializable {
     if (this == contact) {
       return true;
     }
-
+    if (contact == null) return false;
     return Objects.equals(firstName, contact.firstName)
         && Objects.equals(lastName, contact.lastName)
         && Objects.equals(position, contact.position)

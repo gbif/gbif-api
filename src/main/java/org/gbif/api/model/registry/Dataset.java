@@ -1351,6 +1351,7 @@ public class Dataset
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.parentDatasetKey, other.parentDatasetKey)
         && Objects.equals(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
         && Objects.equals(this.installationKey, other.installationKey)

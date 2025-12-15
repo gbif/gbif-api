@@ -216,7 +216,9 @@ public class Endpoint implements MachineTaggable, Serializable, LenientEquals<En
   public boolean lenientEquals(Endpoint other) {
     if (this == other) {
       return true;
-    } else {
+    }
+    if (other == null) return false;
+    else {
       return Objects.equals(this.type, other.type)
           && Objects.equals(this.url, other.url)
           && Objects.equals(this.description, other.description);

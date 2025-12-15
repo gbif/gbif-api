@@ -164,6 +164,7 @@ public class Comment implements Serializable, LenientEquals<Comment> {
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.content, other.content);
   }
 }

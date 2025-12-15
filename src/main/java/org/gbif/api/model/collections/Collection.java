@@ -691,6 +691,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return active == other.active
         && personalCollection == other.personalCollection
         && Objects.equals(key, other.key)
