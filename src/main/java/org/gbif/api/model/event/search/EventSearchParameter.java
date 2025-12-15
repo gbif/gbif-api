@@ -167,37 +167,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter ACCEPTED_TAXON_KEY =
       new EventSearchParameter(OccurrenceSearchParameter.ACCEPTED_TAXON_KEY);
 
-  /** See @link {@link OccurrenceSearchParameter#KINGDOM_KEY} */
-  public static final EventSearchParameter KINGDOM_KEY =
-      new EventSearchParameter(OccurrenceSearchParameter.KINGDOM_KEY);
-
-  public static final EventSearchParameter PHYLUM_KEY =
-      new EventSearchParameter(OccurrenceSearchParameter.PHYLUM_KEY);
-
-  /** See @link {@link OccurrenceSearchParameter#CLASS_KEY} */
-  public static final EventSearchParameter CLASS_KEY =
-      new EventSearchParameter(OccurrenceSearchParameter.CLASS_KEY);
-
-  /** See @link {@link OccurrenceSearchParameter#ORDER_KEY} */
-  public static final EventSearchParameter ORDER_KEY =
-      new EventSearchParameter(OccurrenceSearchParameter.ORDER_KEY);
-
-  /** See @link {@link OccurrenceSearchParameter#FAMILY_KEY} */
-  public static final EventSearchParameter FAMILY_KEY =
-      new EventSearchParameter(OccurrenceSearchParameter.FAMILY_KEY);
-
-  /** See @link {@link OccurrenceSearchParameter#GENUS_KEY} */
-  public static final EventSearchParameter GENUS_KEY =
-      new EventSearchParameter(OccurrenceSearchParameter.GENUS_KEY);
-
-  /** See @link {@link OccurrenceSearchParameter#SUBGENUS_KEY} */
-  public static final EventSearchParameter SUBGENUS_KEY =
-      new EventSearchParameter(OccurrenceSearchParameter.SUBGENUS_KEY);
-
-  /** See @link {@link OccurrenceSearchParameter#SPECIES_KEY} */
-  public static final EventSearchParameter SPECIES_KEY =
-      new EventSearchParameter(OccurrenceSearchParameter.SPECIES_KEY);
-
   /** See @link {@link OccurrenceSearchParameter#SCIENTIFIC_NAME} */
   public static final EventSearchParameter SCIENTIFIC_NAME =
       new EventSearchParameter(OccurrenceSearchParameter.SCIENTIFIC_NAME);
