@@ -128,6 +128,7 @@ public class Address implements Serializable, LenientEquals<Address> {
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(address, other.address)
         && Objects.equals(city, other.city)
         && Objects.equals(province, other.province)

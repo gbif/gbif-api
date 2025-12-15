@@ -550,7 +550,7 @@ public class Contact implements Address, LenientEquals<Contact> {
     if (this == contact) {
       return true;
     }
-
+    if (contact == null) return false;
     return Objects.equals(type, contact.type)
         && Objects.equals(primary, contact.primary)
         && Objects.equals(userId, contact.userId)

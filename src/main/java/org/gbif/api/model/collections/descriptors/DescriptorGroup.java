@@ -32,7 +32,7 @@ public class DescriptorGroup implements LenientEquals<DescriptorGroup>, Serializ
     if (this == other) {
       return true;
     }
-
+    if (other == null) return false;
     return key == other.key
       && Objects.equals(title, other.title)
       && Objects.equals(description, other.description)

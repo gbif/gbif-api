@@ -141,6 +141,7 @@ public class Tag implements Serializable, LenientEquals<Tag> {
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.value, other.value);
   }
 }

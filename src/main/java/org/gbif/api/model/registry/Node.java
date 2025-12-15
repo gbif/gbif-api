@@ -729,6 +729,7 @@ public class Node
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.type, other.type)
         && Objects.equals(this.participationStatus, other.participationStatus)
         && Objects.equals(this.gbifRegion, other.gbifRegion)

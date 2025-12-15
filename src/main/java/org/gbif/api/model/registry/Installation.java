@@ -447,6 +447,7 @@ public class Installation
     if (this == other) {
       return true;
     }
+    if (other == null) return false;
     return Objects.equals(this.organizationKey, other.organizationKey)
         && Objects.equals(this.type, other.type)
         && Objects.equals(this.title, other.title)
