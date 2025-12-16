@@ -50,8 +50,6 @@ pipeline {
                 not { expression { params.RELEASE } };
                 anyOf {
                     branch 'dev';
-                    branch 'events_review'
-                    branch 'events_review_jdk17'
                 }
             }
         }
