@@ -84,8 +84,6 @@ import org.gbif.dwc.terms.UnknownTerm;
 @Data
 public class Event extends VerbatimOccurrence {
 
-  // TODO: add derived data from occs?
-
   public static final String GEO_DATUM = "WGS84";
 
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
