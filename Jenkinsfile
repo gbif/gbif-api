@@ -49,8 +49,7 @@ pipeline {
             allOf {
                 not { expression { params.RELEASE } };
                 anyOf {
-                      branch 'dev'
-                      branch 'java17'
+                    branch 'dev';
                 }
             }
         }

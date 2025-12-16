@@ -118,7 +118,6 @@ public class Event extends VerbatimOccurrence {
     event.setDecimalLatitude(occurrence.getDecimalLatitude());
     event.setCoordinatePrecision(occurrence.getCoordinatePrecision());
     event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());
-    event.setCoordinateAccuracy(occurrence.getCoordinateAccuracy());
     event.setElevation(occurrence.getElevation());
     event.setElevationAccuracy(occurrence.getElevationAccuracy());
     event.setDepth(occurrence.getDepth());
@@ -149,7 +148,6 @@ public class Event extends VerbatimOccurrence {
     event.setGadm(occurrence.getGadm());
     event.setDatasetID(occurrence.getDatasetID());
     event.setDatasetName(occurrence.getDatasetName());
-    event.setOtherCatalogNumbers(occurrence.getOtherCatalogNumbers());
     event.setPreparations(occurrence.getPreparations());
     event.setSamplingProtocol(occurrence.getSamplingProtocol());
     return event;
@@ -203,8 +201,6 @@ public class Event extends VerbatimOccurrence {
   //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795
   private Double coordinatePrecision;
   private Double coordinateUncertaintyInMeters;
-  @Deprecated //see getter
-  private Double coordinateAccuracy;
 
   private Double elevation;
   private Double elevationAccuracy;
@@ -245,7 +241,6 @@ public class Event extends VerbatimOccurrence {
   private Gadm gadm = new Gadm();
   private String datasetID;
   private String datasetName;
-  private String otherCatalogNumbers;
   private String preparations;
   private String samplingProtocol;
   private List<Humboldt> humboldt = new ArrayList<>();
