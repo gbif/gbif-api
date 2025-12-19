@@ -268,4 +268,7 @@ public enum Extension {
     return AVAILABLE_EXTENSION_MAP.keySet();
   }
 
+  public static Set<Extension> availableInterpretedExtensions() {
+    return AVAILABLE_INTERPRETED_EXTENSION_MAP.keySet();
+  }
 }
