@@ -23,6 +23,7 @@ import org.gbif.api.jackson.ExtensionDeserializer;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionKeySerializer;
 import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.dwc.terms.DwcTerm;
 
 /**
  * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
@@ -225,7 +226,8 @@ public enum Extension {
     return rowType;
   }
 
-  private static final Map<Extension, String> AVAILABLE_INTERPRETED_EXTENSION_MAP = new EnumMap<>(Extension.class);
+  private static final Map<Extension, String> AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP = new EnumMap<>(Extension.class);
+  private static final Map<Extension, String> AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP = new EnumMap<>(Extension.class);
   private static final Map<Extension, String> AVAILABLE_EXTENSION_MAP = new EnumMap<>(Extension.class);
 
   static {
@@ -255,9 +257,11 @@ public enum Extension {
     AVAILABLE_EXTENSION_MAP.put(HUMBOLDT, "http://rs.gbif.org/extension/eco/humboldt_2025-07-10.xml");
     AVAILABLE_EXTENSION_MAP.put(OCCURRENCE, "http://rs.gbif.org/core/dwc_occurrence.xml");
 
-    AVAILABLE_INTERPRETED_EXTENSION_MAP.put(MULTIMEDIA, "http://rs.gbif.org/extension/gbif/1.0/multimedia.xml");
-    AVAILABLE_INTERPRETED_EXTENSION_MAP.put(HUMBOLDT, "http://rs.gbif.org/extension/eco/humboldt_2025-07-10.xml");
-    AVAILABLE_INTERPRETED_EXTENSION_MAP.put(OCCURRENCE, "http://rs.gbif.org/core/dwc_occurrence.xml");
+    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(MULTIMEDIA, "http://rs.gbif.org/extension/gbif/1.0/multimedia.xml");
+    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(HUMBOLDT, "http://rs.gbif.org/extension/eco/humboldt_2025-07-10.xml");
+    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(OCCURRENCE, "http://rs.gbif.org/core/dwc_occurrence.xml");
+
+    AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP.put(MULTIMEDIA, "http://rs.gbif.org/extension/gbif/1.0/multimedia.xml");
   }
 
   public static Map<Extension, String> availableExtensionResources() {
@@ -268,7 +272,9 @@ public enum Extension {
     return AVAILABLE_EXTENSION_MAP.keySet();
   }
 
-  public static Set<Extension> availableInterpretedExtensions() {
-    return AVAILABLE_INTERPRETED_EXTENSION_MAP.keySet();
+  public static Set<Extension> availableInterpretedExtensions(DwcTerm coreTerm) {
+    return coreTerm == DwcTerm.Event
+        ? AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.keySet()
+        : AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP.keySet();
   }
 }
