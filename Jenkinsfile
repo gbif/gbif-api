@@ -4,7 +4,7 @@ pipeline {
   agent any
   tools {
     maven 'Maven 3.9.9'
-    jdk 'OpenJDK11'
+    jdk 'OpenJDK17'
   }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -44,13 +44,12 @@ pipeline {
               }
       }
     }
-
     stage('Snapshot to nexus') {
         when {
             allOf {
                 not { expression { params.RELEASE } };
                 anyOf {
-                      branch 'dev'
+                    branch 'dev';
                 }
             }
         }
@@ -63,7 +62,6 @@ pipeline {
                 }
         }
     }
-
     stage('Maven release') {
       when {
           allOf {

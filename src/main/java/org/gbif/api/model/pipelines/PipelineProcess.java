@@ -13,10 +13,11 @@
  */
 package org.gbif.api.model.pipelines;
 
-import org.gbif.api.jackson.LocalDateTimeSerDe;
+import org.gbif.api.jackson.OffsetDateTimeSerDe;
+import org.gbif.api.util.OffsetDateTimeUtils;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,9 +46,9 @@ public class PipelineProcess implements Serializable {
   private String datasetTitle;
   private int attempt;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  private LocalDateTime created;
+  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
+  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
+  private OffsetDateTime created;
 
   private String createdBy;
   private Set<PipelineExecution> executions =
@@ -55,16 +56,10 @@ public class PipelineProcess implements Serializable {
 
   public static final Comparator<PipelineExecution> PIPELINE_EXECUTION_BY_CREATED_ASC =
     (e1, e2) -> {
-      LocalDateTime created1 = e1 != null ? e1.getCreated() : null;
-      LocalDateTime created2 = e2 != null ? e2.getCreated() : null;
+      OffsetDateTime created1 = e1 != null ? e1.getCreated() : null;
+      OffsetDateTime created2 = e2 != null ? e2.getCreated() : null;
 
-      if (created1 == null) {
-        return created2 == null ? 0 : 1;
-      } else if (created2 == null) {
-        return -1;
-      }
-
-      return created1.compareTo(created2);
+      return OffsetDateTimeUtils.compareOffsetDateTime(created1, created2);
     };
 
   /**
@@ -110,7 +105,7 @@ public class PipelineProcess implements Serializable {
         lastStepOpt1 =
           latestExecution1.getSteps().stream()
             .filter(p -> p.getState() != null)
-            .max(Comparator.comparing(PipelineStep::getStarted));
+            .max(Comparator.comparing(pipelineStep -> pipelineStep.getStarted().toInstant()));
       }
 
       Optional<PipelineStep> lastStepOpt2 = Optional.empty();
@@ -138,11 +133,11 @@ public class PipelineProcess implements Serializable {
 
       // steps that are running have preference
       if (step1.getState() == RUNNING) {
-        return step2.getState() == RUNNING ? step1.getStarted().compareTo(step2.getStarted()) : 1;
+        return step2.getState() == RUNNING ? OffsetDateTimeUtils.compareOffsetDateTime(step1.getStarted(), step2.getStarted()) : 1;
       } else if (step2.getState() == RUNNING) {
         return -1;
       } else {
-        return step1.getStarted().compareTo(step2.getStarted());
+        return OffsetDateTimeUtils.compareOffsetDateTime(step1.getStarted(), step2.getStarted());
       }
     };
 
@@ -176,11 +171,11 @@ public class PipelineProcess implements Serializable {
     return this;
   }
 
-  public LocalDateTime getCreated() {
+  public OffsetDateTime getCreated() {
     return created;
   }
 
-  public PipelineProcess setCreated(LocalDateTime created) {
+  public PipelineProcess setCreated(OffsetDateTime created) {
     this.created = created;
     return this;
   }

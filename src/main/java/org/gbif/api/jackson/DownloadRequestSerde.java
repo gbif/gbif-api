@@ -15,6 +15,8 @@ package org.gbif.api.jackson;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.event.search.EventSearchParameter;
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.DownloadType;
@@ -33,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -71,6 +74,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String FORMAT = "format";
   private static final String TYPE = "type";
   private static final String VERBATIM_EXTENSIONS = "verbatimExtensions";
+  private static final String INTERPRETED_EXTENSIONS = "interpretedExtensions";
   private static final String DESCRIPTION = "description";
   private static final String MACHINE_DESCRIPTION = "machineDescription";
   private static final String CHECKLIST_KEY = "checklistKey";
@@ -82,11 +86,24 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
   private static final Set<String> ALL_PROPERTIES;
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final ObjectMapper OCCURRENCE_MAPPER =
+      new ObjectMapper()
+          .registerModule(
+              new SimpleModule()
+                  .addDeserializer(
+                      SearchParameter.class,
+                      new OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer()));
+  private static final ObjectMapper EVENT_MAPPER =
+      new ObjectMapper()
+          .registerModule(
+              new SimpleModule()
+                  .addDeserializer(
+                      SearchParameter.class,
+                      new EventSearchParameter.EventSearchParameterDeserializer()));
 
   static {
     Set<String> allProperties = new HashSet<>(Arrays.asList(PREDICATE, SQL, CREATOR, FORMAT, TYPE, VERBATIM_EXTENSIONS,
-      DESCRIPTION, MACHINE_DESCRIPTION, CHECKLIST_KEY));
+      INTERPRETED_EXTENSIONS, DESCRIPTION, MACHINE_DESCRIPTION, CHECKLIST_KEY));
     allProperties.addAll(SEND_NOTIFICATION);
     allProperties.addAll(NOTIFICATION_ADDRESSES);
     allProperties.addAll(IGNORED_PROPERTIES);
@@ -107,6 +124,8 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
     DownloadType type = Optional.ofNullable(node.get(TYPE))
       .map(n -> VocabularyUtils.lookupEnum(n.asText(), DownloadType.class)).orElse(DownloadType.OCCURRENCE);
 
+    ObjectMapper specificObjectMapper = type == DownloadType.EVENT ? EVENT_MAPPER : OCCURRENCE_MAPPER;
+
     String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);
 
     String description = Optional.ofNullable(node.get(DESCRIPTION)).map(JsonNode::asText).orElse(null);
@@ -121,7 +140,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
     for (final String jsonKey : NOTIFICATION_ADDRESSES) {
       notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -> {
         try {
-          return Arrays.asList(MAPPER.treeToValue(jsonNode, String[].class));
+          return Arrays.asList(specificObjectMapper.treeToValue(jsonNode, String[].class));
         } catch (Exception e) {
           throw new RuntimeException(e);
         }
@@ -133,18 +152,31 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
     }
 
-    Set<Extension> extensions = Optional.ofNullable(node.get(VERBATIM_EXTENSIONS)).map(jsonNode -> {
+    Function<JsonNode, Set<Extension>> jsonNodeToExtensionsMapper = jsonNode -> {
       try {
-        return Arrays.stream(MAPPER.treeToValue(jsonNode, String[].class))
-                .map(Extension::fromRowType)
-                .collect(Collectors.toSet());
+        return Arrays.stream(specificObjectMapper.treeToValue(jsonNode, String[].class))
+          .map(Extension::fromRowType)
+          .collect(Collectors.toSet());
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-    }).orElse(Collections.emptySet());
+    };
+
+    Set<Extension> verbatimExtensions =
+        Optional.ofNullable(node.get(VERBATIM_EXTENSIONS))
+            .map(jsonNodeToExtensionsMapper)
+            .orElse(Collections.emptySet());
+
+    Set<Extension> interpretedExtensions =
+      Optional.ofNullable(node.get(INTERPRETED_EXTENSIONS))
+        .map(jsonNodeToExtensionsMapper)
+        .orElse(Collections.emptySet());
+
+    Set<Extension> allExtensions = new HashSet<>(verbatimExtensions);
+    allExtensions.addAll(interpretedExtensions);
 
     // Check requested extensions are available for download.
-    for (Extension e : extensions) {
+    for (Extension e : allExtensions) {
       if (!Extension.availableExtensions().contains(e)) {
         throw new RuntimeException("The "+e.getRowType()+" extension is not available for downloads.");
       }
@@ -169,21 +201,16 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
         throw new RuntimeException("Predicate downloads must not use an SQL download format.");
       }
       JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
-      // Not yet enforced, we would need e.g. http://api.gbif.org/v1/occurrence/download/request/predicate?format=DWCA
+      // Not yet enforced, we would need e.g.
+      // http://api.gbif.org/v1/occurrence/download/request/predicate?format=DWCA
       // to return 'predicate: {}' etc.
-      //if (predicate == null) {
+      // if (predicate == null) {
       //  throw new RuntimeException("A predicate must be specified. Use {} for everything.");
-      //}
-      MAPPER.registerModule(
-          new SimpleModule().addDeserializer(
-            OccurrenceSearchParameter.class,
-            new OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer()
-          )
-        );
+      // }
 
-      Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
+      Predicate predicateObj = predicate == null ? null : specificObjectMapper.treeToValue(predicate, Predicate.class);
       return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification,
-        format, type, description, machineDescription, extensions, checklistKey);
+        format, type, description, machineDescription, verbatimExtensions, interpretedExtensions, checklistKey);
     }
   }
 }

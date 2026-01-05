@@ -15,15 +15,16 @@
  */
 package org.gbif.api.model.pipelines.ws;
 
-import org.gbif.api.jackson.LocalDateTimeSerDe;
+import java.time.OffsetDateTime;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import org.gbif.api.jackson.OffsetDateTimeSerDe;
 
 /** Models a flat response of a pipeline process search. */
 public class SearchResult implements Serializable {
@@ -36,13 +37,13 @@ public class SearchResult implements Serializable {
   private String stepState;
   private String pipelinesVersion;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  private LocalDateTime stepStarted;
+  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
+  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
+  private OffsetDateTime stepStarted;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  private LocalDateTime stepFinished;
+  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
+  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
+  private OffsetDateTime stepFinished;
 
   public UUID getDatasetKey() {
     return datasetKey;
@@ -100,19 +101,19 @@ public class SearchResult implements Serializable {
     this.pipelinesVersion = pipelinesVersion;
   }
 
-  public LocalDateTime getStepStarted() {
+  public OffsetDateTime getStepStarted() {
     return stepStarted;
   }
 
-  public void setStepStarted(LocalDateTime stepStarted) {
+  public void setStepStarted(OffsetDateTime stepStarted) {
     this.stepStarted = stepStarted;
   }
 
-  public LocalDateTime getStepFinished() {
+  public OffsetDateTime getStepFinished() {
     return stepFinished;
   }
 
-  public void setStepFinished(LocalDateTime stepFinished) {
+  public void setStepFinished(OffsetDateTime stepFinished) {
     this.stepFinished = stepFinished;
   }
 

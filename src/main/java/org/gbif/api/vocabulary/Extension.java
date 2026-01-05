@@ -23,6 +23,7 @@ import org.gbif.api.jackson.ExtensionDeserializer;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionKeySerializer;
 import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.dwc.terms.DwcTerm;
 
 /**
  * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
@@ -186,7 +187,17 @@ public enum Extension {
   /**
    * @see <a href="http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2024-07-11.xml">extension definition</a>
    */
-  DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData");
+  DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData"),
+
+  /**
+   * @see <a href="https://rs.gbif.org/extension/eco/Humboldt_2024-04-16.xml">extension definition</a>
+   */
+  HUMBOLDT("http://rs.tdwg.org/eco/terms/Event"),
+
+  /**
+   * @see <a href="http://rs.tdwg.org/dwc/terms/Occurrence">extension definition</a>
+   */
+  OCCURRENCE("http://rs.tdwg.org/dwc/terms/Occurrence");
 
 
   private final String rowType;
@@ -215,6 +226,8 @@ public enum Extension {
     return rowType;
   }
 
+  private static final Map<Extension, String> AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP = new EnumMap<>(Extension.class);
+  private static final Map<Extension, String> AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP = new EnumMap<>(Extension.class);
   private static final Map<Extension, String> AVAILABLE_EXTENSION_MAP = new EnumMap<>(Extension.class);
 
   static {
@@ -241,6 +254,14 @@ public enum Extension {
     AVAILABLE_EXTENSION_MAP.put(REFERENCE, "http://rs.gbif.org/extension/gbif/1.0/references.xml");
     AVAILABLE_EXTENSION_MAP.put(IDENTIFIER, "http://rs.gbif.org/extension/gbif/1.0/identifier.xml");
     AVAILABLE_EXTENSION_MAP.put(DNA_DERIVED_DATA, "http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2024-07-11.xml");
+    AVAILABLE_EXTENSION_MAP.put(HUMBOLDT, "http://rs.gbif.org/extension/eco/humboldt_2025-07-10.xml");
+    AVAILABLE_EXTENSION_MAP.put(OCCURRENCE, "http://rs.gbif.org/core/dwc_occurrence.xml");
+
+    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(MULTIMEDIA, "http://rs.gbif.org/extension/gbif/1.0/multimedia.xml");
+    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(HUMBOLDT, "http://rs.gbif.org/extension/eco/humboldt_2025-07-10.xml");
+    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(OCCURRENCE, "http://rs.gbif.org/core/dwc_occurrence.xml");
+
+    AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP.put(MULTIMEDIA, "http://rs.gbif.org/extension/gbif/1.0/multimedia.xml");
   }
 
   public static Map<Extension, String> availableExtensionResources() {
@@ -251,4 +272,9 @@ public enum Extension {
     return AVAILABLE_EXTENSION_MAP.keySet();
   }
 
+  public static Set<Extension> availableInterpretedExtensions(DwcTerm coreTerm) {
+    return coreTerm == DwcTerm.Event
+        ? AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.keySet()
+        : AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP.keySet();
+  }
 }

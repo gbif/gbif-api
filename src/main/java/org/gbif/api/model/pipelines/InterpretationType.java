@@ -37,6 +37,7 @@ public interface InterpretationType extends Serializable {
     MEASUREMENT_OR_FACT,
     AMPLIFICATION,
     DNA_DERIVED_DATA,
+    HUMBOLDT,
     // Specific
     LOCATION_FEATURE,
     // Tables,
@@ -65,7 +66,10 @@ public interface InterpretationType extends Serializable {
     AUDUBON_TABLE,
     IMAGE_TABLE,
     MULTIMEDIA_TABLE,
-    DNA_DERIVED_DATA_TABLE;
+    DNA_DERIVED_DATA_TABLE,
+    HUMBOLDT_TABLE,
+    // this is the occurrence extension
+    OCCURRENCE_TABLE;
 
     @Override
     public String all() {
@@ -93,6 +97,7 @@ public interface InterpretationType extends Serializable {
           MEASUREMENT_OR_FACT,
           AMPLIFICATION,
           DNA_DERIVED_DATA,
+          HUMBOLDT,
           // Specific
           LOCATION_FEATURE,
           OCCURRENCE));
@@ -135,7 +140,9 @@ public interface InterpretationType extends Serializable {
           AUDUBON_TABLE,
           IMAGE_TABLE,
           MULTIMEDIA_TABLE,
-          DNA_DERIVED_DATA_TABLE));
+          DNA_DERIVED_DATA_TABLE,
+          HUMBOLDT_TABLE,
+          OCCURRENCE_TABLE));
     }
   }
 }

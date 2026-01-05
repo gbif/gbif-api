@@ -13,17 +13,21 @@
  */
 package org.gbif.api.model.occurrence.search;
 import com.fasterxml.jackson.annotation.*;
-
 import com.fasterxml.jackson.core.JacksonException;
-
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-
 import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import org.gbif.api.annotation.Experimental;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -36,16 +40,6 @@ import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TaxonomicStatus;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Supported query parameters by the occurrence search and download service.
@@ -152,22 +146,6 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * An identifier for the broader Event that groups this and potentially other Events.
    */
   public final static OccurrenceSearchParameter PARENT_EVENT_ID = new OccurrenceSearchParameter("PARENT_EVENT_ID", String.class);
-
-  /**
-   * An identifier for an Event and its children events.
-   */
-  public final static OccurrenceSearchParameter EVENT_ID_HIERARCHY = new OccurrenceSearchParameter("EVENT_ID_HIERARCHY", String.class);
-
-  /**
-   * An identifier for the vocabulary-backed Event Type.
-   */
-  public final static OccurrenceSearchParameter EVENT_TYPE = new OccurrenceSearchParameter("EVENT_TYPE", String.class);
-
-  /**
-   * An identifier for the verbatim Event Type.
-   */
-  @Experimental
-  public final static OccurrenceSearchParameter VERBATIM_EVENT_TYPE = new OccurrenceSearchParameter("VERBATIM_EVENT_TYPE", String.class);
 
   /**
    * The name of, reference to, or description of the method or protocol used during an Event.
@@ -669,7 +647,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The life stage of an occurrence.
    */
-  public final static OccurrenceSearchParameter LIFE_STAGE = new OccurrenceSearchParameter("LIFE_STAGE", String.class);
+  public final static OccurrenceSearchParameter   LIFE_STAGE = new OccurrenceSearchParameter("LIFE_STAGE", String.class);
 
   /**
    * Searches for occurrences that are clustered.

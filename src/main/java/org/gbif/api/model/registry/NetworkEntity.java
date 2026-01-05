@@ -19,10 +19,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 
 /**
  * This interface provides a minimal contract that all network entities (The readable version) will adhere to. It is

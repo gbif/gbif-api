@@ -13,7 +13,7 @@
  */
 package org.gbif.api.model.occurrence;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -46,13 +46,13 @@ public class DownloadStatistics {
   @Schema(
     description = "The year and month."
   )
-  private LocalDate yearMonth;
+  private OffsetDateTime yearMonth;
 
   public DownloadStatistics(){
 
   }
 
-  public DownloadStatistics(UUID datasetKey, Long totalRecords, Long numberDownloads, LocalDate yearMonth) {
+  public DownloadStatistics(UUID datasetKey, Long totalRecords, Long numberDownloads, OffsetDateTime yearMonth) {
     this.datasetKey = datasetKey;
     this.totalRecords = totalRecords;
     this.numberDownloads = numberDownloads;
@@ -87,11 +87,11 @@ public class DownloadStatistics {
    * Ignore in serialization, only year and month is relevant.
    */
   @JsonIgnore
-  public LocalDate getYearMonth() {
+  public OffsetDateTime getYearMonth() {
     return yearMonth;
   }
 
-  public void setYearMonth(LocalDate yearMonth) {
+  public void setYearMonth(OffsetDateTime yearMonth) {
     this.yearMonth = yearMonth;
   }
 

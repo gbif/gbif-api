@@ -16,7 +16,9 @@
 package org.gbif.api.model.common.search;
 
 import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
+import org.gbif.api.model.checklistbank.search.NameUsageSuggestRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Rank;
 
@@ -31,11 +33,11 @@ public class SearchRequestTest {
 
   @Test
   public void testEnumFacet() {
-    SearchRequest<NameUsageSearchParameter> req = new SearchRequest<>();
+    SearchRequest<NameUsageSearchParameter> req = new NameUsageSuggestRequest();
     req.addParameter(NameUsageSearchParameter.RANK, Rank.SPECIES);
     assertEquals("SPECIES", req.getParameters().get(NameUsageSearchParameter.RANK).iterator().next());
 
-    SearchRequest<OccurrenceSearchParameter> reqO = new SearchRequest<>();
+    SearchRequest<OccurrenceSearchParameter> reqO = new OccurrenceSearchRequest();
     reqO.addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, BasisOfRecord.LITERATURE);
     assertEquals("LITERATURE",
       reqO.getParameters().get(OccurrenceSearchParameter.BASIS_OF_RECORD).iterator().next());

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * This service exposes information regarding current crawling process and is not intended to provide historical
@@ -75,4 +75,11 @@ public interface DatasetProcessService {
    *         be crawled
    */
   List<DatasetProcessStatus> getPendingCamtrapDpDatasetProcesses();
+
+
+  /**
+   * @return an ordered list of dataset processing statuses for all DwcDP based datasets that are currently waiting to
+   *         be crawled
+   */
+  List<DatasetProcessStatus> getPendingDwcDpDatasetProcesses();
 }

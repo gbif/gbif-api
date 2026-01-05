@@ -15,7 +15,7 @@ package org.gbif.api.model.registry.eml;
 
 import org.gbif.api.model.registry.Contact;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

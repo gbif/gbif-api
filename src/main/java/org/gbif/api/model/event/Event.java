@@ -39,17 +39,19 @@ import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -59,6 +61,22 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.gbif.api.model.common.Identifier;
+import org.gbif.api.model.common.MediaObject;
+import org.gbif.api.model.occurrence.Gadm;
+import org.gbif.api.model.occurrence.MeasurementOrFact;
+import org.gbif.api.model.occurrence.Occurrence;
+import org.gbif.api.model.occurrence.OccurrenceRelation;
+import org.gbif.api.model.occurrence.VerbatimOccurrence;
+import org.gbif.api.util.IsoDateInterval;
+import org.gbif.api.vocabulary.Continent;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EventIssue;
+import org.gbif.api.vocabulary.License;
+import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.UnknownTerm;
 
 /**
  * Event class based on https://dwc.tdwg.org/terms/#event.
@@ -95,20 +113,11 @@ public class Event extends VerbatimOccurrence {
     event.setHostingOrganizationKey(occurrence.getHostingOrganizationKey());
     event.setVerbatimFields(occurrence.getVerbatimFields());
     event.setExtensions(occurrence.getExtensions());
-    event.setBasisOfRecord(occurrence.getBasisOfRecord());
-    event.setIndividualCount(occurrence.getIndividualCount());
-    event.setOccurrenceStatus(occurrence.getOccurrenceStatus());
-    event.setSex(occurrence.getSex());
-    event.setLifeStage(occurrence.getLifeStage());
-    event.setEstablishmentMeans(occurrence.getEstablishmentMeans());
-    event.setDegreeOfEstablishment(occurrence.getDegreeOfEstablishment());
-    event.setPathway(occurrence.getPathway());
     event.setDateIdentified(occurrence.getDateIdentified());
     event.setDecimalLongitude(occurrence.getDecimalLongitude());
     event.setDecimalLatitude(occurrence.getDecimalLatitude());
     event.setCoordinatePrecision(occurrence.getCoordinatePrecision());
     event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());
-    event.setCoordinateAccuracy(occurrence.getCoordinateAccuracy());
     event.setElevation(occurrence.getElevation());
     event.setElevationAccuracy(occurrence.getElevationAccuracy());
     event.setDepth(occurrence.getDepth());
@@ -122,7 +131,7 @@ public class Event extends VerbatimOccurrence {
     event.setMonth(occurrence.getMonth());
     event.setDay(occurrence.getDay());
     event.setEventDate(occurrence.getEventDate());
-    event.setIssues(occurrence.getIssues());
+    event.setIssues(toEventIssues(occurrence.getIssues()));
     event.setModified(occurrence.getModified());
     event.setLastInterpreted(occurrence.getLastInterpreted());
     event.setReferences(occurrence.getReferences());
@@ -136,20 +145,27 @@ public class Event extends VerbatimOccurrence {
     event.setMedia(occurrence.getMedia());
     event.setFacts(occurrence.getFacts());
     event.setRelations(occurrence.getRelations());
-    event.setRecordedByIds(occurrence.getRecordedByIds());
-    event.setIdentifiedByIds(occurrence.getIdentifiedByIds());
     event.setGadm(occurrence.getGadm());
-    event.setInstitutionKey(occurrence.getInstitutionKey());
-    event.setCollectionKey(occurrence.getCollectionKey());
-    event.setInCluster(occurrence.getIsInCluster());
     event.setDatasetID(occurrence.getDatasetID());
     event.setDatasetName(occurrence.getDatasetName());
-    event.setOtherCatalogNumbers(occurrence.getOtherCatalogNumbers());
-    event.setRecordedBy(occurrence.getRecordedBy());
-    event.setIdentifiedBy(occurrence.getIdentifiedBy());
     event.setPreparations(occurrence.getPreparations());
     event.setSamplingProtocol(occurrence.getSamplingProtocol());
     return event;
+  }
+
+  private static Set<EventIssue> toEventIssues(Collection<OccurrenceIssue> occurrenceIssues) {
+    return occurrenceIssues.stream()
+        .map(
+            occIssue -> {
+              try {
+                return EventIssue.valueOf(occIssue.name());
+              } catch (Exception ex) {
+                // we ignore the value
+              }
+              return null;
+            })
+        .filter(Objects::nonNull)
+        .collect(Collectors.toSet());
   }
 
   @Data
@@ -176,16 +192,6 @@ public class Event extends VerbatimOccurrence {
   private String eventType;
   private List<ParentLineage> parentsLineage;
 
-  // occurrence fields
-  private BasisOfRecord basisOfRecord;
-  private Integer individualCount;
-  private OccurrenceStatus occurrenceStatus;
-  private String sex;
-  private String lifeStage;
-  private String establishmentMeans;
-  private String degreeOfEstablishment;
-  private String pathway;
-
   // identification
   private Date dateIdentified;
   // location
@@ -195,8 +201,6 @@ public class Event extends VerbatimOccurrence {
   //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795
   private Double coordinatePrecision;
   private Double coordinateUncertaintyInMeters;
-  @Deprecated //see getter
-  private Double coordinateAccuracy;
 
   private Double elevation;
   private Double elevationAccuracy;
@@ -216,7 +220,7 @@ public class Event extends VerbatimOccurrence {
   private Integer day;
   private IsoDateInterval eventDate;
 
-  private Set<OccurrenceIssue> issues = EnumSet.noneOf(OccurrenceIssue.class);
+  private Set<EventIssue> issues = EnumSet.noneOf(EventIssue.class);
 
   // record level
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
@@ -234,23 +238,12 @@ public class Event extends VerbatimOccurrence {
   private List<MediaObject> media = new ArrayList<>();
   private List<MeasurementOrFact> facts = new ArrayList<>();
   private List<OccurrenceRelation> relations = new ArrayList<>();
-  @JsonProperty("recordedByIDs")
-  private List<AgentIdentifier> recordedByIds = new ArrayList<>();
-  @JsonProperty("identifiedByIDs")
-  private List<AgentIdentifier> identifiedByIds = new ArrayList<>();
   private Gadm gadm = new Gadm();
-  @Experimental
-  private String institutionKey;
-  @Experimental
-  private String collectionKey;
-  private boolean isInCluster;
   private String datasetID;
   private String datasetName;
-  private String otherCatalogNumbers;
-  private String recordedBy;
-  private String identifiedBy;
   private String preparations;
   private String samplingProtocol;
+  private List<Humboldt> humboldt = new ArrayList<>();
 
   /**
    * Convenience method checking if any spatial validation rule has not passed.

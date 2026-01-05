@@ -20,8 +20,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.Min;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.Min;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 

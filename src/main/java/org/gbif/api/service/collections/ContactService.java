@@ -19,8 +19,8 @@ import org.gbif.api.model.collections.Contact;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import org.gbif.api.model.collections.suggestions.ChangeSuggestion;
 

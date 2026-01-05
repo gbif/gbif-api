@@ -15,11 +15,11 @@
  */
 package org.gbif.api.model.checklistbank.search;
 
-import org.gbif.api.model.common.search.SearchRequest;
+import org.gbif.api.model.common.search.BaseSearchRequest;
 
 /**
  * A name usage specific suggest request.
  */
-public class NameUsageSuggestRequest extends SearchRequest<NameUsageSearchParameter> {
+public class NameUsageSuggestRequest extends BaseSearchRequest<NameUsageSearchParameter> {
 
 }

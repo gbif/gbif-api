@@ -33,48 +33,6 @@ import org.gbif.api.vocabulary.OccurrenceStatus;
 /** Request class for issuing search request to the occurrence search service. */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
-  @Hidden
-  private Boolean matchCase;
-
-  @Hidden
-  private String shuffle;
-
-  /**
-   * This flag enables the use of case-sensitive matches and aggregations on certain search
-   * parameters.
-   *
-   * <p>Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol,
-   * catalogNumber, collectionCode, institutionCode, eventId, parentEventId, waterBody,
-   * stateProvince, recordNumber, identifiedBy, organismId and locality.
-   *
-   * <p>This is an experimental feature, and its implementation may change or be removed at any time.
-   *
-   * <p>Be aware that this is not a per-field flag, all possible fields will match case sensitively.
-   */
-  @Experimental
-  public Boolean isMatchCase() {
-    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
-  }
-
-  @Experimental
-  public void setMatchCase(Boolean matchCase) {
-    this.matchCase = matchCase;
-  }
-
-  /**
-   * This flag allows to sort the results in a random order by specifying a seed. The seed makes the
-   * random results reproducible so we can use paging. The same seed has to be sent for each page.
-   */
-  @Experimental
-  public String getShuffle() {
-    return shuffle;
-  }
-
-  @Experimental
-  public void setShuffle(String shuffle) {
-    this.shuffle = shuffle;
-  }
-
   public OccurrenceSearchRequest(Pageable page) {
     super(page);
   }
