@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchParameter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.search</a> &gt; <span class="el_source">SearchParameter.java</span></div><h1>SearchParameter.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common.search;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.util.Optional;
+import org.gbif.api.model.event.search.EventSearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+
+/**
+ * Interface to be implemented by all search parameter enumerations. The enumeration member name
+ * should avoid the following names which are already defined as standard (faceted) search
+ * parameters:
+ *
+ * &lt;ul&gt;
+ *   &lt;li&gt;limit
+ *   &lt;li&gt;offset
+ *   &lt;li&gt;q
+ *   &lt;li&gt;hl
+ *   &lt;li&gt;language
+ *   &lt;li&gt;facet
+ * &lt;/ul&gt;
+ */
+public interface SearchParameter {
+
+  String name();
+
+  Class&lt;?&gt; type();
+
+  // This deserializer is used only when the type property is not set. Otherwise it uses the custom
+  // deserializers of each type
+<span class="fc" id="L52">  class SearchParameterDeserializer extends JsonDeserializer&lt;SearchParameter&gt; {</span>
+
+    @Override
+    public SearchParameter deserialize(JsonParser p, DeserializationContext ctx)
+        throws IOException {
+<span class="fc" id="L57">      JsonToken token = p.currentToken();</span>
+
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">      if (token == JsonToken.VALUE_STRING) {</span>
+<span class="fc" id="L60">        String raw = p.getText();</span>
+<span class="fc" id="L61">        Optional&lt;SearchParameter&gt; opt = fromString(raw);</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (opt.isPresent()) {</span>
+<span class="fc" id="L63">          return opt.get();</span>
+        }
+      }
+
+      // If parameter is an object, try to use the &quot;name&quot; property or map directly
+<span class="nc" id="L68">      ObjectMapper mapper = (ObjectMapper) p.getCodec();</span>
+<span class="nc" id="L69">      JsonNode node = mapper.readTree(p);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">      if (node.isObject()) {</span>
+<span class="nc" id="L71">        JsonNode nameNode = node.get(&quot;name&quot;);</span>
+<span class="nc bnc" id="L72" title="All 4 branches missed.">        if (nameNode != null &amp;&amp; nameNode.isTextual()) {</span>
+<span class="nc" id="L73">          String name = nameNode.asText();</span>
+<span class="nc" id="L74">          Optional&lt;SearchParameter&gt; opt = fromString(name);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">          if (opt.isPresent()) {</span>
+<span class="nc" id="L76">            return opt.get();</span>
+          }
+        }
+      }
+
+<span class="nc" id="L81">      return null;</span>
+    }
+
+    private Optional&lt;SearchParameter&gt; fromString(String value) {
+<span class="pc bpc" id="L85" title="2 of 4 branches missed.">      if (value == null || value.isEmpty()) {</span>
+<span class="nc" id="L86">        return Optional.empty();</span>
+      }
+
+<span class="fc" id="L89">      String name = value.trim();</span>
+
+      // Try occurrence first
+<span class="fc" id="L92">      Optional&lt;OccurrenceSearchParameter&gt; occ = OccurrenceSearchParameter.lookup(name);</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">      if (occ.isPresent()) {</span>
+<span class="fc" id="L94">        return occ.map(o -&gt; o);</span>
+      }
+
+      // Then event
+<span class="fc" id="L98">      return EventSearchParameter.lookupEventParam(name).map(v -&gt; v);</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

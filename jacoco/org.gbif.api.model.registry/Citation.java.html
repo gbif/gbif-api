@@ -19,8 +19,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.Size;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.Size;
 
 /**
  * A citation can have one or both of a textual component and an identifier which can be

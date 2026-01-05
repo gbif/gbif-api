@@ -37,44 +37,48 @@ public interface InterpretationType extends Serializable {
 <span class="nc" id="L37">    MEASUREMENT_OR_FACT,</span>
 <span class="nc" id="L38">    AMPLIFICATION,</span>
 <span class="nc" id="L39">    DNA_DERIVED_DATA,</span>
+<span class="nc" id="L40">    HUMBOLDT,</span>
     // Specific
-<span class="nc" id="L41">    LOCATION_FEATURE,</span>
+<span class="nc" id="L42">    LOCATION_FEATURE,</span>
     // Tables,
     // Remeber to add mapping to org.gbif.pipelines.core.utils.DwcaExtensionTermUtils
     // and org.gbif.pipelines.ingest.utils.HdfsViewAvroUtils
-<span class="nc" id="L45">    OCCURRENCE,</span>
-<span class="nc" id="L46">    MEASUREMENT_OR_FACT_TABLE,</span>
-<span class="nc" id="L47">    IDENTIFICATION_TABLE,</span>
-<span class="nc" id="L48">    RESOURCE_RELATIONSHIP_TABLE,</span>
-<span class="nc" id="L49">    AMPLIFICATION_TABLE,</span>
-<span class="nc" id="L50">    CLONING_TABLE,</span>
-<span class="nc" id="L51">    GEL_IMAGE_TABLE,</span>
-<span class="nc" id="L52">    LOAN_TABLE,</span>
-<span class="nc" id="L53">    MATERIAL_SAMPLE_TABLE,</span>
-<span class="nc" id="L54">    PERMIT_TABLE,</span>
-<span class="nc" id="L55">    PREPARATION_TABLE,</span>
-<span class="nc" id="L56">    PRESERVATION_TABLE,</span>
-<span class="nc" id="L57">    GERMPLASM_MEASUREMENT_SCORE_TABLE,</span>
-<span class="nc" id="L58">    GERMPLASM_MEASUREMENT_TRAIT_TABLE,</span>
-<span class="nc" id="L59">    GERMPLASM_MEASUREMENT_TRIAL_TABLE,</span>
-<span class="nc" id="L60">    GERMPLASM_ACCESSION_TABLE,</span>
-<span class="nc" id="L61">    EXTENDED_MEASUREMENT_OR_FACT_TABLE,</span>
-<span class="nc" id="L62">    CHRONOMETRIC_AGE_TABLE,</span>
-<span class="nc" id="L63">    REFERENCE_TABLE,</span>
-<span class="nc" id="L64">    IDENTIFIER_TABLE,</span>
-<span class="nc" id="L65">    AUDUBON_TABLE,</span>
-<span class="nc" id="L66">    IMAGE_TABLE,</span>
-<span class="nc" id="L67">    MULTIMEDIA_TABLE,</span>
-<span class="nc" id="L68">    DNA_DERIVED_DATA_TABLE;</span>
+<span class="nc" id="L46">    OCCURRENCE,</span>
+<span class="nc" id="L47">    MEASUREMENT_OR_FACT_TABLE,</span>
+<span class="nc" id="L48">    IDENTIFICATION_TABLE,</span>
+<span class="nc" id="L49">    RESOURCE_RELATIONSHIP_TABLE,</span>
+<span class="nc" id="L50">    AMPLIFICATION_TABLE,</span>
+<span class="nc" id="L51">    CLONING_TABLE,</span>
+<span class="nc" id="L52">    GEL_IMAGE_TABLE,</span>
+<span class="nc" id="L53">    LOAN_TABLE,</span>
+<span class="nc" id="L54">    MATERIAL_SAMPLE_TABLE,</span>
+<span class="nc" id="L55">    PERMIT_TABLE,</span>
+<span class="nc" id="L56">    PREPARATION_TABLE,</span>
+<span class="nc" id="L57">    PRESERVATION_TABLE,</span>
+<span class="nc" id="L58">    GERMPLASM_MEASUREMENT_SCORE_TABLE,</span>
+<span class="nc" id="L59">    GERMPLASM_MEASUREMENT_TRAIT_TABLE,</span>
+<span class="nc" id="L60">    GERMPLASM_MEASUREMENT_TRIAL_TABLE,</span>
+<span class="nc" id="L61">    GERMPLASM_ACCESSION_TABLE,</span>
+<span class="nc" id="L62">    EXTENDED_MEASUREMENT_OR_FACT_TABLE,</span>
+<span class="nc" id="L63">    CHRONOMETRIC_AGE_TABLE,</span>
+<span class="nc" id="L64">    REFERENCE_TABLE,</span>
+<span class="nc" id="L65">    IDENTIFIER_TABLE,</span>
+<span class="nc" id="L66">    AUDUBON_TABLE,</span>
+<span class="nc" id="L67">    IMAGE_TABLE,</span>
+<span class="nc" id="L68">    MULTIMEDIA_TABLE,</span>
+<span class="nc" id="L69">    DNA_DERIVED_DATA_TABLE,</span>
+<span class="nc" id="L70">    HUMBOLDT_TABLE,</span>
+    // this is the occurrence extension
+<span class="nc" id="L72">    OCCURRENCE_TABLE;</span>
 
     @Override
     public String all() {
-<span class="nc" id="L72">      return ALL.name();</span>
+<span class="nc" id="L76">      return ALL.name();</span>
     }
 
     public static Set&lt;RecordType&gt; getAllInterpretation() {
-<span class="nc" id="L76">      return new HashSet&lt;&gt;(</span>
-<span class="nc" id="L77">        Arrays.asList(</span>
+<span class="nc" id="L80">      return new HashSet&lt;&gt;(</span>
+<span class="nc" id="L81">        Arrays.asList(</span>
           VERBATIM,
           // Core types
           METADATA,
@@ -93,25 +97,26 @@ public interface InterpretationType extends Serializable {
           MEASUREMENT_OR_FACT,
           AMPLIFICATION,
           DNA_DERIVED_DATA,
+          HUMBOLDT,
           // Specific
           LOCATION_FEATURE,
           OCCURRENCE));
     }
 
     public static Set&lt;String&gt; getAllInterpretationAsString() {
-<span class="nc" id="L102">      return getAllInterpretation().stream().map(RecordType::name).collect(Collectors.toSet());</span>
+<span class="nc" id="L107">      return getAllInterpretation().stream().map(RecordType::name).collect(Collectors.toSet());</span>
     }
 
     public static Set&lt;String&gt; getAllValidatorInterpretationAsString() {
-<span class="nc" id="L106">      Set&lt;String&gt; set = getAllInterpretationAsString();</span>
-<span class="nc" id="L107">      set.add(IDENTIFIER.name());</span>
-<span class="nc" id="L108">      set.remove(IDENTIFIER_ABSENT.name());</span>
-<span class="nc" id="L109">      return set;</span>
+<span class="nc" id="L111">      Set&lt;String&gt; set = getAllInterpretationAsString();</span>
+<span class="nc" id="L112">      set.add(IDENTIFIER.name());</span>
+<span class="nc" id="L113">      set.remove(IDENTIFIER_ABSENT.name());</span>
+<span class="nc" id="L114">      return set;</span>
     }
 
     public static Set&lt;RecordType&gt; getAllTables() {
-<span class="nc" id="L113">      return new HashSet&lt;&gt;(</span>
-<span class="nc" id="L114">        Arrays.asList(</span>
+<span class="nc" id="L118">      return new HashSet&lt;&gt;(</span>
+<span class="nc" id="L119">        Arrays.asList(</span>
           OCCURRENCE,
           MEASUREMENT_OR_FACT_TABLE,
           IDENTIFICATION_TABLE,
@@ -135,7 +140,9 @@ public interface InterpretationType extends Serializable {
           AUDUBON_TABLE,
           IMAGE_TABLE,
           MULTIMEDIA_TABLE,
-          DNA_DERIVED_DATA_TABLE));
+          DNA_DERIVED_DATA_TABLE,
+          HUMBOLDT_TABLE,
+          OCCURRENCE_TABLE));
     }
   }
 }

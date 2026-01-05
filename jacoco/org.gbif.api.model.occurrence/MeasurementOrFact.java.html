@@ -18,8 +18,8 @@ package org.gbif.api.model.occurrence;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * A measurement or fact about an occurrence.

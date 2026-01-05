@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EventIssue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">EventIssue.java</span></div><h1>EventIssue.java</h1><pre class="source lang-java linenums">package org.gbif.api.vocabulary;
+
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import org.gbif.api.util.AnnotationUtils;
+import org.gbif.dwc.terms.EcoTerm;
+import org.gbif.dwc.terms.Term;
+
+<span class="nc" id="L13">public enum EventIssue implements InterpretationRemark {</span>
+  /** See {@link OccurrenceIssue#ZERO_COORDINATE}. */
+<span class="nc" id="L15">  ZERO_COORDINATE(OccurrenceIssue.ZERO_COORDINATE),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_OUT_OF_RANGE}. */
+<span class="nc" id="L17">  COORDINATE_OUT_OF_RANGE(OccurrenceIssue.COORDINATE_OUT_OF_RANGE),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_INVALID}. */
+<span class="nc" id="L19">  COORDINATE_INVALID(OccurrenceIssue.COORDINATE_INVALID),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_ROUNDED}. */
+<span class="nc" id="L21">  COORDINATE_ROUNDED(OccurrenceIssue.COORDINATE_ROUNDED),</span>
+  /** See {@link OccurrenceIssue#GEODETIC_DATUM_INVALID}. */
+<span class="nc" id="L23">  GEODETIC_DATUM_INVALID(OccurrenceIssue.GEODETIC_DATUM_INVALID),</span>
+  /** See {@link OccurrenceIssue#GEODETIC_DATUM_ASSUMED_WGS84}. */
+<span class="nc" id="L25">  GEODETIC_DATUM_ASSUMED_WGS84(OccurrenceIssue.GEODETIC_DATUM_ASSUMED_WGS84),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_REPROJECTED}. */
+<span class="nc" id="L27">  COORDINATE_REPROJECTED(OccurrenceIssue.COORDINATE_REPROJECTED),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_REPROJECTION_FAILED}. */
+<span class="nc" id="L29">  COORDINATE_REPROJECTION_FAILED(OccurrenceIssue.COORDINATE_REPROJECTION_FAILED),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_REPROJECTION_SUSPICIOUS}. */
+<span class="nc" id="L31">  COORDINATE_REPROJECTION_SUSPICIOUS(OccurrenceIssue.COORDINATE_REPROJECTION_SUSPICIOUS),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_ACCURACY_INVALID}. */
+<span class="nc" id="L33">  @Deprecated // see POR-3061</span>
+  COORDINATE_ACCURACY_INVALID(OccurrenceIssue.COORDINATE_ACCURACY_INVALID),
+  /** See {@link OccurrenceIssue#COORDINATE_PRECISION_INVALID}. */
+<span class="nc" id="L36">  COORDINATE_PRECISION_INVALID(OccurrenceIssue.COORDINATE_PRECISION_INVALID),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_UNCERTAINTY_METERS_INVALID}. */
+<span class="nc" id="L38">  COORDINATE_UNCERTAINTY_METERS_INVALID(OccurrenceIssue.COORDINATE_UNCERTAINTY_METERS_INVALID),</span>
+  /** See {@link OccurrenceIssue#COORDINATE_PRECISION_UNCERTAINTY_MISMATCH}. */
+<span class="nc" id="L40">  @Deprecated // see POR-1804</span>
+  COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(
+      OccurrenceIssue.COORDINATE_PRECISION_UNCERTAINTY_MISMATCH),
+  /** See {@link OccurrenceIssue#FOOTPRINT_SRS_INVALID}. */
+<span class="nc" id="L44">  FOOTPRINT_SRS_INVALID(OccurrenceIssue.FOOTPRINT_SRS_INVALID),</span>
+  /** See {@link OccurrenceIssue#FOOTPRINT_WKT_MISMATCH}. */
+<span class="nc" id="L46">  FOOTPRINT_WKT_MISMATCH(OccurrenceIssue.FOOTPRINT_WKT_MISMATCH),</span>
+  /** See {@link OccurrenceIssue#FOOTPRINT_WKT_INVALID}. */
+<span class="nc" id="L48">  FOOTPRINT_WKT_INVALID(OccurrenceIssue.FOOTPRINT_WKT_INVALID),</span>
+  /** See {@link OccurrenceIssue#COUNTRY_COORDINATE_MISMATCH}. */
+<span class="nc" id="L50">  COUNTRY_COORDINATE_MISMATCH(OccurrenceIssue.COUNTRY_COORDINATE_MISMATCH),</span>
+  /** See {@link OccurrenceIssue#COUNTRY_MISMATCH}. */
+<span class="nc" id="L52">  COUNTRY_MISMATCH(OccurrenceIssue.COUNTRY_MISMATCH),</span>
+  /** See {@link OccurrenceIssue#COUNTRY_INVALID}. */
+<span class="nc" id="L54">  COUNTRY_INVALID(OccurrenceIssue.COUNTRY_INVALID),</span>
+  /** See {@link OccurrenceIssue#COUNTRY_DERIVED_FROM_COORDINATES}. */
+<span class="nc" id="L56">  COUNTRY_DERIVED_FROM_COORDINATES(OccurrenceIssue.COUNTRY_DERIVED_FROM_COORDINATES),</span>
+  /** See {@link OccurrenceIssue#CONTINENT_COORDINATE_MISMATCH}. */
+<span class="nc" id="L58">  CONTINENT_COORDINATE_MISMATCH(OccurrenceIssue.CONTINENT_COORDINATE_MISMATCH),</span>
+  /** See {@link OccurrenceIssue#CONTINENT_COUNTRY_MISMATCH}. */
+<span class="nc" id="L60">  CONTINENT_COUNTRY_MISMATCH(OccurrenceIssue.CONTINENT_COUNTRY_MISMATCH),</span>
+  /** See {@link OccurrenceIssue#CONTINENT_INVALID}. */
+<span class="nc" id="L62">  CONTINENT_INVALID(OccurrenceIssue.CONTINENT_INVALID),</span>
+  /** See {@link OccurrenceIssue#CONTINENT_DERIVED_FROM_COUNTRY}. */
+<span class="nc" id="L64">  CONTINENT_DERIVED_FROM_COUNTRY(OccurrenceIssue.CONTINENT_DERIVED_FROM_COUNTRY),</span>
+  /** See {@link OccurrenceIssue#CONTINENT_DERIVED_FROM_COORDINATES}. */
+<span class="nc" id="L66">  CONTINENT_DERIVED_FROM_COORDINATES(OccurrenceIssue.CONTINENT_DERIVED_FROM_COORDINATES),</span>
+  /** See {@link OccurrenceIssue#PRESUMED_SWAPPED_COORDINATE}. */
+<span class="nc" id="L68">  PRESUMED_SWAPPED_COORDINATE(OccurrenceIssue.PRESUMED_SWAPPED_COORDINATE),</span>
+  /** See {@link OccurrenceIssue#PRESUMED_NEGATED_LONGITUDE}. */
+<span class="nc" id="L70">  PRESUMED_NEGATED_LONGITUDE(OccurrenceIssue.PRESUMED_NEGATED_LONGITUDE),</span>
+  /** See {@link OccurrenceIssue#PRESUMED_NEGATED_LATITUDE}. */
+<span class="nc" id="L72">  PRESUMED_NEGATED_LATITUDE(OccurrenceIssue.PRESUMED_NEGATED_LATITUDE),</span>
+  /** See {@link OccurrenceIssue#RECORDED_DATE_MISMATCH}. */
+<span class="nc" id="L74">  RECORDED_DATE_MISMATCH(OccurrenceIssue.RECORDED_DATE_MISMATCH),</span>
+  /** See {@link OccurrenceIssue#RECORDED_DATE_INVALID}. */
+<span class="nc" id="L76">  RECORDED_DATE_INVALID(OccurrenceIssue.RECORDED_DATE_INVALID),</span>
+  /** See {@link OccurrenceIssue#RECORDED_DATE_UNLIKELY}. */
+<span class="nc" id="L78">  RECORDED_DATE_UNLIKELY(OccurrenceIssue.RECORDED_DATE_UNLIKELY),</span>
+  /** See {@link OccurrenceIssue#TAXON_MATCH_FUZZY}. */
+<span class="nc" id="L80">  TAXON_MATCH_FUZZY(OccurrenceIssue.TAXON_MATCH_FUZZY),</span>
+  /** See {@link OccurrenceIssue#TAXON_MATCH_HIGHERRANK}. */
+<span class="nc" id="L82">  TAXON_MATCH_HIGHERRANK(OccurrenceIssue.TAXON_MATCH_HIGHERRANK),</span>
+  /** See {@link OccurrenceIssue#TAXON_MATCH_AGGREGATE}. */
+<span class="nc" id="L84">  TAXON_MATCH_AGGREGATE(OccurrenceIssue.TAXON_MATCH_AGGREGATE),</span>
+  /** See {@link OccurrenceIssue#TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED}. */
+<span class="nc" id="L86">  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(OccurrenceIssue.TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED),</span>
+  /** See {@link OccurrenceIssue#TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED}. */
+<span class="nc" id="L88">  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(OccurrenceIssue.TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED),</span>
+  /** See {@link OccurrenceIssue#TAXON_MATCH_TAXON_ID_IGNORED}. */
+<span class="nc" id="L90">  TAXON_MATCH_TAXON_ID_IGNORED(OccurrenceIssue.TAXON_MATCH_TAXON_ID_IGNORED),</span>
+  /** See {@link OccurrenceIssue#SCIENTIFIC_NAME_ID_NOT_FOUND}. */
+<span class="nc" id="L92">  SCIENTIFIC_NAME_ID_NOT_FOUND(OccurrenceIssue.SCIENTIFIC_NAME_ID_NOT_FOUND),</span>
+  /** See {@link OccurrenceIssue#TAXON_CONCEPT_ID_NOT_FOUND}. */
+<span class="nc" id="L94">  TAXON_CONCEPT_ID_NOT_FOUND(OccurrenceIssue.TAXON_CONCEPT_ID_NOT_FOUND),</span>
+  /** See {@link OccurrenceIssue#TAXON_ID_NOT_FOUND}. */
+<span class="nc" id="L96">  TAXON_ID_NOT_FOUND(OccurrenceIssue.TAXON_ID_NOT_FOUND),</span>
+  /** See {@link OccurrenceIssue#SCIENTIFIC_NAME_AND_ID_INCONSISTENT}. */
+<span class="nc" id="L98">  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(OccurrenceIssue.SCIENTIFIC_NAME_AND_ID_INCONSISTENT),</span>
+  /** See {@link OccurrenceIssue#TAXON_MATCH_NONE}. */
+<span class="nc" id="L100">  TAXON_MATCH_NONE(OccurrenceIssue.TAXON_MATCH_NONE),</span>
+  /** See {@link OccurrenceIssue#TAXON_MATCH_NAME_AND_ID_AMBIGUOUS}. */
+<span class="nc" id="L102">  TAXON_MATCH_NAME_AND_ID_AMBIGUOUS(OccurrenceIssue.TAXON_MATCH_NAME_AND_ID_AMBIGUOUS),</span>
+  /** See {@link OccurrenceIssue#DEPTH_NOT_METRIC}. */
+<span class="nc" id="L104">  DEPTH_NOT_METRIC(OccurrenceIssue.DEPTH_NOT_METRIC),</span>
+  /** See {@link OccurrenceIssue#DEPTH_UNLIKELY}. */
+<span class="nc" id="L106">  DEPTH_UNLIKELY(OccurrenceIssue.DEPTH_UNLIKELY),</span>
+  /** See {@link OccurrenceIssue#DEPTH_MIN_MAX_SWAPPED}. */
+<span class="nc" id="L108">  DEPTH_MIN_MAX_SWAPPED(OccurrenceIssue.DEPTH_MIN_MAX_SWAPPED),</span>
+  /** See {@link OccurrenceIssue#DEPTH_NON_NUMERIC}. */
+<span class="nc" id="L110">  DEPTH_NON_NUMERIC(OccurrenceIssue.DEPTH_NON_NUMERIC),</span>
+  /** See {@link OccurrenceIssue#ELEVATION_UNLIKELY}. */
+<span class="nc" id="L112">  ELEVATION_UNLIKELY(OccurrenceIssue.ELEVATION_UNLIKELY),</span>
+  /** See {@link OccurrenceIssue#ELEVATION_MIN_MAX_SWAPPED}. */
+<span class="nc" id="L114">  ELEVATION_MIN_MAX_SWAPPED(OccurrenceIssue.ELEVATION_MIN_MAX_SWAPPED),</span>
+  /** See {@link OccurrenceIssue#ELEVATION_NOT_METRIC}. */
+<span class="nc" id="L116">  ELEVATION_NOT_METRIC(OccurrenceIssue.ELEVATION_NOT_METRIC),</span>
+  /** See {@link OccurrenceIssue#ELEVATION_NON_NUMERIC}. */
+<span class="nc" id="L118">  ELEVATION_NON_NUMERIC(OccurrenceIssue.ELEVATION_NON_NUMERIC),</span>
+  /** See {@link OccurrenceIssue#MODIFIED_DATE_INVALID}. */
+<span class="nc" id="L120">  MODIFIED_DATE_INVALID(OccurrenceIssue.MODIFIED_DATE_INVALID),</span>
+  /** See {@link OccurrenceIssue#MODIFIED_DATE_UNLIKELY}. */
+<span class="nc" id="L122">  MODIFIED_DATE_UNLIKELY(OccurrenceIssue.MODIFIED_DATE_UNLIKELY),</span>
+  /** See {@link OccurrenceIssue#IDENTIFIED_DATE_UNLIKELY}. */
+<span class="nc" id="L124">  IDENTIFIED_DATE_UNLIKELY(OccurrenceIssue.IDENTIFIED_DATE_UNLIKELY),</span>
+  /** See {@link OccurrenceIssue#IDENTIFIED_DATE_INVALID}. */
+<span class="nc" id="L126">  IDENTIFIED_DATE_INVALID(OccurrenceIssue.IDENTIFIED_DATE_INVALID),</span>
+
+  /** See {@link OccurrenceIssue#TYPE_STATUS_INVALID}. */
+<span class="nc" id="L129">  TYPE_STATUS_INVALID(OccurrenceIssue.TYPE_STATUS_INVALID),</span>
+  /** See {@link OccurrenceIssue#SUSPECTED_TYPE}. */
+<span class="nc" id="L131">  SUSPECTED_TYPE(OccurrenceIssue.SUSPECTED_TYPE),</span>
+  /** See {@link OccurrenceIssue#MULTIMEDIA_DATE_INVALID}. */
+<span class="nc" id="L133">  MULTIMEDIA_DATE_INVALID(OccurrenceIssue.MULTIMEDIA_DATE_INVALID),</span>
+  /** See {@link OccurrenceIssue#MULTIMEDIA_URI_INVALID}. */
+<span class="nc" id="L135">  MULTIMEDIA_URI_INVALID(OccurrenceIssue.MULTIMEDIA_URI_INVALID),</span>
+  /** See {@link OccurrenceIssue#REFERENCES_URI_INVALID}. */
+<span class="nc" id="L137">  REFERENCES_URI_INVALID(OccurrenceIssue.REFERENCES_URI_INVALID),</span>
+  /** See {@link OccurrenceIssue#INTERPRETATION_ERROR}. */
+<span class="nc" id="L139">  INTERPRETATION_ERROR(OccurrenceIssue.INTERPRETATION_ERROR),</span>
+  /** See {@link OccurrenceIssue#GEOREFERENCED_DATE_UNLIKELY}. */
+<span class="nc" id="L141">  GEOREFERENCED_DATE_UNLIKELY(OccurrenceIssue.GEOREFERENCED_DATE_UNLIKELY),</span>
+  /** See {@link OccurrenceIssue#GEOREFERENCED_DATE_INVALID}. */
+<span class="nc" id="L143">  GEOREFERENCED_DATE_INVALID(OccurrenceIssue.GEOREFERENCED_DATE_INVALID),</span>
+
+  /**
+   * The geospatial scope area is always greater than or equal to the total area sampled as stated
+   * in the (&lt;a href=&quot;https://eco.tdwg.org/list/#eco_geospatialScopeAreaValue&quot;&gt;term definition&lt;/a&gt;).
+   */
+<span class="nc" id="L149">  GEOSPATIAL_SCOPE_AREA_LOWER_THAN_TOTAL_AREA_SAMPLED(</span>
+      INFO, EcoTerm.geospatialScopeAreaValue, EcoTerm.totalAreaSampledValue),
+
+  /** An eco:eventDurationValue must have a corresponding eco:eventDurationUnit. */
+<span class="nc" id="L153">  EVENT_DURATION_UNIT_MISSING(INFO, EcoTerm.eventDurationUnit),</span>
+
+  /** An eco:geospatialScopeAreaValue must have a corresponding eco:geospatialScopeAreaUnit. */
+<span class="nc" id="L156">  GEOSPATIAL_SCOPE_AREA_UNIT_MISSING(INFO, EcoTerm.geospatialScopeAreaUnit),</span>
+
+  /** An eco:samplingEffortValue must have a corresponding eco:samplingEffortUnit. */
+<span class="nc" id="L159">  SAMPLING_EFFORT_UNIT_MISSING(INFO, EcoTerm.samplingEffortUnit),</span>
+
+  /** An eco:totalAreaSampledValue must have a corresponding eco:totalAreaSampledUnit. */
+<span class="nc" id="L162">  TOTAL_AREA_SAMPLED_UNIT_MISSING(INFO, EcoTerm.samplingEffortUnit),</span>
+
+  /** Non target taxa has been provided but the eco:hasNonTargetTaxa is set to false. */
+<span class="nc" id="L165">  HAS_NON_TARGET_TAXA_MISMATCH(INFO, EcoTerm.hasNonTargetTaxa),</span>
+
+  /** Material sample types have been provided but the eco:hasMaterialSamples is set to false. */
+<span class="nc" id="L168">  HAS_MATERIAL_SAMPLES_MISMATCH(INFO, EcoTerm.hasMaterialSamples),</span>
+
+  /** Some target taxonomic scope has been excluded. */
+<span class="nc" id="L171">  TARGET_TAXONOMIC_SCOPE_EXCLUDED(</span>
+      INFO, EcoTerm.targetTaxonomicScope, EcoTerm.excludedTaxonomicScope),
+
+  /** Some target habitat scope has been excluded. */
+<span class="nc" id="L175">  TARGET_HABITAT_SCOPE_EXCLUDED(INFO, EcoTerm.targetHabitatScope, EcoTerm.excludedHabitatScope),</span>
+
+  /** Some target life stage scope has been excluded. */
+<span class="nc" id="L178">  TARGET_LIFE_STAGE_SCOPE_EXCLUDED(</span>
+      INFO, EcoTerm.targetLifeStageScope, EcoTerm.excludedLifeStageScope),
+
+  /** Some target degree of establishment scope has been excluded. */
+<span class="nc" id="L182">  TARGET_DEGREE_OF_ESTABLISHMENT_EXCLUDED(</span>
+      INFO, EcoTerm.targetDegreeOfEstablishmentScope, EcoTerm.excludedDegreeOfEstablishmentScope),
+
+  /** Some target growth form scope has been excluded. */
+<span class="nc" id="L186">  TARGET_GROWTH_FORM_EXCLUDED(INFO, EcoTerm.targetGrowthFormScope, EcoTerm.excludedGrowthFormScope),</span>
+
+  /** Invalid value for numeric fields in Humboldt extension. */
+<span class="nc" id="L189">  SITE_COUNT_INVALID(INFO, EcoTerm.siteCount),</span>
+<span class="nc" id="L190">  GEOSPATIAL_SCOPE_AREA_VALUE_INVALID(INFO, EcoTerm.geospatialScopeAreaValue),</span>
+<span class="nc" id="L191">  TOTAL_AREA_SAMPLED_VALUE_INVALID(INFO, EcoTerm.totalAreaSampledValue),</span>
+<span class="nc" id="L192">  EVENT_DURATION_VALUE_INVALID(INFO, EcoTerm.eventDurationValue),</span>
+<span class="nc" id="L193">  SAMPLING_EFFORT_VALUE_INVALID(INFO, EcoTerm.samplingEffortValue),</span>
+<span class="nc" id="L194">  ABUNDANCE_CAP_INVALID(INFO, EcoTerm.abundanceCap),</span>
+
+  /** Invalid value for boolean fields in Humboldt extension. */
+<span class="nc" id="L197">  IS_TAXONOMIC_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isTaxonomicScopeFullyReported),</span>
+<span class="nc" id="L198">  IS_ABSENCE_REPORTED_INVALID(INFO, EcoTerm.isAbsenceReported),</span>
+<span class="nc" id="L199">  HAS_NON_TARGET_TAXA_INVALID(INFO, EcoTerm.hasNonTargetTaxa),</span>
+<span class="nc" id="L200">  ARE_NON_TARGET_TAXA_FULLY_REPORTED_INVALID(INFO, EcoTerm.areNonTargetTaxaFullyReported),</span>
+<span class="nc" id="L201">  IS_LIFE_STAGE_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isLifeStageScopeFullyReported),</span>
+<span class="nc" id="L202">  IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED_INVALID(</span>
+      INFO, EcoTerm.isDegreeOfEstablishmentScopeFullyReported),
+<span class="nc" id="L204">  IS_GROWTH_FORM_SCOPE_FULLY_REPORTED_INVALID(INFO, EcoTerm.isGrowthFormScopeFullyReported),</span>
+<span class="nc" id="L205">  HAS_NON_TARGET_ORGANISMS_INVALID(INFO, EcoTerm.hasNonTargetOrganisms),</span>
+<span class="nc" id="L206">  IS_ABUNDANCE_REPORTED_INVALID(INFO, EcoTerm.isAbundanceReported),</span>
+<span class="nc" id="L207">  IS_ABUNDANCE_CAP_REPORTED_INVALID(INFO, EcoTerm.isAbundanceCapReported),</span>
+<span class="nc" id="L208">  IS_VEGETATION_COVER_REPORTED_INVALID(INFO, EcoTerm.isVegetationCoverReported),</span>
+<span class="nc" id="L209">  IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE_INVALID(</span>
+      INFO, EcoTerm.isLeastSpecificTargetCategoryQuantityInclusive),
+<span class="nc" id="L211">  HAS_VOUCHERS_INVALID(INFO, EcoTerm.hasVouchers),</span>
+<span class="nc" id="L212">  HAS_MATERIAL_SAMPLES_INVALID(INFO, EcoTerm.hasMaterialSamples),</span>
+<span class="nc" id="L213">  IS_SAMPLING_EFFORT_REPORTED_INVALID(INFO, EcoTerm.isSamplingEffortReported);</span>
+
+  private final Set&lt;Term&gt; relatedTerms;
+  private final InterpretationRemarkSeverity severity;
+  private final boolean isDeprecated;
+
+<span class="nc" id="L219">  EventIssue(OccurrenceIssue occurrenceIssue) {</span>
+<span class="nc" id="L220">    this.severity = occurrenceIssue.getSeverity();</span>
+<span class="nc" id="L221">    this.relatedTerms = occurrenceIssue.getRelatedTerms();</span>
+<span class="nc" id="L222">    this.isDeprecated = occurrenceIssue.isDeprecated();</span>
+<span class="nc" id="L223">  }</span>
+
+  /** {@link EventIssue} not linked to any specific {@link Term}. */
+<span class="nc" id="L226">  EventIssue(InterpretationRemarkSeverity severity) {</span>
+<span class="nc" id="L227">    this.severity = severity;</span>
+<span class="nc" id="L228">    this.relatedTerms = Collections.emptySet();</span>
+<span class="nc" id="L229">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(EventIssue.class, this.name());</span>
+<span class="nc" id="L230">  }</span>
+
+  /** {@link EventIssue} linked to the provided {@link Term}. */
+<span class="nc" id="L233">  EventIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
+<span class="nc" id="L234">    this.severity = severity;</span>
+<span class="nc" id="L235">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
+<span class="nc" id="L236">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(EventIssue.class, this.name());</span>
+<span class="nc" id="L237">  }</span>
+
+  @Override
+  public String getId() {
+<span class="nc" id="L241">    return name();</span>
+  }
+
+  @Override
+  public Set&lt;Term&gt; getRelatedTerms() {
+<span class="nc" id="L246">    return relatedTerms;</span>
+  }
+
+  @Override
+  public InterpretationRemarkSeverity getSeverity() {
+<span class="nc" id="L251">    return severity;</span>
+  }
+
+  @Override
+  public boolean isDeprecated() {
+<span class="nc" id="L256">    return isDeprecated;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

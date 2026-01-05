@@ -18,7 +18,7 @@ import org.gbif.api.util.VocabularyUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Enumeration for all contact types.

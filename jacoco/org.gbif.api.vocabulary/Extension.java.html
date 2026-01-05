@@ -23,170 +23,181 @@ import org.gbif.api.jackson.ExtensionDeserializer;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionKeySerializer;
 import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.dwc.terms.DwcTerm;
 
 /**
  * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
  *
  * @see &lt;a href=&quot;http://rs.gbif.org/extension&quot;&gt;GBIF Resources&lt;/a&gt;
  */
-<span class="fc" id="L32">@JsonSerialize(using = ExtensionSerializer.class, keyUsing = ExtensionKeySerializer.class)</span>
+<span class="fc" id="L33">@JsonSerialize(using = ExtensionSerializer.class, keyUsing = ExtensionKeySerializer.class)</span>
 @JsonDeserialize(using = ExtensionDeserializer.class, keyUsing = ExtensionKeyDeserializer.class)
 public enum Extension {
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/audubon/audubon.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L39">  AUDUBON(&quot;http://rs.tdwg.org/ac/terms/Multimedia&quot;),</span>
+<span class="fc" id="L40">  AUDUBON(&quot;http://rs.tdwg.org/ac/terms/Multimedia&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://data.ggbn.org/schemas/ggbn/terms/Amplification&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L44">  AMPLIFICATION(&quot;http://data.ggbn.org/schemas/ggbn/terms/Amplification&quot;),</span>
+<span class="fc" id="L45">  AMPLIFICATION(&quot;http://data.ggbn.org/schemas/ggbn/terms/Amplification&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/description.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L49">  DESCRIPTION(&quot;http://rs.gbif.org/terms/1.0/Description&quot;),</span>
+<span class="fc" id="L50">  DESCRIPTION(&quot;http://rs.gbif.org/terms/1.0/Description&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/distribution.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L54">  DISTRIBUTION(&quot;http://rs.gbif.org/terms/1.0/Distribution&quot;),</span>
+<span class="fc" id="L55">  DISTRIBUTION(&quot;http://rs.gbif.org/terms/1.0/Distribution&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://eol.org/schema/media_extension.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L59">  EOL_MEDIA(&quot;http://eol.org/schema/media/Document&quot;),</span>
+<span class="fc" id="L60">  EOL_MEDIA(&quot;http://eol.org/schema/media/Document&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://eol.org/schema/reference_extension.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L64">  EOL_REFERENCE(&quot;http://eol.org/schema/reference/Reference&quot;),</span>
+<span class="fc" id="L65">  EOL_REFERENCE(&quot;http://eol.org/schema/reference/Reference&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/GermplasmAccession.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L69">  GERMPLASM_ACCESSION(&quot;http://purl.org/germplasm/germplasmTerm#GermplasmAccession&quot;),</span>
+<span class="fc" id="L70">  GERMPLASM_ACCESSION(&quot;http://purl.org/germplasm/germplasmTerm#GermplasmAccession&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementScore.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L74">  GERMPLASM_MEASUREMENT_SCORE(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementScore&quot;),</span>
+<span class="fc" id="L75">  GERMPLASM_MEASUREMENT_SCORE(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementScore&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementTrait.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L79">  GERMPLASM_MEASUREMENT_TRAIT(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrait&quot;),</span>
+<span class="fc" id="L80">  GERMPLASM_MEASUREMENT_TRAIT(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrait&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementTrial.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L84">  GERMPLASM_MEASUREMENT_TRIAL(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrial&quot;),</span>
+<span class="fc" id="L85">  GERMPLASM_MEASUREMENT_TRIAL(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrial&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/dwc/identification.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L89">  IDENTIFICATION(&quot;http://rs.tdwg.org/dwc/terms/Identification&quot;),</span>
+<span class="fc" id="L90">  IDENTIFICATION(&quot;http://rs.tdwg.org/dwc/terms/Identification&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/identifier.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L94">  IDENTIFIER(&quot;http://rs.gbif.org/terms/1.0/Identifier&quot;),</span>
+<span class="fc" id="L95">  IDENTIFIER(&quot;http://rs.gbif.org/terms/1.0/Identifier&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/images.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L99">  IMAGE(&quot;http://rs.gbif.org/terms/1.0/Image&quot;),</span>
+<span class="fc" id="L100">  IMAGE(&quot;http://rs.gbif.org/terms/1.0/Image&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/images.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L104">  MEASUREMENT_OR_FACT(&quot;http://rs.tdwg.org/dwc/terms/MeasurementOrFact&quot;),</span>
+<span class="fc" id="L105">  MEASUREMENT_OR_FACT(&quot;http://rs.tdwg.org/dwc/terms/MeasurementOrFact&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L109">  MULTIMEDIA(&quot;http://rs.gbif.org/terms/1.0/Multimedia&quot;),</span>
+<span class="fc" id="L110">  MULTIMEDIA(&quot;http://rs.gbif.org/terms/1.0/Multimedia&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/references.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L114">  REFERENCE(&quot;http://rs.gbif.org/terms/1.0/Reference&quot;),</span>
+<span class="fc" id="L115">  REFERENCE(&quot;http://rs.gbif.org/terms/1.0/Reference&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/dwc/resource_relation.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L119">  RESOURCE_RELATIONSHIP(&quot;http://rs.tdwg.org/dwc/terms/ResourceRelationship&quot;),</span>
+<span class="fc" id="L120">  RESOURCE_RELATIONSHIP(&quot;http://rs.tdwg.org/dwc/terms/ResourceRelationship&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/speciesprofile.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L124">  SPECIES_PROFILE(&quot;http://rs.gbif.org/terms/1.0/SpeciesProfile&quot;),</span>
+<span class="fc" id="L125">  SPECIES_PROFILE(&quot;http://rs.gbif.org/terms/1.0/SpeciesProfile&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/typesandspecimen.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L129">  TYPES_AND_SPECIMEN(&quot;http://rs.gbif.org/terms/1.0/TypesAndSpecimen&quot;),</span>
+<span class="fc" id="L130">  TYPES_AND_SPECIMEN(&quot;http://rs.gbif.org/terms/1.0/TypesAndSpecimen&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L134">  VERNACULAR_NAME(&quot;http://rs.gbif.org/terms/1.0/VernacularName&quot;),</span>
+<span class="fc" id="L135">  VERNACULAR_NAME(&quot;http://rs.gbif.org/terms/1.0/VernacularName&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/ggbn/cloning.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L139">  CLONING(&quot;http://data.ggbn.org/schemas/ggbn/terms/Cloning&quot;),</span>
+<span class="fc" id="L140">  CLONING(&quot;http://data.ggbn.org/schemas/ggbn/terms/Cloning&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/ggbn/gelimage.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L144">  GEL_IMAGE(&quot;http://data.ggbn.org/schemas/ggbn/terms/GelImage&quot;),</span>
+<span class="fc" id="L145">  GEL_IMAGE(&quot;http://data.ggbn.org/schemas/ggbn/terms/GelImage&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/ggbn/loan.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L149">  LOAN(&quot;http://data.ggbn.org/schemas/ggbn/terms/Loan&quot;),</span>
+<span class="fc" id="L150">  LOAN(&quot;http://data.ggbn.org/schemas/ggbn/terms/Loan&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/ggbn/materialsample.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L154">  MATERIAL_SAMPLE(&quot;http://data.ggbn.org/schemas/ggbn/terms/MaterialSample&quot;),</span>
+<span class="fc" id="L155">  MATERIAL_SAMPLE(&quot;http://data.ggbn.org/schemas/ggbn/terms/MaterialSample&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/ggbn/permit.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L159">  PERMIT(&quot;http://data.ggbn.org/schemas/ggbn/terms/Permit&quot;),</span>
+<span class="fc" id="L160">  PERMIT(&quot;http://data.ggbn.org/schemas/ggbn/terms/Permit&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/ggbn/preparation.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L164">  PREPARATION(&quot;http://data.ggbn.org/schemas/ggbn/terms/Preparation&quot;),</span>
+<span class="fc" id="L165">  PREPARATION(&quot;http://data.ggbn.org/schemas/ggbn/terms/Preparation&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/ggbn/preservation.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L169">  PRESERVATION(&quot;http://data.ggbn.org/schemas/ggbn/terms/Preservation&quot;),</span>
+<span class="fc" id="L170">  PRESERVATION(&quot;http://data.ggbn.org/schemas/ggbn/terms/Preservation&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/obis/extended_measurement_or_fact.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L174">  EXTENDED_MEASUREMENT_OR_FACT(&quot;http://rs.iobis.org/obis/terms/ExtendedMeasurementOrFact&quot;),</span>
+<span class="fc" id="L175">  EXTENDED_MEASUREMENT_OR_FACT(&quot;http://rs.iobis.org/obis/terms/ExtendedMeasurementOrFact&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/zooarchnet/ChronometricAge_2020-10-06.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L179">  CHRONOMETRIC_AGE(&quot;http://rs.tdwg.org/chrono/terms/ChronometricAge&quot;),</span>
+<span class="fc" id="L180">  CHRONOMETRIC_AGE(&quot;http://rs.tdwg.org/chrono/terms/ChronometricAge&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/zooarchnet/chronometricDate.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L184">  CHRONOMETRIC_DATE(&quot;http://zooarchnet.org/dwc/terms/ChronometricDate&quot;),</span>
+<span class="fc" id="L185">  CHRONOMETRIC_DATE(&quot;http://zooarchnet.org/dwc/terms/ChronometricDate&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2024-07-11.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L189">  DNA_DERIVED_DATA(&quot;http://rs.gbif.org/terms/1.0/DNADerivedData&quot;);</span>
+<span class="fc" id="L190">  DNA_DERIVED_DATA(&quot;http://rs.gbif.org/terms/1.0/DNADerivedData&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;https://rs.gbif.org/extension/eco/Humboldt_2024-04-16.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L195">  HUMBOLDT(&quot;http://rs.tdwg.org/eco/terms/Event&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.tdwg.org/dwc/terms/Occurrence&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L200">  OCCURRENCE(&quot;http://rs.tdwg.org/dwc/terms/Occurrence&quot;);</span>
 
 
   private final String rowType;
@@ -196,60 +207,75 @@ public enum Extension {
    * @return the matching extension or null
    */
   public static Extension fromRowType(String rowType) {
-<span class="fc bfc" id="L199" title="All 2 branches covered.">    if (StringUtils.isNotEmpty(rowType)) {</span>
-<span class="fc bfc" id="L200" title="All 2 branches covered.">      for (Extension extension : Extension.values()) {</span>
-<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (rowType.equalsIgnoreCase(extension.getRowType())</span>
-<span class="fc bfc" id="L202" title="All 2 branches covered.">          || rowType.equalsIgnoreCase(extension.name().replaceAll(&quot;_&quot;, &quot;&quot;))) {</span>
-<span class="fc" id="L203">          return extension;</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">    if (StringUtils.isNotEmpty(rowType)) {</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">      for (Extension extension : Extension.values()) {</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        if (rowType.equalsIgnoreCase(extension.getRowType())</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">          || rowType.equalsIgnoreCase(extension.name().replaceAll(&quot;_&quot;, &quot;&quot;))) {</span>
+<span class="fc" id="L214">          return extension;</span>
         }
       }
     }
-<span class="fc" id="L207">    return null;</span>
+<span class="fc" id="L218">    return null;</span>
   }
 
-<span class="fc" id="L210">  Extension(String rowType) {</span>
-<span class="fc" id="L211">    this.rowType = rowType;</span>
-<span class="fc" id="L212">  }</span>
+<span class="fc" id="L221">  Extension(String rowType) {</span>
+<span class="fc" id="L222">    this.rowType = rowType;</span>
+<span class="fc" id="L223">  }</span>
 
   public String getRowType() {
-<span class="fc" id="L215">    return rowType;</span>
+<span class="fc" id="L226">    return rowType;</span>
   }
 
-<span class="fc" id="L218">  private static final Map&lt;Extension, String&gt; AVAILABLE_EXTENSION_MAP = new EnumMap&lt;&gt;(Extension.class);</span>
+<span class="fc" id="L229">  private static final Map&lt;Extension, String&gt; AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP = new EnumMap&lt;&gt;(Extension.class);</span>
+<span class="fc" id="L230">  private static final Map&lt;Extension, String&gt; AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP = new EnumMap&lt;&gt;(Extension.class);</span>
+<span class="fc" id="L231">  private static final Map&lt;Extension, String&gt; AVAILABLE_EXTENSION_MAP = new EnumMap&lt;&gt;(Extension.class);</span>
 
   static {
-<span class="fc" id="L221">    AVAILABLE_EXTENSION_MAP.put(AUDUBON, &quot;http://rs.gbif.org/extension/ac/audubon_2020_10_06.xml&quot;);</span>
-<span class="fc" id="L222">    AVAILABLE_EXTENSION_MAP.put(IMAGE, &quot;http://rs.gbif.org/extension/gbif/1.0/images.xml&quot;);</span>
-<span class="fc" id="L223">    AVAILABLE_EXTENSION_MAP.put(MULTIMEDIA, &quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;);</span>
-<span class="fc" id="L224">    AVAILABLE_EXTENSION_MAP.put(MEASUREMENT_OR_FACT, &quot;http://rs.gbif.org/extension/dwc/measurements_or_facts.xml&quot;);</span>
-<span class="fc" id="L225">    AVAILABLE_EXTENSION_MAP.put(IDENTIFICATION, &quot;http://rs.gbif.org/extension/dwc/identification.xml&quot;);</span>
-<span class="fc" id="L226">    AVAILABLE_EXTENSION_MAP.put(RESOURCE_RELATIONSHIP, &quot;http://rs.gbif.org/extension/dwc/resource_relation.xml&quot;);</span>
-<span class="fc" id="L227">    AVAILABLE_EXTENSION_MAP.put(AMPLIFICATION, &quot;http://rs.gbif.org/extension/ggbn/amplification.xml&quot;);</span>
-<span class="fc" id="L228">    AVAILABLE_EXTENSION_MAP.put(CLONING, &quot;http://rs.gbif.org/extension/ggbn/cloning.xml&quot;);</span>
-<span class="fc" id="L229">    AVAILABLE_EXTENSION_MAP.put(GEL_IMAGE, &quot;http://rs.gbif.org/extension/ggbn/gelimage.xml&quot;);</span>
-<span class="fc" id="L230">    AVAILABLE_EXTENSION_MAP.put(LOAN, &quot;http://rs.gbif.org/extension/ggbn/loan.xml&quot;);</span>
-<span class="fc" id="L231">    AVAILABLE_EXTENSION_MAP.put(MATERIAL_SAMPLE, &quot;http://rs.gbif.org/extension/ggbn/materialsample.xml&quot;);</span>
-<span class="fc" id="L232">    AVAILABLE_EXTENSION_MAP.put(PERMIT, &quot;http://rs.gbif.org/extension/ggbn/permit.xml&quot;);</span>
-<span class="fc" id="L233">    AVAILABLE_EXTENSION_MAP.put(PREPARATION, &quot;http://rs.gbif.org/extension/ggbn/preparation.xml&quot;);</span>
-<span class="fc" id="L234">    AVAILABLE_EXTENSION_MAP.put(PRESERVATION, &quot;http://rs.gbif.org/extension/ggbn/preservation.xml&quot;);</span>
-<span class="fc" id="L235">    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_SCORE, &quot;http://rs.gbif.org/extension/germplasm/MeasurementScore.xml&quot;);</span>
-<span class="fc" id="L236">    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_TRAIT, &quot;http://rs.gbif.org/extension/germplasm/MeasurementTrait.xml&quot;);</span>
-<span class="fc" id="L237">    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_TRIAL, &quot;http://rs.gbif.org/extension/germplasm/MeasurementTrial.xml&quot;);</span>
-<span class="fc" id="L238">    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_ACCESSION, &quot;http://rs.gbif.org/extension/germplasm/GermplasmAccession.xml&quot;);</span>
-<span class="fc" id="L239">    AVAILABLE_EXTENSION_MAP.put(EXTENDED_MEASUREMENT_OR_FACT, &quot;http://rs.gbif.org/extension/obis/extended_measurement_or_fact.xml&quot;);</span>
-<span class="fc" id="L240">    AVAILABLE_EXTENSION_MAP.put(CHRONOMETRIC_AGE, &quot;http://rs.gbif.org/extension/dwc/ChronometricAge_2021-03-27.xml&quot;);</span>
-<span class="fc" id="L241">    AVAILABLE_EXTENSION_MAP.put(REFERENCE, &quot;http://rs.gbif.org/extension/gbif/1.0/references.xml&quot;);</span>
-<span class="fc" id="L242">    AVAILABLE_EXTENSION_MAP.put(IDENTIFIER, &quot;http://rs.gbif.org/extension/gbif/1.0/identifier.xml&quot;);</span>
-<span class="fc" id="L243">    AVAILABLE_EXTENSION_MAP.put(DNA_DERIVED_DATA, &quot;http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2024-07-11.xml&quot;);</span>
-<span class="fc" id="L244">  }</span>
+<span class="fc" id="L234">    AVAILABLE_EXTENSION_MAP.put(AUDUBON, &quot;http://rs.gbif.org/extension/ac/audubon_2020_10_06.xml&quot;);</span>
+<span class="fc" id="L235">    AVAILABLE_EXTENSION_MAP.put(IMAGE, &quot;http://rs.gbif.org/extension/gbif/1.0/images.xml&quot;);</span>
+<span class="fc" id="L236">    AVAILABLE_EXTENSION_MAP.put(MULTIMEDIA, &quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;);</span>
+<span class="fc" id="L237">    AVAILABLE_EXTENSION_MAP.put(MEASUREMENT_OR_FACT, &quot;http://rs.gbif.org/extension/dwc/measurements_or_facts.xml&quot;);</span>
+<span class="fc" id="L238">    AVAILABLE_EXTENSION_MAP.put(IDENTIFICATION, &quot;http://rs.gbif.org/extension/dwc/identification.xml&quot;);</span>
+<span class="fc" id="L239">    AVAILABLE_EXTENSION_MAP.put(RESOURCE_RELATIONSHIP, &quot;http://rs.gbif.org/extension/dwc/resource_relation.xml&quot;);</span>
+<span class="fc" id="L240">    AVAILABLE_EXTENSION_MAP.put(AMPLIFICATION, &quot;http://rs.gbif.org/extension/ggbn/amplification.xml&quot;);</span>
+<span class="fc" id="L241">    AVAILABLE_EXTENSION_MAP.put(CLONING, &quot;http://rs.gbif.org/extension/ggbn/cloning.xml&quot;);</span>
+<span class="fc" id="L242">    AVAILABLE_EXTENSION_MAP.put(GEL_IMAGE, &quot;http://rs.gbif.org/extension/ggbn/gelimage.xml&quot;);</span>
+<span class="fc" id="L243">    AVAILABLE_EXTENSION_MAP.put(LOAN, &quot;http://rs.gbif.org/extension/ggbn/loan.xml&quot;);</span>
+<span class="fc" id="L244">    AVAILABLE_EXTENSION_MAP.put(MATERIAL_SAMPLE, &quot;http://rs.gbif.org/extension/ggbn/materialsample.xml&quot;);</span>
+<span class="fc" id="L245">    AVAILABLE_EXTENSION_MAP.put(PERMIT, &quot;http://rs.gbif.org/extension/ggbn/permit.xml&quot;);</span>
+<span class="fc" id="L246">    AVAILABLE_EXTENSION_MAP.put(PREPARATION, &quot;http://rs.gbif.org/extension/ggbn/preparation.xml&quot;);</span>
+<span class="fc" id="L247">    AVAILABLE_EXTENSION_MAP.put(PRESERVATION, &quot;http://rs.gbif.org/extension/ggbn/preservation.xml&quot;);</span>
+<span class="fc" id="L248">    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_SCORE, &quot;http://rs.gbif.org/extension/germplasm/MeasurementScore.xml&quot;);</span>
+<span class="fc" id="L249">    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_TRAIT, &quot;http://rs.gbif.org/extension/germplasm/MeasurementTrait.xml&quot;);</span>
+<span class="fc" id="L250">    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_TRIAL, &quot;http://rs.gbif.org/extension/germplasm/MeasurementTrial.xml&quot;);</span>
+<span class="fc" id="L251">    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_ACCESSION, &quot;http://rs.gbif.org/extension/germplasm/GermplasmAccession.xml&quot;);</span>
+<span class="fc" id="L252">    AVAILABLE_EXTENSION_MAP.put(EXTENDED_MEASUREMENT_OR_FACT, &quot;http://rs.gbif.org/extension/obis/extended_measurement_or_fact.xml&quot;);</span>
+<span class="fc" id="L253">    AVAILABLE_EXTENSION_MAP.put(CHRONOMETRIC_AGE, &quot;http://rs.gbif.org/extension/dwc/ChronometricAge_2021-03-27.xml&quot;);</span>
+<span class="fc" id="L254">    AVAILABLE_EXTENSION_MAP.put(REFERENCE, &quot;http://rs.gbif.org/extension/gbif/1.0/references.xml&quot;);</span>
+<span class="fc" id="L255">    AVAILABLE_EXTENSION_MAP.put(IDENTIFIER, &quot;http://rs.gbif.org/extension/gbif/1.0/identifier.xml&quot;);</span>
+<span class="fc" id="L256">    AVAILABLE_EXTENSION_MAP.put(DNA_DERIVED_DATA, &quot;http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2024-07-11.xml&quot;);</span>
+<span class="fc" id="L257">    AVAILABLE_EXTENSION_MAP.put(HUMBOLDT, &quot;http://rs.gbif.org/extension/eco/humboldt_2025-07-10.xml&quot;);</span>
+<span class="fc" id="L258">    AVAILABLE_EXTENSION_MAP.put(OCCURRENCE, &quot;http://rs.gbif.org/core/dwc_occurrence.xml&quot;);</span>
+
+<span class="fc" id="L260">    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(MULTIMEDIA, &quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;);</span>
+<span class="fc" id="L261">    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(HUMBOLDT, &quot;http://rs.gbif.org/extension/eco/humboldt_2025-07-10.xml&quot;);</span>
+<span class="fc" id="L262">    AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.put(OCCURRENCE, &quot;http://rs.gbif.org/core/dwc_occurrence.xml&quot;);</span>
+
+<span class="fc" id="L264">    AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP.put(MULTIMEDIA, &quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;);</span>
+<span class="fc" id="L265">  }</span>
 
   public static Map&lt;Extension, String&gt; availableExtensionResources() {
-<span class="nc" id="L247">    return AVAILABLE_EXTENSION_MAP;</span>
+<span class="nc" id="L268">    return AVAILABLE_EXTENSION_MAP;</span>
   }
 
   public static Set&lt;Extension&gt; availableExtensions() {
-<span class="fc" id="L251">    return AVAILABLE_EXTENSION_MAP.keySet();</span>
+<span class="fc" id="L272">    return AVAILABLE_EXTENSION_MAP.keySet();</span>
   }
 
+  public static Set&lt;Extension&gt; availableInterpretedExtensions(DwcTerm coreTerm) {
+<span class="nc bnc" id="L276" title="All 2 branches missed.">    return coreTerm == DwcTerm.Event</span>
+<span class="nc" id="L277">        ? AVAILABLE_INTERPRETED_EVENTS_EXTENSION_MAP.keySet()</span>
+<span class="nc" id="L278">        : AVAILABLE_INTERPRETED_OCCURRENCE_EXTENSION_MAP.keySet();</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

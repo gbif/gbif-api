@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.search</a> &gt; <span class="el_source">BaseSearchRequest.java</span></div><h1>BaseSearchRequest.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common.search;
+
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.StringJoiner;
+import lombok.Getter;
+import lombok.Setter;
+import org.gbif.api.annotation.Experimental;
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.paging.PageableBase;
+import org.gbif.api.util.IsoDateInterval;
+
+/**
+ * Generic request class for search operations. This class contains a list of parameters, a list of
+ * desired facets and paging options (page size and offset).
+ */
+@SuppressWarnings(&quot;unused&quot;)
+public abstract class BaseSearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
+    implements SearchRequest&lt;P&gt; {
+
+<span class="pc" id="L44">  @Hidden private Map&lt;P, Set&lt;String&gt;&gt; parameters = new HashMap&lt;&gt;();</span>
+
+  @Hidden private String q;
+
+  @Hidden private boolean highlight;
+
+  @Hidden private boolean spellCheck;
+
+  @Hidden private int spellCheckCount;
+
+<span class="pc" id="L54">  @Hidden private Set&lt;QueryField&gt; qFields = new HashSet&lt;&gt;();</span>
+
+<span class="pc" id="L56">  @Hidden private Set&lt;QueryField&gt; highlightFields = new HashSet&lt;&gt;();</span>
+
+<span class="nc" id="L58">  @Hidden @Experimental @Setter private Boolean matchCase;</span>
+
+  /**
+   * This flag allows to sort the results in a random order by specifying a seed. The seed makes the
+   * random results reproducible so we can use paging. The same seed has to be sent for each page.
+   */
+<span class="nc" id="L64">  @Hidden @Experimental @Getter @Setter private String shuffle;</span>
+
+  /**
+   * This flag enables the use of case-sensitive matches and aggregations on certain search
+   * parameters.
+   *
+   * &lt;p&gt;Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol,
+   * catalogNumber, collectionCode, institutionCode, eventId, parentEventId, waterBody,
+   * stateProvince, recordNumber, identifiedBy, organismId and locality.
+   *
+   * &lt;p&gt;This is an experimental feature, and its implementation may change or be removed at any
+   * time.
+   *
+   * &lt;p&gt;Be aware that this is not a per-field flag, all possible fields will match case sensitively.
+   */
+  @Override
+  @Experimental
+  public Boolean isMatchCase() {
+<span class="nc" id="L82">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
+  }
+
+  /** Constructor with default paging offset &amp; limit. */
+  public BaseSearchRequest() {
+<span class="fc" id="L87">    super(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);</span>
+<span class="fc" id="L88">  }</span>
+
+  /**
+   * Simple query constructor with default paging offset &amp; limit.
+   *
+   * @param query string for request
+   */
+  public BaseSearchRequest(String query) {
+<span class="nc" id="L96">    super(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);</span>
+<span class="nc" id="L97">    q = query;</span>
+<span class="nc" id="L98">  }</span>
+
+  /** Minimal paging constructor. */
+  public BaseSearchRequest(Pageable page) {
+<span class="nc" id="L102">    super(page.getOffset(), page.getLimit());</span>
+<span class="nc" id="L103">  }</span>
+
+  /** Minimal paging constructor. */
+  public BaseSearchRequest(long offset, int limit) {
+<span class="nc" id="L107">    super(offset, limit);</span>
+<span class="nc" id="L108">  }</span>
+
+  /**
+   * @return true if highlighted search matches are requested
+   */
+  @Override
+  public boolean isHighlight() {
+<span class="nc" id="L115">    return highlight;</span>
+  }
+
+  /**
+   * @param highlight the highlight to set
+   */
+  @Override
+  public void setHighlight(boolean highlight) {
+<span class="nc" id="L123">    this.highlight = highlight;</span>
+<span class="nc" id="L124">  }</span>
+
+  /**
+   * @return true if spellCheck search is requested
+   */
+  @Override
+  public boolean isSpellCheck() {
+<span class="nc" id="L131">    return spellCheck;</span>
+  }
+
+  /**
+   * @param spellCheck the highlight to set
+   */
+  @Override
+  public void setSpellCheck(boolean spellCheck) {
+<span class="nc" id="L139">    this.spellCheck = spellCheck;</span>
+<span class="nc" id="L140">  }</span>
+
+  /**
+   * @return max number of spell check suggestions requested
+   */
+  @Override
+  public int getSpellCheckCount() {
+<span class="nc" id="L147">    return spellCheckCount;</span>
+  }
+
+  /**
+   * @param spellCheckCount number of spell check suggestions
+   */
+  @Override
+  public void setSpellCheckCount(int spellCheckCount) {
+<span class="nc" id="L155">    this.spellCheckCount = spellCheckCount;</span>
+<span class="nc" id="L156">  }</span>
+
+  /** Defines whether to match against fields with scientific or vernacular names or both. */
+  @Hidden
+  @Override
+  public Set&lt;QueryField&gt; getQFields() {
+<span class="nc" id="L162">    return qFields;</span>
+  }
+
+  @Hidden
+  @Override
+  public void setQFields(Set&lt;QueryField&gt; qFields) {
+<span class="nc" id="L168">    this.qFields = qFields;</span>
+<span class="nc" id="L169">  }</span>
+
+  /** Defines the fields to be highlighted if highlighting is activated. */
+  @Override
+  public Set&lt;QueryField&gt; getHighlightFields() {
+<span class="nc" id="L174">    return highlightFields;</span>
+  }
+
+  @Override
+  public void setHighlightFields(Set&lt;QueryField&gt; highlightFields) {
+<span class="nc" id="L179">    this.highlightFields = highlightFields;</span>
+<span class="nc" id="L180">  }</span>
+
+  /**
+   * List of input parameters of the search operation. The parameters are handled as the parameter
+   * name and the string representation of its value.
+   *
+   * @return the list of parameters
+   */
+  @Override
+  public Map&lt;P, Set&lt;String&gt;&gt; getParameters() {
+<span class="fc" id="L190">    return parameters;</span>
+  }
+
+  /** Sets the list of parameters. */
+  @Override
+  public void setParameters(Map&lt;P, Set&lt;String&gt;&gt; parameters) {
+<span class="nc" id="L196">    this.parameters = parameters;</span>
+<span class="nc" id="L197">  }</span>
+
+  /**
+   * Query parameter.
+   *
+   * @return the q
+   */
+  @Override
+  public String getQ() {
+<span class="nc" id="L206">    return q;</span>
+  }
+
+  /**
+   * @param q the q to set
+   */
+  @Override
+  public void setQ(String q) {
+<span class="nc" id="L214">    this.q = q;</span>
+<span class="nc" id="L215">  }</span>
+
+  /**
+   * Adds the specified parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param values list of values of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, Iterable&lt;String&gt; values) {
+<span class="nc bnc" id="L225" title="All 2 branches missed.">    if (parameters.containsKey(parameter)) {</span>
+<span class="nc" id="L226">      Set&lt;String&gt; paramValues = parameters.get(parameter);</span>
+<span class="nc" id="L227">      values.forEach(paramValues::add);</span>
+<span class="nc" id="L228">    } else {</span>
+<span class="nc" id="L229">      Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L230">      values.forEach(paramValues::add);</span>
+<span class="nc" id="L231">      parameters.put(parameter, paramValues);</span>
+    }
+<span class="nc" id="L233">  }</span>
+
+  /**
+   * Adds the specified parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param values list of values of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, String... values) {
+<span class="nc bnc" id="L243" title="All 2 branches missed.">    for (String value : values) {</span>
+<span class="nc" id="L244">      addParameter(parameter, value);</span>
+    }
+<span class="nc" id="L246">  }</span>
+
+  /**
+   * Adds the specified parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value value of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, String value) {
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">    if (value != null) {</span>
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">      if (parameters.containsKey(parameter)) {</span>
+<span class="nc" id="L258">        Set&lt;String&gt; paramValues = parameters.get(parameter);</span>
+<span class="nc" id="L259">        paramValues.add(value);</span>
+<span class="nc" id="L260">      } else {</span>
+<span class="fc" id="L261">        Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L262">        paramValues.add(value);</span>
+<span class="fc" id="L263">        parameters.put(parameter, paramValues);</span>
+      }
+    }
+<span class="fc" id="L266">  }</span>
+
+  /**
+   * Adds the specified long parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value value of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, long value) {
+<span class="nc" id="L276">    addParameter(parameter, String.valueOf(value));</span>
+<span class="nc" id="L277">  }</span>
+
+  /**
+   * Adds the specified int parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value value of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, int value) {
+<span class="nc" id="L287">    addParameter(parameter, String.valueOf(value));</span>
+<span class="nc" id="L288">  }</span>
+
+  /**
+   * Adds the specified double parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value value of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, double value) {
+<span class="nc" id="L298">    addParameter(parameter, String.valueOf(value));</span>
+<span class="nc" id="L299">  }</span>
+
+  /**
+   * Adds the specified boolean parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value value of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, boolean value) {
+<span class="nc" id="L309">    addParameter(parameter, String.valueOf(value));</span>
+<span class="nc" id="L310">  }</span>
+
+  /**
+   * Adds the specified parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value enum value of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, Enum&lt;?&gt; value) {
+<span class="pc bpc" id="L320" title="1 of 2 branches missed.">    if (value != null) {</span>
+<span class="fc" id="L321">      addParameter(parameter, value.name());</span>
+    }
+<span class="fc" id="L323">  }</span>
+
+  /**
+   * Adds the specified date parameter as an ISO date.
+   *
+   * @param parameter parameter to add date for
+   * @param value date value of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, Date value) {
+<span class="nc bnc" id="L333" title="All 2 branches missed.">    if (value != null) {</span>
+      // not thread safe, new instance
+<span class="nc" id="L335">      DateFormat iso = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc" id="L336">      addParameter(parameter, iso.format(value));</span>
+    }
+<span class="nc" id="L338">  }</span>
+
+  /**
+   * Adds the specified date parameter as an ISO date interval.
+   *
+   * @param parameter parameter to add date interval for
+   * @param value date value of the parameter to add
+   */
+  @Override
+  public void addParameter(P parameter, IsoDateInterval value) {
+<span class="nc bnc" id="L348" title="All 2 branches missed.">    if (value != null) {</span>
+<span class="nc" id="L349">      addParameter(parameter, value.toString());</span>
+    }
+<span class="nc" id="L351">  }</span>
+
+  @Override
+  public void copyPagingValues(Pageable pageable) {
+<span class="nc" id="L355">    super.copyPagingValues(pageable);</span>
+<span class="nc" id="L356">  }</span>
+
+  @Override
+  public String toString() {
+<span class="nc" id="L360">    return new StringJoiner(&quot;, &quot;, BaseSearchRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L361">        .add(&quot;parameters=&quot; + parameters)</span>
+<span class="nc" id="L362">        .add(&quot;q='&quot; + q + &quot;'&quot;)</span>
+<span class="nc" id="L363">        .add(&quot;highlight=&quot; + highlight)</span>
+<span class="nc" id="L364">        .add(&quot;spellCheck=&quot; + spellCheck)</span>
+<span class="nc" id="L365">        .add(&quot;spellCheckCount=&quot; + spellCheckCount)</span>
+<span class="nc" id="L366">        .add(&quot;offset=&quot; + offset)</span>
+<span class="nc" id="L367">        .add(&quot;limit=&quot; + limit)</span>
+<span class="nc" id="L368">        .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

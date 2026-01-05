@@ -21,7 +21,7 @@ import org.gbif.api.model.registry.Organization;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.Country;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Pages through all organizations optionally filtering by country.

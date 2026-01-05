@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DurationUnit.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">DurationUnit.java</span></div><h1>DurationUnit.java</h1><pre class="source lang-java linenums">package org.gbif.api.vocabulary;
+
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
+<span class="fc" id="L10">@Getter</span>
+public enum DurationUnit {
+<span class="fc" id="L12">  SECONDS(0.0166667, &quot;seconds&quot;, &quot;second&quot;, &quot;s&quot;, &quot;sec&quot;, &quot;secs&quot;),</span>
+<span class="fc" id="L13">  MINUTES(1, &quot;minutes&quot;, &quot;minute&quot;, &quot;m&quot;, &quot;min&quot;, &quot;mins&quot;),</span>
+<span class="fc" id="L14">  HOURS(60, &quot;hours&quot;, &quot;hour&quot;, &quot;h&quot;, &quot;hr&quot;, &quot;hrs&quot;),</span>
+<span class="fc" id="L15">  DAYS(1440, &quot;days&quot;, &quot;day&quot;, &quot;d&quot;),</span>
+<span class="fc" id="L16">  WEEKS(10080, &quot;weeks&quot;, &quot;week&quot;, &quot;wk&quot;, &quot;wks&quot;),</span>
+<span class="fc" id="L17">  MONTHS(43800, &quot;months&quot;, &quot;month&quot;, &quot;mo&quot;, &quot;mos&quot;),</span>
+<span class="fc" id="L18">  YEARS(525600, &quot;years&quot;, &quot;year&quot;, &quot;yr&quot;, &quot;yrs&quot;, &quot;y&quot;);</span>
+
+<span class="fc" id="L20">  public static final DurationUnit DEFAULT = MINUTES;</span>
+
+<span class="fc" id="L22">  private final double durationInMinutes;</span>
+<span class="fc" id="L23">  private final String[] names;</span>
+
+<span class="fc" id="L25">  DurationUnit(double durationInMinutes, String... names) {</span>
+<span class="fc" id="L26">    this.durationInMinutes = durationInMinutes;</span>
+<span class="fc" id="L27">    this.names = names;</span>
+<span class="fc" id="L28">  }</span>
+
+  public static Optional&lt;DurationUnit&gt; parseDurationUnit(String duration) {
+<span class="pc bpc" id="L31" title="2 of 4 branches missed.">    if (duration != null &amp;&amp; !duration.isEmpty()) {</span>
+<span class="fc" id="L32">      String normalizedDuration = duration.trim().toLowerCase();</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">      for (DurationUnit unit : DurationUnit.values()) {</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        for (String name : unit.getNames()) {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">          if (normalizedDuration.equals(name)) {</span>
+<span class="fc" id="L36">            return Optional.of(unit);</span>
+          }
+        }
+      }
+    }
+<span class="nc" id="L41">    return Optional.empty();</span>
+  }
+
+<span class="fc" id="L44">  @AllArgsConstructor</span>
+  @Getter
+<span class="nc bnc" id="L46" title="All 16 branches missed.">  @EqualsAndHashCode</span>
+  public static class Duration {
+
+<span class="fc" id="L49">    private static final Pattern DURATION_PATTERN =</span>
+<span class="fc" id="L50">        Pattern.compile(&quot;(\\d*\\.?\\d+)\\s*([a-zA-Z]*)&quot;);</span>
+
+<span class="fc" id="L52">    private final double value;</span>
+<span class="fc" id="L53">    private final DurationUnit unit;</span>
+
+    public static Optional&lt;Duration&gt; parse(String duration) {
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">      if (duration != null &amp;&amp; !duration.isEmpty()) {</span>
+<span class="fc" id="L57">        Matcher matcher = DURATION_PATTERN.matcher(duration);</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (matcher.matches()) {</span>
+<span class="fc" id="L59">          String rawUnit = matcher.group(2);</span>
+<span class="pc bpc" id="L60" title="1 of 4 branches missed.">          if (rawUnit != null &amp;&amp; !rawUnit.isEmpty()) {</span>
+<span class="fc" id="L61">            DurationUnit unit = DurationUnit.parseDurationUnit(matcher.group(2)).orElse(null);</span>
+
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">            if (unit == null) {</span>
+<span class="nc" id="L64">              return Optional.empty();</span>
+            }
+
+<span class="fc" id="L67">            return Optional.of(new Duration(Double.parseDouble(matcher.group(1)), unit));</span>
+          } else {
+<span class="fc" id="L69">            return Optional.of(new Duration(Double.parseDouble(duration), DEFAULT));</span>
+          }
+        }
+      }
+<span class="nc" id="L73">      return Optional.empty();</span>
+    }
+
+    public double toMinutes() {
+<span class="fc" id="L77">      return value * unit.getDurationInMinutes();</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

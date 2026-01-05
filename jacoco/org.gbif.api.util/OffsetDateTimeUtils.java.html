@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OffsetDateTimeUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">OffsetDateTimeUtils.java</span></div><h1>OffsetDateTimeUtils.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.util;
+
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+
+/**
+ * Utility class for null-safe OffsetDateTime operations.
+ */
+public class OffsetDateTimeUtils {
+
+  private OffsetDateTimeUtils() {}
+
+  /**
+   * Compares two OffsetDateTime values in a null-safe manner.
+   * Null values are considered to be greater than non-null values (sorted to the end).
+   *
+   * @param dt1 first OffsetDateTime to compare
+   * @param dt2 second OffsetDateTime to compare
+   * @return a negative integer, zero, or a positive integer as the first argument
+   *         is less than, equal to, or greater than the second
+   */
+  public static int compareOffsetDateTime(OffsetDateTime dt1, OffsetDateTime dt2) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">    if (dt1 == dt2) return 0;</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">    if (dt1 == null) return 1;</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">    if (dt2 == null) return -1;</span>
+<span class="fc" id="L39">    return dt1.toInstant().truncatedTo(ChronoUnit.MICROS).compareTo(dt2.toInstant().truncatedTo(ChronoUnit.MICROS));</span>
+  }
+
+  /**
+   * Checks if two OffsetDateTime values are equal in a null-safe manner.
+   *
+   * @param dt1 first OffsetDateTime to compare
+   * @param dt2 second OffsetDateTime to compare
+   * @return true if both are null or both are equal, false otherwise
+   */
+  public static boolean isEqualOffsetDateTime(OffsetDateTime dt1, OffsetDateTime dt2) {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">    if (dt1 == dt2) return true;</span>
+<span class="nc bnc" id="L51" title="All 4 branches missed.">    if (dt1 == null || dt2 == null) return false;</span>
+<span class="nc" id="L52">    return dt1.toInstant().truncatedTo(ChronoUnit.MICROS).equals(dt2.toInstant().truncatedTo(ChronoUnit.MICROS));</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

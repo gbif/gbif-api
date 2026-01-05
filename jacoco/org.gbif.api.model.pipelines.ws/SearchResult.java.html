@@ -15,18 +15,19 @@
  */
 package org.gbif.api.model.pipelines.ws;
 
-import org.gbif.api.jackson.LocalDateTimeSerDe;
+import java.time.OffsetDateTime;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import org.gbif.api.jackson.OffsetDateTimeSerDe;
+
 /** Models a flat response of a pipeline process search. */
-<span class="nc" id="L29">public class SearchResult implements Serializable {</span>
+<span class="nc" id="L30">public class SearchResult implements Serializable {</span>
 
   private UUID datasetKey;
   private int attempt;
@@ -36,112 +37,112 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
   private String stepState;
   private String pipelinesVersion;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  private LocalDateTime stepStarted;
+  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
+  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
+  private OffsetDateTime stepStarted;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  private LocalDateTime stepFinished;
+  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
+  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
+  private OffsetDateTime stepFinished;
 
   public UUID getDatasetKey() {
-<span class="nc" id="L48">    return datasetKey;</span>
+<span class="nc" id="L49">    return datasetKey;</span>
   }
 
   public void setDatasetKey(UUID datasetKey) {
-<span class="nc" id="L52">    this.datasetKey = datasetKey;</span>
-<span class="nc" id="L53">  }</span>
+<span class="nc" id="L53">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L54">  }</span>
 
   public int getAttempt() {
-<span class="nc" id="L56">    return attempt;</span>
+<span class="nc" id="L57">    return attempt;</span>
   }
 
   public void setAttempt(int attempt) {
-<span class="nc" id="L60">    this.attempt = attempt;</span>
-<span class="nc" id="L61">  }</span>
+<span class="nc" id="L61">    this.attempt = attempt;</span>
+<span class="nc" id="L62">  }</span>
 
   public int getExecutionKey() {
-<span class="nc" id="L64">    return executionKey;</span>
+<span class="nc" id="L65">    return executionKey;</span>
   }
 
   public void setExecutionKey(int executionKey) {
-<span class="nc" id="L68">    this.executionKey = executionKey;</span>
-<span class="nc" id="L69">  }</span>
+<span class="nc" id="L69">    this.executionKey = executionKey;</span>
+<span class="nc" id="L70">  }</span>
 
   public String getRerunReason() {
-<span class="nc" id="L72">    return rerunReason;</span>
+<span class="nc" id="L73">    return rerunReason;</span>
   }
 
   public void setRerunReason(String rerunReason) {
-<span class="nc" id="L76">    this.rerunReason = rerunReason;</span>
-<span class="nc" id="L77">  }</span>
+<span class="nc" id="L77">    this.rerunReason = rerunReason;</span>
+<span class="nc" id="L78">  }</span>
 
   public String getStepType() {
-<span class="nc" id="L80">    return stepType;</span>
+<span class="nc" id="L81">    return stepType;</span>
   }
 
   public void setStepType(String stepType) {
-<span class="nc" id="L84">    this.stepType = stepType;</span>
-<span class="nc" id="L85">  }</span>
+<span class="nc" id="L85">    this.stepType = stepType;</span>
+<span class="nc" id="L86">  }</span>
 
   public String getStepState() {
-<span class="nc" id="L88">    return stepState;</span>
+<span class="nc" id="L89">    return stepState;</span>
   }
 
   public void setStepState(String stepState) {
-<span class="nc" id="L92">    this.stepState = stepState;</span>
-<span class="nc" id="L93">  }</span>
+<span class="nc" id="L93">    this.stepState = stepState;</span>
+<span class="nc" id="L94">  }</span>
 
   public String getPipelinesVersion() {
-<span class="nc" id="L96">    return pipelinesVersion;</span>
+<span class="nc" id="L97">    return pipelinesVersion;</span>
   }
 
   public void setPipelinesVersion(String pipelinesVersion) {
-<span class="nc" id="L100">    this.pipelinesVersion = pipelinesVersion;</span>
-<span class="nc" id="L101">  }</span>
+<span class="nc" id="L101">    this.pipelinesVersion = pipelinesVersion;</span>
+<span class="nc" id="L102">  }</span>
 
-  public LocalDateTime getStepStarted() {
-<span class="nc" id="L104">    return stepStarted;</span>
+  public OffsetDateTime getStepStarted() {
+<span class="nc" id="L105">    return stepStarted;</span>
   }
 
-  public void setStepStarted(LocalDateTime stepStarted) {
-<span class="nc" id="L108">    this.stepStarted = stepStarted;</span>
-<span class="nc" id="L109">  }</span>
+  public void setStepStarted(OffsetDateTime stepStarted) {
+<span class="nc" id="L109">    this.stepStarted = stepStarted;</span>
+<span class="nc" id="L110">  }</span>
 
-  public LocalDateTime getStepFinished() {
-<span class="nc" id="L112">    return stepFinished;</span>
+  public OffsetDateTime getStepFinished() {
+<span class="nc" id="L113">    return stepFinished;</span>
   }
 
-  public void setStepFinished(LocalDateTime stepFinished) {
-<span class="nc" id="L116">    this.stepFinished = stepFinished;</span>
-<span class="nc" id="L117">  }</span>
+  public void setStepFinished(OffsetDateTime stepFinished) {
+<span class="nc" id="L117">    this.stepFinished = stepFinished;</span>
+<span class="nc" id="L118">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L121" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L122">      return true;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L123">      return true;</span>
     }
-<span class="nc bnc" id="L124" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L125">      return false;</span>
+<span class="nc bnc" id="L125" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L126">      return false;</span>
     }
-<span class="nc" id="L127">    SearchResult that = (SearchResult) o;</span>
-<span class="nc bnc" id="L128" title="All 4 branches missed.">    return attempt == that.attempt</span>
+<span class="nc" id="L128">    SearchResult that = (SearchResult) o;</span>
+<span class="nc bnc" id="L129" title="All 4 branches missed.">    return attempt == that.attempt</span>
         &amp;&amp; executionKey == that.executionKey
-<span class="nc bnc" id="L130" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetKey, that.datasetKey)</span>
-<span class="nc bnc" id="L131" title="All 2 branches missed.">        &amp;&amp; Objects.equals(rerunReason, that.rerunReason)</span>
-<span class="nc bnc" id="L132" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepType, that.stepType)</span>
-<span class="nc bnc" id="L133" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepState, that.stepState)</span>
-<span class="nc bnc" id="L134" title="All 2 branches missed.">        &amp;&amp; Objects.equals(pipelinesVersion, that.pipelinesVersion)</span>
-<span class="nc bnc" id="L135" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepStarted, that.stepStarted)</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepFinished, that.stepFinished);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetKey, that.datasetKey)</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        &amp;&amp; Objects.equals(rerunReason, that.rerunReason)</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepType, that.stepType)</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepState, that.stepState)</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        &amp;&amp; Objects.equals(pipelinesVersion, that.pipelinesVersion)</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepStarted, that.stepStarted)</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepFinished, that.stepFinished);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L141">    return Objects.hash(</span>
+<span class="nc" id="L142">    return Objects.hash(</span>
         datasetKey,
-<span class="nc" id="L143">        attempt,</span>
-<span class="nc" id="L144">        executionKey,</span>
+<span class="nc" id="L144">        attempt,</span>
+<span class="nc" id="L145">        executionKey,</span>
         rerunReason,
         stepType,
         stepState,

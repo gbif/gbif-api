@@ -18,7 +18,7 @@ package org.gbif.api.model.collections.request;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import org.gbif.api.model.common.paging.Pageable;

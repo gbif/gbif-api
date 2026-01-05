@@ -11,8 +11,8 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 /** Metadata to sync GRSciColl entities with their master sources. */
 public class MasterSourceMetadata implements Serializable {

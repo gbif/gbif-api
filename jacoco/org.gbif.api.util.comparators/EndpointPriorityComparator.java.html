@@ -55,22 +55,23 @@ import java.util.List;
       EndpointType.TAPIR,
       EndpointType.BIOCASE_XML_ARCHIVE,
       EndpointType.DWC_ARCHIVE,
-      EndpointType.CAMTRAP_DP
+      EndpointType.CAMTRAP_DP,
+      EndpointType.DWC_DP
     ));
 
   private static final long serialVersionUID = 8085216142750609841L;
 
   @Override
   public int compare(Endpoint endpoint1, Endpoint endpoint2) {
-<span class="fc" id="L65">    int firstEndpointTypeIndex = PRIORITIES.indexOf(endpoint1.getType());</span>
-<span class="fc" id="L66">    int secondEndpointTypeIndex = PRIORITIES.indexOf(endpoint2.getType());</span>
+<span class="fc" id="L66">    int firstEndpointTypeIndex = PRIORITIES.indexOf(endpoint1.getType());</span>
+<span class="fc" id="L67">    int secondEndpointTypeIndex = PRIORITIES.indexOf(endpoint2.getType());</span>
 
-<span class="fc bfc" id="L68" title="All 2 branches covered.">    if (firstEndpointTypeIndex == -1) {</span>
-<span class="fc" id="L69">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint1.getType());</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">    } else if (secondEndpointTypeIndex == -1) {</span>
-<span class="fc" id="L71">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint2.getType());</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">    if (firstEndpointTypeIndex == -1) {</span>
+<span class="fc" id="L70">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint1.getType());</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">    } else if (secondEndpointTypeIndex == -1) {</span>
+<span class="fc" id="L72">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint2.getType());</span>
     } else {
-<span class="fc" id="L73">      return Integer.compare(firstEndpointTypeIndex, secondEndpointTypeIndex);</span>
+<span class="fc" id="L74">      return Integer.compare(firstEndpointTypeIndex, secondEndpointTypeIndex);</span>
     }
   }
 }

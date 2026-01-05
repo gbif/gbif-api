@@ -13,10 +13,10 @@
  */
 package org.gbif.api.model.pipelines;
 
-import org.gbif.api.jackson.LocalDateTimeSerDe;
+import org.gbif.api.jackson.OffsetDateTimeSerDe;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -39,9 +39,9 @@ import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_FINISHED_ASC;
   private String rerunReason;
   private String remarks;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  private LocalDateTime created;
+  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
+  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
+  private OffsetDateTime created;
 
   private String createdBy;
 <span class="fc" id="L47">  private Set&lt;PipelineStep&gt; steps = new TreeSet&lt;&gt;(STEPS_BY_FINISHED_ASC);</span>
@@ -83,11 +83,11 @@ import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_FINISHED_ASC;
 <span class="nc" id="L83">    return this;</span>
   }
 
-  public LocalDateTime getCreated() {
+  public OffsetDateTime getCreated() {
 <span class="fc" id="L87">    return created;</span>
   }
 
-  public PipelineExecution setCreated(LocalDateTime created) {
+  public PipelineExecution setCreated(OffsetDateTime created) {
 <span class="fc" id="L91">    this.created = created;</span>
 <span class="fc" id="L92">    return this;</span>
   }

@@ -23,7 +23,7 @@
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.pipelines;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.time.LocalDateTime;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.time.OffsetDateTime;
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.Objects;
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
@@ -39,9 +39,9 @@
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>      PipelineProcess p2 = <strong class="jxr_keyword">new</strong> PipelineProcess();
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>      <em class="jxr_comment">// process without steps</em>
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>      PipelineExecution e1 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(LocalDateTime.now());
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      PipelineExecution e1 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(OffsetDateTime.now());
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>      p1.addExecution(e1);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>      PipelineExecution e2 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(LocalDateTime.now());
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      PipelineExecution e2 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(OffsetDateTime.now());
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>      p2.addExecution(e2);
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>      assertEquals(
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>          0, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC));
@@ -49,7 +49,7 @@
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>      <em class="jxr_comment">// one process without steps</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>      PipelineStep p1e1s1 =
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>          <strong class="jxr_keyword">new</strong> PipelineStep()
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>              .setStarted(LocalDateTime.now().minusMinutes(30))
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>              .setStarted(OffsetDateTime.now().minusMinutes(30))
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>              .setState(PipelineStep.Status.RUNNING);
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>      e1.addStep(p1e1s1);
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>      assertEquals(
@@ -58,7 +58,7 @@
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>      <em class="jxr_comment">// both processes with steps</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>      PipelineStep p2e2s1 =
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>          <strong class="jxr_keyword">new</strong> PipelineStep()
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>              .setStarted(LocalDateTime.now().minusMinutes(35))
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>              .setStarted(OffsetDateTime.now().minusMinutes(35))
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>              .setState(PipelineStep.Status.RUNNING);
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>      e2.addStep(p2e2s1);
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>      assertEquals(
@@ -67,7 +67,7 @@
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>      <em class="jxr_comment">// completed steps have less preference over running ones</em>
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>      PipelineStep p1e1s2 =
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>          <strong class="jxr_keyword">new</strong> PipelineStep()
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>              .setStarted(LocalDateTime.now().minusMinutes(40))
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>              .setStarted(OffsetDateTime.now().minusMinutes(40))
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>              .setState(PipelineStep.Status.COMPLETED);
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>      e1.addStep(p1e1s2);
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>      assertEquals(
@@ -80,7 +80,7 @@
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>          1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC));
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>      <em class="jxr_comment">// steps with start date but no state</em>
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>      PipelineStep p1e1s4 = <strong class="jxr_keyword">new</strong> PipelineStep().setStarted(LocalDateTime.now().minusMinutes(15));
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      PipelineStep p1e1s4 = <strong class="jxr_keyword">new</strong> PipelineStep().setStarted(OffsetDateTime.now().minusMinutes(15));
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>      e1.addStep(p1e1s4);
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>      assertEquals(
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>          1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC));
@@ -93,21 +93,21 @@
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>  
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>      assertEquals(0, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>  
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>      PipelineExecution e1 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(20));
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>      PipelineExecution e1 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(OffsetDateTime.now().minusMinutes(20));
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>      p1.addExecution(e1);
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>      assertEquals(-1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>  
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>      PipelineExecution e2 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(30));
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      PipelineExecution e2 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(OffsetDateTime.now().minusMinutes(30));
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>      p2.addExecution(e2);
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>      assertEquals(1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      PipelineExecution e3 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(10));
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      PipelineExecution e3 = <strong class="jxr_keyword">new</strong> PipelineExecution().setCreated(OffsetDateTime.now().minusMinutes(10));
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>      p2.addExecution(e3);
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>      assertEquals(-1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>    }
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2025 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2026 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
 </body>
 </html>

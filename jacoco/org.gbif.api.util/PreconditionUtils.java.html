@@ -15,7 +15,7 @@
  */
 package org.gbif.api.util;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Analogues of methods from guava's Preconditions

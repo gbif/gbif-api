@@ -42,9 +42,9 @@ import static java.lang.annotation.ElementType.METHOD;
  * It extends a search request with a list of desired facets and optional settings.
  */
 @SuppressWarnings(&quot;unused&quot;)
-public class FacetedSearchRequest&lt;P extends SearchParameter&gt; extends SearchRequest&lt;P&gt; {
+public class FacetedSearchRequest&lt;P extends SearchParameter&gt; extends BaseSearchRequest&lt;P&gt; {
 
-<span class="nc" id="L47">  @Hidden</span>
+<span class="pc" id="L47">  @Hidden</span>
   private Set&lt;P&gt; facets = new HashSet&lt;&gt;();
 
   @Hidden
@@ -53,14 +53,14 @@ public class FacetedSearchRequest&lt;P extends SearchParameter&gt; extends Searc
   @Hidden
   private Integer facetMinCount;
 
-<span class="nc" id="L56">  @Hidden</span>
-<span class="nc" id="L57">  private Integer facetLimit = 10;</span>
+<span class="pc" id="L56">  @Hidden</span>
+<span class="pc" id="L57">  private Integer facetLimit = 10;</span>
 
   @Hidden
   private Integer facetOffset;
 
   //Holds the paging configuration for each requested facet
-<span class="nc" id="L63">  @Hidden</span>
+<span class="pc" id="L63">  @Hidden</span>
   private Map&lt;P, Pageable&gt; facetPages = new HashMap&lt;&gt;();
 
   /**
@@ -106,14 +106,14 @@ public class FacetedSearchRequest&lt;P extends SearchParameter&gt; extends Searc
   )
   public @interface FacetParameters {}
 
-<span class="nc" id="L109">  public FacetedSearchRequest() {</span>
-<span class="nc" id="L110">  }</span>
+<span class="fc" id="L109">  public FacetedSearchRequest() {</span>
+<span class="fc" id="L110">  }</span>
 
   public FacetedSearchRequest(Pageable page) {
 <span class="nc" id="L113">    super(page);</span>
 <span class="nc" id="L114">  }</span>
 
-  public FacetedSearchRequest(SearchRequest&lt;P&gt; searchRequest) {
+  public FacetedSearchRequest(BaseSearchRequest&lt;P&gt; searchRequest) {
 <span class="nc" id="L117">    super(searchRequest);</span>
 <span class="nc" id="L118">    setHighlight(searchRequest.isHighlight());</span>
 <span class="nc" id="L119">    setParameters(searchRequest.getParameters());</span>

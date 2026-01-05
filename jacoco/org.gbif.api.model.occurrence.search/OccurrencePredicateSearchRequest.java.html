@@ -14,29 +14,31 @@
 package org.gbif.api.model.occurrence.search;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.search.PredicateSearchRequest;
 import org.gbif.api.model.predicate.Predicate;
 
-/** Search request that uses a predicate filter like the ones used un downloads.*/
+/** Search request that uses a predicate filter like the ones used in downloads. */
 @JsonDeserialize(as = OccurrencePredicateSearchRequest.class)
-public class OccurrencePredicateSearchRequest extends OccurrenceSearchRequest {
+public class OccurrencePredicateSearchRequest extends OccurrenceSearchRequest
+    implements PredicateSearchRequest {
 
   private Predicate predicate;
 
-<span class="nc" id="L27">  public OccurrencePredicateSearchRequest() {</span>
-<span class="nc" id="L28">  }</span>
+<span class="nc" id="L28">  public OccurrencePredicateSearchRequest() {}</span>
 
   public OccurrencePredicateSearchRequest(Pageable page) {
 <span class="nc" id="L31">    super(page);</span>
 <span class="nc" id="L32">  }</span>
 
+  @Override
   public Predicate getPredicate() {
-<span class="nc" id="L35">    return predicate;</span>
+<span class="nc" id="L36">    return predicate;</span>
   }
 
+  @Override
   public void setPredicate(Predicate predicate) {
-<span class="nc" id="L39">    this.predicate = predicate;</span>
-<span class="nc" id="L40">  }</span>
+<span class="nc" id="L41">    this.predicate = predicate;</span>
+<span class="nc" id="L42">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

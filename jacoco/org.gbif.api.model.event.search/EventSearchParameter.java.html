@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EventSearchParameter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.event.search</a> &gt; <span class="el_source">EventSearchParameter.java</span></div><h1>EventSearchParameter.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.event.search;
+
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.KeyDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.v3.oas.annotations.Hidden;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.gbif.api.annotation.Experimental;
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.vocabulary.DurationUnit;
+import org.gbif.api.vocabulary.EventIssue;
+
+/**
+ * Supported query parameters by the occurrence search and download service. For download predicates
+ * only the numerical types support comparisons other than equals.
+ */
+<span class="fc" id="L42">@Slf4j</span>
+@JsonDeserialize(
+    as = EventSearchParameter.class,
+    using = EventSearchParameter.EventSearchParameterDeserializer.class)
+public class EventSearchParameter implements SearchParameter, Serializable {
+
+  /** See @link {@link OccurrenceSearchParameter#DATASET_KEY} */
+<span class="fc" id="L49">  public static final EventSearchParameter DATASET_KEY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.DATASET_KEY);
+
+  /** See @link {@link OccurrenceSearchParameter#CHECKLIST_KEY} */
+<span class="fc" id="L53">  public static final EventSearchParameter CHECKLIST_KEY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.CHECKLIST_KEY);
+
+  /** See @link {@link OccurrenceSearchParameter#YEAR} */
+<span class="fc" id="L57">  public static final EventSearchParameter YEAR =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.YEAR);
+
+  /** See @link {@link OccurrenceSearchParameter#MONTH} */
+<span class="fc" id="L61">  public static final EventSearchParameter MONTH =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.MONTH);
+
+  /** See @link {@link OccurrenceSearchParameter#DAY} */
+<span class="fc" id="L65">  public static final EventSearchParameter DAY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.DAY);
+
+  /** See @link {@link OccurrenceSearchParameter#START_DAY_OF_YEAR} */
+<span class="fc" id="L69">  public static final EventSearchParameter START_DAY_OF_YEAR =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.START_DAY_OF_YEAR);
+
+  /** See @link {@link OccurrenceSearchParameter#END_DAY_OF_YEAR} */
+<span class="fc" id="L73">  public static final EventSearchParameter END_DAY_OF_YEAR =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.END_DAY_OF_YEAR);
+
+  /** See @link {@link OccurrenceSearchParameter#EVENT_DATE} */
+<span class="fc" id="L77">  public static final EventSearchParameter EVENT_DATE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.EVENT_DATE);
+
+  /** See @link {@link OccurrenceSearchParameter#EVENT_DATE_GTE} */
+  @Deprecated
+<span class="fc" id="L82">  public static final EventSearchParameter EVENT_DATE_GTE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.EVENT_DATE_GTE);
+
+  /**
+   * An identifier for the set of information associated with an Event (something that occurs at a
+   * place and time). Maybe a global unique identifier or an identifier specific to the data set.
+   *
+   * @link {@link OccurrenceSearchParameter#EVENT_ID}
+   */
+<span class="fc" id="L91">  public static final EventSearchParameter EVENT_ID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.EVENT_ID);
+
+  /** See @link {@link OccurrenceSearchParameter#PARENT_EVENT_ID} */
+<span class="fc" id="L95">  public static final EventSearchParameter PARENT_EVENT_ID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.PARENT_EVENT_ID);
+
+  /** See @link {@link OccurrenceSearchParameter#SAMPLING_PROTOCOL} */
+<span class="fc" id="L99">  public static final EventSearchParameter SAMPLING_PROTOCOL =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.SAMPLING_PROTOCOL);
+
+  /** See @link {@link OccurrenceSearchParameter#PREVIOUS_IDENTIFICATIONS} */
+<span class="fc" id="L103">  public static final EventSearchParameter PREVIOUS_IDENTIFICATIONS =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.PREVIOUS_IDENTIFICATIONS);
+
+  /** See @link {@link OccurrenceSearchParameter#LAST_INTERPRETED} */
+<span class="fc" id="L107">  public static final EventSearchParameter LAST_INTERPRETED =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.LAST_INTERPRETED);
+
+  /** See @link {@link OccurrenceSearchParameter#MODIFIED} */
+<span class="fc" id="L111">  public static final EventSearchParameter MODIFIED =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.MODIFIED);
+
+  /** See @link {@link OccurrenceSearchParameter#DECIMAL_LATITUDE} */
+<span class="fc" id="L115">  public static final EventSearchParameter DECIMAL_LATITUDE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.DECIMAL_LATITUDE);
+
+  /** See @link {@link OccurrenceSearchParameter#DECIMAL_LONGITUDE} */
+<span class="fc" id="L119">  public static final EventSearchParameter DECIMAL_LONGITUDE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.DECIMAL_LONGITUDE);
+
+  /** See @link {@link OccurrenceSearchParameter#COORDINATE_UNCERTAINTY_IN_METERS} */
+<span class="fc" id="L123">  public static final EventSearchParameter COORDINATE_UNCERTAINTY_IN_METERS =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS);
+
+  /** See @link {@link OccurrenceSearchParameter#COUNTRY} */
+<span class="fc" id="L127">  public static final EventSearchParameter COUNTRY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.COUNTRY);
+
+  /** See @link {@link OccurrenceSearchParameter#GBIF_REGION} */
+<span class="fc" id="L131">  public static final EventSearchParameter GBIF_REGION =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GBIF_REGION);
+
+  /** See @link {@link OccurrenceSearchParameter#CONTINENT} */
+<span class="fc" id="L135">  public static final EventSearchParameter CONTINENT =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.CONTINENT);
+
+  /** See @link {@link OccurrenceSearchParameter#PUBLISHING_COUNTRY} */
+<span class="fc" id="L139">  public static final EventSearchParameter PUBLISHING_COUNTRY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY);
+
+  /** See @link {@link OccurrenceSearchParameter#PUBLISHED_BY_GBIF_REGION} */
+<span class="fc" id="L143">  public static final EventSearchParameter PUBLISHED_BY_GBIF_REGION =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.PUBLISHED_BY_GBIF_REGION);
+
+  /** See @link {@link OccurrenceSearchParameter#ELEVATION} */
+<span class="fc" id="L147">  public static final EventSearchParameter ELEVATION =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.ELEVATION);
+
+  /** See @link {@link OccurrenceSearchParameter#DEPTH} */
+<span class="fc" id="L151">  public static final EventSearchParameter DEPTH =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.DEPTH);
+
+  /** See @link {@link OccurrenceSearchParameter#INSTITUTION_CODE} */
+<span class="fc" id="L155">  public static final EventSearchParameter INSTITUTION_CODE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.INSTITUTION_CODE);
+
+  /** See @link {@link OccurrenceSearchParameter#COLLECTION_CODE} */
+<span class="fc" id="L159">  public static final EventSearchParameter COLLECTION_CODE =</span>
+    new EventSearchParameter(OccurrenceSearchParameter.COLLECTION_CODE);
+
+  /** See @link {@link OccurrenceSearchParameter#TAXON_KEY} */
+<span class="fc" id="L163">  public static final EventSearchParameter TAXON_KEY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.TAXON_KEY);
+
+  /** See @link {@link OccurrenceSearchParameter#ACCEPTED_TAXON_KEY} */
+<span class="fc" id="L167">  public static final EventSearchParameter ACCEPTED_TAXON_KEY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.ACCEPTED_TAXON_KEY);
+
+  /** See @link {@link OccurrenceSearchParameter#SCIENTIFIC_NAME} */
+<span class="fc" id="L171">  public static final EventSearchParameter SCIENTIFIC_NAME =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.SCIENTIFIC_NAME);
+
+  /** See @link {@link OccurrenceSearchParameter#TAXON_ID} */
+<span class="fc" id="L175">  public static final EventSearchParameter TAXON_ID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.TAXON_ID);
+
+  /** See @link {@link OccurrenceSearchParameter#TAXONOMIC_STATUS} */
+<span class="fc" id="L179">  public static final EventSearchParameter TAXONOMIC_STATUS =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.TAXONOMIC_STATUS);
+
+  /** See @link {@link OccurrenceSearchParameter#TAXONOMIC_ISSUE} */
+<span class="fc" id="L183">  public static final EventSearchParameter TAXONOMIC_ISSUE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.TAXONOMIC_ISSUE);
+
+  /** See @link {@link OccurrenceSearchParameter#IUCN_RED_LIST_CATEGORY} */
+<span class="fc" id="L187">  public static final EventSearchParameter IUCN_RED_LIST_CATEGORY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.IUCN_RED_LIST_CATEGORY);
+
+  /** See @link {@link OccurrenceSearchParameter#HAS_COORDINATE} */
+<span class="fc" id="L191">  public static final EventSearchParameter HAS_COORDINATE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.HAS_COORDINATE);
+
+  /** See @link {@link OccurrenceSearchParameter#GEOMETRY} */
+<span class="fc" id="L195">  public static final EventSearchParameter GEOMETRY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GEOMETRY);
+
+  /** See @link {@link OccurrenceSearchParameter#GEO_DISTANCE} */
+<span class="fc" id="L199">  public static final EventSearchParameter GEO_DISTANCE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GEO_DISTANCE);
+
+  /** See @link {@link OccurrenceSearchParameter#HAS_GEOSPATIAL_ISSUE} */
+<span class="fc" id="L203">  public static final EventSearchParameter HAS_GEOSPATIAL_ISSUE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.HAS_GEOSPATIAL_ISSUE);
+
+  /** See @link {@link OccurrenceSearchParameter#MEDIA_TYPE} */
+<span class="fc" id="L207">  public static final EventSearchParameter MEDIA_TYPE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.MEDIA_TYPE);
+
+  /** See @link {@link OccurrenceSearchParameter#REPATRIATED} */
+<span class="fc" id="L211">  public static final EventSearchParameter REPATRIATED =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.REPATRIATED);
+
+  /** See @link {@link OccurrenceSearchParameter#STATE_PROVINCE} */
+<span class="fc" id="L215">  public static final EventSearchParameter STATE_PROVINCE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.STATE_PROVINCE);
+
+  /** See @link {@link OccurrenceSearchParameter#WATER_BODY} */
+<span class="fc" id="L219">  public static final EventSearchParameter WATER_BODY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.WATER_BODY);
+
+  /** See @link {@link OccurrenceSearchParameter#LOCALITY} */
+<span class="fc" id="L223">  public static final EventSearchParameter LOCALITY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.LOCALITY);
+
+  /** See @link {@link OccurrenceSearchParameter#PROTOCOL} */
+<span class="fc" id="L227">  public static final EventSearchParameter PROTOCOL =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.PROTOCOL);
+
+  /** See @link {@link OccurrenceSearchParameter#LICENSE} */
+<span class="fc" id="L231">  public static final EventSearchParameter LICENSE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.LICENSE);
+
+  /** See @link {@link OccurrenceSearchParameter#PUBLISHING_ORG} */
+<span class="fc" id="L235">  public static final EventSearchParameter PUBLISHING_ORG =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.PUBLISHING_ORG);
+
+  /** See @link {@link OccurrenceSearchParameter#NETWORK_KEY} */
+<span class="fc" id="L239">  public static final EventSearchParameter NETWORK_KEY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.NETWORK_KEY);
+
+  /** See @link {@link OccurrenceSearchParameter#INSTALLATION_KEY} */
+<span class="fc" id="L243">  public static final EventSearchParameter INSTALLATION_KEY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.INSTALLATION_KEY);
+
+  /** See @link {@link OccurrenceSearchParameter#HOSTING_ORGANIZATION_KEY} */
+<span class="fc" id="L247">  public static final EventSearchParameter HOSTING_ORGANIZATION_KEY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.HOSTING_ORGANIZATION_KEY);
+
+  /** See @link {@link OccurrenceSearchParameter#CRAWL_ID} */
+<span class="fc" id="L251">  public static final EventSearchParameter CRAWL_ID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.CRAWL_ID);
+
+  /** See @link {@link OccurrenceSearchParameter#PROJECT_ID} */
+<span class="fc" id="L255">  public static final EventSearchParameter PROJECT_ID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.PROJECT_ID);
+
+  /** See @link {@link OccurrenceSearchParameter#PROGRAMME} */
+<span class="fc" id="L259">  public static final EventSearchParameter PROGRAMME =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.PROGRAMME);
+
+  /** See @link {@link OccurrenceSearchParameter#SAMPLE_SIZE_UNIT} */
+<span class="fc" id="L263">  public static final EventSearchParameter SAMPLE_SIZE_UNIT =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.SAMPLE_SIZE_UNIT);
+
+  /** See @link {@link OccurrenceSearchParameter#SAMPLE_SIZE_VALUE} */
+<span class="fc" id="L267">  public static final EventSearchParameter SAMPLE_SIZE_VALUE =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.SAMPLE_SIZE_VALUE);
+
+  /** See @link {@link OccurrenceSearchParameter#GADM_GID} */
+<span class="fc" id="L271">  public static final EventSearchParameter GADM_GID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GADM_GID);
+
+  /** See @link {@link OccurrenceSearchParameter#GADM_LEVEL_0_GID} */
+<span class="fc" id="L275">  public static final EventSearchParameter GADM_LEVEL_0_GID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GADM_LEVEL_0_GID);
+
+  /** See @link {@link OccurrenceSearchParameter#GADM_LEVEL_1_GID} */
+<span class="fc" id="L279">  public static final EventSearchParameter GADM_LEVEL_1_GID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GADM_LEVEL_1_GID);
+
+  /** See @link {@link OccurrenceSearchParameter#GADM_LEVEL_2_GID} */
+<span class="fc" id="L283">  public static final EventSearchParameter GADM_LEVEL_2_GID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GADM_LEVEL_2_GID);
+
+  /** See @link {@link OccurrenceSearchParameter#GADM_LEVEL_3_GID} */
+<span class="fc" id="L287">  public static final EventSearchParameter GADM_LEVEL_3_GID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID);
+
+  /** See @link {@link OccurrenceSearchParameter#DWCA_EXTENSION} */
+<span class="fc" id="L291">  public static final EventSearchParameter DWCA_EXTENSION =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.DWCA_EXTENSION);
+
+  /** See @link {@link OccurrenceSearchParameter#DATASET_ID} */
+<span class="fc" id="L295">  public static final EventSearchParameter DATASET_ID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.DATASET_ID);
+
+  /** See @link {@link OccurrenceSearchParameter#DATASET_NAME} */
+<span class="fc" id="L299">  public static final EventSearchParameter DATASET_NAME =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.DATASET_NAME);
+
+  /** See @link {@link OccurrenceSearchParameter#ISLAND} */
+<span class="fc" id="L303">  public static final EventSearchParameter ISLAND =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.ISLAND);
+
+  /** See @link {@link OccurrenceSearchParameter#ISLAND_GROUP} */
+<span class="fc" id="L307">  public static final EventSearchParameter ISLAND_GROUP =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.ISLAND_GROUP);
+
+  /** See @link {@link OccurrenceSearchParameter#GEOREFERENCED_BY} */
+<span class="fc" id="L311">  public static final EventSearchParameter GEOREFERENCED_BY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GEOREFERENCED_BY);
+
+  /** See @link {@link OccurrenceSearchParameter#HIGHER_GEOGRAPHY} */
+<span class="fc" id="L315">  public static final EventSearchParameter HIGHER_GEOGRAPHY =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.HIGHER_GEOGRAPHY);
+
+  /** See @link {@link OccurrenceSearchParameter#FIELD_NUMBER} */
+<span class="fc" id="L319">  public static final EventSearchParameter FIELD_NUMBER =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.FIELD_NUMBER);
+
+  /** See @link {@link OccurrenceSearchParameter#GBIF_ID} */
+<span class="fc" id="L323">  public static final EventSearchParameter GBIF_ID =</span>
+      new EventSearchParameter(OccurrenceSearchParameter.GBIF_ID);
+
+  /** An identifier for an Event and its children events. */
+<span class="fc" id="L327">  public static final EventSearchParameter EVENT_ID_HIERARCHY =</span>
+      new EventSearchParameter(&quot;EVENT_ID_HIERARCHY&quot;, String.class);
+
+  /** An identifier for the vocabulary-backed Event Type. */
+<span class="fc" id="L331">  public static final EventSearchParameter EVENT_TYPE =</span>
+      new EventSearchParameter(&quot;EVENT_TYPE&quot;, String.class);
+
+  /** An identifier for the verbatim Event Type. */
+  @Experimental
+<span class="fc" id="L336">  public static final EventSearchParameter VERBATIM_EVENT_TYPE =</span>
+      new EventSearchParameter(&quot;VERBATIM_EVENT_TYPE&quot;, String.class);
+
+  /** Searches events for those that have a specific issue. */
+<span class="fc" id="L340">  public static final EventSearchParameter ISSUE =</span>
+      new EventSearchParameter(&quot;ISSUE&quot;, EventIssue.class);
+
+  /** Humboldt fields * */
+<span class="fc" id="L344">  public static final EventSearchParameter HUMBOLDT_SITE_COUNT =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_SITE_COUNT&quot;, Integer.class);
+
+<span class="fc" id="L347">  public static final EventSearchParameter HUMBOLDT_VERBATIM_SITE_NAMES =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_VERBATIM_SITE_NAMES&quot;, String.class);
+<span class="fc" id="L349">  public static final EventSearchParameter HUMBOLDT_GEOSPATIAL_SCOPE_AREA_VALUE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_GEOSPATIAL_SCOPE_AREA_VALUE&quot;, Double.class);
+<span class="fc" id="L351">  public static final EventSearchParameter HUMBOLDT_GEOSPATIAL_SCOPE_AREA_UNIT =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_GEOSPATIAL_SCOPE_AREA_UNIT&quot;, String.class);
+<span class="fc" id="L353">  public static final EventSearchParameter HUMBOLDT_TOTAL_AREA_SAMPLED_VALUE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TOTAL_AREA_SAMPLED_VALUE&quot;, Double.class);
+<span class="fc" id="L355">  public static final EventSearchParameter HUMBOLDT_TOTAL_AREA_SAMPLED_UNIT =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TOTAL_AREA_SAMPLED_UNIT&quot;, String.class);
+<span class="fc" id="L357">  public static final EventSearchParameter HUMBOLDT_TARGET_HABITAT_SCOPE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_HABITAT_SCOPE&quot;, String.class);
+<span class="fc" id="L359">  public static final EventSearchParameter HUMBOLDT_EVENT_DURATION =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_EVENT_DURATION&quot;, String.class);
+
+  @Hidden
+<span class="fc" id="L363">  public static final EventSearchParameter HUMBOLDT_EVENT_DURATION_VALUE_IN_MINUTES =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_EVENT_DURATION_VALUE_IN_MINUTES&quot;, Double.class);
+
+<span class="fc" id="L366">  public static final EventSearchParameter HUMBOLDT_EVENT_DURATION_VALUE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_EVENT_DURATION_VALUE&quot;, Double.class);
+<span class="fc" id="L368">  public static final EventSearchParameter HUMBOLDT_EVENT_DURATION_UNIT =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_EVENT_DURATION_UNIT&quot;, DurationUnit.class);
+
+<span class="fc" id="L371">  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ISSUE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ISSUE&quot;, EventIssue.class);
+<span class="fc" id="L373">  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME&quot;, String.class);
+<span class="fc" id="L375">  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY&quot;, String.class);
+<span class="fc" id="L377">  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_NAME =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_NAME&quot;, String.class);
+<span class="fc" id="L379">  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY&quot;, String.class);
+<span class="fc" id="L381">  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY&quot;, String.class);
+<span class="fc" id="L383">  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY =</span>
+      new EventSearchParameter(
+          &quot;HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY&quot;, String.class);
+<span class="fc" id="L386">  public static final EventSearchParameter HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS&quot;, String.class);
+<span class="fc" id="L388">  public static final EventSearchParameter HUMBOLDT_IS_TAXONOMIC_SCOPE_FULLY_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_IS_TAXONOMIC_SCOPE_FULLY_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L390">  public static final EventSearchParameter HUMBOLDT_IS_ABSENCE_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_IS_ABSENCE_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L392">  public static final EventSearchParameter HUMBOLDT_HAS_NON_TARGET_TAXA =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_HAS_NON_TARGET_TAXA&quot;, Boolean.class);
+<span class="fc" id="L394">  public static final EventSearchParameter HUMBOLDT_ARE_NON_TARGET_TAXA_FULLY_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_ARE_NON_TARGET_TAXA_FULLY_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L396">  public static final EventSearchParameter HUMBOLDT_TARGET_LIFE_STAGE_SCOPE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_LIFE_STAGE_SCOPE&quot;, String.class);
+<span class="fc" id="L398">  public static final EventSearchParameter HUMBOLDT_IS_LIFE_STAGE_SCOPE_FULLY_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_IS_LIFE_STAGE_SCOPE_FULLY_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L400">  public static final EventSearchParameter HUMBOLDT_TARGET_DEGREE_OF_ESTABLISHMENT_SCOPE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_DEGREE_OF_ESTABLISHMENT_SCOPE&quot;, String.class);
+  public static final EventSearchParameter
+<span class="fc" id="L403">      HUMBOLDT_IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED =</span>
+          new EventSearchParameter(
+              &quot;HUMBOLDT_IS_DEGREE_OF_ESTABLISHMENT_SCOPE_FULLY_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L406">  public static final EventSearchParameter HUMBOLDT_TARGET_GROWTH_FORM_SCOPE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_TARGET_GROWTH_FORM_SCOPE&quot;, String.class);
+<span class="fc" id="L408">  public static final EventSearchParameter HUMBOLDT_IS_GROWTH_FORM_SCOPE_FULLY_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_IS_GROWTH_FORM_SCOPE_FULLY_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L410">  public static final EventSearchParameter HUMBOLDT_HAS_NON_TARGET_ORGANISMS =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_HAS_NON_TARGET_ORGANISMS&quot;, Boolean.class);
+<span class="fc" id="L412">  public static final EventSearchParameter HUMBOLDT_COMPILATION_TYPES =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_COMPILATION_TYPES&quot;, String.class);
+<span class="fc" id="L414">  public static final EventSearchParameter HUMBOLDT_COMPILATION_SOURCE_TYPES =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_COMPILATION_SOURCE_TYPES&quot;, String.class);
+<span class="fc" id="L416">  public static final EventSearchParameter HUMBOLDT_INVENTORY_TYPES =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_INVENTORY_TYPES&quot;, String.class);
+<span class="fc" id="L418">  public static final EventSearchParameter HUMBOLDT_PROTOCOL_NAMES =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_PROTOCOL_NAMES&quot;, String.class);
+<span class="fc" id="L420">  public static final EventSearchParameter HUMBOLDT_IS_ABUNDANCE_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_IS_ABUNDANCE_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L422">  public static final EventSearchParameter HUMBOLDT_IS_ABUNDANCE_CAP_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_IS_ABUNDANCE_CAP_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L424">  public static final EventSearchParameter HUMBOLDT_ABUNDANCE_CAP =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_ABUNDANCE_CAP&quot;, Integer.class);
+<span class="fc" id="L426">  public static final EventSearchParameter HUMBOLDT_IS_VEGETATION_COVER_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_IS_VEGETATION_COVER_REPORTED&quot;, Boolean.class);
+  public static final EventSearchParameter
+<span class="fc" id="L429">      HUMBOLDT_IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE =</span>
+          new EventSearchParameter(
+              &quot;HUMBOLDT_IS_LEAST_SPECIFIC_TARGET_CATEGORY_QUANTITY_INCLUSIVE&quot;, Boolean.class);
+<span class="fc" id="L432">  public static final EventSearchParameter HUMBOLDT_HAS_VOUCHERS =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_HAS_VOUCHERS&quot;, Boolean.class);
+<span class="fc" id="L434">  public static final EventSearchParameter HUMBOLDT_VOUCHER_INSTITUTIONS =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_VOUCHER_INSTITUTIONS&quot;, String.class);
+<span class="fc" id="L436">  public static final EventSearchParameter HUMBOLDT_HAS_MATERIAL_SAMPLES =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_HAS_MATERIAL_SAMPLES&quot;, Boolean.class);
+<span class="fc" id="L438">  public static final EventSearchParameter HUMBOLDT_MATERIAL_SAMPLE_TYPES =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_MATERIAL_SAMPLE_TYPES&quot;, String.class);
+<span class="fc" id="L440">  public static final EventSearchParameter HUMBOLDT_SAMPLING_PERFORMED_BY =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_SAMPLING_PERFORMED_BY&quot;, String.class);
+<span class="fc" id="L442">  public static final EventSearchParameter HUMBOLDT_IS_SAMPLING_EFFORT_REPORTED =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_IS_SAMPLING_EFFORT_REPORTED&quot;, Boolean.class);
+<span class="fc" id="L444">  public static final EventSearchParameter HUMBOLDT_SAMPLING_EFFORT_VALUE =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_SAMPLING_EFFORT_VALUE&quot;, Double.class);
+<span class="fc" id="L446">  public static final EventSearchParameter HUMBOLDT_SAMPLING_EFFORT_UNIT =</span>
+      new EventSearchParameter(&quot;HUMBOLDT_SAMPLING_EFFORT_UNIT&quot;, String.class);
+
+  public static EventSearchParameter[] values() {
+
+<span class="nc" id="L451">    Field[] values = EventSearchParameter.class.getFields();</span>
+<span class="nc" id="L452">    List&lt;EventSearchParameter&gt; c = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L453" title="All 2 branches missed.">    for (Field field : values) {</span>
+      try {
+<span class="nc" id="L455">        c.add((EventSearchParameter) field.get(EventSearchParameter.class));</span>
+<span class="nc" id="L456">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L457">        throw new RuntimeException(e);</span>
+<span class="nc" id="L458">      }</span>
+    }
+<span class="nc" id="L460">    return c.toArray(new EventSearchParameter[0]);</span>
+  }
+
+  private Class&lt;?&gt; type;
+  private String name;
+
+<span class="nc" id="L466">  public EventSearchParameter() {}</span>
+
+<span class="fc" id="L468">  public EventSearchParameter(OccurrenceSearchParameter occurrenceSearchParameter) {</span>
+<span class="fc" id="L469">    this.name = occurrenceSearchParameter.getName();</span>
+<span class="fc" id="L470">    this.type = occurrenceSearchParameter.getType();</span>
+<span class="fc" id="L471">  }</span>
+
+<span class="fc" id="L473">  public EventSearchParameter(String name, Class&lt;?&gt; type) {</span>
+<span class="fc" id="L474">    this.name = name;</span>
+<span class="fc" id="L475">    this.type = type;</span>
+<span class="fc" id="L476">  }</span>
+
+  @Override
+  public String name() {
+<span class="nc" id="L480">    return this.name;</span>
+  }
+
+  public Class&lt;?&gt; getType() {
+<span class="nc" id="L484">    return type;</span>
+  }
+
+  public String getName() {
+<span class="nc" id="L488">    return name;</span>
+  }
+
+  @Override
+  public Class&lt;?&gt; type() {
+<span class="fc" id="L493">    return this.type;</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L498">    return name;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L503" title="1 of 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L504" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L505">    EventSearchParameter that = (EventSearchParameter) o;</span>
+<span class="nc bnc" id="L506" title="All 4 branches missed.">    return Objects.equals(type, that.type) &amp;&amp; Objects.equals(name, that.name);</span>
+  }
+
+  @JsonValue
+  public String getSerializedValue() {
+<span class="fc" id="L511">    return name;</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L516">    return Objects.hash(type, name);</span>
+  }
+
+  /**
+   * Lookup a parameter by its name.
+   *
+   * @param name the name of the parameter
+   * @return the parameter if found, otherwise empty
+   */
+  public static Optional&lt;EventSearchParameter&gt; lookupEventParam(String name) {
+<span class="fc" id="L526">    String normedType = name.toUpperCase().replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
+<span class="fc" id="L527">    Field[] values = EventSearchParameter.class.getFields();</span>
+<span class="pc bpc" id="L528" title="1 of 2 branches missed.">    for (Field field : values) {</span>
+
+<span class="fc" id="L530">      String fieldName = field.getName();</span>
+<span class="fc" id="L531">      String normedVal = fieldName.replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
+<span class="fc bfc" id="L532" title="All 2 branches covered.">      if (normedType.equals(normedVal)) {</span>
+        try {
+<span class="fc" id="L534">          return Optional.of((EventSearchParameter) field.get(EventSearchParameter.class));</span>
+<span class="nc" id="L535">        } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L536">          throw new RuntimeException(e);</span>
+        }
+      }
+    }
+<span class="nc" id="L540">    return Optional.empty();</span>
+  }
+
+<span class="nc" id="L543">  public static class EventSearchParameterKeyDeserializer extends KeyDeserializer {</span>
+
+    @Override
+    public Object deserializeKey(String value, DeserializationContext deserializationContext)
+        throws IOException {
+<span class="nc" id="L548">      Field[] values = EventSearchParameter.class.getFields();</span>
+      try {
+<span class="nc bnc" id="L550" title="All 2 branches missed.">        for (Field field : values) {</span>
+<span class="nc bnc" id="L551" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="nc" id="L552">            return (EventSearchParameter) field.get(EventSearchParameter.class);</span>
+          }
+        }
+<span class="nc" id="L555">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L556">        log.warn(&quot;Error deserializing event search parameter key&quot;, e);</span>
+        // DO NOTHING
+<span class="nc" id="L558">      }</span>
+<span class="nc" id="L559">      return null;</span>
+    }
+  }
+
+<span class="fc" id="L563">  public static class EventSearchParameterDeserializer</span>
+      extends JsonDeserializer&lt;EventSearchParameter&gt; {
+
+    @Override
+    public EventSearchParameter deserialize(
+        com.fasterxml.jackson.core.JsonParser jsonParser,
+        DeserializationContext deserializationContext)
+        throws IOException, JacksonException {
+
+<span class="fc" id="L572">      Field[] values = EventSearchParameter.class.getFields();</span>
+      try {
+<span class="fc" id="L574">        String value = jsonParser.getText();</span>
+<span class="pc bpc" id="L575" title="1 of 2 branches missed.">        for (Field field : values) {</span>
+<span class="fc bfc" id="L576" title="All 2 branches covered.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="fc" id="L577">            return (EventSearchParameter) field.get(EventSearchParameter.class);</span>
+          }
+        }
+
+<span class="nc" id="L581">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L582">        log.warn(&quot;Error deserializing event search parameter&quot;, e);</span>
+<span class="nc" id="L583">      }</span>
+
+      try {
+<span class="nc" id="L586">        ObjectNode node = jsonParser.getCodec().readTree(jsonParser);</span>
+<span class="nc" id="L587">        String value = node.get(&quot;name&quot;).asText();</span>
+<span class="nc bnc" id="L588" title="All 2 branches missed.">        for (Field field : values) {</span>
+<span class="nc bnc" id="L589" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="nc" id="L590">            return (EventSearchParameter) field.get(EventSearchParameter.class);</span>
+          }
+        }
+<span class="nc" id="L593">      } catch (Exception e) {</span>
+<span class="nc" id="L594">        log.warn(&quot;Error deserializing event search parameter from name&quot;, e);</span>
+<span class="nc" id="L595">      }</span>
+
+<span class="nc" id="L597">      return null;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

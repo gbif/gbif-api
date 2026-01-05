@@ -15,10 +15,10 @@
  */
 package org.gbif.api.model.collections.duplicates;
 
-import org.gbif.api.jackson.LocalDateTimeSerDe;
+import org.gbif.api.jackson.OffsetDateTimeSerDe;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,17 +29,17 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 /** Result to be used for the GRSciColl API duplicates services. */
 <span class="nc" id="L30">public class DuplicatesResult implements Serializable {</span>
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  private LocalDateTime generationDate;
+  @JsonSerialize(using = OffsetDateTimeSerDe.OffsetDateTimeSerializer.class)
+  @JsonDeserialize(using = OffsetDateTimeSerDe.OffsetDateTimeDeserializer.class)
+  private OffsetDateTime generationDate;
 
 <span class="nc" id="L36">  private List&lt;Set&lt;Duplicate&gt;&gt; duplicates = new ArrayList&lt;&gt;();</span>
 
-  public LocalDateTime getGenerationDate() {
+  public OffsetDateTime getGenerationDate() {
 <span class="nc" id="L39">    return generationDate;</span>
   }
 
-  public void setGenerationDate(LocalDateTime generationDate) {
+  public void setGenerationDate(OffsetDateTime generationDate) {
 <span class="nc" id="L43">    this.generationDate = generationDate;</span>
 <span class="nc" id="L44">  }</span>
 

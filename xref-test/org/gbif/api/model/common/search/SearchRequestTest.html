@@ -24,34 +24,36 @@
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.common.search;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.BasisOfRecord;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Rank;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.checklistbank.search.NameUsageSuggestRequest;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.BasisOfRecord;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Rank;
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertEquals;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * Test class for SearchRequest model class</em>
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="SearchRequestTest" href="../../../../../../org/gbif/api/model/common/search/SearchRequestTest.html#SearchRequestTest">SearchRequestTest</a> {
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>    @Test
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testEnumFacet() {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>      SearchRequest&lt;NameUsageSearchParameter&gt; req = <strong class="jxr_keyword">new</strong> SearchRequest&lt;&gt;();
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>      req.addParameter(NameUsageSearchParameter.RANK, Rank.SPECIES);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>      assertEquals(<span class="jxr_string">"SPECIES"</span>, req.getParameters().get(NameUsageSearchParameter.RANK).iterator().next());
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>      SearchRequest&lt;OccurrenceSearchParameter&gt; reqO = <strong class="jxr_keyword">new</strong> SearchRequest&lt;&gt;();
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>      reqO.addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, BasisOfRecord.LITERATURE);
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>      assertEquals(<span class="jxr_string">"LITERATURE"</span>,
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>        reqO.getParameters().get(OccurrenceSearchParameter.BASIS_OF_RECORD).iterator().next());
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>    }
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  }
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertEquals;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * Test class for SearchRequest model class</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="SearchRequestTest" href="../../../../../../org/gbif/api/model/common/search/SearchRequestTest.html#SearchRequestTest">SearchRequestTest</a> {
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>    @Test
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testEnumFacet() {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      SearchRequest&lt;NameUsageSearchParameter&gt; req = <strong class="jxr_keyword">new</strong> NameUsageSuggestRequest();
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      req.addParameter(NameUsageSearchParameter.RANK, Rank.SPECIES);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      assertEquals(<span class="jxr_string">"SPECIES"</span>, req.getParameters().get(NameUsageSearchParameter.RANK).iterator().next());
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>      SearchRequest&lt;OccurrenceSearchParameter&gt; reqO = <strong class="jxr_keyword">new</strong> OccurrenceSearchRequest();
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      reqO.addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, BasisOfRecord.LITERATURE);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      assertEquals(<span class="jxr_string">"LITERATURE"</span>,
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>        reqO.getParameters().get(OccurrenceSearchParameter.BASIS_OF_RECORD).iterator().next());
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>    }
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2025 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2026 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
 </body>
 </html>

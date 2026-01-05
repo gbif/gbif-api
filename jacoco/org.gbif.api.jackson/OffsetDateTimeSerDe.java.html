@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OffsetDateTimeSerDe.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.jackson</a> &gt; <span class="el_source">OffsetDateTimeSerDe.java</span></div><h1>OffsetDateTimeSerDe.java</h1><pre class="source lang-java linenums">package org.gbif.api.jackson;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Jackson {@link JsonSerializer} and {@link JsonDeserializer} classes for {@link OffsetDateTime}.
+ */
+<span class="nc" id="L16">public class OffsetDateTimeSerDe {</span>
+
+<span class="nc" id="L18">  private static final DateTimeFormatter FORMATTER =</span>
+<span class="nc" id="L19">    DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ssXXX&quot;);</span>
+
+  /**
+   * Jackson {@link JsonSerializer} for {@link OffsetDateTime}.
+   */
+<span class="nc" id="L24">  public static class OffsetDateTimeSerializer extends JsonSerializer&lt;OffsetDateTime&gt; {</span>
+    @Override
+    public void serialize(OffsetDateTime value, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException {
+<span class="nc" id="L28">      jgen.writeString(value.format(FORMATTER));</span>
+<span class="nc" id="L29">    }</span>
+  }
+
+  /**
+   * Jackson {@link JsonDeserializer} for {@link OffsetDateTime}.
+   */
+<span class="nc" id="L35">  public static class OffsetDateTimeDeserializer extends JsonDeserializer&lt;OffsetDateTime&gt; {</span>
+    @Override
+    public OffsetDateTime deserialize(JsonParser jp, DeserializationContext ctxt)
+      throws IOException {
+<span class="nc" id="L39">      return OffsetDateTime.parse(jp.getText(), FORMATTER);</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

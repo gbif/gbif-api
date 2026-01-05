@@ -31,9 +31,9 @@ import org.gbif.api.vocabulary.UserRole;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 /**
  * An abstract GBIF user account. The main purpose of this abstraction is to let subclasses handle
