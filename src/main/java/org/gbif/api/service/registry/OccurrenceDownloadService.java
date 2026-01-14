@@ -23,6 +23,7 @@ import org.gbif.api.model.registry.OrganizationOccurrenceDownloadUsage;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.CountryUsageSortField;
 import org.gbif.api.vocabulary.DatasetUsageSortField;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.OrganizationUsageSortField;
 import org.gbif.api.vocabulary.SortOrder;
 
@@ -162,4 +163,11 @@ public interface OccurrenceDownloadService {
    * @param datasetCitations map of datasetkey as key and number of records as value.
    */
   void createUsages(@NotNull String downloadKey, @NotNull Map<UUID, Long> datasetCitations);
+
+  void updateLicense(@NotNull String downloadKey, @NotNull License license);
+
+  void updateTotalRecords(@NotNull String downloadKey, @NotNull long totalRecords);
+
+  void updateLicenseAndTotalRecords(
+      @NotNull String downloadKey, @NotNull License license, @NotNull long totalRecords);
 }
