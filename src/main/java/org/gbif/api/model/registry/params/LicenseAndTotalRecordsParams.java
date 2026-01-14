@@ -3,6 +3,8 @@ package org.gbif.api.model.registry.params;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import lombok.NoArgsConstructor;
+
 import org.gbif.api.vocabulary.License;
 
 /**
@@ -10,6 +12,7 @@ import org.gbif.api.vocabulary.License;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class LicenseAndTotalRecordsParams {
 
   private License license;
