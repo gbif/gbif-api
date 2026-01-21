@@ -232,6 +232,10 @@ public class Event extends VerbatimOccurrence {
   private String sampleSizeUnit;
   private Double sampleSizeValue;
   private Double relativeOrganismQuantity;
+  private String projectTitle;
+  private String fundingAttribution;
+  private String fundingAttributionID;
+
 
   // interpreted extension data
   private List<Identifier> identifiers = new ArrayList<>();

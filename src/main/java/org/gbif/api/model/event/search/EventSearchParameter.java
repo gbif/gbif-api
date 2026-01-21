@@ -251,10 +251,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter CRAWL_ID =
       new EventSearchParameter(OccurrenceSearchParameter.CRAWL_ID);
 
-  /** See @link {@link OccurrenceSearchParameter#PROJECT_ID} */
-  public static final EventSearchParameter PROJECT_ID =
-      new EventSearchParameter(OccurrenceSearchParameter.PROJECT_ID);
-
   /** See @link {@link OccurrenceSearchParameter#PROGRAMME} */
   public static final EventSearchParameter PROGRAMME =
       new EventSearchParameter(OccurrenceSearchParameter.PROGRAMME);
@@ -339,6 +335,22 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** Searches events for those that have a specific issue. */
   public static final EventSearchParameter ISSUE =
       new EventSearchParameter("ISSUE", EventIssue.class);
+
+  /** The event project ID.  */
+  public static final EventSearchParameter PROJECT_ID =
+    new EventSearchParameter("PROJECT_ID", String.class);
+
+  /** The event project title.  */
+  public static final EventSearchParameter PROJECT_TITLE =
+    new EventSearchParameter("PROJECT_TITLE", String.class);
+
+  /** The event funding attribution.  */
+  public static final EventSearchParameter FUNDING_ATTRIBUTION =
+    new EventSearchParameter("FUNDING_ATTRIBUTION", String.class);
+
+  /** The event funding attribution ID.  */
+  public static final EventSearchParameter FUNDING_ATTRIBUTION_ID =
+    new EventSearchParameter("FUNDING_ATTRIBUTION_ID", String.class);
 
   /** Humboldt fields * */
   public static final EventSearchParameter HUMBOLDT_SITE_COUNT =
