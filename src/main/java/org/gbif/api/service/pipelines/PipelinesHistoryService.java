@@ -149,6 +149,7 @@ public interface PipelinesHistoryService {
    * @param runAllParams parameters, contain datasets to exclude
    * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and
    *     etc
+   * @param excludeEventSteps true if we don't want to run the event steps
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runAll(
@@ -157,7 +158,8 @@ public interface PipelinesHistoryService {
       boolean useLastSuccessful,
       boolean markPreviousAttemptAsFailed,
       @Nullable RunAllParams runAllParams,
-      @Nullable Set<String> interpretTypes);
+      @Nullable Set<String> interpretTypes,
+      boolean excludeEventSteps);
 
   /**
    * Restart last failed pipelines step for a dataset.
@@ -170,6 +172,7 @@ public interface PipelinesHistoryService {
    *     processing a dataset
    * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and
    *     etc
+   * @param excludeEventSteps true if we don't want to run the event steps
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
@@ -178,7 +181,8 @@ public interface PipelinesHistoryService {
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean useLastSuccessful,
       boolean markPreviousAttemptAsFailed,
-      @Nullable Set<String> interpretTypes);
+      @Nullable Set<String> interpretTypes,
+      boolean excludeEventSteps);
 
   /**
    * Re-run a pipeline step.
@@ -191,6 +195,7 @@ public interface PipelinesHistoryService {
    *     processing a dataset
    * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and
    *     etc
+   * @param excludeEventSteps true if we don't want to run the event steps
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
@@ -199,12 +204,13 @@ public interface PipelinesHistoryService {
       @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean markPreviousAttemptAsFailed,
-      @Nullable Set<String> interpretTypes);
+      @Nullable Set<String> interpretTypes,
+      boolean excludeEventSteps);
 
   /**
    * Sends email to data administrator about absent identifiers issue with a dataset
    *
-   * <p>Deprecated: use {@link #notifyAbsentIdentifiers(UUID, int, String)} instead.
+   * <p>Deprecated: use {@link #notifyAbsentIdentifiers(UUID, int, long, String)} instead.
    *
    * @param datasetKey dataset key
    * @param attempt attempt to run
