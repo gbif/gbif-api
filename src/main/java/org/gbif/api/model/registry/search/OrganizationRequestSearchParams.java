@@ -27,6 +27,7 @@ public class OrganizationRequestSearchParams extends RequestSearchParams {
 
   public static final String IS_ENDORSED_PARAM = "isEndorsed";
   public static final String NETWORK_KEY_PARAM = "networkKey";
+  public static final String CAN_MODIFY_PARAM = "canModify";
 
   private Boolean isEndorsed;
   private UUID networkKey;
@@ -34,4 +35,5 @@ public class OrganizationRequestSearchParams extends RequestSearchParams {
   private Range<Integer> numPublishedDatasets;
   private String contactUserId;
   private String contactEmail;
+  private String canModify;
 }
