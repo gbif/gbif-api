@@ -36,6 +36,7 @@ public class RequestSearchParams extends PageableBase {
   public static final String MACHINE_TAG_VALUE_PARAM = "machineTagValue";
   public static final String Q_PARAM = "q";
   public static final String MODIFIED_PARAM = "modified";
+  public static final String CAN_MODIFY_PARAM = "canModify";
 
   private IdentifierType identifierType;
   private String identifier;
@@ -44,6 +45,7 @@ public class RequestSearchParams extends PageableBase {
   private String machineTagValue; // value
   private String q; // query
   private Range<LocalDate> modified;
+  private String canModify;
 
   public Pageable getPage() {
     return new PagingRequest(this.getOffset(), this.getLimit());
