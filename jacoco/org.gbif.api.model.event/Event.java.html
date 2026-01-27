@@ -81,7 +81,7 @@ import org.gbif.dwc.terms.UnknownTerm;
 /**
  * Event class based on https://dwc.tdwg.org/terms/#event.
  */
-<span class="nc bnc" id="L84" title="All 382 branches missed.">@Data</span>
+<span class="nc bnc" id="L84" title="All 406 branches missed.">@Data</span>
 public class Event extends VerbatimOccurrence {
 
   public static final String GEO_DATUM = &quot;WGS84&quot;;
@@ -232,18 +232,22 @@ public class Event extends VerbatimOccurrence {
 <span class="nc" id="L232">  private String sampleSizeUnit;</span>
 <span class="nc" id="L233">  private Double sampleSizeValue;</span>
 <span class="nc" id="L234">  private Double relativeOrganismQuantity;</span>
+<span class="nc" id="L235">  private String projectTitle;</span>
+<span class="nc" id="L236">  private String fundingAttribution;</span>
+<span class="nc" id="L237">  private String fundingAttributionID;</span>
+
 
   // interpreted extension data
-<span class="nc" id="L237">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L238">  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L239">  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L240">  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L241">  private Gadm gadm = new Gadm();</span>
-<span class="nc" id="L242">  private String datasetID;</span>
-<span class="nc" id="L243">  private String datasetName;</span>
-<span class="nc" id="L244">  private String preparations;</span>
-<span class="nc" id="L245">  private String samplingProtocol;</span>
-<span class="nc" id="L246">  private List&lt;Humboldt&gt; humboldt = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L241">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L242">  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L243">  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L244">  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L245">  private Gadm gadm = new Gadm();</span>
+<span class="nc" id="L246">  private String datasetID;</span>
+<span class="nc" id="L247">  private String datasetName;</span>
+<span class="nc" id="L248">  private String preparations;</span>
+<span class="nc" id="L249">  private String samplingProtocol;</span>
+<span class="nc" id="L250">  private List&lt;Humboldt&gt; humboldt = new ArrayList&lt;&gt;();</span>
 
   /**
    * Convenience method checking if any spatial validation rule has not passed.
@@ -251,12 +255,12 @@ public class Event extends VerbatimOccurrence {
    */
   @JsonIgnore
   public boolean hasSpatialIssue() {
-<span class="nc bnc" id="L254" title="All 2 branches missed.">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
-<span class="nc bnc" id="L255" title="All 2 branches missed.">      if (issues.contains(rule)) {</span>
-<span class="nc" id="L256">        return true;</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">      if (issues.contains(rule)) {</span>
+<span class="nc" id="L260">        return true;</span>
       }
-<span class="nc" id="L258">    }</span>
-<span class="nc" id="L259">    return false;</span>
+<span class="nc" id="L262">    }</span>
+<span class="nc" id="L263">    return false;</span>
   }
 
   /**
@@ -265,10 +269,10 @@ public class Event extends VerbatimOccurrence {
    */
   @Nullable
   public String getGeodeticDatum() {
-<span class="nc bnc" id="L268" title="All 2 branches missed.">    if (decimalLatitude != null) {</span>
-<span class="nc" id="L269">      return GEO_DATUM;</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">    if (decimalLatitude != null) {</span>
+<span class="nc" id="L273">      return GEO_DATUM;</span>
     }
-<span class="nc" id="L271">    return null;</span>
+<span class="nc" id="L275">    return null;</span>
   }
 
   /**
@@ -277,17 +281,17 @@ public class Event extends VerbatimOccurrence {
    */
   @JsonAnyGetter
   private Map&lt;String, String&gt; jsonVerbatimFields() {
-<span class="nc" id="L280">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
-<span class="nc bnc" id="L281" title="All 2 branches missed.">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
-<span class="nc" id="L282">      Term t = prop.getKey();</span>
-<span class="nc bnc" id="L283" title="All 4 branches missed.">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
-<span class="nc" id="L284">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
+<span class="nc" id="L284">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
+<span class="nc" id="L286">      Term t = prop.getKey();</span>
+<span class="nc bnc" id="L287" title="All 4 branches missed.">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
+<span class="nc" id="L288">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
       } else {
         // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!
-<span class="nc" id="L287">        extendedProps.put(t.simpleName(), prop.getValue());</span>
+<span class="nc" id="L291">        extendedProps.put(t.simpleName(), prop.getValue());</span>
       }
-<span class="nc" id="L289">    }</span>
-<span class="nc" id="L290">    return extendedProps;</span>
+<span class="nc" id="L293">    }</span>
+<span class="nc" id="L294">    return extendedProps;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -245,64 +245,68 @@
 <span class="source-line-no">232</span><span id="line-232">  private String sampleSizeUnit;</span>
 <span class="source-line-no">233</span><span id="line-233">  private Double sampleSizeValue;</span>
 <span class="source-line-no">234</span><span id="line-234">  private Double relativeOrganismQuantity;</span>
-<span class="source-line-no">235</span><span id="line-235"></span>
-<span class="source-line-no">236</span><span id="line-236">  // interpreted extension data</span>
-<span class="source-line-no">237</span><span id="line-237">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">238</span><span id="line-238">  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">239</span><span id="line-239">  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">240</span><span id="line-240">  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">241</span><span id="line-241">  private Gadm gadm = new Gadm();</span>
-<span class="source-line-no">242</span><span id="line-242">  private String datasetID;</span>
-<span class="source-line-no">243</span><span id="line-243">  private String datasetName;</span>
-<span class="source-line-no">244</span><span id="line-244">  private String preparations;</span>
-<span class="source-line-no">245</span><span id="line-245">  private String samplingProtocol;</span>
-<span class="source-line-no">246</span><span id="line-246">  private List&lt;Humboldt&gt; humboldt = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">247</span><span id="line-247"></span>
-<span class="source-line-no">248</span><span id="line-248">  /**</span>
-<span class="source-line-no">249</span><span id="line-249">   * Convenience method checking if any spatial validation rule has not passed.</span>
-<span class="source-line-no">250</span><span id="line-250">   * Primarily used to indicate that the record should not be displayed on a map.</span>
-<span class="source-line-no">251</span><span id="line-251">   */</span>
-<span class="source-line-no">252</span><span id="line-252">  @JsonIgnore</span>
-<span class="source-line-no">253</span><span id="line-253">  public boolean hasSpatialIssue() {</span>
-<span class="source-line-no">254</span><span id="line-254">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
-<span class="source-line-no">255</span><span id="line-255">      if (issues.contains(rule)) {</span>
-<span class="source-line-no">256</span><span id="line-256">        return true;</span>
-<span class="source-line-no">257</span><span id="line-257">      }</span>
-<span class="source-line-no">258</span><span id="line-258">    }</span>
-<span class="source-line-no">259</span><span id="line-259">    return false;</span>
-<span class="source-line-no">260</span><span id="line-260">  }</span>
-<span class="source-line-no">261</span><span id="line-261"></span>
-<span class="source-line-no">262</span><span id="line-262">  /**</span>
-<span class="source-line-no">263</span><span id="line-263">   * The geodetic datum for the interpreted decimal coordinates.</span>
-<span class="source-line-no">264</span><span id="line-264">   * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.</span>
-<span class="source-line-no">265</span><span id="line-265">   */</span>
-<span class="source-line-no">266</span><span id="line-266">  @Nullable</span>
-<span class="source-line-no">267</span><span id="line-267">  public String getGeodeticDatum() {</span>
-<span class="source-line-no">268</span><span id="line-268">    if (decimalLatitude != null) {</span>
-<span class="source-line-no">269</span><span id="line-269">      return GEO_DATUM;</span>
-<span class="source-line-no">270</span><span id="line-270">    }</span>
-<span class="source-line-no">271</span><span id="line-271">    return null;</span>
-<span class="source-line-no">272</span><span id="line-272">  }</span>
-<span class="source-line-no">273</span><span id="line-273"></span>
-<span class="source-line-no">274</span><span id="line-274">  /**</span>
-<span class="source-line-no">275</span><span id="line-275">   * This private method is only for serialization via jackson and not exposed anywhere else!</span>
-<span class="source-line-no">276</span><span id="line-276">   * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.</span>
-<span class="source-line-no">277</span><span id="line-277">   */</span>
-<span class="source-line-no">278</span><span id="line-278">  @JsonAnyGetter</span>
-<span class="source-line-no">279</span><span id="line-279">  private Map&lt;String, String&gt; jsonVerbatimFields() {</span>
-<span class="source-line-no">280</span><span id="line-280">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
-<span class="source-line-no">281</span><span id="line-281">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
-<span class="source-line-no">282</span><span id="line-282">      Term t = prop.getKey();</span>
-<span class="source-line-no">283</span><span id="line-283">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
-<span class="source-line-no">284</span><span id="line-284">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
-<span class="source-line-no">285</span><span id="line-285">      } else {</span>
-<span class="source-line-no">286</span><span id="line-286">        // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!</span>
-<span class="source-line-no">287</span><span id="line-287">        extendedProps.put(t.simpleName(), prop.getValue());</span>
-<span class="source-line-no">288</span><span id="line-288">      }</span>
-<span class="source-line-no">289</span><span id="line-289">    }</span>
-<span class="source-line-no">290</span><span id="line-290">    return extendedProps;</span>
-<span class="source-line-no">291</span><span id="line-291">  }</span>
-<span class="source-line-no">292</span><span id="line-292">}</span>
+<span class="source-line-no">235</span><span id="line-235">  private String projectTitle;</span>
+<span class="source-line-no">236</span><span id="line-236">  private String fundingAttribution;</span>
+<span class="source-line-no">237</span><span id="line-237">  private String fundingAttributionID;</span>
+<span class="source-line-no">238</span><span id="line-238"></span>
+<span class="source-line-no">239</span><span id="line-239"></span>
+<span class="source-line-no">240</span><span id="line-240">  // interpreted extension data</span>
+<span class="source-line-no">241</span><span id="line-241">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">242</span><span id="line-242">  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">243</span><span id="line-243">  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">244</span><span id="line-244">  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">245</span><span id="line-245">  private Gadm gadm = new Gadm();</span>
+<span class="source-line-no">246</span><span id="line-246">  private String datasetID;</span>
+<span class="source-line-no">247</span><span id="line-247">  private String datasetName;</span>
+<span class="source-line-no">248</span><span id="line-248">  private String preparations;</span>
+<span class="source-line-no">249</span><span id="line-249">  private String samplingProtocol;</span>
+<span class="source-line-no">250</span><span id="line-250">  private List&lt;Humboldt&gt; humboldt = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">251</span><span id="line-251"></span>
+<span class="source-line-no">252</span><span id="line-252">  /**</span>
+<span class="source-line-no">253</span><span id="line-253">   * Convenience method checking if any spatial validation rule has not passed.</span>
+<span class="source-line-no">254</span><span id="line-254">   * Primarily used to indicate that the record should not be displayed on a map.</span>
+<span class="source-line-no">255</span><span id="line-255">   */</span>
+<span class="source-line-no">256</span><span id="line-256">  @JsonIgnore</span>
+<span class="source-line-no">257</span><span id="line-257">  public boolean hasSpatialIssue() {</span>
+<span class="source-line-no">258</span><span id="line-258">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
+<span class="source-line-no">259</span><span id="line-259">      if (issues.contains(rule)) {</span>
+<span class="source-line-no">260</span><span id="line-260">        return true;</span>
+<span class="source-line-no">261</span><span id="line-261">      }</span>
+<span class="source-line-no">262</span><span id="line-262">    }</span>
+<span class="source-line-no">263</span><span id="line-263">    return false;</span>
+<span class="source-line-no">264</span><span id="line-264">  }</span>
+<span class="source-line-no">265</span><span id="line-265"></span>
+<span class="source-line-no">266</span><span id="line-266">  /**</span>
+<span class="source-line-no">267</span><span id="line-267">   * The geodetic datum for the interpreted decimal coordinates.</span>
+<span class="source-line-no">268</span><span id="line-268">   * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.</span>
+<span class="source-line-no">269</span><span id="line-269">   */</span>
+<span class="source-line-no">270</span><span id="line-270">  @Nullable</span>
+<span class="source-line-no">271</span><span id="line-271">  public String getGeodeticDatum() {</span>
+<span class="source-line-no">272</span><span id="line-272">    if (decimalLatitude != null) {</span>
+<span class="source-line-no">273</span><span id="line-273">      return GEO_DATUM;</span>
+<span class="source-line-no">274</span><span id="line-274">    }</span>
+<span class="source-line-no">275</span><span id="line-275">    return null;</span>
+<span class="source-line-no">276</span><span id="line-276">  }</span>
+<span class="source-line-no">277</span><span id="line-277"></span>
+<span class="source-line-no">278</span><span id="line-278">  /**</span>
+<span class="source-line-no">279</span><span id="line-279">   * This private method is only for serialization via jackson and not exposed anywhere else!</span>
+<span class="source-line-no">280</span><span id="line-280">   * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.</span>
+<span class="source-line-no">281</span><span id="line-281">   */</span>
+<span class="source-line-no">282</span><span id="line-282">  @JsonAnyGetter</span>
+<span class="source-line-no">283</span><span id="line-283">  private Map&lt;String, String&gt; jsonVerbatimFields() {</span>
+<span class="source-line-no">284</span><span id="line-284">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
+<span class="source-line-no">285</span><span id="line-285">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
+<span class="source-line-no">286</span><span id="line-286">      Term t = prop.getKey();</span>
+<span class="source-line-no">287</span><span id="line-287">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
+<span class="source-line-no">288</span><span id="line-288">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
+<span class="source-line-no">289</span><span id="line-289">      } else {</span>
+<span class="source-line-no">290</span><span id="line-290">        // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!</span>
+<span class="source-line-no">291</span><span id="line-291">        extendedProps.put(t.simpleName(), prop.getValue());</span>
+<span class="source-line-no">292</span><span id="line-292">      }</span>
+<span class="source-line-no">293</span><span id="line-293">    }</span>
+<span class="source-line-no">294</span><span id="line-294">    return extendedProps;</span>
+<span class="source-line-no">295</span><span id="line-295">  }</span>
+<span class="source-line-no">296</span><span id="line-296">}</span>
 
 
 
