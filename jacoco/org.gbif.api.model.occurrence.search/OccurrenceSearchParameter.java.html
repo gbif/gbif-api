@@ -830,74 +830,84 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
 <span class="fc" id="L830">  public final static OccurrenceSearchParameter BIOSTRATIGRAPHY = new OccurrenceSearchParameter(&quot;BIOSTRATIGRAPHY&quot;, String.class);</span>
 
   /**
-   * @return the data type expected for the value of the respective search parameter
+   * Searches in the dna sequence ID.
    */
 <span class="fc" id="L835">  public final static OccurrenceSearchParameter DNA_SEQUENCE_ID = new OccurrenceSearchParameter(&quot;DNA_SEQUENCE_ID&quot;, String.class);</span>
+
+  /**
+   * Searches the MoF measurementType.
+   */
+<span class="fc" id="L840">  public final static OccurrenceSearchParameter MEASUREMENT_TYPE = new OccurrenceSearchParameter(&quot;MEASUREMENT_TYPE&quot;, String.class);</span>
+
+  /**
+   * Searches the eMoF measurementTypeID.
+   */
+<span class="fc" id="L845">  public final static OccurrenceSearchParameter MEASUREMENT_TYPE_ID = new OccurrenceSearchParameter(&quot;MEASUREMENT_TYPE_ID&quot;, String.class);</span>
 
 
   public static OccurrenceSearchParameter[] values(){
 
-<span class="nc" id="L840">    Field[] values = OccurrenceSearchParameter.class.getFields();</span>
-<span class="nc" id="L841">    List&lt;OccurrenceSearchParameter&gt; c = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L842" title="All 2 branches missed.">    for (Field field: values) {</span>
+<span class="nc" id="L850">    Field[] values = OccurrenceSearchParameter.class.getFields();</span>
+<span class="nc" id="L851">    List&lt;OccurrenceSearchParameter&gt; c = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L852" title="All 2 branches missed.">    for (Field field: values) {</span>
       try {
-<span class="nc" id="L844">        c.add((OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class));</span>
-<span class="nc" id="L845">      } catch (IllegalAccessException e) {</span>
-<span class="nc" id="L846">        throw new RuntimeException(e);</span>
-<span class="nc" id="L847">      }</span>
+<span class="nc" id="L854">        c.add((OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class));</span>
+<span class="nc" id="L855">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L856">        throw new RuntimeException(e);</span>
+<span class="nc" id="L857">      }</span>
     }
-<span class="nc" id="L849">    return c.toArray(new OccurrenceSearchParameter[0]);</span>
+<span class="nc" id="L859">    return c.toArray(new OccurrenceSearchParameter[0]);</span>
   }
 
   private Class&lt;?&gt; type;
   private String name;
 
-<span class="nc" id="L855">  public OccurrenceSearchParameter() {}</span>
+<span class="nc" id="L865">  public OccurrenceSearchParameter() {}</span>
 
-<span class="fc" id="L857">  public OccurrenceSearchParameter(String name, Class&lt;?&gt; type) {</span>
-<span class="fc" id="L858">    this.name = name;</span>
-<span class="fc" id="L859">    this.type = type;</span>
-<span class="fc" id="L860">  }</span>
+<span class="fc" id="L867">  public OccurrenceSearchParameter(String name, Class&lt;?&gt; type) {</span>
+<span class="fc" id="L868">    this.name = name;</span>
+<span class="fc" id="L869">    this.type = type;</span>
+<span class="fc" id="L870">  }</span>
 
   @Override
   public String name() {
-<span class="nc" id="L864">    return this.name;</span>
+<span class="nc" id="L874">    return this.name;</span>
   }
 
   public Class&lt;?&gt; getType() {
-<span class="fc" id="L868">    return type;</span>
+<span class="fc" id="L878">    return type;</span>
   }
 
   public String getName() {
-<span class="fc" id="L872">    return name;</span>
-  }
-
-  @Override
-  public Class&lt;?&gt; type() {
-<span class="fc" id="L877">    return this.type;</span>
-  }
-
-  @Override
-  public String toString() {
 <span class="fc" id="L882">    return name;</span>
   }
 
   @Override
+  public Class&lt;?&gt; type() {
+<span class="fc" id="L887">    return this.type;</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L892">    return name;</span>
+  }
+
+  @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L887" title="1 of 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L888" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L889">    OccurrenceSearchParameter that = (OccurrenceSearchParameter) o;</span>
-<span class="nc bnc" id="L890" title="All 4 branches missed.">    return Objects.equals(type, that.type) &amp;&amp; Objects.equals(name, that.name);</span>
+<span class="pc bpc" id="L897" title="1 of 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L898" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L899">    OccurrenceSearchParameter that = (OccurrenceSearchParameter) o;</span>
+<span class="nc bnc" id="L900" title="All 4 branches missed.">    return Objects.equals(type, that.type) &amp;&amp; Objects.equals(name, that.name);</span>
   }
 
   @JsonValue
   public String getSerializedValue() {
-<span class="fc" id="L895">    return name;</span>
+<span class="fc" id="L905">    return name;</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L900">    return Objects.hash(type, name);</span>
+<span class="fc" id="L910">    return Objects.hash(type, name);</span>
   }
 
   /**
@@ -906,72 +916,72 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * @return the parameter if found, otherwise empty
    */
   public static Optional&lt;OccurrenceSearchParameter&gt; lookup(String name) {
-<span class="fc" id="L909">    String normedType = name.toUpperCase().replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
-<span class="fc" id="L910">    java.lang.reflect.Field[] values = OccurrenceSearchParameter.class.getFields();</span>
-<span class="fc bfc" id="L911" title="All 2 branches covered.">    for (Field field: values) {</span>
+<span class="fc" id="L919">    String normedType = name.toUpperCase().replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
+<span class="fc" id="L920">    java.lang.reflect.Field[] values = OccurrenceSearchParameter.class.getFields();</span>
+<span class="fc bfc" id="L921" title="All 2 branches covered.">    for (Field field: values) {</span>
 
-<span class="fc" id="L913">      String fieldName = field.getName();</span>
-<span class="fc" id="L914">      String normedVal = fieldName.replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
-<span class="fc bfc" id="L915" title="All 2 branches covered.">      if (normedType.equals(normedVal)) {</span>
+<span class="fc" id="L923">      String fieldName = field.getName();</span>
+<span class="fc" id="L924">      String normedVal = fieldName.replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
+<span class="fc bfc" id="L925" title="All 2 branches covered.">      if (normedType.equals(normedVal)) {</span>
         try {
-<span class="fc" id="L917">          return Optional.of((OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class));</span>
-<span class="nc" id="L918">        } catch (IllegalAccessException e) {</span>
-<span class="nc" id="L919">          throw new RuntimeException(e);</span>
+<span class="fc" id="L927">          return Optional.of((OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class));</span>
+<span class="nc" id="L928">        } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L929">          throw new RuntimeException(e);</span>
         }
       }
     }
-<span class="fc" id="L923">    return Optional.empty();</span>
+<span class="fc" id="L933">    return Optional.empty();</span>
   }
 
-<span class="nc" id="L926">  public static class OccurrenceSearchParameterKeyDeserializer extends KeyDeserializer {</span>
+<span class="nc" id="L936">  public static class OccurrenceSearchParameterKeyDeserializer extends KeyDeserializer {</span>
 
     @Override
     public Object deserializeKey(String value, DeserializationContext deserializationContext) throws IOException {
-<span class="nc" id="L930">      Field[] values = OccurrenceSearchParameter.class.getFields();</span>
+<span class="nc" id="L940">      Field[] values = OccurrenceSearchParameter.class.getFields();</span>
       try {
-<span class="nc bnc" id="L932" title="All 2 branches missed.">        for (Field field: values) {</span>
-<span class="nc bnc" id="L933" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
-<span class="nc" id="L934">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
+<span class="nc bnc" id="L942" title="All 2 branches missed.">        for (Field field: values) {</span>
+<span class="nc bnc" id="L943" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="nc" id="L944">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
           }
         }
-<span class="nc" id="L937">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L947">      } catch (IllegalAccessException e) {</span>
         // DO NOTHING
-<span class="nc" id="L939">      }</span>
-<span class="nc" id="L940">      return null;</span>
+<span class="nc" id="L949">      }</span>
+<span class="nc" id="L950">      return null;</span>
     }
   }
 
-<span class="fc" id="L944">  public static class OccurrenceSearchParameterDeserializer extends JsonDeserializer&lt;OccurrenceSearchParameter&gt; {</span>
+<span class="fc" id="L954">  public static class OccurrenceSearchParameterDeserializer extends JsonDeserializer&lt;OccurrenceSearchParameter&gt; {</span>
 
     @Override
     public OccurrenceSearchParameter deserialize(com.fasterxml.jackson.core.JsonParser jsonParser, com.fasterxml.jackson.databind.DeserializationContext deserializationContext) throws IOException, JacksonException {
 
-<span class="fc" id="L949">      Field[] values = OccurrenceSearchParameter.class.getFields();</span>
+<span class="fc" id="L959">      Field[] values = OccurrenceSearchParameter.class.getFields();</span>
       try {
-<span class="fc" id="L951">        String value = jsonParser.getText();</span>
-<span class="pc bpc" id="L952" title="1 of 2 branches missed.">        for (Field field: values) {</span>
-<span class="fc bfc" id="L953" title="All 2 branches covered.">          if (field.getName().equalsIgnoreCase(value)) {</span>
-<span class="fc" id="L954">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
+<span class="fc" id="L961">        String value = jsonParser.getText();</span>
+<span class="pc bpc" id="L962" title="1 of 2 branches missed.">        for (Field field: values) {</span>
+<span class="fc bfc" id="L963" title="All 2 branches covered.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="fc" id="L964">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
           }
         }
 
-<span class="nc" id="L958">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L968">      } catch (IllegalAccessException e) {</span>
         // DO NOTHING
-<span class="nc" id="L960">      }</span>
+<span class="nc" id="L970">      }</span>
 
       try {
-<span class="nc" id="L963">        ObjectNode node = jsonParser.getCodec().readTree(jsonParser);</span>
-<span class="nc" id="L964">        String value = node.get(&quot;name&quot;).asText();</span>
-<span class="nc bnc" id="L965" title="All 2 branches missed.">        for (Field field: values) {</span>
-<span class="nc bnc" id="L966" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
-<span class="nc" id="L967">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
+<span class="nc" id="L973">        ObjectNode node = jsonParser.getCodec().readTree(jsonParser);</span>
+<span class="nc" id="L974">        String value = node.get(&quot;name&quot;).asText();</span>
+<span class="nc bnc" id="L975" title="All 2 branches missed.">        for (Field field: values) {</span>
+<span class="nc bnc" id="L976" title="All 2 branches missed.">          if (field.getName().equalsIgnoreCase(value)) {</span>
+<span class="nc" id="L977">            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);</span>
           }
         }
-<span class="nc" id="L970">      } catch (Exception e) {</span>
+<span class="nc" id="L980">      } catch (Exception e) {</span>
         // DO NOTHING
-<span class="nc" id="L972">      }</span>
+<span class="nc" id="L982">      }</span>
 
-<span class="nc" id="L974">      return null;</span>
+<span class="nc" id="L984">      return null;</span>
     }
   }
 }
