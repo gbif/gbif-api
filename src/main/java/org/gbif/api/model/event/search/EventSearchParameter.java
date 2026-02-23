@@ -77,11 +77,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter EVENT_DATE =
       new EventSearchParameter(OccurrenceSearchParameter.EVENT_DATE);
 
-  /** See @link {@link OccurrenceSearchParameter#EVENT_DATE_GTE} */
-  @Deprecated
-  public static final EventSearchParameter EVENT_DATE_GTE =
-      new EventSearchParameter(OccurrenceSearchParameter.EVENT_DATE_GTE);
-
   /**
    * An identifier for the set of information associated with an Event (something that occurs at a
    * place and time). Maybe a global unique identifier or an identifier specific to the data set.
@@ -98,10 +93,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** See @link {@link OccurrenceSearchParameter#SAMPLING_PROTOCOL} */
   public static final EventSearchParameter SAMPLING_PROTOCOL =
       new EventSearchParameter(OccurrenceSearchParameter.SAMPLING_PROTOCOL);
-
-  /** See @link {@link OccurrenceSearchParameter#PREVIOUS_IDENTIFICATIONS} */
-  public static final EventSearchParameter PREVIOUS_IDENTIFICATIONS =
-      new EventSearchParameter(OccurrenceSearchParameter.PREVIOUS_IDENTIFICATIONS);
 
   /** See @link {@link OccurrenceSearchParameter#LAST_INTERPRETED} */
   public static final EventSearchParameter LAST_INTERPRETED =
@@ -351,6 +342,14 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   /** The event funding attribution ID.  */
   public static final EventSearchParameter FUNDING_ATTRIBUTION_ID =
     new EventSearchParameter("FUNDING_ATTRIBUTION_ID", String.class);
+
+  /** See @link {@link OccurrenceSearchParameter#MEASUREMENT_TYPE} */
+  public static final EventSearchParameter MEASUREMENT_TYPE =
+      new EventSearchParameter(OccurrenceSearchParameter.MEASUREMENT_TYPE);
+
+  /** See @link {@link OccurrenceSearchParameter#MEASUREMENT_TYPE_ID} */
+  public static final EventSearchParameter MEASUREMENT_TYPE_ID =
+      new EventSearchParameter(OccurrenceSearchParameter.MEASUREMENT_TYPE_ID);
 
   /** Humboldt fields * */
   public static final EventSearchParameter HUMBOLDT_SITE_COUNT =

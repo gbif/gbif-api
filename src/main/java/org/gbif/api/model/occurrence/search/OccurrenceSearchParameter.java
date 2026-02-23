@@ -830,9 +830,19 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter BIOSTRATIGRAPHY = new OccurrenceSearchParameter("BIOSTRATIGRAPHY", String.class);
 
   /**
-   * @return the data type expected for the value of the respective search parameter
+   * Searches in the dna sequence ID.
    */
   public final static OccurrenceSearchParameter DNA_SEQUENCE_ID = new OccurrenceSearchParameter("DNA_SEQUENCE_ID", String.class);
+
+  /**
+   * Searches the MoF measurementType.
+   */
+  public final static OccurrenceSearchParameter MEASUREMENT_TYPE = new OccurrenceSearchParameter("MEASUREMENT_TYPE", String.class);
+
+  /**
+   * Searches the eMoF measurementTypeID.
+   */
+  public final static OccurrenceSearchParameter MEASUREMENT_TYPE_ID = new OccurrenceSearchParameter("MEASUREMENT_TYPE_ID", String.class);
 
 
   public static OccurrenceSearchParameter[] values(){

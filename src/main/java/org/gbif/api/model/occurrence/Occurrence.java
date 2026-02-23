@@ -121,7 +121,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Schema(
     description = "Statement about whether an organism or organisms have been introduced to a given place and time " +
       "through the direct or indirect activity of modern humans.\n\n" +
-      "Values are aligned to the [GBIF EstablishmentMeans vocabulary](https://registry.gbif.org/vocabulary/EstablishmentMeans/concepts)," +
+      "Values are aligned to the [GBIF EstablishmentMeans vocabulary](https://registry.gbif.org/vocabulary/EstablishmentMeans/concepts), " +
       "which is derived from the [Darwin Core EstablishmentMeans vocabulary](https://dwc.tdwg.org/em/).",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -133,7 +133,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Schema(
     description = "The degree to which an Organism survives, reproduces, and expands its range at the given " +
       "place and time.\n\n" +
-      "Values are aligned to the [GBIF DegreeOfEstablishment vocabulary](https://registry.gbif.org/vocabulary/DegreeOfEstablishment/concepts)," +
+      "Values are aligned to the [GBIF DegreeOfEstablishment vocabulary](https://registry.gbif.org/vocabulary/DegreeOfEstablishment/concepts), " +
       "which is derived from the [Darwin Core DegreeOfEstablishment vocabulary](https://dwc.tdwg.org/doe/).",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -144,7 +144,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The process by which an Organism came to be in a given place at a given time.\n\n" +
-    "Values are aligned to the [GBIF Pathway vocabulary](https://registry.gbif.org/vocabulary/Pathway/concepts)," +
+    "Values are aligned to the [GBIF Pathway vocabulary](https://registry.gbif.org/vocabulary/Pathway/concepts), " +
     "which is derived from the [Darwin Core Pathway vocabulary](https://dwc.tdwg.org/pw/).",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
