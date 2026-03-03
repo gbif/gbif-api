@@ -159,7 +159,8 @@ public interface PipelinesHistoryService {
       boolean markPreviousAttemptAsFailed,
       @Nullable RunAllParams runAllParams,
       @Nullable Set<String> interpretTypes,
-      boolean excludeEventSteps);
+      boolean excludeEventSteps,
+      boolean onlyIncludeRequestedStep);
 
   /**
    * Restart last failed pipelines step for a dataset.
@@ -182,7 +183,8 @@ public interface PipelinesHistoryService {
       boolean useLastSuccessful,
       boolean markPreviousAttemptAsFailed,
       @Nullable Set<String> interpretTypes,
-      boolean excludeEventSteps);
+      boolean excludeEventSteps,
+      boolean onlyIncludeRequestedStep);
 
   /**
    * Re-run a pipeline step.
@@ -205,7 +207,8 @@ public interface PipelinesHistoryService {
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean markPreviousAttemptAsFailed,
       @Nullable Set<String> interpretTypes,
-      boolean excludeEventSteps);
+      boolean excludeEventSteps,
+      boolean onlyIncludeRequestedStep);
 
   /**
    * Sends email to data administrator about absent identifiers issue with a dataset
