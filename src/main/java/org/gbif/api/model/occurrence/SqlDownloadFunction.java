@@ -4,6 +4,10 @@ package org.gbif.api.model.occurrence;
  * Custom functions supported by the SQL download API.
  */
 public enum SqlDownloadFunction {
+  // Builtin function used in classification queries, not known by Calcite.
+  ARRAYS_OVERLAP("ARRAYS_OVERLAP"),
+
+  // GBIF custom functions
   DEGREE_MINUTE_SECOND_GRID_CELL_CODE("GBIF_DMSGCode"),
   EEA_CELL_CODE("GBIF_EEARGCode"),
   EUROSTAT_CELL_CODE("GBIF_EuroStatCode"),
