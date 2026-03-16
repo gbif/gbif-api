@@ -25,7 +25,6 @@ import org.gbif.api.vocabulary.License;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.Set;
 
 /**
  * Each value in the enum represents a possible facet for the Dataset search.
@@ -114,6 +113,11 @@ public enum DatasetSearchParameter implements SearchParameter {
    * Date when the dataset was last updated
    */
   MODIFIED_DATE(LocalDateTime.class),
+
+  /**
+   * Date when the dataset was created
+   */
+  CREATED_DATE(LocalDateTime.class),
 
   /**
    * Dataset title/name.
