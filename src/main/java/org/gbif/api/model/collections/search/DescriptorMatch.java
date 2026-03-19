@@ -13,6 +13,7 @@ public class DescriptorMatch {
   private String usageName;
   private Long usageKey;
   private Rank usageRank;
+  private String checklistKey;
   private Country country;
   private Integer individualCount;
   private List<String> identifiedBy;

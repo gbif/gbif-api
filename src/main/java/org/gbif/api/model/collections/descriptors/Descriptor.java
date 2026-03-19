@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import lombok.Builder;
 import lombok.Data;
 import org.gbif.api.v2.RankedName;
 import org.gbif.api.vocabulary.Country;
@@ -29,6 +31,20 @@ public class Descriptor implements Serializable {
   private String biome;
   private String biomeType;
   private List<RankedName> taxonClassification;
+  private String defaultChecklistKey;
+  private Map<String, OtherTaxonClassification> otherTaxonClassifications;
   private List<String> issues = new ArrayList<>();
   private Map<String, String> verbatim = new HashMap<>();
+
+  @Builder
+  public static class OtherTaxonClassification {
+    String usageKey;
+    String usageName;
+    String usageRank;
+    @Builder.Default
+    List<RankedName> classification = new ArrayList<>();
+    @Builder.Default
+    List<String> issues = new ArrayList<>();
+  }
+
 }

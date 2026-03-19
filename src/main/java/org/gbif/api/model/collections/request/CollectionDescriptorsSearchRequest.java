@@ -36,6 +36,8 @@ public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest
   @Nullable private List<String> biome;
   @Nullable private List<String> biomeType;
   @Nullable private List<String> issue;
+  @Nullable private List<String> taxonIssues;
+  @Nullable private String checklistKey;
 
   @Builder.Default @Nullable private Set<CollectionFacetParameter> facets = new HashSet<>();
   @Nullable private boolean multiSelectFacets;

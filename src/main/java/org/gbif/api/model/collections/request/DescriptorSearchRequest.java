@@ -36,6 +36,8 @@ public class DescriptorSearchRequest extends PageableBase implements Serializabl
   @Nullable private List<String> biome;
   @Nullable private List<String> biomeType;
   @Nullable private List<String> issues;
+  @Nullable private List<String> taxonIssues;
+  @Nullable private String checklistKey;
 
   public Pageable getPage() {
     return new PagingRequest(getOffset(), getLimit());
