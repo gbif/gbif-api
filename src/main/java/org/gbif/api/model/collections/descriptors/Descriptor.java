@@ -37,6 +37,7 @@ public class Descriptor implements Serializable {
   private Map<String, String> verbatim = new HashMap<>();
 
   @Builder
+  @Data
   public static class OtherTaxonClassification {
     String usageKey;
     String usageName;

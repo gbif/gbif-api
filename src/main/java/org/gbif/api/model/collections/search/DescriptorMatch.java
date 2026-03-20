@@ -11,8 +11,8 @@ public class DescriptorMatch {
   private Long key;
   private Long descriptorGroupKey;
   private String usageName;
-  private Long usageKey;
-  private Rank usageRank;
+  private String usageKey;
+  private String usageRank;
   private String checklistKey;
   private Country country;
   private Integer individualCount;
