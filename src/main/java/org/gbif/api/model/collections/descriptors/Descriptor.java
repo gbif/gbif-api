@@ -39,13 +39,13 @@ public class Descriptor implements Serializable {
   @Builder
   @Data
   public static class OtherTaxonClassification {
-    String usageKey;
-    String usageName;
-    String usageRank;
+    private String usageKey;
+    private String usageName;
+    private String usageRank;
     @Builder.Default
-    List<RankedName> classification = new ArrayList<>();
+    private List<RankedName> classification = new ArrayList<>();
     @Builder.Default
-    List<String> issues = new ArrayList<>();
+    private List<String> issues = new ArrayList<>();
   }
 
 }

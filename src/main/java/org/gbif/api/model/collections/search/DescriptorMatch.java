@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import lombok.Data;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.Rank;
 
 @Data
 public class DescriptorMatch {
