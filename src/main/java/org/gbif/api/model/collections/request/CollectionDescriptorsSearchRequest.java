@@ -1,18 +1,17 @@
 package org.gbif.api.model.collections.request;
 
+import jakarta.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.collections.CollectionFacetParameter;
 
 @EqualsAndHashCode(callSuper = true)
@@ -36,6 +35,8 @@ public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest
   @Nullable private List<String> biome;
   @Nullable private List<String> biomeType;
   @Nullable private List<String> issue;
+  @Nullable private List<String> taxonIssue;
+  @Nullable private String checklistKey;
 
   @Builder.Default @Nullable private Set<CollectionFacetParameter> facets = new HashSet<>();
   @Nullable private boolean multiSelectFacets;
