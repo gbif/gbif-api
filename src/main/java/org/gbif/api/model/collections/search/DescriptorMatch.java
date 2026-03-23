@@ -4,15 +4,15 @@ import java.util.Date;
 import java.util.List;
 import lombok.Data;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.Rank;
 
 @Data
 public class DescriptorMatch {
   private Long key;
   private Long descriptorGroupKey;
   private String usageName;
-  private Long usageKey;
-  private Rank usageRank;
+  private String usageKey;
+  private String usageRank;
+  private String checklistKey;
   private Country country;
   private Integer individualCount;
   private List<String> identifiedBy;
