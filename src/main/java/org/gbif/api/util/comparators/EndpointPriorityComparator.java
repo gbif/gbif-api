@@ -55,6 +55,7 @@ public class EndpointPriorityComparator implements Comparator<Endpoint>, Seriali
       EndpointType.TAPIR,
       EndpointType.BIOCASE_XML_ARCHIVE,
       EndpointType.DWC_ARCHIVE,
+      EndpointType.COLDP,
       EndpointType.CAMTRAP_DP,
       EndpointType.DWC_DP
     ));
