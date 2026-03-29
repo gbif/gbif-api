@@ -417,18 +417,15 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),
 
-  /** Era or erathem was inferred from a parent rank. */
-  ERA_OR_ERATHEM_INFERRED_FROM_PARENT_RANK(
+  /** Era or erathem was inferred. */
+  ERA_OR_ERATHEM_INFERRED(
       INFO, DwcTerm.earliestEraOrLowestErathem, DwcTerm.latestEraOrHighestErathem),
-  /** Period or system was inferred from a parent rank. */
-  PERIOD_OR_SYSTEM_INFERRED_FROM_PARENT_RANK(
+  /** Period or system was inferred. */
+  PERIOD_OR_SYSTEM_INFERRED(
       INFO, DwcTerm.earliestPeriodOrLowestSystem, DwcTerm.latestPeriodOrHighestSystem),
-  /** Epoch or series was inferred from a parent rank. */
-  EPOCH_OR_SERIES_INFERRED_FROM_PARENT_RANK(
+  /** Epoch or series was inferred. */
+  EPOCH_OR_SERIES_INFERRED(
       INFO, DwcTerm.earliestEpochOrLowestSeries, DwcTerm.latestEpochOrHighestSeries),
-  /** Age or stage was inferred from a parent rank. */
-  AGE_OR_STAGE_INFERRED_FROM_PARENT_RANK(
-      INFO, DwcTerm.earliestAgeOrLowestStage, DwcTerm.latestAgeOrHighestStage),
 
   /** The eon or eonothem provided belongs to another rank. */
   EON_OR_EONOTHEM_RANK_MISMATCH(
