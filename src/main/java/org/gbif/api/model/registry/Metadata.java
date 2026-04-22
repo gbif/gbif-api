@@ -15,8 +15,6 @@
  */
 package org.gbif.api.model.registry;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.gbif.api.vocabulary.MetadataType;
 
 import java.io.Serializable;
@@ -28,17 +26,13 @@ import java.util.UUID;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.AssertTrue;
 
 public class Metadata implements Serializable, LenientEquals<Metadata> {
-
-  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   private Integer key;
   private UUID datasetKey;
   private MetadataType type;
   private String content;
-  private String contentJson;
 
   private String createdBy;
   private String modifiedBy;
@@ -80,28 +74,6 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
 
   public void setContent(String content) {
     this.content = content;
-  }
-
-  public String getContentJson() {
-    return contentJson;
-  }
-
-  public void setContentJson(String contentJson) {
-    this.contentJson = contentJson;
-  }
-
-  @AssertTrue(message = "contentJson must be valid JSON")
-  public boolean isContentJsonValid() {
-    if (contentJson == null || contentJson.trim().isEmpty()) {
-      return true;
-    }
-
-    try {
-      OBJECT_MAPPER.readTree(contentJson);
-      return true;
-    } catch (Exception e) {
-      return false;
-    }
   }
 
   @NotNull
@@ -155,7 +127,6 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
         && Objects.equals(datasetKey, metadata.datasetKey)
         && type == metadata.type
         && Objects.equals(content, metadata.content)
-        && Objects.equals(contentJson, metadata.contentJson)
         && Objects.equals(createdBy, metadata.createdBy)
         && Objects.equals(modifiedBy, metadata.modifiedBy)
         && Objects.equals(created, metadata.created)
@@ -164,7 +135,7 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, datasetKey, type, content, contentJson, createdBy, modifiedBy, created, modified);
+    return Objects.hash(key, datasetKey, type, content, createdBy, modifiedBy, created, modified);
   }
 
   @Override
@@ -174,7 +145,6 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
         .add("datasetKey=" + datasetKey)
         .add("type=" + type)
         .add("content='" + content + "'")
-        .add("contentJson='" + contentJson + "'")
         .add("createdBy='" + createdBy + "'")
         .add("modifiedBy='" + modifiedBy + "'")
         .add("created=" + created)
@@ -193,7 +163,6 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
     if (other == null) return false;
     return Objects.equals(this.datasetKey, other.datasetKey)
         && Objects.equals(this.type, other.type)
-        && Objects.equals(this.content, other.content)
-        && Objects.equals(this.contentJson, other.contentJson);
+        && Objects.equals(this.content, other.content);
   }
 }
