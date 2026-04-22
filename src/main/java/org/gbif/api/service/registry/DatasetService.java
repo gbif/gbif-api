@@ -26,7 +26,6 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.MetadataType;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
@@ -106,30 +105,7 @@ public interface DatasetService extends NetworkEntityService<Dataset> {
    * @param contentJson optional structured JSON companion to store with the metadata document
    * @throws IllegalArgumentException if document is not parsable
    */
-  Metadata insertMetadata(UUID datasetKey, byte[] document, @Nullable String contentJson, @Nullable MetadataType metadataType);
-
-  /**
-   * Inserts a metadata document, replacing any previously existing document of the same type.
-   * Updates dataset from metadata document, but only if metadata document does not exist already.
-   * The document type is discovered by the service and returned in the Metadata instance.
-   *
-   * @param datasetKey the dataset in question
-   * @param document metadata document to insert
-   * @param contentJson optional structured JSON companion to store with the metadata document
-   * @param metadataType optional explicit metadata type; inferred from document content if null
-   * @throws IllegalArgumentException if document is not parsable
-   */
-  default Metadata insertMetadata(
-      UUID datasetKey,
-      InputStream document,
-      @Nullable String contentJson,
-      @Nullable MetadataType metadataType) {
-    try {
-      return insertMetadata(datasetKey, document.readAllBytes(), contentJson, metadataType);
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Unreadable document", e);
-    }
-  }
+  Metadata insertMetadata(UUID datasetKey, InputStream document, @Nullable String contentJson, @Nullable MetadataType metadataType);
 
   /**
    * Inserts a metadata document, replacing any previously existing document of the same type.
