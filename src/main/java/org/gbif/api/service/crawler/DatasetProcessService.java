@@ -82,10 +82,4 @@ public interface DatasetProcessService {
    *         be crawled
    */
   List<DatasetProcessStatus> getPendingDwcDpDatasetProcesses();
-
-  /**
-   * @return an ordered list of dataset processing statuses for all ColDP based datasets that are currently waiting to
-   *         be crawled
-   */
-  List<DatasetProcessStatus> getPendingColDpDatasetProcesses();
 }
