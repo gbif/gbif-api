@@ -51,6 +51,7 @@ pipeline {
                 anyOf {
                     branch 'dev';
                     branch '763_only_requested_steps';
+                    branch 'coldp';
                 }
             }
         }
