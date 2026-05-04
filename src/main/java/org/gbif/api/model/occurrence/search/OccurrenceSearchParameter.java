@@ -855,62 +855,62 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * Length of cleaned sequence in base pairs.
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_SEQUENCE_LENGTH = new OccurrenceSearchParameter("NUCLEOTIDE_SEQUENCE_LENGTH", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_SEQUENCE_LENGTH = new OccurrenceSearchParameter("NUCLEOTIDE_SEQUENCE_LENGTH", Integer.class);
 
   /**
    * GC content (0-1, based on A/C/G/T only).
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_GC_CONTENT = new OccurrenceSearchParameter("NUCLEOTIDE_GC_CONTENT", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_GC_CONTENT = new OccurrenceSearchParameter("NUCLEOTIDE_GC_CONTENT", Double.class);
 
   /**
    * Fraction of non-IUPAC characters (0-1).
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_NON_IUPAC_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_NON_IUPAC_FRACTION", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_NON_IUPAC_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_NON_IUPAC_FRACTION", Double.class);
 
   /**
    * Fraction of ambiguous IUPAC codes, not A/C/G/T/N (0-1).
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_NON_ACGTN_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_NON_ACGTN_FRACTION", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_NON_ACGTN_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_NON_ACGTN_FRACTION", Double.class);
 
   /**
    *  Fraction of N characters (0-1).
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_N_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_N_FRACTION", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_N_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_N_FRACTION", Double.class);
 
   /**
    * Number of N-runs that were capped.
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_N_RUNS_CAPPED = new OccurrenceSearchParameter("NUCLEOTIDE_N_RUNS_CAPPED", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_N_RUNS_CAPPED = new OccurrenceSearchParameter("NUCLEOTIDE_N_RUNS_CAPPED", Integer.class);
 
   /**
    * Whether UNMERGED marker was found.
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_NATURAL_LANGUAGE_DETECTED = new OccurrenceSearchParameter("NUCLEOTIDE_NATURAL_LANGUAGE_DETECTED", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_NATURAL_LANGUAGE_DETECTED = new OccurrenceSearchParameter("NUCLEOTIDE_NATURAL_LANGUAGE_DETECTED", Boolean.class);
 
   /**
    * Whether ends were trimmed.
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_ENDS_TRIMMED = new OccurrenceSearchParameter("NUCLEOTIDE_ENDS_TRIMMED", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_ENDS_TRIMMED = new OccurrenceSearchParameter("NUCLEOTIDE_ENDS_TRIMMED", Boolean.class);
 
   /**
    * Whether gaps and/or whitespace were removed.
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_GAPS_OR_WHITESPACE_REMOVED = new OccurrenceSearchParameter("NUCLEOTIDE_GAPS_OR_WHITESPACE_REMOVED", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_GAPS_OR_WHITESPACE_REMOVED = new OccurrenceSearchParameter("NUCLEOTIDE_GAPS_OR_WHITESPACE_REMOVED", Boolean.class);
 
   /**
    * nonIupacFraction > 0 and/or naturalLanguageDetected is true.
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_INVALID = new OccurrenceSearchParameter("NUCLEOTIDE_INVALID", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_INVALID = new OccurrenceSearchParameter("NUCLEOTIDE_INVALID", Boolean.class);
 
   /**
    * Searches the MoF measurementType.
    */
-  public final static OccurrenceSearchParameter MEASUREMENT_TYPE = new OccurrenceSearchParameter("MEASUREMENT_TYPE", String.class);
+  public final static OccurrenceSearchParameter MEASUREMENT_TYPE = new OccurrenceSearchParameter("MEASUREMENT_TYPE", Boolean.class);
 
   /**
    * Searches the eMoF measurementTypeID.
    */
-  public final static OccurrenceSearchParameter MEASUREMENT_TYPE_ID = new OccurrenceSearchParameter("MEASUREMENT_TYPE_ID", String.class);
+  public final static OccurrenceSearchParameter MEASUREMENT_TYPE_ID = new OccurrenceSearchParameter("MEASUREMENT_TYPE_ID", Boolean.class);
 
 
   public static OccurrenceSearchParameter[] values(){
