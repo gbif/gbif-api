@@ -1072,10 +1072,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Schema(
     description = "**Experimental.**  The DNA sequence ID of an occurrence."
   )
-  @Experimental
+  @Deprecated
   private List<String> dnaSequenceID = new ArrayList<>();
 
-  // TODO: docs
+  @Schema(description = "Nucleotide Sequence objects of an occurrence.")
   @Getter
   @Setter
   private List<NucleotideSequence> nucleotideSequence = new ArrayList<>();

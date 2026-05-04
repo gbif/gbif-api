@@ -3,13 +3,9 @@ package org.gbif.api.model.occurrence;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(
-  description = "A nucleotide sequence."
-)
+@Schema(description = "A nucleotide sequence.")
 @Data
 public class NucleotideSequence {
-
-  // TODO: docs
 
   private String nucleotideSequenceID;
   private String targetGene;

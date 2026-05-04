@@ -834,22 +834,70 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    */
   public final static OccurrenceSearchParameter DNA_SEQUENCE_ID = new OccurrenceSearchParameter("DNA_SEQUENCE_ID", String.class);
 
-  // TODO: docs
+  /**
+   * MD5 hash of the final cleaned sequence.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_NUCLEOTIDE_SEQUENCE_ID = new OccurrenceSearchParameter("NUCLEOTIDE_NUCLEOTIDE_SEQUENCE_ID", String.class);
+
+  /**
+   * Normalized gene name using the target_gene vocabulary.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_TARGET_GENE = new OccurrenceSearchParameter("NUCLEOTIDE_TARGET_GENE", String.class);
+
+  /**
+   * Final cleaned sequence. null if flagged invalid.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_SEQUENCE = new OccurrenceSearchParameter("NUCLEOTIDE_SEQUENCE", String.class);
+
+  /**
+   * Length of cleaned sequence in base pairs.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_SEQUENCE_LENGTH = new OccurrenceSearchParameter("NUCLEOTIDE_SEQUENCE_LENGTH", String.class);
+
+  /**
+   * GC content (0-1, based on A/C/G/T only).
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_GC_CONTENT = new OccurrenceSearchParameter("NUCLEOTIDE_GC_CONTENT", String.class);
+
+  /**
+   * Fraction of non-IUPAC characters (0-1).
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_NON_IUPAC_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_NON_IUPAC_FRACTION", String.class);
+
+  /**
+   * Fraction of ambiguous IUPAC codes, not A/C/G/T/N (0-1).
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_NON_ACGTN_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_NON_ACGTN_FRACTION", String.class);
+
+  /**
+   *  Fraction of N characters (0-1).
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_N_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_N_FRACTION", String.class);
+
+  /**
+   * Number of N-runs that were capped.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_N_RUNS_CAPPED = new OccurrenceSearchParameter("NUCLEOTIDE_N_RUNS_CAPPED", String.class);
+
+  /**
+   * Whether UNMERGED marker was found.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_NATURAL_LANGUAGE_DETECTED = new OccurrenceSearchParameter("NUCLEOTIDE_NATURAL_LANGUAGE_DETECTED", String.class);
+
+  /**
+   * Whether ends were trimmed.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_ENDS_TRIMMED = new OccurrenceSearchParameter("NUCLEOTIDE_ENDS_TRIMMED", String.class);
+
+  /**
+   * Whether gaps and/or whitespace were removed.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_GAPS_OR_WHITESPACE_REMOVED = new OccurrenceSearchParameter("NUCLEOTIDE_GAPS_OR_WHITESPACE_REMOVED", String.class);
+
+  /**
+   * nonIupacFraction > 0 and/or naturalLanguageDetected is true.
+   */
   public final static OccurrenceSearchParameter NUCLEOTIDE_INVALID = new OccurrenceSearchParameter("NUCLEOTIDE_INVALID", String.class);
-
-
 
   /**
    * Searches the MoF measurementType.
