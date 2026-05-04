@@ -1070,7 +1070,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String samplingProtocol;
 
   @Schema(
-    description = "**Experimental.**  The DNA sequence ID of an occurrence."
+    description = "**Deprecated: use the nucleotideSequence instead.**  The DNA sequence ID of an occurrence."
   )
   @Deprecated
   private List<String> dnaSequenceID = new ArrayList<>();

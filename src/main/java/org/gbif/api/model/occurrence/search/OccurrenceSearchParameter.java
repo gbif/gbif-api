@@ -836,7 +836,10 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
 
   /**
    * MD5 hash of the final cleaned sequence.
+   *
+   * Deprecated: use the nucleotideSequence instead.
    */
+  @Deprecated
   public final static OccurrenceSearchParameter NUCLEOTIDE_NUCLEOTIDE_SEQUENCE_ID = new OccurrenceSearchParameter("NUCLEOTIDE_NUCLEOTIDE_SEQUENCE_ID", String.class);
 
   /**
