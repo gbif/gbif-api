@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.occurrence;
 
+import lombok.Getter;
+
+import lombok.Setter;
+
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.Classification;
 import org.gbif.api.model.common.Identifier;
@@ -1070,6 +1074,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   )
   @Experimental
   private List<String> dnaSequenceID = new ArrayList<>();
+
+  // TODO: docs
+  @Getter
+  @Setter
+  private List<NucleotideSequence> nucleotideSequence = new ArrayList<>();
 
   public Occurrence() {
 

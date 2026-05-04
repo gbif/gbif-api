@@ -834,6 +834,23 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    */
   public final static OccurrenceSearchParameter DNA_SEQUENCE_ID = new OccurrenceSearchParameter("DNA_SEQUENCE_ID", String.class);
 
+  // TODO: docs
+  public final static OccurrenceSearchParameter NUCLEOTIDE_NUCLEOTIDE_SEQUENCE_ID = new OccurrenceSearchParameter("NUCLEOTIDE_NUCLEOTIDE_SEQUENCE_ID", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_TARGET_GENE = new OccurrenceSearchParameter("NUCLEOTIDE_TARGET_GENE", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_SEQUENCE = new OccurrenceSearchParameter("NUCLEOTIDE_SEQUENCE", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_SEQUENCE_LENGTH = new OccurrenceSearchParameter("NUCLEOTIDE_SEQUENCE_LENGTH", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_GC_CONTENT = new OccurrenceSearchParameter("NUCLEOTIDE_GC_CONTENT", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_NON_IUPAC_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_NON_IUPAC_FRACTION", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_NON_ACGTN_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_NON_ACGTN_FRACTION", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_N_FRACTION = new OccurrenceSearchParameter("NUCLEOTIDE_N_FRACTION", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_N_RUNS_CAPPED = new OccurrenceSearchParameter("NUCLEOTIDE_N_RUNS_CAPPED", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_NATURAL_LANGUAGE_DETECTED = new OccurrenceSearchParameter("NUCLEOTIDE_NATURAL_LANGUAGE_DETECTED", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_ENDS_TRIMMED = new OccurrenceSearchParameter("NUCLEOTIDE_ENDS_TRIMMED", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_GAPS_OR_WHITESPACE_REMOVED = new OccurrenceSearchParameter("NUCLEOTIDE_GAPS_OR_WHITESPACE_REMOVED", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_INVALID = new OccurrenceSearchParameter("NUCLEOTIDE_INVALID", String.class);
+
+
+
   /**
    * Searches the MoF measurementType.
    */
