@@ -905,12 +905,12 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * Searches the MoF measurementType.
    */
-  public final static OccurrenceSearchParameter MEASUREMENT_TYPE = new OccurrenceSearchParameter("MEASUREMENT_TYPE", Boolean.class);
+  public final static OccurrenceSearchParameter MEASUREMENT_TYPE = new OccurrenceSearchParameter("MEASUREMENT_TYPE", String.class);
 
   /**
    * Searches the eMoF measurementTypeID.
    */
-  public final static OccurrenceSearchParameter MEASUREMENT_TYPE_ID = new OccurrenceSearchParameter("MEASUREMENT_TYPE_ID", Boolean.class);
+  public final static OccurrenceSearchParameter MEASUREMENT_TYPE_ID = new OccurrenceSearchParameter("MEASUREMENT_TYPE_ID", String.class);
 
 
   public static OccurrenceSearchParameter[] values(){
