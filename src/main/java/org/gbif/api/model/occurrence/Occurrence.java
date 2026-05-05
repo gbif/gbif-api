@@ -2336,10 +2336,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.samplingProtocol = samplingProtocol;
   }
 
+  @Deprecated
   public List<String> getDnaSequenceID() {
     return dnaSequenceID;
   }
 
+  @Deprecated
   public void setDnaSequenceID(List<String> dnaSequenceID) {
     this.dnaSequenceID = dnaSequenceID;
   }
