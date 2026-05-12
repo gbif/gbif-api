@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.occurrence;
 
+import lombok.Getter;
+
+import lombok.Setter;
+
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.Classification;
 import org.gbif.api.model.common.Identifier;
@@ -1066,10 +1070,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String samplingProtocol;
 
   @Schema(
-    description = "**Experimental.**  The DNA sequence ID of an occurrence."
+    description = "**Deprecated: use the nucleotideSequence instead.**  The DNA sequence ID of an occurrence."
   )
-  @Experimental
+  @Deprecated
   private List<String> dnaSequenceID = new ArrayList<>();
+
+  @Schema(description = "Nucleotide Sequence objects of an occurrence.")
+  @Getter
+  @Setter
+  private List<NucleotideSequence> nucleotideSequence = new ArrayList<>();
 
   public Occurrence() {
 
@@ -2327,10 +2336,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.samplingProtocol = samplingProtocol;
   }
 
+  @Deprecated
   public List<String> getDnaSequenceID() {
     return dnaSequenceID;
   }
 
+  @Deprecated
   public void setDnaSequenceID(List<String> dnaSequenceID) {
     this.dnaSequenceID = dnaSequenceID;
   }
