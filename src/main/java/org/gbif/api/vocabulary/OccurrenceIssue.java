@@ -27,7 +27,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.gbif.api.util.AnnotationUtils;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.EcoTerm;
+import org.gbif.dwc.terms.GbifDnaTerm;
+import org.gbif.dwc.terms.MixsTerm;
 import org.gbif.dwc.terms.Term;
 
 /** An enumeration of validation rules for single occurrence records. */
@@ -492,7 +493,28 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.earliestEpochOrLowestSeries,
       DwcTerm.latestEpochOrHighestSeries,
       DwcTerm.earliestAgeOrLowestStage,
-      DwcTerm.latestAgeOrHighestStage);
+      DwcTerm.latestAgeOrHighestStage),
+
+  /** Set when natural language text is detected in {@code dna_sequence}. */
+  NUCLEOTIDE_SEQUENCE_NATURAL_LANGUAGE(INFO, GbifDnaTerm.dna_sequence),
+
+  /** Set when leading or trailing sequence characters are trimmed. */
+  NUCLEOTIDE_SEQUENCE_ENDS_TRIMMED(INFO, GbifDnaTerm.dna_sequence),
+
+  /** Set when gaps or whitespace are removed from the sequence. */
+  NUCLEOTIDE_SEQUENCE_GAPS_REMOVED(INFO, GbifDnaTerm.dna_sequence),
+
+  /** Set when the sequence is invalid after normalization and validation. */
+  NUCLEOTIDE_SEQUENCE_INVALID(INFO, GbifDnaTerm.dna_sequence),
+
+  /** Set when the fraction of N bases exceeds the configured threshold. */
+  NUCLEOTIDE_SEQUENCE_HIGH_N_FRACTION(INFO, GbifDnaTerm.dna_sequence),
+
+  /** Set when the fraction of non-ACGTN bases exceeds the configured threshold. */
+  NUCLEOTIDE_SEQUENCE_HIGH_AMBIGUITY(INFO, GbifDnaTerm.dna_sequence),
+
+  /** Set when {@code target_gene} does not resolve to a concept in the vocabulary. */
+  TARGET_GENE_INVALID(INFO, MixsTerm.target_gene);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
