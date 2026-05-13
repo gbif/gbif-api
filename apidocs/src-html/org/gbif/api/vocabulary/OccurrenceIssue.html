@@ -40,603 +40,625 @@
 <span class="source-line-no">027</span><span id="line-27">import org.gbif.api.util.AnnotationUtils;</span>
 <span class="source-line-no">028</span><span id="line-28">import org.gbif.dwc.terms.DcTerm;</span>
 <span class="source-line-no">029</span><span id="line-29">import org.gbif.dwc.terms.DwcTerm;</span>
-<span class="source-line-no">030</span><span id="line-30">import org.gbif.dwc.terms.EcoTerm;</span>
-<span class="source-line-no">031</span><span id="line-31">import org.gbif.dwc.terms.Term;</span>
-<span class="source-line-no">032</span><span id="line-32"></span>
-<span class="source-line-no">033</span><span id="line-33">/** An enumeration of validation rules for single occurrence records. */</span>
-<span class="source-line-no">034</span><span id="line-34">public enum OccurrenceIssue implements InterpretationRemark {</span>
-<span class="source-line-no">035</span><span id="line-35"></span>
-<span class="source-line-no">036</span><span id="line-36">  /** Coordinate is the exact 0°, 0° coordinate, often indicating a bad null coordinate. */</span>
-<span class="source-line-no">037</span><span id="line-37">  ZERO_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
-<span class="source-line-no">038</span><span id="line-38"></span>
-<span class="source-line-no">039</span><span id="line-39">  /**</span>
-<span class="source-line-no">040</span><span id="line-40">   * Coordinate has a latitude and/or longitude value beyond the maximum (or minimum) decimal value.</span>
-<span class="source-line-no">041</span><span id="line-41">   */</span>
-<span class="source-line-no">042</span><span id="line-42">  COORDINATE_OUT_OF_RANGE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
-<span class="source-line-no">043</span><span id="line-43"></span>
-<span class="source-line-no">044</span><span id="line-44">  /** Coordinate value is given in some form but GBIF is unable to interpret it. */</span>
-<span class="source-line-no">045</span><span id="line-45">  COORDINATE_INVALID(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
-<span class="source-line-no">046</span><span id="line-46"></span>
-<span class="source-line-no">047</span><span id="line-47">  /** Original coordinate modified by rounding to 5 decimals. */</span>
-<span class="source-line-no">048</span><span id="line-48">  COORDINATE_ROUNDED(INFO, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
-<span class="source-line-no">049</span><span id="line-49"></span>
-<span class="source-line-no">050</span><span id="line-50">  /** The geodetic datum given could not be interpreted. */</span>
-<span class="source-line-no">051</span><span id="line-51">  GEODETIC_DATUM_INVALID(WARNING, DwcTerm.geodeticDatum),</span>
-<span class="source-line-no">052</span><span id="line-52"></span>
-<span class="source-line-no">053</span><span id="line-53">  /**</span>
-<span class="source-line-no">054</span><span id="line-54">   * Indicating that the interpreted coordinates assume they are based on WGS84 datum as the datum</span>
-<span class="source-line-no">055</span><span id="line-55">   * was either not indicated or interpretable. See GEODETIC_DATUM_INVALID.</span>
-<span class="source-line-no">056</span><span id="line-56">   */</span>
-<span class="source-line-no">057</span><span id="line-57">  GEODETIC_DATUM_ASSUMED_WGS84(INFO, DwcTerm.geodeticDatum),</span>
-<span class="source-line-no">058</span><span id="line-58"></span>
-<span class="source-line-no">059</span><span id="line-59">  /**</span>
-<span class="source-line-no">060</span><span id="line-60">   * The original coordinate was successfully reprojected from a different geodetic datum to WGS84.</span>
-<span class="source-line-no">061</span><span id="line-61">   */</span>
-<span class="source-line-no">062</span><span id="line-62">  COORDINATE_REPROJECTED(INFO, TermsGroup.COORDINATES_TERMS),</span>
-<span class="source-line-no">063</span><span id="line-63"></span>
-<span class="source-line-no">064</span><span id="line-64">  /**</span>
-<span class="source-line-no">065</span><span id="line-65">   * The given decimal latitude and longitude could not be reprojected to WGS84 based on the</span>
-<span class="source-line-no">066</span><span id="line-66">   * provided datum.</span>
-<span class="source-line-no">067</span><span id="line-67">   */</span>
-<span class="source-line-no">068</span><span id="line-68">  COORDINATE_REPROJECTION_FAILED(WARNING, TermsGroup.COORDINATES_TERMS),</span>
-<span class="source-line-no">069</span><span id="line-69"></span>
-<span class="source-line-no">070</span><span id="line-70">  /**</span>
-<span class="source-line-no">071</span><span id="line-71">   * Indicates successful coordinate reprojection according to provided datum, but which results in</span>
-<span class="source-line-no">072</span><span id="line-72">   * a datum shift larger than 0.1 decimal degrees.</span>
-<span class="source-line-no">073</span><span id="line-73">   */</span>
-<span class="source-line-no">074</span><span id="line-74">  COORDINATE_REPROJECTION_SUSPICIOUS(WARNING, TermsGroup.COORDINATES_TERMS),</span>
-<span class="source-line-no">075</span><span id="line-75"></span>
-<span class="source-line-no">076</span><span id="line-76">  /**</span>
-<span class="source-line-no">077</span><span id="line-77">   * Indicates an invalid or very unlikely coordinate accuracy derived from precision or uncertainty</span>
-<span class="source-line-no">078</span><span id="line-78">   * in meters.</span>
-<span class="source-line-no">079</span><span id="line-79">   */</span>
-<span class="source-line-no">080</span><span id="line-80">  @Deprecated // see POR-3061</span>
-<span class="source-line-no">081</span><span id="line-81">  COORDINATE_ACCURACY_INVALID(WARNING),</span>
-<span class="source-line-no">082</span><span id="line-82"></span>
-<span class="source-line-no">083</span><span id="line-83">  /** Indicates an invalid or very unlikely coordinatePrecision */</span>
-<span class="source-line-no">084</span><span id="line-84">  COORDINATE_PRECISION_INVALID(WARNING, DwcTerm.coordinatePrecision),</span>
-<span class="source-line-no">085</span><span id="line-85"></span>
-<span class="source-line-no">086</span><span id="line-86">  /** Indicates an invalid or very unlikely dwc:uncertaintyInMeters. */</span>
-<span class="source-line-no">087</span><span id="line-87">  COORDINATE_UNCERTAINTY_METERS_INVALID(WARNING, DwcTerm.coordinateUncertaintyInMeters),</span>
-<span class="source-line-no">088</span><span id="line-88"></span>
-<span class="source-line-no">089</span><span id="line-89">  /** There is a mismatch between coordinate uncertainty in meters and coordinate precision. */</span>
-<span class="source-line-no">090</span><span id="line-90">  @Deprecated // see POR-1804</span>
-<span class="source-line-no">091</span><span id="line-91">  COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),</span>
-<span class="source-line-no">092</span><span id="line-92"></span>
-<span class="source-line-no">093</span><span id="line-93">  /** The Footprint Spatial Reference System given could not be interpreted. */</span>
-<span class="source-line-no">094</span><span id="line-94">  FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),</span>
-<span class="source-line-no">095</span><span id="line-95"></span>
-<span class="source-line-no">096</span><span id="line-96">  /**</span>
-<span class="source-line-no">097</span><span id="line-97">   * The Footprint Well-Known-Text conflicts with the interpreted coordinates (Decimal Latitude,</span>
-<span class="source-line-no">098</span><span id="line-98">   * Decimal Longitude etc).</span>
-<span class="source-line-no">099</span><span id="line-99">   */</span>
-<span class="source-line-no">100</span><span id="line-100">  FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),</span>
-<span class="source-line-no">101</span><span id="line-101"></span>
-<span class="source-line-no">102</span><span id="line-102">  /** The Footprint Well-Known-Text given could not be interpreted. */</span>
-<span class="source-line-no">103</span><span id="line-103">  FOOTPRINT_WKT_INVALID(WARNING, DwcTerm.footprintWKT),</span>
-<span class="source-line-no">104</span><span id="line-104"></span>
-<span class="source-line-no">105</span><span id="line-105">  /** The interpreted occurrence coordinates fall outside of the indicated country. */</span>
-<span class="source-line-no">106</span><span id="line-106">  COUNTRY_COORDINATE_MISMATCH(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),</span>
-<span class="source-line-no">107</span><span id="line-107"></span>
-<span class="source-line-no">108</span><span id="line-108">  /** Interpreted country for dwc:country and dwc:countryCode contradict each other. */</span>
-<span class="source-line-no">109</span><span id="line-109">  COUNTRY_MISMATCH(WARNING, TermsGroup.COUNTRY_TERMS),</span>
-<span class="source-line-no">110</span><span id="line-110"></span>
-<span class="source-line-no">111</span><span id="line-111">  /** Uninterpretable country values found. */</span>
-<span class="source-line-no">112</span><span id="line-112">  COUNTRY_INVALID(WARNING, TermsGroup.COUNTRY_TERMS),</span>
-<span class="source-line-no">113</span><span id="line-113"></span>
-<span class="source-line-no">114</span><span id="line-114">  /** The interpreted country is based on the coordinates, not the verbatim string information. */</span>
-<span class="source-line-no">115</span><span id="line-115">  COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),</span>
-<span class="source-line-no">116</span><span id="line-116"></span>
-<span class="source-line-no">117</span><span id="line-117">  /** The interpreted occurrence coordinates fall outside of the indicated continent. */</span>
-<span class="source-line-no">118</span><span id="line-118">  CONTINENT_COORDINATE_MISMATCH(WARNING),</span>
-<span class="source-line-no">119</span><span id="line-119"></span>
-<span class="source-line-no">120</span><span id="line-120">  /** The interpreted continent and country do not match. */</span>
-<span class="source-line-no">121</span><span id="line-121">  CONTINENT_COUNTRY_MISMATCH(WARNING),</span>
-<span class="source-line-no">122</span><span id="line-122"></span>
-<span class="source-line-no">123</span><span id="line-123">  /** Uninterpretable continent values found. */</span>
-<span class="source-line-no">124</span><span id="line-124">  CONTINENT_INVALID(WARNING),</span>
-<span class="source-line-no">125</span><span id="line-125"></span>
-<span class="source-line-no">126</span><span id="line-126">  /** The interpreted continent is based on the country, not the verbatim string information. */</span>
-<span class="source-line-no">127</span><span id="line-127">  CONTINENT_DERIVED_FROM_COUNTRY(WARNING),</span>
-<span class="source-line-no">128</span><span id="line-128"></span>
-<span class="source-line-no">129</span><span id="line-129">  /** The interpreted continent is based on the coordinates, not the verbatim string information. */</span>
-<span class="source-line-no">130</span><span id="line-130">  CONTINENT_DERIVED_FROM_COORDINATES(WARNING),</span>
-<span class="source-line-no">131</span><span id="line-131"></span>
-<span class="source-line-no">132</span><span id="line-132">  /** Latitude and longitude appear to be swapped. */</span>
-<span class="source-line-no">133</span><span id="line-133">  PRESUMED_SWAPPED_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
-<span class="source-line-no">134</span><span id="line-134"></span>
-<span class="source-line-no">135</span><span id="line-135">  /** Longitude appears to be negated, e.g. 32.3 instead of -32.3 */</span>
-<span class="source-line-no">136</span><span id="line-136">  PRESUMED_NEGATED_LONGITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
-<span class="source-line-no">137</span><span id="line-137"></span>
-<span class="source-line-no">138</span><span id="line-138">  /** Latitude appears to be negated, e.g. 32.3 instead of -32.3 */</span>
-<span class="source-line-no">139</span><span id="line-139">  PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
-<span class="source-line-no">140</span><span id="line-140"></span>
-<span class="source-line-no">141</span><span id="line-141">  /**</span>
-<span class="source-line-no">142</span><span id="line-142">   * The recorded date specified as the eventDate string and the individual year, month, day and/or</span>
-<span class="source-line-no">143</span><span id="line-143">   * startDayOfYear, endDayOfYear are contradictory.</span>
-<span class="source-line-no">144</span><span id="line-144">   */</span>
-<span class="source-line-no">145</span><span id="line-145">  RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
-<span class="source-line-no">146</span><span id="line-146"></span>
-<span class="source-line-no">147</span><span id="line-147">  /** A (partial) invalid date is given, such as a non-existent date, zero month, etc. */</span>
-<span class="source-line-no">148</span><span id="line-148">  RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
-<span class="source-line-no">149</span><span id="line-149"></span>
-<span class="source-line-no">150</span><span id="line-150">  /**</span>
-<span class="source-line-no">151</span><span id="line-151">   * The recorded date is highly unlikely, falling either into the future or representing a very old</span>
-<span class="source-line-no">152</span><span id="line-152">   * date before 1600 thus predating modern taxonomy.</span>
-<span class="source-line-no">153</span><span id="line-153">   */</span>
-<span class="source-line-no">154</span><span id="line-154">  RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
-<span class="source-line-no">155</span><span id="line-155"></span>
-<span class="source-line-no">156</span><span id="line-156">  /** Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match. */</span>
-<span class="source-line-no">157</span><span id="line-157">  TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
-<span class="source-line-no">158</span><span id="line-158"></span>
-<span class="source-line-no">159</span><span id="line-159">  /**</span>
-<span class="source-line-no">160</span><span id="line-160">   * Matching to the taxonomic backbone can only be done on a higher rank and not the scientific</span>
-<span class="source-line-no">161</span><span id="line-161">   * name.</span>
-<span class="source-line-no">162</span><span id="line-162">   */</span>
-<span class="source-line-no">163</span><span id="line-163">  TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
-<span class="source-line-no">164</span><span id="line-164"></span>
-<span class="source-line-no">165</span><span id="line-165">  /**</span>
-<span class="source-line-no">166</span><span id="line-166">   * Matching to the taxonomic backbone can only be done on a species level, but the occurrence was</span>
-<span class="source-line-no">167</span><span id="line-167">   * in fact considered a broader species aggregate/complex.</span>
-<span class="source-line-no">168</span><span id="line-168">   *</span>
-<span class="source-line-no">169</span><span id="line-169">   * @see &lt;a</span>
-<span class="source-line-no">170</span><span id="line-170">   *     href="https://github.com/gbif/portal-feedback/issues/2935"&gt;gbif/portal-feedback#2935&lt;/a&gt;</span>
-<span class="source-line-no">171</span><span id="line-171">   */</span>
-<span class="source-line-no">172</span><span id="line-172">  TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
-<span class="source-line-no">173</span><span id="line-173"></span>
-<span class="source-line-no">174</span><span id="line-174">  /**</span>
-<span class="source-line-no">175</span><span id="line-175">   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may</span>
-<span class="source-line-no">176</span><span id="line-176">   * indicate one of</span>
-<span class="source-line-no">177</span><span id="line-177">   *</span>
-<span class="source-line-no">178</span><span id="line-178">   * &lt;ul&gt;</span>
-<span class="source-line-no">179</span><span id="line-179">   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF</span>
-<span class="source-line-no">180</span><span id="line-180">   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist</span>
-<span class="source-line-no">181</span><span id="line-181">   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone</span>
-<span class="source-line-no">182</span><span id="line-182">   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully</span>
-<span class="source-line-no">183</span><span id="line-183">   *       linked to the backbone</span>
-<span class="source-line-no">184</span><span id="line-184">   * &lt;/ul&gt;</span>
-<span class="source-line-no">185</span><span id="line-185">   *</span>
-<span class="source-line-no">186</span><span id="line-186">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
-<span class="source-line-no">187</span><span id="line-187">   */</span>
-<span class="source-line-no">188</span><span id="line-188">  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, DwcTerm.scientificNameID),</span>
-<span class="source-line-no">189</span><span id="line-189"></span>
-<span class="source-line-no">190</span><span id="line-190">  /**</span>
-<span class="source-line-no">191</span><span id="line-191">   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate</span>
-<span class="source-line-no">192</span><span id="line-192">   * one of</span>
-<span class="source-line-no">193</span><span id="line-193">   *</span>
-<span class="source-line-no">194</span><span id="line-194">   * &lt;ul&gt;</span>
-<span class="source-line-no">195</span><span id="line-195">   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF</span>
-<span class="source-line-no">196</span><span id="line-196">   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist</span>
-<span class="source-line-no">197</span><span id="line-197">   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone</span>
-<span class="source-line-no">198</span><span id="line-198">   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully</span>
-<span class="source-line-no">199</span><span id="line-199">   *       linked to the backbone</span>
-<span class="source-line-no">200</span><span id="line-200">   * &lt;/ul&gt;</span>
-<span class="source-line-no">201</span><span id="line-201">   *</span>
-<span class="source-line-no">202</span><span id="line-202">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
-<span class="source-line-no">203</span><span id="line-203">   */</span>
-<span class="source-line-no">204</span><span id="line-204">  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, DwcTerm.taxonConceptID),</span>
-<span class="source-line-no">205</span><span id="line-205"></span>
-<span class="source-line-no">206</span><span id="line-206">  /**</span>
-<span class="source-line-no">207</span><span id="line-207">   * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of</span>
-<span class="source-line-no">208</span><span id="line-208">   *</span>
-<span class="source-line-no">209</span><span id="line-209">   * &lt;ul&gt;</span>
-<span class="source-line-no">210</span><span id="line-210">   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF</span>
-<span class="source-line-no">211</span><span id="line-211">   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist</span>
-<span class="source-line-no">212</span><span id="line-212">   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone</span>
-<span class="source-line-no">213</span><span id="line-213">   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully</span>
-<span class="source-line-no">214</span><span id="line-214">   *       linked to the backbone</span>
-<span class="source-line-no">215</span><span id="line-215">   * &lt;/ul&gt;</span>
-<span class="source-line-no">216</span><span id="line-216">   *</span>
-<span class="source-line-no">217</span><span id="line-217">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
-<span class="source-line-no">218</span><span id="line-218">   */</span>
-<span class="source-line-no">219</span><span id="line-219">  TAXON_MATCH_TAXON_ID_IGNORED(INFO, DwcTerm.taxonID),</span>
-<span class="source-line-no">220</span><span id="line-220"></span>
-<span class="source-line-no">221</span><span id="line-221">  /**</span>
-<span class="source-line-no">222</span><span id="line-222">   * The scientificNameID matched a known pattern, but it was not found in the associated checklist.</span>
-<span class="source-line-no">223</span><span id="line-223">   * The backbone lookup was performed using either the names or a different ID on the record. This</span>
-<span class="source-line-no">224</span><span id="line-224">   * may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't</span>
-<span class="source-line-no">225</span><span id="line-225">   * yet known in the version of the published checklist.</span>
-<span class="source-line-no">226</span><span id="line-226">   *</span>
-<span class="source-line-no">227</span><span id="line-227">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
-<span class="source-line-no">228</span><span id="line-228">   */</span>
-<span class="source-line-no">229</span><span id="line-229">  SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, DwcTerm.scientificNameID),</span>
-<span class="source-line-no">230</span><span id="line-230"></span>
-<span class="source-line-no">231</span><span id="line-231">  /**</span>
-<span class="source-line-no">232</span><span id="line-232">   * The taxonConceptID matched a known pattern, but it was not found in the associated checklist.</span>
-<span class="source-line-no">233</span><span id="line-233">   * The backbone lookup was performed using either the names or a different ID on the record. This</span>
-<span class="source-line-no">234</span><span id="line-234">   * may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't</span>
-<span class="source-line-no">235</span><span id="line-235">   * yet known in the version of the published checklist.</span>
-<span class="source-line-no">236</span><span id="line-236">   *</span>
-<span class="source-line-no">237</span><span id="line-237">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
-<span class="source-line-no">238</span><span id="line-238">   */</span>
-<span class="source-line-no">239</span><span id="line-239">  TAXON_CONCEPT_ID_NOT_FOUND(WARNING, DwcTerm.taxonConceptID),</span>
-<span class="source-line-no">240</span><span id="line-240"></span>
-<span class="source-line-no">241</span><span id="line-241">  /**</span>
-<span class="source-line-no">242</span><span id="line-242">   * The taxonID matched a known pattern, but it was not found in the associated checklist. The</span>
-<span class="source-line-no">243</span><span id="line-243">   * backbone lookup was performed using either the names or a different ID on the record. This may</span>
-<span class="source-line-no">244</span><span id="line-244">   * indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet</span>
-<span class="source-line-no">245</span><span id="line-245">   * known in the version of the published checklist.</span>
-<span class="source-line-no">246</span><span id="line-246">   *</span>
-<span class="source-line-no">247</span><span id="line-247">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
-<span class="source-line-no">248</span><span id="line-248">   */</span>
-<span class="source-line-no">249</span><span id="line-249">  TAXON_ID_NOT_FOUND(WARNING, DwcTerm.taxonID),</span>
-<span class="source-line-no">250</span><span id="line-250"></span>
-<span class="source-line-no">251</span><span id="line-251">  /**</span>
-<span class="source-line-no">252</span><span id="line-252">   * The scientificName provided in the occurrence record does not precisely match the name in the</span>
-<span class="source-line-no">253</span><span id="line-253">   * registered checklist when using the scientificNameID, taxonID or taxonConceptID to look it up.</span>
-<span class="source-line-no">254</span><span id="line-254">   * Publishers are advised to check the IDs are correct, or update the formatting of the names on</span>
-<span class="source-line-no">255</span><span id="line-255">   * their records.</span>
-<span class="source-line-no">256</span><span id="line-256">   *</span>
-<span class="source-line-no">257</span><span id="line-257">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
-<span class="source-line-no">258</span><span id="line-258">   */</span>
-<span class="source-line-no">259</span><span id="line-259">  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(</span>
-<span class="source-line-no">260</span><span id="line-260">      WARNING,</span>
-<span class="source-line-no">261</span><span id="line-261">      DwcTerm.scientificNameID,</span>
-<span class="source-line-no">262</span><span id="line-262">      DwcTerm.taxonID,</span>
-<span class="source-line-no">263</span><span id="line-263">      DwcTerm.taxonConceptID,</span>
-<span class="source-line-no">264</span><span id="line-264">      DwcTerm.scientificName),</span>
-<span class="source-line-no">265</span><span id="line-265"></span>
-<span class="source-line-no">266</span><span id="line-266">  /**</span>
-<span class="source-line-no">267</span><span id="line-267">   * Matching to the taxonomic backbone cannot be done because there was no match at all, or several</span>
-<span class="source-line-no">268</span><span id="line-268">   * matches with too little information to keep them apart (potentially homonyms).</span>
-<span class="source-line-no">269</span><span id="line-269">   */</span>
-<span class="source-line-no">270</span><span id="line-270">  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
-<span class="source-line-no">271</span><span id="line-271"></span>
-<span class="source-line-no">272</span><span id="line-272">  /**</span>
-<span class="source-line-no">273</span><span id="line-273">   * The GBIF Backbone concept was found using the scientificNameID, taxonID or taxonConceptID, but</span>
-<span class="source-line-no">274</span><span id="line-274">   * it differs from what would have been found if the classification names on the record were used.</span>
-<span class="source-line-no">275</span><span id="line-275">   * This may indicate a gap in the GBIF backbone, a poor mapping between the checklist and the</span>
-<span class="source-line-no">276</span><span id="line-276">   * backbone, or a mismatch between the classification names and the declared IDs (scientificNameID</span>
-<span class="source-line-no">277</span><span id="line-277">   * or taxonConceptID) on the occurrence record itself.</span>
-<span class="source-line-no">278</span><span id="line-278">   *</span>
-<span class="source-line-no">279</span><span id="line-279">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
-<span class="source-line-no">280</span><span id="line-280">   */</span>
-<span class="source-line-no">281</span><span id="line-281">  TAXON_MATCH_NAME_AND_ID_AMBIGUOUS(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
-<span class="source-line-no">282</span><span id="line-282"></span>
-<span class="source-line-no">283</span><span id="line-283">  /**</span>
-<span class="source-line-no">284</span><span id="line-284">   * Set if supplied depth is not given in the metric system, for example using feet instead of</span>
-<span class="source-line-no">285</span><span id="line-285">   * meters</span>
-<span class="source-line-no">286</span><span id="line-286">   */</span>
-<span class="source-line-no">287</span><span id="line-287">  DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
-<span class="source-line-no">288</span><span id="line-288"></span>
-<span class="source-line-no">289</span><span id="line-289">  /** Set if depth is larger than 11,000m or negative. */</span>
-<span class="source-line-no">290</span><span id="line-290">  DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
-<span class="source-line-no">291</span><span id="line-291"></span>
-<span class="source-line-no">292</span><span id="line-292">  /** Set if supplied minimum depth &gt; maximum depth */</span>
-<span class="source-line-no">293</span><span id="line-293">  DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
-<span class="source-line-no">294</span><span id="line-294"></span>
-<span class="source-line-no">295</span><span id="line-295">  /** Set if depth is a non-numeric value */</span>
-<span class="source-line-no">296</span><span id="line-296">  DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
-<span class="source-line-no">297</span><span id="line-297"></span>
-<span class="source-line-no">298</span><span id="line-298">  /** Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench). */</span>
-<span class="source-line-no">299</span><span id="line-299">  ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
-<span class="source-line-no">300</span><span id="line-300"></span>
-<span class="source-line-no">301</span><span id="line-301">  /** Set if supplied minimum elevation &gt; maximum elevation */</span>
-<span class="source-line-no">302</span><span id="line-302">  ELEVATION_MIN_MAX_SWAPPED(</span>
-<span class="source-line-no">303</span><span id="line-303">      WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
-<span class="source-line-no">304</span><span id="line-304"></span>
-<span class="source-line-no">305</span><span id="line-305">  /**</span>
-<span class="source-line-no">306</span><span id="line-306">   * Set if supplied elevation is not given in the metric system, for example using feet instead of</span>
-<span class="source-line-no">307</span><span id="line-307">   * meters</span>
-<span class="source-line-no">308</span><span id="line-308">   */</span>
-<span class="source-line-no">309</span><span id="line-309">  ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
-<span class="source-line-no">310</span><span id="line-310"></span>
-<span class="source-line-no">311</span><span id="line-311">  /** Set if elevation is a non-numeric value */</span>
-<span class="source-line-no">312</span><span id="line-312">  ELEVATION_NON_NUMERIC(</span>
-<span class="source-line-no">313</span><span id="line-313">      WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
-<span class="source-line-no">314</span><span id="line-314"></span>
-<span class="source-line-no">315</span><span id="line-315">  /**</span>
-<span class="source-line-no">316</span><span id="line-316">   * A (partial) invalid date is given for dc:modified, such as a nonexistent date, zero month, etc.</span>
-<span class="source-line-no">317</span><span id="line-317">   */</span>
-<span class="source-line-no">318</span><span id="line-318">  MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),</span>
-<span class="source-line-no">319</span><span id="line-319"></span>
-<span class="source-line-no">320</span><span id="line-320">  /** The date given for dc:modified is in the future or predates Unix time (1970). */</span>
-<span class="source-line-no">321</span><span id="line-321">  MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),</span>
-<span class="source-line-no">322</span><span id="line-322"></span>
-<span class="source-line-no">323</span><span id="line-323">  /** The date given for dwc:dateIdentified is in the future or before Linnean times (1700). */</span>
-<span class="source-line-no">324</span><span id="line-324">  IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),</span>
-<span class="source-line-no">325</span><span id="line-325"></span>
-<span class="source-line-no">326</span><span id="line-326">  /** The date given for dwc:dateIdentified is invalid and can't be interpreted at all. */</span>
-<span class="source-line-no">327</span><span id="line-327">  IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),</span>
-<span class="source-line-no">328</span><span id="line-328"></span>
-<span class="source-line-no">329</span><span id="line-329">  /**</span>
-<span class="source-line-no">330</span><span id="line-330">   * The given basis of record is impossible to interpret or significantly different from the</span>
-<span class="source-line-no">331</span><span id="line-331">   * recommended vocabulary.</span>
-<span class="source-line-no">332</span><span id="line-332">   */</span>
-<span class="source-line-no">333</span><span id="line-333">  BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),</span>
-<span class="source-line-no">334</span><span id="line-334"></span>
-<span class="source-line-no">335</span><span id="line-335">  /**</span>
-<span class="source-line-no">336</span><span id="line-336">   * The given type status is impossible to interpret or significantly different from the</span>
-<span class="source-line-no">337</span><span id="line-337">   * recommended vocabulary.</span>
-<span class="source-line-no">338</span><span id="line-338">   */</span>
-<span class="source-line-no">339</span><span id="line-339">  TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),</span>
-<span class="source-line-no">340</span><span id="line-340"></span>
-<span class="source-line-no">341</span><span id="line-341">  /** The given type status contains some words that express uncertainty. */</span>
-<span class="source-line-no">342</span><span id="line-342">  SUSPECTED_TYPE(WARNING, DwcTerm.typeStatus),</span>
-<span class="source-line-no">343</span><span id="line-343"></span>
-<span class="source-line-no">344</span><span id="line-344">  /** An invalid date is given for dc:created of a multimedia object. */</span>
-<span class="source-line-no">345</span><span id="line-345">  MULTIMEDIA_DATE_INVALID(WARNING),</span>
-<span class="source-line-no">346</span><span id="line-346"></span>
-<span class="source-line-no">347</span><span id="line-347">  /** An invalid URI is given for a multimedia object. */</span>
-<span class="source-line-no">348</span><span id="line-348">  MULTIMEDIA_URI_INVALID(WARNING),</span>
-<span class="source-line-no">349</span><span id="line-349"></span>
-<span class="source-line-no">350</span><span id="line-350">  /** An invalid URI is given for dc:references. */</span>
-<span class="source-line-no">351</span><span id="line-351">  REFERENCES_URI_INVALID(WARNING, DcTerm.references),</span>
-<span class="source-line-no">352</span><span id="line-352"></span>
-<span class="source-line-no">353</span><span id="line-353">  /** An error occurred during interpretation, leaving the record interpretation incomplete. */</span>
-<span class="source-line-no">354</span><span id="line-354">  INTERPRETATION_ERROR(ERROR),</span>
-<span class="source-line-no">355</span><span id="line-355"></span>
-<span class="source-line-no">356</span><span id="line-356">  /** The individual count value is not a positive integer */</span>
-<span class="source-line-no">357</span><span id="line-357">  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),</span>
-<span class="source-line-no">358</span><span id="line-358"></span>
-<span class="source-line-no">359</span><span id="line-359">  /** Example: individual count value &gt; 0, but occurrence status is absent. */</span>
-<span class="source-line-no">360</span><span id="line-360">  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),</span>
-<span class="source-line-no">361</span><span id="line-361"></span>
-<span class="source-line-no">362</span><span id="line-362">  /** Occurrence status value can't be assigned to {@link OccurrenceStatus} */</span>
-<span class="source-line-no">363</span><span id="line-363">  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),</span>
-<span class="source-line-no">364</span><span id="line-364"></span>
-<span class="source-line-no">365</span><span id="line-365">  /** Occurrence status was inferred from the individual count value */</span>
-<span class="source-line-no">366</span><span id="line-366">  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),</span>
-<span class="source-line-no">367</span><span id="line-367"></span>
-<span class="source-line-no">368</span><span id="line-368">  /** Occurrence status was inferred from basis of records */</span>
-<span class="source-line-no">369</span><span id="line-369">  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),</span>
-<span class="source-line-no">370</span><span id="line-370"></span>
-<span class="source-line-no">371</span><span id="line-371">  /** The date given for dwc:georeferencedDate is in the future or before Linnean times (1700). */</span>
-<span class="source-line-no">372</span><span id="line-372">  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),</span>
-<span class="source-line-no">373</span><span id="line-373"></span>
-<span class="source-line-no">374</span><span id="line-374">  /** The date given for dwc:georeferencedDate is invalid and can't be interpreted at all. */</span>
-<span class="source-line-no">375</span><span id="line-375">  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),</span>
-<span class="source-line-no">376</span><span id="line-376"></span>
-<span class="source-line-no">377</span><span id="line-377">  /** The given institution matches with more than 1 GRSciColl institution. */</span>
-<span class="source-line-no">378</span><span id="line-378">  AMBIGUOUS_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),</span>
-<span class="source-line-no">379</span><span id="line-379"></span>
-<span class="source-line-no">380</span><span id="line-380">  /** The given collection matches with more than 1 GRSciColl collection. */</span>
-<span class="source-line-no">381</span><span id="line-381">  AMBIGUOUS_COLLECTION(INFO, TermsGroup.COLLECTION_TERMS),</span>
-<span class="source-line-no">382</span><span id="line-382"></span>
-<span class="source-line-no">383</span><span id="line-383">  /** The given institution couldn't be matched with any GRSciColl institution. */</span>
-<span class="source-line-no">384</span><span id="line-384">  INSTITUTION_MATCH_NONE(INFO, TermsGroup.INSTITUTION_TERMS),</span>
-<span class="source-line-no">385</span><span id="line-385"></span>
-<span class="source-line-no">386</span><span id="line-386">  /** The given collection couldn't be matched with any GRSciColl collection. */</span>
-<span class="source-line-no">387</span><span id="line-387">  COLLECTION_MATCH_NONE(INFO, TermsGroup.COLLECTION_TERMS),</span>
-<span class="source-line-no">388</span><span id="line-388"></span>
-<span class="source-line-no">389</span><span id="line-389">  /**</span>
-<span class="source-line-no">390</span><span id="line-390">   * The given institution was fuzzily matched to a GRSciColl institution. This can happen when</span>
-<span class="source-line-no">391</span><span id="line-391">   * either the code or the ID don't match or when the institution name is used instead of the code.</span>
-<span class="source-line-no">392</span><span id="line-392">   */</span>
-<span class="source-line-no">393</span><span id="line-393">  INSTITUTION_MATCH_FUZZY(INFO, TermsGroup.INSTITUTION_TERMS),</span>
-<span class="source-line-no">394</span><span id="line-394"></span>
-<span class="source-line-no">395</span><span id="line-395">  /**</span>
-<span class="source-line-no">396</span><span id="line-396">   * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either</span>
-<span class="source-line-no">397</span><span id="line-397">   * the code or the ID don't match or when the collection name is used instead of the code.</span>
-<span class="source-line-no">398</span><span id="line-398">   */</span>
-<span class="source-line-no">399</span><span id="line-399">  COLLECTION_MATCH_FUZZY(INFO, TermsGroup.COLLECTION_TERMS),</span>
-<span class="source-line-no">400</span><span id="line-400"></span>
-<span class="source-line-no">401</span><span id="line-401">  /** The collection matched doesn't belong to the institution matched. */</span>
-<span class="source-line-no">402</span><span id="line-402">  INSTITUTION_COLLECTION_MISMATCH(</span>
-<span class="source-line-no">403</span><span id="line-403">      INFO, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),</span>
-<span class="source-line-no">404</span><span id="line-404"></span>
-<span class="source-line-no">405</span><span id="line-405">  /**</span>
-<span class="source-line-no">406</span><span id="line-406">   * The given owner institution is different than the given institution. Therefore we assume it</span>
-<span class="source-line-no">407</span><span id="line-407">   * could be on loan and we don't link it to the occurrence.</span>
-<span class="source-line-no">408</span><span id="line-408">   *</span>
-<span class="source-line-no">409</span><span id="line-409">   * &lt;p&gt;Deprecated by {@link #DIFFERENT_OWNER_INSTITUTION}.</span>
-<span class="source-line-no">410</span><span id="line-410">   */</span>
-<span class="source-line-no">411</span><span id="line-411">  @Deprecated</span>
-<span class="source-line-no">412</span><span id="line-412">  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS),</span>
-<span class="source-line-no">413</span><span id="line-413"></span>
-<span class="source-line-no">414</span><span id="line-414">  /**</span>
-<span class="source-line-no">415</span><span id="line-415">   * The given owner institution is different than the given institution. Therefore we assume it</span>
-<span class="source-line-no">416</span><span id="line-416">   * doesn't belong to the institution and we don't link it to the occurrence.</span>
-<span class="source-line-no">417</span><span id="line-417">   */</span>
-<span class="source-line-no">418</span><span id="line-418">  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),</span>
-<span class="source-line-no">419</span><span id="line-419"></span>
-<span class="source-line-no">420</span><span id="line-420">  /** Era or erathem was inferred from a parent rank. */</span>
-<span class="source-line-no">421</span><span id="line-421">  ERA_OR_ERATHEM_INFERRED_FROM_PARENT_RANK(</span>
-<span class="source-line-no">422</span><span id="line-422">      INFO, DwcTerm.earliestEraOrLowestErathem, DwcTerm.latestEraOrHighestErathem),</span>
-<span class="source-line-no">423</span><span id="line-423">  /** Period or system was inferred from a parent rank. */</span>
-<span class="source-line-no">424</span><span id="line-424">  PERIOD_OR_SYSTEM_INFERRED_FROM_PARENT_RANK(</span>
-<span class="source-line-no">425</span><span id="line-425">      INFO, DwcTerm.earliestPeriodOrLowestSystem, DwcTerm.latestPeriodOrHighestSystem),</span>
-<span class="source-line-no">426</span><span id="line-426">  /** Epoch or series was inferred from a parent rank. */</span>
-<span class="source-line-no">427</span><span id="line-427">  EPOCH_OR_SERIES_INFERRED_FROM_PARENT_RANK(</span>
-<span class="source-line-no">428</span><span id="line-428">      INFO, DwcTerm.earliestEpochOrLowestSeries, DwcTerm.latestEpochOrHighestSeries),</span>
-<span class="source-line-no">429</span><span id="line-429">  /** Age or stage was inferred from a parent rank. */</span>
-<span class="source-line-no">430</span><span id="line-430">  AGE_OR_STAGE_INFERRED_FROM_PARENT_RANK(</span>
-<span class="source-line-no">431</span><span id="line-431">      INFO, DwcTerm.earliestAgeOrLowestStage, DwcTerm.latestAgeOrHighestStage),</span>
-<span class="source-line-no">432</span><span id="line-432"></span>
-<span class="source-line-no">433</span><span id="line-433">  /** The eon or eonothem provided belongs to another rank. */</span>
-<span class="source-line-no">434</span><span id="line-434">  EON_OR_EONOTHEM_RANK_MISMATCH(</span>
-<span class="source-line-no">435</span><span id="line-435">      INFO, DwcTerm.earliestEonOrLowestEonothem, DwcTerm.latestEonOrHighestEonothem),</span>
-<span class="source-line-no">436</span><span id="line-436">  /** The era or erathem provided belongs to another rank. */</span>
-<span class="source-line-no">437</span><span id="line-437">  ERA_OR_ERATHEM_RANK_MISMATCH(</span>
-<span class="source-line-no">438</span><span id="line-438">      INFO, DwcTerm.earliestEraOrLowestErathem, DwcTerm.latestEraOrHighestErathem),</span>
-<span class="source-line-no">439</span><span id="line-439">  /** The period or system provided belongs to another rank. */</span>
-<span class="source-line-no">440</span><span id="line-440">  PERIOD_OR_SYSTEM_RANK_MISMATCH(</span>
-<span class="source-line-no">441</span><span id="line-441">      INFO, DwcTerm.earliestPeriodOrLowestSystem, DwcTerm.latestPeriodOrHighestSystem),</span>
-<span class="source-line-no">442</span><span id="line-442">  /** The period or series provided belongs to another rank. */</span>
-<span class="source-line-no">443</span><span id="line-443">  EPOCH_OR_SERIES_RANK_MISMATCH(</span>
-<span class="source-line-no">444</span><span id="line-444">      INFO, DwcTerm.earliestEpochOrLowestSeries, DwcTerm.latestEpochOrHighestSeries),</span>
-<span class="source-line-no">445</span><span id="line-445">  /** The age or stage provided belongs to another rank. */</span>
-<span class="source-line-no">446</span><span id="line-446">  AGE_OR_STAGE_RANK_MISMATCH(</span>
-<span class="source-line-no">447</span><span id="line-447">      INFO, DwcTerm.earliestAgeOrLowestStage, DwcTerm.latestAgeOrHighestStage),</span>
-<span class="source-line-no">448</span><span id="line-448"></span>
-<span class="source-line-no">449</span><span id="line-449">  /** The earliest eon or eonothem has to be earlier than the latest. */</span>
-<span class="source-line-no">450</span><span id="line-450">  EON_OR_EONOTHEM_INVALID_RANGE(</span>
-<span class="source-line-no">451</span><span id="line-451">      INFO, DwcTerm.earliestEonOrLowestEonothem, DwcTerm.latestEonOrHighestEonothem),</span>
-<span class="source-line-no">452</span><span id="line-452">  /** The era or erathem has to be earlier than the latest. */</span>
-<span class="source-line-no">453</span><span id="line-453">  ERA_OR_ERATHEM_INVALID_RANGE(</span>
-<span class="source-line-no">454</span><span id="line-454">      INFO, DwcTerm.earliestEraOrLowestErathem, DwcTerm.latestEraOrHighestErathem),</span>
-<span class="source-line-no">455</span><span id="line-455">  /** The period or system has to be earlier than the latest. */</span>
-<span class="source-line-no">456</span><span id="line-456">  PERIOD_OR_SYSTEM_INVALID_RANGE(</span>
-<span class="source-line-no">457</span><span id="line-457">      INFO, DwcTerm.earliestPeriodOrLowestSystem, DwcTerm.latestPeriodOrHighestSystem),</span>
-<span class="source-line-no">458</span><span id="line-458">  /** The period or series has to be earlier than the latest. */</span>
-<span class="source-line-no">459</span><span id="line-459">  EPOCH_OR_SERIES_INVALID_RANGE(</span>
-<span class="source-line-no">460</span><span id="line-460">      INFO, DwcTerm.earliestEpochOrLowestSeries, DwcTerm.latestEpochOrHighestSeries),</span>
-<span class="source-line-no">461</span><span id="line-461">  /** The age or stage has to be earlier than the latest. */</span>
-<span class="source-line-no">462</span><span id="line-462">  AGE_OR_STAGE_INVALID_RANGE(</span>
-<span class="source-line-no">463</span><span id="line-463">      INFO, DwcTerm.earliestAgeOrLowestStage, DwcTerm.latestAgeOrHighestStage),</span>
-<span class="source-line-no">464</span><span id="line-464"></span>
-<span class="source-line-no">465</span><span id="line-465">  /** The era or erathem don't belong to the eon or eonothem. */</span>
-<span class="source-line-no">466</span><span id="line-466">  EON_OR_EONOTHEM_AND_ERA_OR_ERATHEM_MISMATCH(</span>
-<span class="source-line-no">467</span><span id="line-467">      INFO,</span>
-<span class="source-line-no">468</span><span id="line-468">      DwcTerm.earliestEonOrLowestEonothem,</span>
-<span class="source-line-no">469</span><span id="line-469">      DwcTerm.latestEonOrHighestEonothem,</span>
-<span class="source-line-no">470</span><span id="line-470">      DwcTerm.earliestEraOrLowestErathem,</span>
-<span class="source-line-no">471</span><span id="line-471">      DwcTerm.latestEraOrHighestErathem),</span>
-<span class="source-line-no">472</span><span id="line-472"></span>
-<span class="source-line-no">473</span><span id="line-473">  /** The period or system don't belong to the era or erathem. */</span>
-<span class="source-line-no">474</span><span id="line-474">  ERA_OR_ERATHEM_AND_PERIOD_OR_SYSTEM_MISMATCH(</span>
-<span class="source-line-no">475</span><span id="line-475">      INFO,</span>
-<span class="source-line-no">476</span><span id="line-476">      DwcTerm.earliestEraOrLowestErathem,</span>
-<span class="source-line-no">477</span><span id="line-477">      DwcTerm.latestEraOrHighestErathem,</span>
-<span class="source-line-no">478</span><span id="line-478">      DwcTerm.earliestPeriodOrLowestSystem,</span>
-<span class="source-line-no">479</span><span id="line-479">      DwcTerm.latestPeriodOrHighestSystem),</span>
-<span class="source-line-no">480</span><span id="line-480"></span>
-<span class="source-line-no">481</span><span id="line-481">  /** The epoch or series don't belong to the period or system. */</span>
-<span class="source-line-no">482</span><span id="line-482">  PERIOD_OR_SYSTEM_AND_EPOCH_OR_SERIES_MISMATCH(</span>
-<span class="source-line-no">483</span><span id="line-483">      INFO,</span>
-<span class="source-line-no">484</span><span id="line-484">      DwcTerm.earliestPeriodOrLowestSystem,</span>
-<span class="source-line-no">485</span><span id="line-485">      DwcTerm.latestPeriodOrHighestSystem,</span>
-<span class="source-line-no">486</span><span id="line-486">      DwcTerm.earliestEpochOrLowestSeries,</span>
-<span class="source-line-no">487</span><span id="line-487">      DwcTerm.latestEpochOrHighestSeries),</span>
-<span class="source-line-no">488</span><span id="line-488"></span>
-<span class="source-line-no">489</span><span id="line-489">  /** The age or stage don't belong to the epoch or series. */</span>
-<span class="source-line-no">490</span><span id="line-490">  EPOCH_OR_SERIES_AND_AGE_OR_STAGE_MISMATCH(</span>
-<span class="source-line-no">491</span><span id="line-491">      INFO,</span>
-<span class="source-line-no">492</span><span id="line-492">      DwcTerm.earliestEpochOrLowestSeries,</span>
-<span class="source-line-no">493</span><span id="line-493">      DwcTerm.latestEpochOrHighestSeries,</span>
-<span class="source-line-no">494</span><span id="line-494">      DwcTerm.earliestAgeOrLowestStage,</span>
-<span class="source-line-no">495</span><span id="line-495">      DwcTerm.latestAgeOrHighestStage);</span>
-<span class="source-line-no">496</span><span id="line-496"></span>
-<span class="source-line-no">497</span><span id="line-497">  /**</span>
-<span class="source-line-no">498</span><span id="line-498">   * Simple helper nested class to allow grouping of Term mostly to increase readability of this</span>
-<span class="source-line-no">499</span><span id="line-499">   * class.</span>
-<span class="source-line-no">500</span><span id="line-500">   */</span>
-<span class="source-line-no">501</span><span id="line-501">  private static class TermsGroup {</span>
-<span class="source-line-no">502</span><span id="line-502"></span>
-<span class="source-line-no">503</span><span id="line-503">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
-<span class="source-line-no">504</span><span id="line-504">      DwcTerm.decimalLatitude,</span>
-<span class="source-line-no">505</span><span id="line-505">      DwcTerm.decimalLongitude,</span>
-<span class="source-line-no">506</span><span id="line-506">      DwcTerm.verbatimLatitude,</span>
-<span class="source-line-no">507</span><span id="line-507">      DwcTerm.verbatimLongitude,</span>
-<span class="source-line-no">508</span><span id="line-508">      DwcTerm.verbatimCoordinates</span>
-<span class="source-line-no">509</span><span id="line-509">    };</span>
-<span class="source-line-no">510</span><span id="line-510"></span>
-<span class="source-line-no">511</span><span id="line-511">    static final Term[] COORDINATES_TERMS = {</span>
-<span class="source-line-no">512</span><span id="line-512">      DwcTerm.decimalLatitude,</span>
-<span class="source-line-no">513</span><span id="line-513">      DwcTerm.decimalLongitude,</span>
-<span class="source-line-no">514</span><span id="line-514">      DwcTerm.verbatimLatitude,</span>
-<span class="source-line-no">515</span><span id="line-515">      DwcTerm.verbatimLongitude,</span>
-<span class="source-line-no">516</span><span id="line-516">      DwcTerm.verbatimCoordinates,</span>
-<span class="source-line-no">517</span><span id="line-517">      DwcTerm.geodeticDatum</span>
-<span class="source-line-no">518</span><span id="line-518">    };</span>
-<span class="source-line-no">519</span><span id="line-519"></span>
-<span class="source-line-no">520</span><span id="line-520">    static final Term[] COUNTRY_TERMS = {DwcTerm.country, DwcTerm.countryCode};</span>
-<span class="source-line-no">521</span><span id="line-521"></span>
-<span class="source-line-no">522</span><span id="line-522">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
-<span class="source-line-no">523</span><span id="line-523">      DwcTerm.decimalLatitude,</span>
-<span class="source-line-no">524</span><span id="line-524">      DwcTerm.decimalLongitude,</span>
-<span class="source-line-no">525</span><span id="line-525">      DwcTerm.verbatimLatitude,</span>
-<span class="source-line-no">526</span><span id="line-526">      DwcTerm.verbatimLongitude,</span>
-<span class="source-line-no">527</span><span id="line-527">      DwcTerm.verbatimCoordinates,</span>
-<span class="source-line-no">528</span><span id="line-528">      DwcTerm.geodeticDatum,</span>
-<span class="source-line-no">529</span><span id="line-529">      DwcTerm.country,</span>
-<span class="source-line-no">530</span><span id="line-530">      DwcTerm.countryCode</span>
+<span class="source-line-no">030</span><span id="line-30">import org.gbif.dwc.terms.GbifDnaTerm;</span>
+<span class="source-line-no">031</span><span id="line-31">import org.gbif.dwc.terms.MixsTerm;</span>
+<span class="source-line-no">032</span><span id="line-32">import org.gbif.dwc.terms.Term;</span>
+<span class="source-line-no">033</span><span id="line-33"></span>
+<span class="source-line-no">034</span><span id="line-34">/** An enumeration of validation rules for single occurrence records. */</span>
+<span class="source-line-no">035</span><span id="line-35">public enum OccurrenceIssue implements InterpretationRemark {</span>
+<span class="source-line-no">036</span><span id="line-36"></span>
+<span class="source-line-no">037</span><span id="line-37">  /** Coordinate is the exact 0°, 0° coordinate, often indicating a bad null coordinate. */</span>
+<span class="source-line-no">038</span><span id="line-38">  ZERO_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="source-line-no">039</span><span id="line-39"></span>
+<span class="source-line-no">040</span><span id="line-40">  /**</span>
+<span class="source-line-no">041</span><span id="line-41">   * Coordinate has a latitude and/or longitude value beyond the maximum (or minimum) decimal value.</span>
+<span class="source-line-no">042</span><span id="line-42">   */</span>
+<span class="source-line-no">043</span><span id="line-43">  COORDINATE_OUT_OF_RANGE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="source-line-no">044</span><span id="line-44"></span>
+<span class="source-line-no">045</span><span id="line-45">  /** Coordinate value is given in some form but GBIF is unable to interpret it. */</span>
+<span class="source-line-no">046</span><span id="line-46">  COORDINATE_INVALID(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="source-line-no">047</span><span id="line-47"></span>
+<span class="source-line-no">048</span><span id="line-48">  /** Original coordinate modified by rounding to 5 decimals. */</span>
+<span class="source-line-no">049</span><span id="line-49">  COORDINATE_ROUNDED(INFO, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="source-line-no">050</span><span id="line-50"></span>
+<span class="source-line-no">051</span><span id="line-51">  /** The geodetic datum given could not be interpreted. */</span>
+<span class="source-line-no">052</span><span id="line-52">  GEODETIC_DATUM_INVALID(WARNING, DwcTerm.geodeticDatum),</span>
+<span class="source-line-no">053</span><span id="line-53"></span>
+<span class="source-line-no">054</span><span id="line-54">  /**</span>
+<span class="source-line-no">055</span><span id="line-55">   * Indicating that the interpreted coordinates assume they are based on WGS84 datum as the datum</span>
+<span class="source-line-no">056</span><span id="line-56">   * was either not indicated or interpretable. See GEODETIC_DATUM_INVALID.</span>
+<span class="source-line-no">057</span><span id="line-57">   */</span>
+<span class="source-line-no">058</span><span id="line-58">  GEODETIC_DATUM_ASSUMED_WGS84(INFO, DwcTerm.geodeticDatum),</span>
+<span class="source-line-no">059</span><span id="line-59"></span>
+<span class="source-line-no">060</span><span id="line-60">  /**</span>
+<span class="source-line-no">061</span><span id="line-61">   * The original coordinate was successfully reprojected from a different geodetic datum to WGS84.</span>
+<span class="source-line-no">062</span><span id="line-62">   */</span>
+<span class="source-line-no">063</span><span id="line-63">  COORDINATE_REPROJECTED(INFO, TermsGroup.COORDINATES_TERMS),</span>
+<span class="source-line-no">064</span><span id="line-64"></span>
+<span class="source-line-no">065</span><span id="line-65">  /**</span>
+<span class="source-line-no">066</span><span id="line-66">   * The given decimal latitude and longitude could not be reprojected to WGS84 based on the</span>
+<span class="source-line-no">067</span><span id="line-67">   * provided datum.</span>
+<span class="source-line-no">068</span><span id="line-68">   */</span>
+<span class="source-line-no">069</span><span id="line-69">  COORDINATE_REPROJECTION_FAILED(WARNING, TermsGroup.COORDINATES_TERMS),</span>
+<span class="source-line-no">070</span><span id="line-70"></span>
+<span class="source-line-no">071</span><span id="line-71">  /**</span>
+<span class="source-line-no">072</span><span id="line-72">   * Indicates successful coordinate reprojection according to provided datum, but which results in</span>
+<span class="source-line-no">073</span><span id="line-73">   * a datum shift larger than 0.1 decimal degrees.</span>
+<span class="source-line-no">074</span><span id="line-74">   */</span>
+<span class="source-line-no">075</span><span id="line-75">  COORDINATE_REPROJECTION_SUSPICIOUS(WARNING, TermsGroup.COORDINATES_TERMS),</span>
+<span class="source-line-no">076</span><span id="line-76"></span>
+<span class="source-line-no">077</span><span id="line-77">  /**</span>
+<span class="source-line-no">078</span><span id="line-78">   * Indicates an invalid or very unlikely coordinate accuracy derived from precision or uncertainty</span>
+<span class="source-line-no">079</span><span id="line-79">   * in meters.</span>
+<span class="source-line-no">080</span><span id="line-80">   */</span>
+<span class="source-line-no">081</span><span id="line-81">  @Deprecated // see POR-3061</span>
+<span class="source-line-no">082</span><span id="line-82">  COORDINATE_ACCURACY_INVALID(WARNING),</span>
+<span class="source-line-no">083</span><span id="line-83"></span>
+<span class="source-line-no">084</span><span id="line-84">  /** Indicates an invalid or very unlikely coordinatePrecision */</span>
+<span class="source-line-no">085</span><span id="line-85">  COORDINATE_PRECISION_INVALID(WARNING, DwcTerm.coordinatePrecision),</span>
+<span class="source-line-no">086</span><span id="line-86"></span>
+<span class="source-line-no">087</span><span id="line-87">  /** Indicates an invalid or very unlikely dwc:uncertaintyInMeters. */</span>
+<span class="source-line-no">088</span><span id="line-88">  COORDINATE_UNCERTAINTY_METERS_INVALID(WARNING, DwcTerm.coordinateUncertaintyInMeters),</span>
+<span class="source-line-no">089</span><span id="line-89"></span>
+<span class="source-line-no">090</span><span id="line-90">  /** There is a mismatch between coordinate uncertainty in meters and coordinate precision. */</span>
+<span class="source-line-no">091</span><span id="line-91">  @Deprecated // see POR-1804</span>
+<span class="source-line-no">092</span><span id="line-92">  COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),</span>
+<span class="source-line-no">093</span><span id="line-93"></span>
+<span class="source-line-no">094</span><span id="line-94">  /** The Footprint Spatial Reference System given could not be interpreted. */</span>
+<span class="source-line-no">095</span><span id="line-95">  FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),</span>
+<span class="source-line-no">096</span><span id="line-96"></span>
+<span class="source-line-no">097</span><span id="line-97">  /**</span>
+<span class="source-line-no">098</span><span id="line-98">   * The Footprint Well-Known-Text conflicts with the interpreted coordinates (Decimal Latitude,</span>
+<span class="source-line-no">099</span><span id="line-99">   * Decimal Longitude etc).</span>
+<span class="source-line-no">100</span><span id="line-100">   */</span>
+<span class="source-line-no">101</span><span id="line-101">  FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),</span>
+<span class="source-line-no">102</span><span id="line-102"></span>
+<span class="source-line-no">103</span><span id="line-103">  /** The Footprint Well-Known-Text given could not be interpreted. */</span>
+<span class="source-line-no">104</span><span id="line-104">  FOOTPRINT_WKT_INVALID(WARNING, DwcTerm.footprintWKT),</span>
+<span class="source-line-no">105</span><span id="line-105"></span>
+<span class="source-line-no">106</span><span id="line-106">  /** The interpreted occurrence coordinates fall outside of the indicated country. */</span>
+<span class="source-line-no">107</span><span id="line-107">  COUNTRY_COORDINATE_MISMATCH(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),</span>
+<span class="source-line-no">108</span><span id="line-108"></span>
+<span class="source-line-no">109</span><span id="line-109">  /** Interpreted country for dwc:country and dwc:countryCode contradict each other. */</span>
+<span class="source-line-no">110</span><span id="line-110">  COUNTRY_MISMATCH(WARNING, TermsGroup.COUNTRY_TERMS),</span>
+<span class="source-line-no">111</span><span id="line-111"></span>
+<span class="source-line-no">112</span><span id="line-112">  /** Uninterpretable country values found. */</span>
+<span class="source-line-no">113</span><span id="line-113">  COUNTRY_INVALID(WARNING, TermsGroup.COUNTRY_TERMS),</span>
+<span class="source-line-no">114</span><span id="line-114"></span>
+<span class="source-line-no">115</span><span id="line-115">  /** The interpreted country is based on the coordinates, not the verbatim string information. */</span>
+<span class="source-line-no">116</span><span id="line-116">  COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),</span>
+<span class="source-line-no">117</span><span id="line-117"></span>
+<span class="source-line-no">118</span><span id="line-118">  /** The interpreted occurrence coordinates fall outside of the indicated continent. */</span>
+<span class="source-line-no">119</span><span id="line-119">  CONTINENT_COORDINATE_MISMATCH(WARNING),</span>
+<span class="source-line-no">120</span><span id="line-120"></span>
+<span class="source-line-no">121</span><span id="line-121">  /** The interpreted continent and country do not match. */</span>
+<span class="source-line-no">122</span><span id="line-122">  CONTINENT_COUNTRY_MISMATCH(WARNING),</span>
+<span class="source-line-no">123</span><span id="line-123"></span>
+<span class="source-line-no">124</span><span id="line-124">  /** Uninterpretable continent values found. */</span>
+<span class="source-line-no">125</span><span id="line-125">  CONTINENT_INVALID(WARNING),</span>
+<span class="source-line-no">126</span><span id="line-126"></span>
+<span class="source-line-no">127</span><span id="line-127">  /** The interpreted continent is based on the country, not the verbatim string information. */</span>
+<span class="source-line-no">128</span><span id="line-128">  CONTINENT_DERIVED_FROM_COUNTRY(WARNING),</span>
+<span class="source-line-no">129</span><span id="line-129"></span>
+<span class="source-line-no">130</span><span id="line-130">  /** The interpreted continent is based on the coordinates, not the verbatim string information. */</span>
+<span class="source-line-no">131</span><span id="line-131">  CONTINENT_DERIVED_FROM_COORDINATES(WARNING),</span>
+<span class="source-line-no">132</span><span id="line-132"></span>
+<span class="source-line-no">133</span><span id="line-133">  /** Latitude and longitude appear to be swapped. */</span>
+<span class="source-line-no">134</span><span id="line-134">  PRESUMED_SWAPPED_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="source-line-no">135</span><span id="line-135"></span>
+<span class="source-line-no">136</span><span id="line-136">  /** Longitude appears to be negated, e.g. 32.3 instead of -32.3 */</span>
+<span class="source-line-no">137</span><span id="line-137">  PRESUMED_NEGATED_LONGITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="source-line-no">138</span><span id="line-138"></span>
+<span class="source-line-no">139</span><span id="line-139">  /** Latitude appears to be negated, e.g. 32.3 instead of -32.3 */</span>
+<span class="source-line-no">140</span><span id="line-140">  PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="source-line-no">141</span><span id="line-141"></span>
+<span class="source-line-no">142</span><span id="line-142">  /**</span>
+<span class="source-line-no">143</span><span id="line-143">   * The recorded date specified as the eventDate string and the individual year, month, day and/or</span>
+<span class="source-line-no">144</span><span id="line-144">   * startDayOfYear, endDayOfYear are contradictory.</span>
+<span class="source-line-no">145</span><span id="line-145">   */</span>
+<span class="source-line-no">146</span><span id="line-146">  RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
+<span class="source-line-no">147</span><span id="line-147"></span>
+<span class="source-line-no">148</span><span id="line-148">  /** A (partial) invalid date is given, such as a non-existent date, zero month, etc. */</span>
+<span class="source-line-no">149</span><span id="line-149">  RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
+<span class="source-line-no">150</span><span id="line-150"></span>
+<span class="source-line-no">151</span><span id="line-151">  /**</span>
+<span class="source-line-no">152</span><span id="line-152">   * The recorded date is highly unlikely, falling either into the future or representing a very old</span>
+<span class="source-line-no">153</span><span id="line-153">   * date before 1600 thus predating modern taxonomy.</span>
+<span class="source-line-no">154</span><span id="line-154">   */</span>
+<span class="source-line-no">155</span><span id="line-155">  RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
+<span class="source-line-no">156</span><span id="line-156"></span>
+<span class="source-line-no">157</span><span id="line-157">  /** Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match. */</span>
+<span class="source-line-no">158</span><span id="line-158">  TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="source-line-no">159</span><span id="line-159"></span>
+<span class="source-line-no">160</span><span id="line-160">  /**</span>
+<span class="source-line-no">161</span><span id="line-161">   * Matching to the taxonomic backbone can only be done on a higher rank and not the scientific</span>
+<span class="source-line-no">162</span><span id="line-162">   * name.</span>
+<span class="source-line-no">163</span><span id="line-163">   */</span>
+<span class="source-line-no">164</span><span id="line-164">  TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="source-line-no">165</span><span id="line-165"></span>
+<span class="source-line-no">166</span><span id="line-166">  /**</span>
+<span class="source-line-no">167</span><span id="line-167">   * Matching to the taxonomic backbone can only be done on a species level, but the occurrence was</span>
+<span class="source-line-no">168</span><span id="line-168">   * in fact considered a broader species aggregate/complex.</span>
+<span class="source-line-no">169</span><span id="line-169">   *</span>
+<span class="source-line-no">170</span><span id="line-170">   * @see &lt;a</span>
+<span class="source-line-no">171</span><span id="line-171">   *     href="https://github.com/gbif/portal-feedback/issues/2935"&gt;gbif/portal-feedback#2935&lt;/a&gt;</span>
+<span class="source-line-no">172</span><span id="line-172">   */</span>
+<span class="source-line-no">173</span><span id="line-173">  TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="source-line-no">174</span><span id="line-174"></span>
+<span class="source-line-no">175</span><span id="line-175">  /**</span>
+<span class="source-line-no">176</span><span id="line-176">   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may</span>
+<span class="source-line-no">177</span><span id="line-177">   * indicate one of</span>
+<span class="source-line-no">178</span><span id="line-178">   *</span>
+<span class="source-line-no">179</span><span id="line-179">   * &lt;ul&gt;</span>
+<span class="source-line-no">180</span><span id="line-180">   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF</span>
+<span class="source-line-no">181</span><span id="line-181">   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist</span>
+<span class="source-line-no">182</span><span id="line-182">   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone</span>
+<span class="source-line-no">183</span><span id="line-183">   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully</span>
+<span class="source-line-no">184</span><span id="line-184">   *       linked to the backbone</span>
+<span class="source-line-no">185</span><span id="line-185">   * &lt;/ul&gt;</span>
+<span class="source-line-no">186</span><span id="line-186">   *</span>
+<span class="source-line-no">187</span><span id="line-187">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
+<span class="source-line-no">188</span><span id="line-188">   */</span>
+<span class="source-line-no">189</span><span id="line-189">  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, DwcTerm.scientificNameID),</span>
+<span class="source-line-no">190</span><span id="line-190"></span>
+<span class="source-line-no">191</span><span id="line-191">  /**</span>
+<span class="source-line-no">192</span><span id="line-192">   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate</span>
+<span class="source-line-no">193</span><span id="line-193">   * one of</span>
+<span class="source-line-no">194</span><span id="line-194">   *</span>
+<span class="source-line-no">195</span><span id="line-195">   * &lt;ul&gt;</span>
+<span class="source-line-no">196</span><span id="line-196">   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF</span>
+<span class="source-line-no">197</span><span id="line-197">   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist</span>
+<span class="source-line-no">198</span><span id="line-198">   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone</span>
+<span class="source-line-no">199</span><span id="line-199">   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully</span>
+<span class="source-line-no">200</span><span id="line-200">   *       linked to the backbone</span>
+<span class="source-line-no">201</span><span id="line-201">   * &lt;/ul&gt;</span>
+<span class="source-line-no">202</span><span id="line-202">   *</span>
+<span class="source-line-no">203</span><span id="line-203">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
+<span class="source-line-no">204</span><span id="line-204">   */</span>
+<span class="source-line-no">205</span><span id="line-205">  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, DwcTerm.taxonConceptID),</span>
+<span class="source-line-no">206</span><span id="line-206"></span>
+<span class="source-line-no">207</span><span id="line-207">  /**</span>
+<span class="source-line-no">208</span><span id="line-208">   * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of</span>
+<span class="source-line-no">209</span><span id="line-209">   *</span>
+<span class="source-line-no">210</span><span id="line-210">   * &lt;ul&gt;</span>
+<span class="source-line-no">211</span><span id="line-211">   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF</span>
+<span class="source-line-no">212</span><span id="line-212">   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist</span>
+<span class="source-line-no">213</span><span id="line-213">   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone</span>
+<span class="source-line-no">214</span><span id="line-214">   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully</span>
+<span class="source-line-no">215</span><span id="line-215">   *       linked to the backbone</span>
+<span class="source-line-no">216</span><span id="line-216">   * &lt;/ul&gt;</span>
+<span class="source-line-no">217</span><span id="line-217">   *</span>
+<span class="source-line-no">218</span><span id="line-218">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
+<span class="source-line-no">219</span><span id="line-219">   */</span>
+<span class="source-line-no">220</span><span id="line-220">  TAXON_MATCH_TAXON_ID_IGNORED(INFO, DwcTerm.taxonID),</span>
+<span class="source-line-no">221</span><span id="line-221"></span>
+<span class="source-line-no">222</span><span id="line-222">  /**</span>
+<span class="source-line-no">223</span><span id="line-223">   * The scientificNameID matched a known pattern, but it was not found in the associated checklist.</span>
+<span class="source-line-no">224</span><span id="line-224">   * The backbone lookup was performed using either the names or a different ID on the record. This</span>
+<span class="source-line-no">225</span><span id="line-225">   * may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't</span>
+<span class="source-line-no">226</span><span id="line-226">   * yet known in the version of the published checklist.</span>
+<span class="source-line-no">227</span><span id="line-227">   *</span>
+<span class="source-line-no">228</span><span id="line-228">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
+<span class="source-line-no">229</span><span id="line-229">   */</span>
+<span class="source-line-no">230</span><span id="line-230">  SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, DwcTerm.scientificNameID),</span>
+<span class="source-line-no">231</span><span id="line-231"></span>
+<span class="source-line-no">232</span><span id="line-232">  /**</span>
+<span class="source-line-no">233</span><span id="line-233">   * The taxonConceptID matched a known pattern, but it was not found in the associated checklist.</span>
+<span class="source-line-no">234</span><span id="line-234">   * The backbone lookup was performed using either the names or a different ID on the record. This</span>
+<span class="source-line-no">235</span><span id="line-235">   * may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't</span>
+<span class="source-line-no">236</span><span id="line-236">   * yet known in the version of the published checklist.</span>
+<span class="source-line-no">237</span><span id="line-237">   *</span>
+<span class="source-line-no">238</span><span id="line-238">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
+<span class="source-line-no">239</span><span id="line-239">   */</span>
+<span class="source-line-no">240</span><span id="line-240">  TAXON_CONCEPT_ID_NOT_FOUND(WARNING, DwcTerm.taxonConceptID),</span>
+<span class="source-line-no">241</span><span id="line-241"></span>
+<span class="source-line-no">242</span><span id="line-242">  /**</span>
+<span class="source-line-no">243</span><span id="line-243">   * The taxonID matched a known pattern, but it was not found in the associated checklist. The</span>
+<span class="source-line-no">244</span><span id="line-244">   * backbone lookup was performed using either the names or a different ID on the record. This may</span>
+<span class="source-line-no">245</span><span id="line-245">   * indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet</span>
+<span class="source-line-no">246</span><span id="line-246">   * known in the version of the published checklist.</span>
+<span class="source-line-no">247</span><span id="line-247">   *</span>
+<span class="source-line-no">248</span><span id="line-248">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
+<span class="source-line-no">249</span><span id="line-249">   */</span>
+<span class="source-line-no">250</span><span id="line-250">  TAXON_ID_NOT_FOUND(WARNING, DwcTerm.taxonID),</span>
+<span class="source-line-no">251</span><span id="line-251"></span>
+<span class="source-line-no">252</span><span id="line-252">  /**</span>
+<span class="source-line-no">253</span><span id="line-253">   * The scientificName provided in the occurrence record does not precisely match the name in the</span>
+<span class="source-line-no">254</span><span id="line-254">   * registered checklist when using the scientificNameID, taxonID or taxonConceptID to look it up.</span>
+<span class="source-line-no">255</span><span id="line-255">   * Publishers are advised to check the IDs are correct, or update the formatting of the names on</span>
+<span class="source-line-no">256</span><span id="line-256">   * their records.</span>
+<span class="source-line-no">257</span><span id="line-257">   *</span>
+<span class="source-line-no">258</span><span id="line-258">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
+<span class="source-line-no">259</span><span id="line-259">   */</span>
+<span class="source-line-no">260</span><span id="line-260">  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(</span>
+<span class="source-line-no">261</span><span id="line-261">      WARNING,</span>
+<span class="source-line-no">262</span><span id="line-262">      DwcTerm.scientificNameID,</span>
+<span class="source-line-no">263</span><span id="line-263">      DwcTerm.taxonID,</span>
+<span class="source-line-no">264</span><span id="line-264">      DwcTerm.taxonConceptID,</span>
+<span class="source-line-no">265</span><span id="line-265">      DwcTerm.scientificName),</span>
+<span class="source-line-no">266</span><span id="line-266"></span>
+<span class="source-line-no">267</span><span id="line-267">  /**</span>
+<span class="source-line-no">268</span><span id="line-268">   * Matching to the taxonomic backbone cannot be done because there was no match at all, or several</span>
+<span class="source-line-no">269</span><span id="line-269">   * matches with too little information to keep them apart (potentially homonyms).</span>
+<span class="source-line-no">270</span><span id="line-270">   */</span>
+<span class="source-line-no">271</span><span id="line-271">  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="source-line-no">272</span><span id="line-272"></span>
+<span class="source-line-no">273</span><span id="line-273">  /**</span>
+<span class="source-line-no">274</span><span id="line-274">   * The GBIF Backbone concept was found using the scientificNameID, taxonID or taxonConceptID, but</span>
+<span class="source-line-no">275</span><span id="line-275">   * it differs from what would have been found if the classification names on the record were used.</span>
+<span class="source-line-no">276</span><span id="line-276">   * This may indicate a gap in the GBIF backbone, a poor mapping between the checklist and the</span>
+<span class="source-line-no">277</span><span id="line-277">   * backbone, or a mismatch between the classification names and the declared IDs (scientificNameID</span>
+<span class="source-line-no">278</span><span id="line-278">   * or taxonConceptID) on the occurrence record itself.</span>
+<span class="source-line-no">279</span><span id="line-279">   *</span>
+<span class="source-line-no">280</span><span id="line-280">   * @see &lt;a href="https://github.com/gbif/pipelines/issues/217"&gt;gbif/pipelines#217&lt;/a&gt;</span>
+<span class="source-line-no">281</span><span id="line-281">   */</span>
+<span class="source-line-no">282</span><span id="line-282">  TAXON_MATCH_NAME_AND_ID_AMBIGUOUS(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="source-line-no">283</span><span id="line-283"></span>
+<span class="source-line-no">284</span><span id="line-284">  /**</span>
+<span class="source-line-no">285</span><span id="line-285">   * Set if supplied depth is not given in the metric system, for example using feet instead of</span>
+<span class="source-line-no">286</span><span id="line-286">   * meters</span>
+<span class="source-line-no">287</span><span id="line-287">   */</span>
+<span class="source-line-no">288</span><span id="line-288">  DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="source-line-no">289</span><span id="line-289"></span>
+<span class="source-line-no">290</span><span id="line-290">  /** Set if depth is larger than 11,000m or negative. */</span>
+<span class="source-line-no">291</span><span id="line-291">  DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="source-line-no">292</span><span id="line-292"></span>
+<span class="source-line-no">293</span><span id="line-293">  /** Set if supplied minimum depth &gt; maximum depth */</span>
+<span class="source-line-no">294</span><span id="line-294">  DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="source-line-no">295</span><span id="line-295"></span>
+<span class="source-line-no">296</span><span id="line-296">  /** Set if depth is a non-numeric value */</span>
+<span class="source-line-no">297</span><span id="line-297">  DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="source-line-no">298</span><span id="line-298"></span>
+<span class="source-line-no">299</span><span id="line-299">  /** Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench). */</span>
+<span class="source-line-no">300</span><span id="line-300">  ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
+<span class="source-line-no">301</span><span id="line-301"></span>
+<span class="source-line-no">302</span><span id="line-302">  /** Set if supplied minimum elevation &gt; maximum elevation */</span>
+<span class="source-line-no">303</span><span id="line-303">  ELEVATION_MIN_MAX_SWAPPED(</span>
+<span class="source-line-no">304</span><span id="line-304">      WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
+<span class="source-line-no">305</span><span id="line-305"></span>
+<span class="source-line-no">306</span><span id="line-306">  /**</span>
+<span class="source-line-no">307</span><span id="line-307">   * Set if supplied elevation is not given in the metric system, for example using feet instead of</span>
+<span class="source-line-no">308</span><span id="line-308">   * meters</span>
+<span class="source-line-no">309</span><span id="line-309">   */</span>
+<span class="source-line-no">310</span><span id="line-310">  ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
+<span class="source-line-no">311</span><span id="line-311"></span>
+<span class="source-line-no">312</span><span id="line-312">  /** Set if elevation is a non-numeric value */</span>
+<span class="source-line-no">313</span><span id="line-313">  ELEVATION_NON_NUMERIC(</span>
+<span class="source-line-no">314</span><span id="line-314">      WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
+<span class="source-line-no">315</span><span id="line-315"></span>
+<span class="source-line-no">316</span><span id="line-316">  /**</span>
+<span class="source-line-no">317</span><span id="line-317">   * A (partial) invalid date is given for dc:modified, such as a nonexistent date, zero month, etc.</span>
+<span class="source-line-no">318</span><span id="line-318">   */</span>
+<span class="source-line-no">319</span><span id="line-319">  MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),</span>
+<span class="source-line-no">320</span><span id="line-320"></span>
+<span class="source-line-no">321</span><span id="line-321">  /** The date given for dc:modified is in the future or predates Unix time (1970). */</span>
+<span class="source-line-no">322</span><span id="line-322">  MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),</span>
+<span class="source-line-no">323</span><span id="line-323"></span>
+<span class="source-line-no">324</span><span id="line-324">  /** The date given for dwc:dateIdentified is in the future or before Linnean times (1700). */</span>
+<span class="source-line-no">325</span><span id="line-325">  IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),</span>
+<span class="source-line-no">326</span><span id="line-326"></span>
+<span class="source-line-no">327</span><span id="line-327">  /** The date given for dwc:dateIdentified is invalid and can't be interpreted at all. */</span>
+<span class="source-line-no">328</span><span id="line-328">  IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),</span>
+<span class="source-line-no">329</span><span id="line-329"></span>
+<span class="source-line-no">330</span><span id="line-330">  /**</span>
+<span class="source-line-no">331</span><span id="line-331">   * The given basis of record is impossible to interpret or significantly different from the</span>
+<span class="source-line-no">332</span><span id="line-332">   * recommended vocabulary.</span>
+<span class="source-line-no">333</span><span id="line-333">   */</span>
+<span class="source-line-no">334</span><span id="line-334">  BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),</span>
+<span class="source-line-no">335</span><span id="line-335"></span>
+<span class="source-line-no">336</span><span id="line-336">  /**</span>
+<span class="source-line-no">337</span><span id="line-337">   * The given type status is impossible to interpret or significantly different from the</span>
+<span class="source-line-no">338</span><span id="line-338">   * recommended vocabulary.</span>
+<span class="source-line-no">339</span><span id="line-339">   */</span>
+<span class="source-line-no">340</span><span id="line-340">  TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),</span>
+<span class="source-line-no">341</span><span id="line-341"></span>
+<span class="source-line-no">342</span><span id="line-342">  /** The given type status contains some words that express uncertainty. */</span>
+<span class="source-line-no">343</span><span id="line-343">  SUSPECTED_TYPE(WARNING, DwcTerm.typeStatus),</span>
+<span class="source-line-no">344</span><span id="line-344"></span>
+<span class="source-line-no">345</span><span id="line-345">  /** An invalid date is given for dc:created of a multimedia object. */</span>
+<span class="source-line-no">346</span><span id="line-346">  MULTIMEDIA_DATE_INVALID(WARNING),</span>
+<span class="source-line-no">347</span><span id="line-347"></span>
+<span class="source-line-no">348</span><span id="line-348">  /** An invalid URI is given for a multimedia object. */</span>
+<span class="source-line-no">349</span><span id="line-349">  MULTIMEDIA_URI_INVALID(WARNING),</span>
+<span class="source-line-no">350</span><span id="line-350"></span>
+<span class="source-line-no">351</span><span id="line-351">  /** An invalid URI is given for dc:references. */</span>
+<span class="source-line-no">352</span><span id="line-352">  REFERENCES_URI_INVALID(WARNING, DcTerm.references),</span>
+<span class="source-line-no">353</span><span id="line-353"></span>
+<span class="source-line-no">354</span><span id="line-354">  /** An error occurred during interpretation, leaving the record interpretation incomplete. */</span>
+<span class="source-line-no">355</span><span id="line-355">  INTERPRETATION_ERROR(ERROR),</span>
+<span class="source-line-no">356</span><span id="line-356"></span>
+<span class="source-line-no">357</span><span id="line-357">  /** The individual count value is not a positive integer */</span>
+<span class="source-line-no">358</span><span id="line-358">  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),</span>
+<span class="source-line-no">359</span><span id="line-359"></span>
+<span class="source-line-no">360</span><span id="line-360">  /** Example: individual count value &gt; 0, but occurrence status is absent. */</span>
+<span class="source-line-no">361</span><span id="line-361">  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),</span>
+<span class="source-line-no">362</span><span id="line-362"></span>
+<span class="source-line-no">363</span><span id="line-363">  /** Occurrence status value can't be assigned to {@link OccurrenceStatus} */</span>
+<span class="source-line-no">364</span><span id="line-364">  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="source-line-no">365</span><span id="line-365"></span>
+<span class="source-line-no">366</span><span id="line-366">  /** Occurrence status was inferred from the individual count value */</span>
+<span class="source-line-no">367</span><span id="line-367">  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="source-line-no">368</span><span id="line-368"></span>
+<span class="source-line-no">369</span><span id="line-369">  /** Occurrence status was inferred from basis of records */</span>
+<span class="source-line-no">370</span><span id="line-370">  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="source-line-no">371</span><span id="line-371"></span>
+<span class="source-line-no">372</span><span id="line-372">  /** The date given for dwc:georeferencedDate is in the future or before Linnean times (1700). */</span>
+<span class="source-line-no">373</span><span id="line-373">  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),</span>
+<span class="source-line-no">374</span><span id="line-374"></span>
+<span class="source-line-no">375</span><span id="line-375">  /** The date given for dwc:georeferencedDate is invalid and can't be interpreted at all. */</span>
+<span class="source-line-no">376</span><span id="line-376">  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),</span>
+<span class="source-line-no">377</span><span id="line-377"></span>
+<span class="source-line-no">378</span><span id="line-378">  /** The given institution matches with more than 1 GRSciColl institution. */</span>
+<span class="source-line-no">379</span><span id="line-379">  AMBIGUOUS_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="source-line-no">380</span><span id="line-380"></span>
+<span class="source-line-no">381</span><span id="line-381">  /** The given collection matches with more than 1 GRSciColl collection. */</span>
+<span class="source-line-no">382</span><span id="line-382">  AMBIGUOUS_COLLECTION(INFO, TermsGroup.COLLECTION_TERMS),</span>
+<span class="source-line-no">383</span><span id="line-383"></span>
+<span class="source-line-no">384</span><span id="line-384">  /** The given institution couldn't be matched with any GRSciColl institution. */</span>
+<span class="source-line-no">385</span><span id="line-385">  INSTITUTION_MATCH_NONE(INFO, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="source-line-no">386</span><span id="line-386"></span>
+<span class="source-line-no">387</span><span id="line-387">  /** The given collection couldn't be matched with any GRSciColl collection. */</span>
+<span class="source-line-no">388</span><span id="line-388">  COLLECTION_MATCH_NONE(INFO, TermsGroup.COLLECTION_TERMS),</span>
+<span class="source-line-no">389</span><span id="line-389"></span>
+<span class="source-line-no">390</span><span id="line-390">  /**</span>
+<span class="source-line-no">391</span><span id="line-391">   * The given institution was fuzzily matched to a GRSciColl institution. This can happen when</span>
+<span class="source-line-no">392</span><span id="line-392">   * either the code or the ID don't match or when the institution name is used instead of the code.</span>
+<span class="source-line-no">393</span><span id="line-393">   */</span>
+<span class="source-line-no">394</span><span id="line-394">  INSTITUTION_MATCH_FUZZY(INFO, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="source-line-no">395</span><span id="line-395"></span>
+<span class="source-line-no">396</span><span id="line-396">  /**</span>
+<span class="source-line-no">397</span><span id="line-397">   * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either</span>
+<span class="source-line-no">398</span><span id="line-398">   * the code or the ID don't match or when the collection name is used instead of the code.</span>
+<span class="source-line-no">399</span><span id="line-399">   */</span>
+<span class="source-line-no">400</span><span id="line-400">  COLLECTION_MATCH_FUZZY(INFO, TermsGroup.COLLECTION_TERMS),</span>
+<span class="source-line-no">401</span><span id="line-401"></span>
+<span class="source-line-no">402</span><span id="line-402">  /** The collection matched doesn't belong to the institution matched. */</span>
+<span class="source-line-no">403</span><span id="line-403">  INSTITUTION_COLLECTION_MISMATCH(</span>
+<span class="source-line-no">404</span><span id="line-404">      INFO, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),</span>
+<span class="source-line-no">405</span><span id="line-405"></span>
+<span class="source-line-no">406</span><span id="line-406">  /**</span>
+<span class="source-line-no">407</span><span id="line-407">   * The given owner institution is different than the given institution. Therefore we assume it</span>
+<span class="source-line-no">408</span><span id="line-408">   * could be on loan and we don't link it to the occurrence.</span>
+<span class="source-line-no">409</span><span id="line-409">   *</span>
+<span class="source-line-no">410</span><span id="line-410">   * &lt;p&gt;Deprecated by {@link #DIFFERENT_OWNER_INSTITUTION}.</span>
+<span class="source-line-no">411</span><span id="line-411">   */</span>
+<span class="source-line-no">412</span><span id="line-412">  @Deprecated</span>
+<span class="source-line-no">413</span><span id="line-413">  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="source-line-no">414</span><span id="line-414"></span>
+<span class="source-line-no">415</span><span id="line-415">  /**</span>
+<span class="source-line-no">416</span><span id="line-416">   * The given owner institution is different than the given institution. Therefore we assume it</span>
+<span class="source-line-no">417</span><span id="line-417">   * doesn't belong to the institution and we don't link it to the occurrence.</span>
+<span class="source-line-no">418</span><span id="line-418">   */</span>
+<span class="source-line-no">419</span><span id="line-419">  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="source-line-no">420</span><span id="line-420"></span>
+<span class="source-line-no">421</span><span id="line-421">  /** Era or erathem was inferred from a parent rank. */</span>
+<span class="source-line-no">422</span><span id="line-422">  ERA_OR_ERATHEM_INFERRED_FROM_PARENT_RANK(</span>
+<span class="source-line-no">423</span><span id="line-423">      INFO, DwcTerm.earliestEraOrLowestErathem, DwcTerm.latestEraOrHighestErathem),</span>
+<span class="source-line-no">424</span><span id="line-424">  /** Period or system was inferred from a parent rank. */</span>
+<span class="source-line-no">425</span><span id="line-425">  PERIOD_OR_SYSTEM_INFERRED_FROM_PARENT_RANK(</span>
+<span class="source-line-no">426</span><span id="line-426">      INFO, DwcTerm.earliestPeriodOrLowestSystem, DwcTerm.latestPeriodOrHighestSystem),</span>
+<span class="source-line-no">427</span><span id="line-427">  /** Epoch or series was inferred from a parent rank. */</span>
+<span class="source-line-no">428</span><span id="line-428">  EPOCH_OR_SERIES_INFERRED_FROM_PARENT_RANK(</span>
+<span class="source-line-no">429</span><span id="line-429">      INFO, DwcTerm.earliestEpochOrLowestSeries, DwcTerm.latestEpochOrHighestSeries),</span>
+<span class="source-line-no">430</span><span id="line-430">  /** Age or stage was inferred from a parent rank. */</span>
+<span class="source-line-no">431</span><span id="line-431">  AGE_OR_STAGE_INFERRED_FROM_PARENT_RANK(</span>
+<span class="source-line-no">432</span><span id="line-432">      INFO, DwcTerm.earliestAgeOrLowestStage, DwcTerm.latestAgeOrHighestStage),</span>
+<span class="source-line-no">433</span><span id="line-433"></span>
+<span class="source-line-no">434</span><span id="line-434">  /** The eon or eonothem provided belongs to another rank. */</span>
+<span class="source-line-no">435</span><span id="line-435">  EON_OR_EONOTHEM_RANK_MISMATCH(</span>
+<span class="source-line-no">436</span><span id="line-436">      INFO, DwcTerm.earliestEonOrLowestEonothem, DwcTerm.latestEonOrHighestEonothem),</span>
+<span class="source-line-no">437</span><span id="line-437">  /** The era or erathem provided belongs to another rank. */</span>
+<span class="source-line-no">438</span><span id="line-438">  ERA_OR_ERATHEM_RANK_MISMATCH(</span>
+<span class="source-line-no">439</span><span id="line-439">      INFO, DwcTerm.earliestEraOrLowestErathem, DwcTerm.latestEraOrHighestErathem),</span>
+<span class="source-line-no">440</span><span id="line-440">  /** The period or system provided belongs to another rank. */</span>
+<span class="source-line-no">441</span><span id="line-441">  PERIOD_OR_SYSTEM_RANK_MISMATCH(</span>
+<span class="source-line-no">442</span><span id="line-442">      INFO, DwcTerm.earliestPeriodOrLowestSystem, DwcTerm.latestPeriodOrHighestSystem),</span>
+<span class="source-line-no">443</span><span id="line-443">  /** The period or series provided belongs to another rank. */</span>
+<span class="source-line-no">444</span><span id="line-444">  EPOCH_OR_SERIES_RANK_MISMATCH(</span>
+<span class="source-line-no">445</span><span id="line-445">      INFO, DwcTerm.earliestEpochOrLowestSeries, DwcTerm.latestEpochOrHighestSeries),</span>
+<span class="source-line-no">446</span><span id="line-446">  /** The age or stage provided belongs to another rank. */</span>
+<span class="source-line-no">447</span><span id="line-447">  AGE_OR_STAGE_RANK_MISMATCH(</span>
+<span class="source-line-no">448</span><span id="line-448">      INFO, DwcTerm.earliestAgeOrLowestStage, DwcTerm.latestAgeOrHighestStage),</span>
+<span class="source-line-no">449</span><span id="line-449"></span>
+<span class="source-line-no">450</span><span id="line-450">  /** The earliest eon or eonothem has to be earlier than the latest. */</span>
+<span class="source-line-no">451</span><span id="line-451">  EON_OR_EONOTHEM_INVALID_RANGE(</span>
+<span class="source-line-no">452</span><span id="line-452">      INFO, DwcTerm.earliestEonOrLowestEonothem, DwcTerm.latestEonOrHighestEonothem),</span>
+<span class="source-line-no">453</span><span id="line-453">  /** The era or erathem has to be earlier than the latest. */</span>
+<span class="source-line-no">454</span><span id="line-454">  ERA_OR_ERATHEM_INVALID_RANGE(</span>
+<span class="source-line-no">455</span><span id="line-455">      INFO, DwcTerm.earliestEraOrLowestErathem, DwcTerm.latestEraOrHighestErathem),</span>
+<span class="source-line-no">456</span><span id="line-456">  /** The period or system has to be earlier than the latest. */</span>
+<span class="source-line-no">457</span><span id="line-457">  PERIOD_OR_SYSTEM_INVALID_RANGE(</span>
+<span class="source-line-no">458</span><span id="line-458">      INFO, DwcTerm.earliestPeriodOrLowestSystem, DwcTerm.latestPeriodOrHighestSystem),</span>
+<span class="source-line-no">459</span><span id="line-459">  /** The period or series has to be earlier than the latest. */</span>
+<span class="source-line-no">460</span><span id="line-460">  EPOCH_OR_SERIES_INVALID_RANGE(</span>
+<span class="source-line-no">461</span><span id="line-461">      INFO, DwcTerm.earliestEpochOrLowestSeries, DwcTerm.latestEpochOrHighestSeries),</span>
+<span class="source-line-no">462</span><span id="line-462">  /** The age or stage has to be earlier than the latest. */</span>
+<span class="source-line-no">463</span><span id="line-463">  AGE_OR_STAGE_INVALID_RANGE(</span>
+<span class="source-line-no">464</span><span id="line-464">      INFO, DwcTerm.earliestAgeOrLowestStage, DwcTerm.latestAgeOrHighestStage),</span>
+<span class="source-line-no">465</span><span id="line-465"></span>
+<span class="source-line-no">466</span><span id="line-466">  /** The era or erathem don't belong to the eon or eonothem. */</span>
+<span class="source-line-no">467</span><span id="line-467">  EON_OR_EONOTHEM_AND_ERA_OR_ERATHEM_MISMATCH(</span>
+<span class="source-line-no">468</span><span id="line-468">      INFO,</span>
+<span class="source-line-no">469</span><span id="line-469">      DwcTerm.earliestEonOrLowestEonothem,</span>
+<span class="source-line-no">470</span><span id="line-470">      DwcTerm.latestEonOrHighestEonothem,</span>
+<span class="source-line-no">471</span><span id="line-471">      DwcTerm.earliestEraOrLowestErathem,</span>
+<span class="source-line-no">472</span><span id="line-472">      DwcTerm.latestEraOrHighestErathem),</span>
+<span class="source-line-no">473</span><span id="line-473"></span>
+<span class="source-line-no">474</span><span id="line-474">  /** The period or system don't belong to the era or erathem. */</span>
+<span class="source-line-no">475</span><span id="line-475">  ERA_OR_ERATHEM_AND_PERIOD_OR_SYSTEM_MISMATCH(</span>
+<span class="source-line-no">476</span><span id="line-476">      INFO,</span>
+<span class="source-line-no">477</span><span id="line-477">      DwcTerm.earliestEraOrLowestErathem,</span>
+<span class="source-line-no">478</span><span id="line-478">      DwcTerm.latestEraOrHighestErathem,</span>
+<span class="source-line-no">479</span><span id="line-479">      DwcTerm.earliestPeriodOrLowestSystem,</span>
+<span class="source-line-no">480</span><span id="line-480">      DwcTerm.latestPeriodOrHighestSystem),</span>
+<span class="source-line-no">481</span><span id="line-481"></span>
+<span class="source-line-no">482</span><span id="line-482">  /** The epoch or series don't belong to the period or system. */</span>
+<span class="source-line-no">483</span><span id="line-483">  PERIOD_OR_SYSTEM_AND_EPOCH_OR_SERIES_MISMATCH(</span>
+<span class="source-line-no">484</span><span id="line-484">      INFO,</span>
+<span class="source-line-no">485</span><span id="line-485">      DwcTerm.earliestPeriodOrLowestSystem,</span>
+<span class="source-line-no">486</span><span id="line-486">      DwcTerm.latestPeriodOrHighestSystem,</span>
+<span class="source-line-no">487</span><span id="line-487">      DwcTerm.earliestEpochOrLowestSeries,</span>
+<span class="source-line-no">488</span><span id="line-488">      DwcTerm.latestEpochOrHighestSeries),</span>
+<span class="source-line-no">489</span><span id="line-489"></span>
+<span class="source-line-no">490</span><span id="line-490">  /** The age or stage don't belong to the epoch or series. */</span>
+<span class="source-line-no">491</span><span id="line-491">  EPOCH_OR_SERIES_AND_AGE_OR_STAGE_MISMATCH(</span>
+<span class="source-line-no">492</span><span id="line-492">      INFO,</span>
+<span class="source-line-no">493</span><span id="line-493">      DwcTerm.earliestEpochOrLowestSeries,</span>
+<span class="source-line-no">494</span><span id="line-494">      DwcTerm.latestEpochOrHighestSeries,</span>
+<span class="source-line-no">495</span><span id="line-495">      DwcTerm.earliestAgeOrLowestStage,</span>
+<span class="source-line-no">496</span><span id="line-496">      DwcTerm.latestAgeOrHighestStage),</span>
+<span class="source-line-no">497</span><span id="line-497"></span>
+<span class="source-line-no">498</span><span id="line-498">  /** Set when natural language text is detected in {@code dna_sequence}. */</span>
+<span class="source-line-no">499</span><span id="line-499">  NUCLEOTIDE_SEQUENCE_NATURAL_LANGUAGE(INFO, GbifDnaTerm.dna_sequence),</span>
+<span class="source-line-no">500</span><span id="line-500"></span>
+<span class="source-line-no">501</span><span id="line-501">  /** Set when leading or trailing sequence characters are trimmed. */</span>
+<span class="source-line-no">502</span><span id="line-502">  NUCLEOTIDE_SEQUENCE_ENDS_TRIMMED(INFO, GbifDnaTerm.dna_sequence),</span>
+<span class="source-line-no">503</span><span id="line-503"></span>
+<span class="source-line-no">504</span><span id="line-504">  /** Set when gaps or whitespace are removed from the sequence. */</span>
+<span class="source-line-no">505</span><span id="line-505">  NUCLEOTIDE_SEQUENCE_GAPS_REMOVED(INFO, GbifDnaTerm.dna_sequence),</span>
+<span class="source-line-no">506</span><span id="line-506"></span>
+<span class="source-line-no">507</span><span id="line-507">  /** Set when the sequence is invalid after normalization and validation. */</span>
+<span class="source-line-no">508</span><span id="line-508">  NUCLEOTIDE_SEQUENCE_INVALID(INFO, GbifDnaTerm.dna_sequence),</span>
+<span class="source-line-no">509</span><span id="line-509"></span>
+<span class="source-line-no">510</span><span id="line-510">  /** Set when the fraction of N bases exceeds the configured threshold. */</span>
+<span class="source-line-no">511</span><span id="line-511">  NUCLEOTIDE_SEQUENCE_HIGH_N_FRACTION(INFO, GbifDnaTerm.dna_sequence),</span>
+<span class="source-line-no">512</span><span id="line-512"></span>
+<span class="source-line-no">513</span><span id="line-513">  /** Set when the fraction of non-ACGTN bases exceeds the configured threshold. */</span>
+<span class="source-line-no">514</span><span id="line-514">  NUCLEOTIDE_SEQUENCE_HIGH_AMBIGUITY(INFO, GbifDnaTerm.dna_sequence),</span>
+<span class="source-line-no">515</span><span id="line-515"></span>
+<span class="source-line-no">516</span><span id="line-516">  /** Set when {@code target_gene} does not resolve to a concept in the vocabulary. */</span>
+<span class="source-line-no">517</span><span id="line-517">  TARGET_GENE_INVALID(INFO, MixsTerm.target_gene);</span>
+<span class="source-line-no">518</span><span id="line-518"></span>
+<span class="source-line-no">519</span><span id="line-519">  /**</span>
+<span class="source-line-no">520</span><span id="line-520">   * Simple helper nested class to allow grouping of Term mostly to increase readability of this</span>
+<span class="source-line-no">521</span><span id="line-521">   * class.</span>
+<span class="source-line-no">522</span><span id="line-522">   */</span>
+<span class="source-line-no">523</span><span id="line-523">  private static class TermsGroup {</span>
+<span class="source-line-no">524</span><span id="line-524"></span>
+<span class="source-line-no">525</span><span id="line-525">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
+<span class="source-line-no">526</span><span id="line-526">      DwcTerm.decimalLatitude,</span>
+<span class="source-line-no">527</span><span id="line-527">      DwcTerm.decimalLongitude,</span>
+<span class="source-line-no">528</span><span id="line-528">      DwcTerm.verbatimLatitude,</span>
+<span class="source-line-no">529</span><span id="line-529">      DwcTerm.verbatimLongitude,</span>
+<span class="source-line-no">530</span><span id="line-530">      DwcTerm.verbatimCoordinates</span>
 <span class="source-line-no">531</span><span id="line-531">    };</span>
 <span class="source-line-no">532</span><span id="line-532"></span>
-<span class="source-line-no">533</span><span id="line-533">    static final Term[] RECORDED_DATE_TERMS = {</span>
-<span class="source-line-no">534</span><span id="line-534">      DwcTerm.eventDate,</span>
-<span class="source-line-no">535</span><span id="line-535">      DwcTerm.year,</span>
-<span class="source-line-no">536</span><span id="line-536">      DwcTerm.month,</span>
-<span class="source-line-no">537</span><span id="line-537">      DwcTerm.day,</span>
-<span class="source-line-no">538</span><span id="line-538">      DwcTerm.startDayOfYear,</span>
-<span class="source-line-no">539</span><span id="line-539">      DwcTerm.endDayOfYear</span>
+<span class="source-line-no">533</span><span id="line-533">    static final Term[] COORDINATES_TERMS = {</span>
+<span class="source-line-no">534</span><span id="line-534">      DwcTerm.decimalLatitude,</span>
+<span class="source-line-no">535</span><span id="line-535">      DwcTerm.decimalLongitude,</span>
+<span class="source-line-no">536</span><span id="line-536">      DwcTerm.verbatimLatitude,</span>
+<span class="source-line-no">537</span><span id="line-537">      DwcTerm.verbatimLongitude,</span>
+<span class="source-line-no">538</span><span id="line-538">      DwcTerm.verbatimCoordinates,</span>
+<span class="source-line-no">539</span><span id="line-539">      DwcTerm.geodeticDatum</span>
 <span class="source-line-no">540</span><span id="line-540">    };</span>
 <span class="source-line-no">541</span><span id="line-541"></span>
-<span class="source-line-no">542</span><span id="line-542">    static final Term[] TAXONOMY_TERMS = {</span>
-<span class="source-line-no">543</span><span id="line-543">      DwcTerm.kingdom,</span>
-<span class="source-line-no">544</span><span id="line-544">      DwcTerm.phylum,</span>
-<span class="source-line-no">545</span><span id="line-545">      DwcTerm.class_,</span>
-<span class="source-line-no">546</span><span id="line-546">      DwcTerm.order,</span>
-<span class="source-line-no">547</span><span id="line-547">      DwcTerm.family,</span>
-<span class="source-line-no">548</span><span id="line-548">      DwcTerm.genus,</span>
-<span class="source-line-no">549</span><span id="line-549">      DwcTerm.scientificName,</span>
-<span class="source-line-no">550</span><span id="line-550">      DwcTerm.scientificNameAuthorship,</span>
-<span class="source-line-no">551</span><span id="line-551">      DwcTerm.genericName,</span>
-<span class="source-line-no">552</span><span id="line-552">      DwcTerm.specificEpithet,</span>
-<span class="source-line-no">553</span><span id="line-553">      DwcTerm.infraspecificEpithet,</span>
-<span class="source-line-no">554</span><span id="line-554">      DwcTerm.scientificNameID,</span>
-<span class="source-line-no">555</span><span id="line-555">      DwcTerm.taxonConceptID,</span>
-<span class="source-line-no">556</span><span id="line-556">      DwcTerm.taxonID,</span>
-<span class="source-line-no">557</span><span id="line-557">    };</span>
-<span class="source-line-no">558</span><span id="line-558"></span>
-<span class="source-line-no">559</span><span id="line-559">    static final Term[] INSTITUTION_TERMS = {</span>
-<span class="source-line-no">560</span><span id="line-560">      DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode</span>
-<span class="source-line-no">561</span><span id="line-561">    };</span>
-<span class="source-line-no">562</span><span id="line-562"></span>
-<span class="source-line-no">563</span><span id="line-563">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
-<span class="source-line-no">564</span><span id="line-564">  }</span>
-<span class="source-line-no">565</span><span id="line-565"></span>
-<span class="source-line-no">566</span><span id="line-566">  private final Set&lt;Term&gt; relatedTerms;</span>
-<span class="source-line-no">567</span><span id="line-567">  private final InterpretationRemarkSeverity severity;</span>
-<span class="source-line-no">568</span><span id="line-568">  private final boolean isDeprecated;</span>
-<span class="source-line-no">569</span><span id="line-569"></span>
-<span class="source-line-no">570</span><span id="line-570">  /** {@link OccurrenceIssue} not linked to any specific {@link Term}. */</span>
-<span class="source-line-no">571</span><span id="line-571">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
-<span class="source-line-no">572</span><span id="line-572">    this.severity = severity;</span>
-<span class="source-line-no">573</span><span id="line-573">    this.relatedTerms = Collections.emptySet();</span>
-<span class="source-line-no">574</span><span id="line-574">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="source-line-no">575</span><span id="line-575">  }</span>
-<span class="source-line-no">576</span><span id="line-576"></span>
-<span class="source-line-no">577</span><span id="line-577">  /** {@link OccurrenceIssue} linked to the provided {@link Term}. */</span>
-<span class="source-line-no">578</span><span id="line-578">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
-<span class="source-line-no">579</span><span id="line-579">    this.severity = severity;</span>
-<span class="source-line-no">580</span><span id="line-580">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
-<span class="source-line-no">581</span><span id="line-581">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="source-line-no">582</span><span id="line-582">  }</span>
-<span class="source-line-no">583</span><span id="line-583"></span>
-<span class="source-line-no">584</span><span id="line-584">  @Override</span>
-<span class="source-line-no">585</span><span id="line-585">  public String getId() {</span>
-<span class="source-line-no">586</span><span id="line-586">    return name();</span>
-<span class="source-line-no">587</span><span id="line-587">  }</span>
-<span class="source-line-no">588</span><span id="line-588"></span>
-<span class="source-line-no">589</span><span id="line-589">  @Override</span>
-<span class="source-line-no">590</span><span id="line-590">  public Set&lt;Term&gt; getRelatedTerms() {</span>
-<span class="source-line-no">591</span><span id="line-591">    return relatedTerms;</span>
-<span class="source-line-no">592</span><span id="line-592">  }</span>
-<span class="source-line-no">593</span><span id="line-593"></span>
-<span class="source-line-no">594</span><span id="line-594">  @Override</span>
-<span class="source-line-no">595</span><span id="line-595">  public InterpretationRemarkSeverity getSeverity() {</span>
-<span class="source-line-no">596</span><span id="line-596">    return severity;</span>
+<span class="source-line-no">542</span><span id="line-542">    static final Term[] COUNTRY_TERMS = {DwcTerm.country, DwcTerm.countryCode};</span>
+<span class="source-line-no">543</span><span id="line-543"></span>
+<span class="source-line-no">544</span><span id="line-544">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
+<span class="source-line-no">545</span><span id="line-545">      DwcTerm.decimalLatitude,</span>
+<span class="source-line-no">546</span><span id="line-546">      DwcTerm.decimalLongitude,</span>
+<span class="source-line-no">547</span><span id="line-547">      DwcTerm.verbatimLatitude,</span>
+<span class="source-line-no">548</span><span id="line-548">      DwcTerm.verbatimLongitude,</span>
+<span class="source-line-no">549</span><span id="line-549">      DwcTerm.verbatimCoordinates,</span>
+<span class="source-line-no">550</span><span id="line-550">      DwcTerm.geodeticDatum,</span>
+<span class="source-line-no">551</span><span id="line-551">      DwcTerm.country,</span>
+<span class="source-line-no">552</span><span id="line-552">      DwcTerm.countryCode</span>
+<span class="source-line-no">553</span><span id="line-553">    };</span>
+<span class="source-line-no">554</span><span id="line-554"></span>
+<span class="source-line-no">555</span><span id="line-555">    static final Term[] RECORDED_DATE_TERMS = {</span>
+<span class="source-line-no">556</span><span id="line-556">      DwcTerm.eventDate,</span>
+<span class="source-line-no">557</span><span id="line-557">      DwcTerm.year,</span>
+<span class="source-line-no">558</span><span id="line-558">      DwcTerm.month,</span>
+<span class="source-line-no">559</span><span id="line-559">      DwcTerm.day,</span>
+<span class="source-line-no">560</span><span id="line-560">      DwcTerm.startDayOfYear,</span>
+<span class="source-line-no">561</span><span id="line-561">      DwcTerm.endDayOfYear</span>
+<span class="source-line-no">562</span><span id="line-562">    };</span>
+<span class="source-line-no">563</span><span id="line-563"></span>
+<span class="source-line-no">564</span><span id="line-564">    static final Term[] TAXONOMY_TERMS = {</span>
+<span class="source-line-no">565</span><span id="line-565">      DwcTerm.kingdom,</span>
+<span class="source-line-no">566</span><span id="line-566">      DwcTerm.phylum,</span>
+<span class="source-line-no">567</span><span id="line-567">      DwcTerm.class_,</span>
+<span class="source-line-no">568</span><span id="line-568">      DwcTerm.order,</span>
+<span class="source-line-no">569</span><span id="line-569">      DwcTerm.family,</span>
+<span class="source-line-no">570</span><span id="line-570">      DwcTerm.genus,</span>
+<span class="source-line-no">571</span><span id="line-571">      DwcTerm.scientificName,</span>
+<span class="source-line-no">572</span><span id="line-572">      DwcTerm.scientificNameAuthorship,</span>
+<span class="source-line-no">573</span><span id="line-573">      DwcTerm.genericName,</span>
+<span class="source-line-no">574</span><span id="line-574">      DwcTerm.specificEpithet,</span>
+<span class="source-line-no">575</span><span id="line-575">      DwcTerm.infraspecificEpithet,</span>
+<span class="source-line-no">576</span><span id="line-576">      DwcTerm.scientificNameID,</span>
+<span class="source-line-no">577</span><span id="line-577">      DwcTerm.taxonConceptID,</span>
+<span class="source-line-no">578</span><span id="line-578">      DwcTerm.taxonID,</span>
+<span class="source-line-no">579</span><span id="line-579">    };</span>
+<span class="source-line-no">580</span><span id="line-580"></span>
+<span class="source-line-no">581</span><span id="line-581">    static final Term[] INSTITUTION_TERMS = {</span>
+<span class="source-line-no">582</span><span id="line-582">      DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode</span>
+<span class="source-line-no">583</span><span id="line-583">    };</span>
+<span class="source-line-no">584</span><span id="line-584"></span>
+<span class="source-line-no">585</span><span id="line-585">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
+<span class="source-line-no">586</span><span id="line-586">  }</span>
+<span class="source-line-no">587</span><span id="line-587"></span>
+<span class="source-line-no">588</span><span id="line-588">  private final Set&lt;Term&gt; relatedTerms;</span>
+<span class="source-line-no">589</span><span id="line-589">  private final InterpretationRemarkSeverity severity;</span>
+<span class="source-line-no">590</span><span id="line-590">  private final boolean isDeprecated;</span>
+<span class="source-line-no">591</span><span id="line-591"></span>
+<span class="source-line-no">592</span><span id="line-592">  /** {@link OccurrenceIssue} not linked to any specific {@link Term}. */</span>
+<span class="source-line-no">593</span><span id="line-593">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
+<span class="source-line-no">594</span><span id="line-594">    this.severity = severity;</span>
+<span class="source-line-no">595</span><span id="line-595">    this.relatedTerms = Collections.emptySet();</span>
+<span class="source-line-no">596</span><span id="line-596">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
 <span class="source-line-no">597</span><span id="line-597">  }</span>
 <span class="source-line-no">598</span><span id="line-598"></span>
-<span class="source-line-no">599</span><span id="line-599">  @Override</span>
-<span class="source-line-no">600</span><span id="line-600">  public boolean isDeprecated() {</span>
-<span class="source-line-no">601</span><span id="line-601">    return isDeprecated;</span>
-<span class="source-line-no">602</span><span id="line-602">  }</span>
-<span class="source-line-no">603</span><span id="line-603"></span>
-<span class="source-line-no">604</span><span id="line-604">  /**</span>
-<span class="source-line-no">605</span><span id="line-605">   * All issues that indicate problems with the coordinates and thus should not be shown on maps.</span>
-<span class="source-line-no">606</span><span id="line-606">   */</span>
-<span class="source-line-no">607</span><span id="line-607">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
-<span class="source-line-no">608</span><span id="line-608">      Collections.unmodifiableList(</span>
-<span class="source-line-no">609</span><span id="line-609">          Arrays.asList(</span>
-<span class="source-line-no">610</span><span id="line-610">              ZERO_COORDINATE,</span>
-<span class="source-line-no">611</span><span id="line-611">              COORDINATE_OUT_OF_RANGE,</span>
-<span class="source-line-no">612</span><span id="line-612">              COORDINATE_INVALID,</span>
-<span class="source-line-no">613</span><span id="line-613">              COUNTRY_COORDINATE_MISMATCH,</span>
-<span class="source-line-no">614</span><span id="line-614">              PRESUMED_SWAPPED_COORDINATE,</span>
-<span class="source-line-no">615</span><span id="line-615">              PRESUMED_NEGATED_LONGITUDE,</span>
-<span class="source-line-no">616</span><span id="line-616">              PRESUMED_NEGATED_LATITUDE));</span>
-<span class="source-line-no">617</span><span id="line-617"></span>
-<span class="source-line-no">618</span><span id="line-618">  /** All issues related to taxonomic fields. */</span>
-<span class="source-line-no">619</span><span id="line-619">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
-<span class="source-line-no">620</span><span id="line-620">      Set.of(OccurrenceIssue.values()).stream()</span>
-<span class="source-line-no">621</span><span id="line-621">          .filter(</span>
-<span class="source-line-no">622</span><span id="line-622">              issue -&gt;</span>
-<span class="source-line-no">623</span><span id="line-623">                  issue.getRelatedTerms().stream()</span>
-<span class="source-line-no">624</span><span id="line-624">                      .anyMatch(term -&gt; Set.of(TermsGroup.TAXONOMY_TERMS).contains(term)))</span>
-<span class="source-line-no">625</span><span id="line-625">          .collect(Collectors.toList());</span>
-<span class="source-line-no">626</span><span id="line-626">}</span>
+<span class="source-line-no">599</span><span id="line-599">  /** {@link OccurrenceIssue} linked to the provided {@link Term}. */</span>
+<span class="source-line-no">600</span><span id="line-600">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
+<span class="source-line-no">601</span><span id="line-601">    this.severity = severity;</span>
+<span class="source-line-no">602</span><span id="line-602">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
+<span class="source-line-no">603</span><span id="line-603">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="source-line-no">604</span><span id="line-604">  }</span>
+<span class="source-line-no">605</span><span id="line-605"></span>
+<span class="source-line-no">606</span><span id="line-606">  @Override</span>
+<span class="source-line-no">607</span><span id="line-607">  public String getId() {</span>
+<span class="source-line-no">608</span><span id="line-608">    return name();</span>
+<span class="source-line-no">609</span><span id="line-609">  }</span>
+<span class="source-line-no">610</span><span id="line-610"></span>
+<span class="source-line-no">611</span><span id="line-611">  @Override</span>
+<span class="source-line-no">612</span><span id="line-612">  public Set&lt;Term&gt; getRelatedTerms() {</span>
+<span class="source-line-no">613</span><span id="line-613">    return relatedTerms;</span>
+<span class="source-line-no">614</span><span id="line-614">  }</span>
+<span class="source-line-no">615</span><span id="line-615"></span>
+<span class="source-line-no">616</span><span id="line-616">  @Override</span>
+<span class="source-line-no">617</span><span id="line-617">  public InterpretationRemarkSeverity getSeverity() {</span>
+<span class="source-line-no">618</span><span id="line-618">    return severity;</span>
+<span class="source-line-no">619</span><span id="line-619">  }</span>
+<span class="source-line-no">620</span><span id="line-620"></span>
+<span class="source-line-no">621</span><span id="line-621">  @Override</span>
+<span class="source-line-no">622</span><span id="line-622">  public boolean isDeprecated() {</span>
+<span class="source-line-no">623</span><span id="line-623">    return isDeprecated;</span>
+<span class="source-line-no">624</span><span id="line-624">  }</span>
+<span class="source-line-no">625</span><span id="line-625"></span>
+<span class="source-line-no">626</span><span id="line-626">  /**</span>
+<span class="source-line-no">627</span><span id="line-627">   * All issues that indicate problems with the coordinates and thus should not be shown on maps.</span>
+<span class="source-line-no">628</span><span id="line-628">   */</span>
+<span class="source-line-no">629</span><span id="line-629">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
+<span class="source-line-no">630</span><span id="line-630">      Collections.unmodifiableList(</span>
+<span class="source-line-no">631</span><span id="line-631">          Arrays.asList(</span>
+<span class="source-line-no">632</span><span id="line-632">              ZERO_COORDINATE,</span>
+<span class="source-line-no">633</span><span id="line-633">              COORDINATE_OUT_OF_RANGE,</span>
+<span class="source-line-no">634</span><span id="line-634">              COORDINATE_INVALID,</span>
+<span class="source-line-no">635</span><span id="line-635">              COUNTRY_COORDINATE_MISMATCH,</span>
+<span class="source-line-no">636</span><span id="line-636">              PRESUMED_SWAPPED_COORDINATE,</span>
+<span class="source-line-no">637</span><span id="line-637">              PRESUMED_NEGATED_LONGITUDE,</span>
+<span class="source-line-no">638</span><span id="line-638">              PRESUMED_NEGATED_LATITUDE));</span>
+<span class="source-line-no">639</span><span id="line-639"></span>
+<span class="source-line-no">640</span><span id="line-640">  /** All issues related to taxonomic fields. */</span>
+<span class="source-line-no">641</span><span id="line-641">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
+<span class="source-line-no">642</span><span id="line-642">      Set.of(OccurrenceIssue.values()).stream()</span>
+<span class="source-line-no">643</span><span id="line-643">          .filter(</span>
+<span class="source-line-no">644</span><span id="line-644">              issue -&gt;</span>
+<span class="source-line-no">645</span><span id="line-645">                  issue.getRelatedTerms().stream()</span>
+<span class="source-line-no">646</span><span id="line-646">                      .anyMatch(term -&gt; Set.of(TermsGroup.TAXONOMY_TERMS).contains(term)))</span>
+<span class="source-line-no">647</span><span id="line-647">          .collect(Collectors.toList());</span>
+<span class="source-line-no">648</span><span id="line-648">}</span>
 
 
 
