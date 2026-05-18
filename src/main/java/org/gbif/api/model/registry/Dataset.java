@@ -724,7 +724,7 @@ public class Dataset
     this.numConstituents = numConstituents;
   }
 
-  @NotNull
+  @Nullable
   public DatasetType getType() {
     return type;
   }
