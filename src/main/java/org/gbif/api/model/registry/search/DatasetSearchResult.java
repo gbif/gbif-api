@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.License;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -49,6 +50,8 @@ public class DatasetSearchResult {
   private Country publishingCountry;
   private UUID publishingOrganizationKey;
   private String publishingOrganizationTitle;
+  private Date publicationDate;
+  private Date modified;
   private UUID endorsingNodeKey;
   private List<UUID> networkKeys;
   private License license;
@@ -203,6 +206,22 @@ public class DatasetSearchResult {
     this.publishingOrganizationTitle = publishingOrganizationTitle;
   }
 
+  public Date getPublicationDate() {
+    return publicationDate;
+  }
+
+  public void setPublicationDate(Date publicationDate) {
+    this.publicationDate = publicationDate;
+  }
+
+  public Date getModified() {
+    return modified;
+  }
+
+  public void setModified(Date modified) {
+    this.modified = modified;
+  }
+
   public List<UUID> getNetworkKeys() {
     return networkKeys;
   }
@@ -292,6 +311,8 @@ public class DatasetSearchResult {
       publishingCountry == that.publishingCountry &&
       Objects.equals(publishingOrganizationKey, that.publishingOrganizationKey) &&
       Objects.equals(publishingOrganizationTitle, that.publishingOrganizationTitle) &&
+      publicationDate == that.publicationDate &&
+      modified == that.modified &&
       license == that.license &&
       Objects.equals(decades, that.decades) &&
       Objects.equals(keywords, that.keywords) &&
@@ -306,7 +327,7 @@ public class DatasetSearchResult {
   public int hashCode() {
     return Objects.hash(key, title, doi, description, type, subtype, fullText, hostingOrganizationKey,
       hostingOrganizationTitle, publisherTitle, countryCoverage, continent, publishingCountry,
-      publishingOrganizationKey, publishingOrganizationTitle, license, decades, keywords,
+      publishingOrganizationKey, publishingOrganizationTitle, publicationDate, modified, license, decades, keywords,
       projectIdentifier, recordCount, networkKeys, nameUsagesCount, category);
   }
 
@@ -328,6 +349,8 @@ public class DatasetSearchResult {
       .add("publishingCountry=" + publishingCountry)
       .add("publishingOrganizationKey=" + publishingOrganizationKey)
       .add("publishingOrganizationTitle='" + publishingOrganizationTitle + "'")
+      .add("publicationDate=" + publicationDate)
+      .add("modified+" + modified)
       .add("license=" + license)
       .add("decades=" + decades)
       .add("keywords=" + keywords)
