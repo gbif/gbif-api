@@ -14,26 +14,47 @@
 <pre><span class="source-line-no">001</span><span id="line-1">package org.gbif.api.model.occurrence;</span>
 <span class="source-line-no">002</span><span id="line-2"></span>
 <span class="source-line-no">003</span><span id="line-3">import io.swagger.v3.oas.annotations.media.Schema;</span>
-<span class="source-line-no">004</span><span id="line-4">import lombok.Data;</span>
-<span class="source-line-no">005</span><span id="line-5"></span>
-<span class="source-line-no">006</span><span id="line-6">@Schema(description = "A nucleotide sequence.")</span>
-<span class="source-line-no">007</span><span id="line-7">@Data</span>
-<span class="source-line-no">008</span><span id="line-8">public class NucleotideSequence {</span>
-<span class="source-line-no">009</span><span id="line-9"></span>
-<span class="source-line-no">010</span><span id="line-10">  private String nucleotideSequenceID;</span>
-<span class="source-line-no">011</span><span id="line-11">  private String targetGene;</span>
-<span class="source-line-no">012</span><span id="line-12">  private String sequence;</span>
-<span class="source-line-no">013</span><span id="line-13">  private Integer sequenceLength;</span>
-<span class="source-line-no">014</span><span id="line-14">  private Double gcContent;</span>
-<span class="source-line-no">015</span><span id="line-15">  private Double nonIupacFraction;</span>
-<span class="source-line-no">016</span><span id="line-16">  private Double nonACGTNFraction;</span>
-<span class="source-line-no">017</span><span id="line-17">  private Double nFraction;</span>
-<span class="source-line-no">018</span><span id="line-18">  private Integer nRunsCapped;</span>
-<span class="source-line-no">019</span><span id="line-19">  private Boolean naturalLanguageDetected;</span>
-<span class="source-line-no">020</span><span id="line-20">  private Boolean endsTrimmed;</span>
-<span class="source-line-no">021</span><span id="line-21">  private Boolean gapsOrWhitespaceRemoved;</span>
-<span class="source-line-no">022</span><span id="line-22">  private Boolean invalid;</span>
-<span class="source-line-no">023</span><span id="line-23">}</span>
+<span class="source-line-no">004</span><span id="line-4">import lombok.AccessLevel;</span>
+<span class="source-line-no">005</span><span id="line-5">import lombok.Data;</span>
+<span class="source-line-no">006</span><span id="line-6">import lombok.Getter;</span>
+<span class="source-line-no">007</span><span id="line-7"></span>
+<span class="source-line-no">008</span><span id="line-8">@Schema(description = "A nucleotide sequence.")</span>
+<span class="source-line-no">009</span><span id="line-9">@Data</span>
+<span class="source-line-no">010</span><span id="line-10">public class NucleotideSequence {</span>
+<span class="source-line-no">011</span><span id="line-11"></span>
+<span class="source-line-no">012</span><span id="line-12">  private String nucleotideSequenceID;</span>
+<span class="source-line-no">013</span><span id="line-13">  private String targetGene;</span>
+<span class="source-line-no">014</span><span id="line-14">  private String sequence;</span>
+<span class="source-line-no">015</span><span id="line-15">  private Integer sequenceLength;</span>
+<span class="source-line-no">016</span><span id="line-16">  private Double gcContent;</span>
+<span class="source-line-no">017</span><span id="line-17">  private Double nonIupacFraction;</span>
+<span class="source-line-no">018</span><span id="line-18">  private Double nonACGTNFraction;</span>
+<span class="source-line-no">019</span><span id="line-19">  @Getter(AccessLevel.NONE)</span>
+<span class="source-line-no">020</span><span id="line-20">  private Double nFraction;</span>
+<span class="source-line-no">021</span><span id="line-21">  @Getter(AccessLevel.NONE)</span>
+<span class="source-line-no">022</span><span id="line-22">  private Integer nRunsCapped;</span>
+<span class="source-line-no">023</span><span id="line-23">  private Boolean naturalLanguageDetected;</span>
+<span class="source-line-no">024</span><span id="line-24">  private Boolean endsTrimmed;</span>
+<span class="source-line-no">025</span><span id="line-25">  private Boolean gapsOrWhitespaceRemoved;</span>
+<span class="source-line-no">026</span><span id="line-26">  private Boolean invalid;</span>
+<span class="source-line-no">027</span><span id="line-27"></span>
+<span class="source-line-no">028</span><span id="line-28">  public Double getnFraction() {</span>
+<span class="source-line-no">029</span><span id="line-29">    return nFraction;</span>
+<span class="source-line-no">030</span><span id="line-30">  }</span>
+<span class="source-line-no">031</span><span id="line-31"></span>
+<span class="source-line-no">032</span><span id="line-32">  public void setnFraction(Double nFraction) {</span>
+<span class="source-line-no">033</span><span id="line-33">    this.nFraction = nFraction;</span>
+<span class="source-line-no">034</span><span id="line-34">  }</span>
+<span class="source-line-no">035</span><span id="line-35"></span>
+<span class="source-line-no">036</span><span id="line-36">  public Integer getnRunsCapped() {</span>
+<span class="source-line-no">037</span><span id="line-37">    return nRunsCapped;</span>
+<span class="source-line-no">038</span><span id="line-38">  }</span>
+<span class="source-line-no">039</span><span id="line-39"></span>
+<span class="source-line-no">040</span><span id="line-40">  public void setnRunsCapped(Integer nRunsCapped) {</span>
+<span class="source-line-no">041</span><span id="line-41">    this.nRunsCapped = nRunsCapped;</span>
+<span class="source-line-no">042</span><span id="line-42">  }</span>
+<span class="source-line-no">043</span><span id="line-43"></span>
+<span class="source-line-no">044</span><span id="line-44">}</span>
 
 
 
