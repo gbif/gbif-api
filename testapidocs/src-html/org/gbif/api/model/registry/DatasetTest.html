@@ -72,49 +72,48 @@
 <span class="source-line-no">059</span><span id="line-59">    Set&lt;ConstraintViolation&lt;Dataset&gt;&gt; violations = validator.validate(ds);</span>
 <span class="source-line-no">060</span><span id="line-60">    assertFalse(violations.isEmpty(), "Violations were expected");</span>
 <span class="source-line-no">061</span><span id="line-61"></span>
-<span class="source-line-no">062</span><span id="line-62">    // ensure all 6 expected violations are caught</span>
+<span class="source-line-no">062</span><span id="line-62">    // ensure all 5 expected violations are caught</span>
 <span class="source-line-no">063</span><span id="line-63">    Set&lt;String&gt; propertiesInViolation = new HashSet&lt;&gt;();</span>
 <span class="source-line-no">064</span><span id="line-64">    propertiesInViolation.add("title");</span>
 <span class="source-line-no">065</span><span id="line-65">    propertiesInViolation.add("homepage");</span>
 <span class="source-line-no">066</span><span id="line-66">    propertiesInViolation.add("logoUrl");</span>
-<span class="source-line-no">067</span><span id="line-67">    propertiesInViolation.add("type");</span>
-<span class="source-line-no">068</span><span id="line-68">    propertiesInViolation.add("installationKey");</span>
-<span class="source-line-no">069</span><span id="line-69">    propertiesInViolation.add("publishingOrganisationKey");</span>
-<span class="source-line-no">070</span><span id="line-70"></span>
-<span class="source-line-no">071</span><span id="line-71">    assertEquals(6, violations.size());</span>
-<span class="source-line-no">072</span><span id="line-72"></span>
-<span class="source-line-no">073</span><span id="line-73">    // fix non-mandatory fields that don't validate</span>
-<span class="source-line-no">074</span><span id="line-74">    ds.setTitle("Rooftop bugs");</span>
-<span class="source-line-no">075</span><span id="line-75">    ds.setHomepage(URI.create("http://www.gbif.org"));</span>
-<span class="source-line-no">076</span><span id="line-76">    ds.setLogoUrl(URI.create("http://www.gbif.org/logo.png"));</span>
-<span class="source-line-no">077</span><span id="line-77"></span>
-<span class="source-line-no">078</span><span id="line-78">    // add all mandatory fields that were missing</span>
-<span class="source-line-no">079</span><span id="line-79">    ds.setType(DatasetType.SAMPLING_EVENT);</span>
-<span class="source-line-no">080</span><span id="line-80">    ds.setInstallationKey(UUID.randomUUID());</span>
-<span class="source-line-no">081</span><span id="line-81">    ds.setPublishingOrganizationKey(UUID.randomUUID());</span>
-<span class="source-line-no">082</span><span id="line-82"></span>
-<span class="source-line-no">083</span><span id="line-83">    // perform validation again</span>
-<span class="source-line-no">084</span><span id="line-84">    violations = validator.validate(ds);</span>
-<span class="source-line-no">085</span><span id="line-85">    assertTrue(violations.isEmpty(), "No violations were expected");</span>
-<span class="source-line-no">086</span><span id="line-86">  }</span>
-<span class="source-line-no">087</span><span id="line-87"></span>
-<span class="source-line-no">088</span><span id="line-88">  @Test</span>
-<span class="source-line-no">089</span><span id="line-89">  public void testLenientEquals() {</span>
-<span class="source-line-no">090</span><span id="line-90">    Dataset ds1 = new Dataset();</span>
-<span class="source-line-no">091</span><span id="line-91">    ds1.setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency.DAILY);</span>
-<span class="source-line-no">092</span><span id="line-92">    ds1.setMaintenanceDescription("Daily, except for holidays");</span>
-<span class="source-line-no">093</span><span id="line-93">    ds1.setLicense(License.CC_BY_4_0);</span>
-<span class="source-line-no">094</span><span id="line-94">    ds1.setCreated(new Date());</span>
-<span class="source-line-no">095</span><span id="line-95"></span>
-<span class="source-line-no">096</span><span id="line-96">    Dataset ds2 = new Dataset();</span>
-<span class="source-line-no">097</span><span id="line-97">    ds2.setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency.DAILY);</span>
-<span class="source-line-no">098</span><span id="line-98">    ds2.setMaintenanceDescription("Daily, except for holidays");</span>
-<span class="source-line-no">099</span><span id="line-99">    ds2.setLicense(License.CC0_1_0); // different license</span>
-<span class="source-line-no">100</span><span id="line-100">    ds1.setCreated(new Date()); // different created date!</span>
-<span class="source-line-no">101</span><span id="line-101"></span>
-<span class="source-line-no">102</span><span id="line-102">    assertTrue(ds1.lenientEquals(ds2)); // true because lenient equals excludes</span>
-<span class="source-line-no">103</span><span id="line-103">  }</span>
-<span class="source-line-no">104</span><span id="line-104">}</span>
+<span class="source-line-no">067</span><span id="line-67">    propertiesInViolation.add("installationKey");</span>
+<span class="source-line-no">068</span><span id="line-68">    propertiesInViolation.add("publishingOrganisationKey");</span>
+<span class="source-line-no">069</span><span id="line-69"></span>
+<span class="source-line-no">070</span><span id="line-70">    assertEquals(5, violations.size());</span>
+<span class="source-line-no">071</span><span id="line-71"></span>
+<span class="source-line-no">072</span><span id="line-72">    // fix non-mandatory fields that don't validate</span>
+<span class="source-line-no">073</span><span id="line-73">    ds.setTitle("Rooftop bugs");</span>
+<span class="source-line-no">074</span><span id="line-74">    ds.setHomepage(URI.create("http://www.gbif.org"));</span>
+<span class="source-line-no">075</span><span id="line-75">    ds.setLogoUrl(URI.create("http://www.gbif.org/logo.png"));</span>
+<span class="source-line-no">076</span><span id="line-76"></span>
+<span class="source-line-no">077</span><span id="line-77">    // add all mandatory fields that were missing</span>
+<span class="source-line-no">078</span><span id="line-78">    ds.setType(DatasetType.SAMPLING_EVENT);</span>
+<span class="source-line-no">079</span><span id="line-79">    ds.setInstallationKey(UUID.randomUUID());</span>
+<span class="source-line-no">080</span><span id="line-80">    ds.setPublishingOrganizationKey(UUID.randomUUID());</span>
+<span class="source-line-no">081</span><span id="line-81"></span>
+<span class="source-line-no">082</span><span id="line-82">    // perform validation again</span>
+<span class="source-line-no">083</span><span id="line-83">    violations = validator.validate(ds);</span>
+<span class="source-line-no">084</span><span id="line-84">    assertTrue(violations.isEmpty(), "No violations were expected");</span>
+<span class="source-line-no">085</span><span id="line-85">  }</span>
+<span class="source-line-no">086</span><span id="line-86"></span>
+<span class="source-line-no">087</span><span id="line-87">  @Test</span>
+<span class="source-line-no">088</span><span id="line-88">  public void testLenientEquals() {</span>
+<span class="source-line-no">089</span><span id="line-89">    Dataset ds1 = new Dataset();</span>
+<span class="source-line-no">090</span><span id="line-90">    ds1.setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency.DAILY);</span>
+<span class="source-line-no">091</span><span id="line-91">    ds1.setMaintenanceDescription("Daily, except for holidays");</span>
+<span class="source-line-no">092</span><span id="line-92">    ds1.setLicense(License.CC_BY_4_0);</span>
+<span class="source-line-no">093</span><span id="line-93">    ds1.setCreated(new Date());</span>
+<span class="source-line-no">094</span><span id="line-94"></span>
+<span class="source-line-no">095</span><span id="line-95">    Dataset ds2 = new Dataset();</span>
+<span class="source-line-no">096</span><span id="line-96">    ds2.setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency.DAILY);</span>
+<span class="source-line-no">097</span><span id="line-97">    ds2.setMaintenanceDescription("Daily, except for holidays");</span>
+<span class="source-line-no">098</span><span id="line-98">    ds2.setLicense(License.CC0_1_0); // different license</span>
+<span class="source-line-no">099</span><span id="line-99">    ds1.setCreated(new Date()); // different created date!</span>
+<span class="source-line-no">100</span><span id="line-100"></span>
+<span class="source-line-no">101</span><span id="line-101">    assertTrue(ds1.lenientEquals(ds2)); // true because lenient equals excludes</span>
+<span class="source-line-no">102</span><span id="line-102">  }</span>
+<span class="source-line-no">103</span><span id="line-103">}</span>
 
 
 

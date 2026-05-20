@@ -26,155 +26,159 @@
 <span class="source-line-no">013</span><span id="line-13"> */</span>
 <span class="source-line-no">014</span><span id="line-14">package org.gbif.api.model.literature.search;</span>
 <span class="source-line-no">015</span><span id="line-15"></span>
-<span class="source-line-no">016</span><span id="line-16">import org.gbif.api.model.literature.LiteratureRelevance;</span>
-<span class="source-line-no">017</span><span id="line-17">import org.gbif.api.model.literature.LiteratureTopic;</span>
-<span class="source-line-no">018</span><span id="line-18">import org.gbif.api.model.literature.LiteratureType;</span>
-<span class="source-line-no">019</span><span id="line-19">import org.gbif.api.vocabulary.Country;</span>
-<span class="source-line-no">020</span><span id="line-20">import org.gbif.api.vocabulary.GbifRegion;</span>
-<span class="source-line-no">021</span><span id="line-21">import org.gbif.api.vocabulary.Language;</span>
-<span class="source-line-no">022</span><span id="line-22"></span>
-<span class="source-line-no">023</span><span id="line-23">import java.util.ArrayList;</span>
-<span class="source-line-no">024</span><span id="line-24">import java.util.Date;</span>
-<span class="source-line-no">025</span><span id="line-25">import java.util.HashMap;</span>
-<span class="source-line-no">026</span><span id="line-26">import java.util.HashSet;</span>
-<span class="source-line-no">027</span><span id="line-27">import java.util.List;</span>
-<span class="source-line-no">028</span><span id="line-28">import java.util.Map;</span>
-<span class="source-line-no">029</span><span id="line-29">import java.util.Set;</span>
-<span class="source-line-no">030</span><span id="line-30">import java.util.UUID;</span>
-<span class="source-line-no">031</span><span id="line-31"></span>
-<span class="source-line-no">032</span><span id="line-32">import com.fasterxml.jackson.annotation.JsonProperty;</span>
-<span class="source-line-no">033</span><span id="line-33"></span>
-<span class="source-line-no">034</span><span id="line-34">import io.swagger.v3.oas.annotations.media.Schema;</span>
-<span class="source-line-no">035</span><span id="line-35"></span>
-<span class="source-line-no">036</span><span id="line-36">import lombok.AccessLevel;</span>
-<span class="source-line-no">037</span><span id="line-37">import lombok.Getter;</span>
-<span class="source-line-no">038</span><span id="line-38">import lombok.Setter;</span>
-<span class="source-line-no">039</span><span id="line-39"></span>
-<span class="source-line-no">040</span><span id="line-40">@Getter</span>
-<span class="source-line-no">041</span><span id="line-41">@Setter</span>
-<span class="source-line-no">042</span><span id="line-42">@SuppressWarnings("unused")</span>
-<span class="source-line-no">043</span><span id="line-43">public class LiteratureSearchResult {</span>
-<span class="source-line-no">044</span><span id="line-44"></span>
-<span class="source-line-no">045</span><span id="line-45">  @Getter(AccessLevel.NONE)</span>
-<span class="source-line-no">046</span><span id="line-46">  @Setter(AccessLevel.NONE)</span>
-<span class="source-line-no">047</span><span id="line-47">  private String abstract_;</span>
-<span class="source-line-no">048</span><span id="line-48"></span>
-<span class="source-line-no">049</span><span id="line-49">  @Schema(description = "The date the literature item was found by GBIF's staff or automated processes.")</span>
-<span class="source-line-no">050</span><span id="line-50">  private String discovered;</span>
+<span class="source-line-no">016</span><span id="line-16">import com.fasterxml.jackson.annotation.JsonFormat;</span>
+<span class="source-line-no">017</span><span id="line-17"></span>
+<span class="source-line-no">018</span><span id="line-18">import java.time.LocalDate;</span>
+<span class="source-line-no">019</span><span id="line-19"></span>
+<span class="source-line-no">020</span><span id="line-20">import org.gbif.api.model.literature.LiteratureRelevance;</span>
+<span class="source-line-no">021</span><span id="line-21">import org.gbif.api.model.literature.LiteratureTopic;</span>
+<span class="source-line-no">022</span><span id="line-22">import org.gbif.api.model.literature.LiteratureType;</span>
+<span class="source-line-no">023</span><span id="line-23">import org.gbif.api.vocabulary.Country;</span>
+<span class="source-line-no">024</span><span id="line-24">import org.gbif.api.vocabulary.GbifRegion;</span>
+<span class="source-line-no">025</span><span id="line-25">import org.gbif.api.vocabulary.Language;</span>
+<span class="source-line-no">026</span><span id="line-26"></span>
+<span class="source-line-no">027</span><span id="line-27">import java.util.ArrayList;</span>
+<span class="source-line-no">028</span><span id="line-28">import java.util.HashMap;</span>
+<span class="source-line-no">029</span><span id="line-29">import java.util.HashSet;</span>
+<span class="source-line-no">030</span><span id="line-30">import java.util.List;</span>
+<span class="source-line-no">031</span><span id="line-31">import java.util.Map;</span>
+<span class="source-line-no">032</span><span id="line-32">import java.util.Set;</span>
+<span class="source-line-no">033</span><span id="line-33">import java.util.UUID;</span>
+<span class="source-line-no">034</span><span id="line-34"></span>
+<span class="source-line-no">035</span><span id="line-35">import com.fasterxml.jackson.annotation.JsonProperty;</span>
+<span class="source-line-no">036</span><span id="line-36"></span>
+<span class="source-line-no">037</span><span id="line-37">import io.swagger.v3.oas.annotations.media.Schema;</span>
+<span class="source-line-no">038</span><span id="line-38"></span>
+<span class="source-line-no">039</span><span id="line-39">import lombok.AccessLevel;</span>
+<span class="source-line-no">040</span><span id="line-40">import lombok.Getter;</span>
+<span class="source-line-no">041</span><span id="line-41">import lombok.Setter;</span>
+<span class="source-line-no">042</span><span id="line-42"></span>
+<span class="source-line-no">043</span><span id="line-43">@Getter</span>
+<span class="source-line-no">044</span><span id="line-44">@Setter</span>
+<span class="source-line-no">045</span><span id="line-45">@SuppressWarnings("unused")</span>
+<span class="source-line-no">046</span><span id="line-46">public class LiteratureSearchResult {</span>
+<span class="source-line-no">047</span><span id="line-47"></span>
+<span class="source-line-no">048</span><span id="line-48">  @Getter(AccessLevel.NONE)</span>
+<span class="source-line-no">049</span><span id="line-49">  @Setter(AccessLevel.NONE)</span>
+<span class="source-line-no">050</span><span id="line-50">  private String abstract_;</span>
 <span class="source-line-no">051</span><span id="line-51"></span>
-<span class="source-line-no">052</span><span id="line-52">  @Schema(description = "The authors of the publication.")</span>
-<span class="source-line-no">053</span><span id="line-53">  private List&lt;Map&lt;String, Object&gt;&gt; authors = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">052</span><span id="line-52">  @Schema(description = "The date the literature item was found by GBIF's staff or automated processes.")</span>
+<span class="source-line-no">053</span><span id="line-53">  private String discovered;</span>
 <span class="source-line-no">054</span><span id="line-54"></span>
-<span class="source-line-no">055</span><span id="line-55">  @Schema(description = "Countries or areas of focus of the study.")</span>
-<span class="source-line-no">056</span><span id="line-56">  private Set&lt;Country&gt; countriesOfCoverage = new HashSet&lt;&gt;();</span>
+<span class="source-line-no">055</span><span id="line-55">  @Schema(description = "The authors of the publication.")</span>
+<span class="source-line-no">056</span><span id="line-56">  private List&lt;Map&lt;String, Object&gt;&gt; authors = new ArrayList&lt;&gt;();</span>
 <span class="source-line-no">057</span><span id="line-57"></span>
-<span class="source-line-no">058</span><span id="line-58">  @Schema(description = "Countries or areas of institution with which authors are affiliated.")</span>
-<span class="source-line-no">059</span><span id="line-59">  private Set&lt;Country&gt; countriesOfResearcher = new HashSet&lt;&gt;();</span>
+<span class="source-line-no">058</span><span id="line-58">  @Schema(description = "Countries or areas of focus of the study.")</span>
+<span class="source-line-no">059</span><span id="line-59">  private Set&lt;Country&gt; countriesOfCoverage = new HashSet&lt;&gt;();</span>
 <span class="source-line-no">060</span><span id="line-60"></span>
-<span class="source-line-no">061</span><span id="line-61">  @Schema(description = "Country of the publisher whose dataset is referenced in publication.")</span>
-<span class="source-line-no">062</span><span id="line-62">  private Set&lt;Country&gt; publishingCountry = new HashSet&lt;&gt;();</span>
+<span class="source-line-no">061</span><span id="line-61">  @Schema(description = "Countries or areas of institution with which authors are affiliated.")</span>
+<span class="source-line-no">062</span><span id="line-62">  private Set&lt;Country&gt; countriesOfResearcher = new HashSet&lt;&gt;();</span>
 <span class="source-line-no">063</span><span id="line-63"></span>
-<span class="source-line-no">064</span><span id="line-64">  @Schema(description = "The date the publication was added to the GBIF literature database.")</span>
-<span class="source-line-no">065</span><span id="line-65">  private Date added;</span>
+<span class="source-line-no">064</span><span id="line-64">  @Schema(description = "Country of the publisher whose dataset is referenced in publication.")</span>
+<span class="source-line-no">065</span><span id="line-65">  private Set&lt;Country&gt; publishingCountry = new HashSet&lt;&gt;();</span>
 <span class="source-line-no">066</span><span id="line-66"></span>
-<span class="source-line-no">067</span><span id="line-67">  @Schema(description = "The publication date of the publication.  See also `year`, `month` and `day`.")</span>
-<span class="source-line-no">068</span><span id="line-68">  private Date published;</span>
+<span class="source-line-no">067</span><span id="line-67">  @Schema(description = "The date the publication was added to the GBIF literature database.")</span>
+<span class="source-line-no">068</span><span id="line-68">  private LocalDate added;</span>
 <span class="source-line-no">069</span><span id="line-69"></span>
-<span class="source-line-no">070</span><span id="line-70">  @Schema(description = "The day of publication. See also `published`.", minimum = "1", maximum = "31")</span>
-<span class="source-line-no">071</span><span id="line-71">  private Integer day;</span>
-<span class="source-line-no">072</span><span id="line-72"></span>
-<span class="source-line-no">073</span><span id="line-73">  @Schema(description = "Keys of GBIF downloads referenced by the publication.")</span>
-<span class="source-line-no">074</span><span id="line-74">  private List&lt;String&gt; gbifDownloadKey = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">075</span><span id="line-75"></span>
-<span class="source-line-no">076</span><span id="line-76">  @Schema(description = "Keys of GBIF occurrences directly mentioned by the paper.")</span>
-<span class="source-line-no">077</span><span id="line-77">  private List&lt;Long&gt; gbifOccurrenceKey = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">078</span><span id="line-78"></span>
-<span class="source-line-no">079</span><span id="line-79">  @Schema(description = "Keys of taxa from the GBIF Backbone Taxonomy that are the focus of the paper.")</span>
-<span class="source-line-no">080</span><span id="line-80">  private List&lt;Integer&gt; gbifTaxonKey = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">081</span><span id="line-81"></span>
-<span class="source-line-no">082</span><span id="line-82">  @Schema(description = "Keys of higher taxa from the GBIF Backbone Taxonomy that are the focus of the paper.")</span>
-<span class="source-line-no">083</span><span id="line-83">  private List&lt;Integer&gt; gbifHigherTaxonKey = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">084</span><span id="line-84"></span>
-<span class="source-line-no">085</span><span id="line-85">  @Schema(description = "A list of GBIF network keys relevant to the publication.")</span>
-<span class="source-line-no">086</span><span id="line-86">  private List&lt;UUID&gt; gbifNetworkKey = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">087</span><span id="line-87"></span>
-<span class="source-line-no">088</span><span id="line-88">  @Schema(description = "A list of GBIF project identifiers relevant to the publication.")</span>
-<span class="source-line-no">089</span><span id="line-89">  private List&lt;String&gt; gbifProjectIdentifier = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">090</span><span id="line-90"></span>
-<span class="source-line-no">091</span><span id="line-91">  @Schema(description = "A list of GBIF programmes relevant to the publication.")</span>
-<span class="source-line-no">092</span><span id="line-92">  private List&lt;String&gt; gbifProgramme = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">093</span><span id="line-93"></span>
-<span class="source-line-no">094</span><span id="line-94">  @Schema(description = "The manner in which GBIF is cited in a paper.")</span>
-<span class="source-line-no">095</span><span id="line-95">  private String citationType;</span>
-<span class="source-line-no">096</span><span id="line-96"></span>
-<span class="source-line-no">097</span><span id="line-97">  @Schema(description = "GBIF regions (political divisions) related to the publication.")</span>
-<span class="source-line-no">098</span><span id="line-98">  private Set&lt;GbifRegion&gt; gbifRegion = new HashSet&lt;&gt;();</span>
-<span class="source-line-no">099</span><span id="line-99"></span>
-<span class="source-line-no">100</span><span id="line-100">  @Schema(description = "GBIF identifier for this literature item.")</span>
-<span class="source-line-no">101</span><span id="line-101">  private UUID id;</span>
-<span class="source-line-no">102</span><span id="line-102"></span>
-<span class="source-line-no">103</span><span id="line-103">  @Schema(description = "Identifiers (such as DOIs) for the literature item.")</span>
-<span class="source-line-no">104</span><span id="line-104">  private Map&lt;String, Object&gt; identifiers = new HashMap&lt;&gt;();</span>
-<span class="source-line-no">105</span><span id="line-105"></span>
-<span class="source-line-no">106</span><span id="line-106">  @Schema(description = "Keywords assigned to the literature item.")</span>
-<span class="source-line-no">107</span><span id="line-107">  private List&lt;String&gt; keywords = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">108</span><span id="line-108"></span>
-<span class="source-line-no">109</span><span id="line-109">  @Schema(description = "The language of the publication.")</span>
-<span class="source-line-no">110</span><span id="line-110">  private Language language;</span>
-<span class="source-line-no">111</span><span id="line-111"></span>
-<span class="source-line-no">112</span><span id="line-112">  @Schema(description = "Type of literature, e.g. journal article.")</span>
-<span class="source-line-no">113</span><span id="line-113">  private LiteratureType literatureType;</span>
-<span class="source-line-no">114</span><span id="line-114"></span>
-<span class="source-line-no">115</span><span id="line-115">  @Schema(description = "The month of publication. See also `published`.", minimum = "1", maximum = "12")</span>
-<span class="source-line-no">116</span><span id="line-116">  private Integer month;</span>
-<span class="source-line-no">117</span><span id="line-117"></span>
-<span class="source-line-no">118</span><span id="line-118">  @Schema(description = "Unstructured notes.")</span>
-<span class="source-line-no">119</span><span id="line-119">  private String notes;</span>
-<span class="source-line-no">120</span><span id="line-120"></span>
-<span class="source-line-no">121</span><span id="line-121">  @Schema(description = "Whether the publication is open access.")</span>
-<span class="source-line-no">122</span><span id="line-122">  private boolean openAccess;</span>
-<span class="source-line-no">123</span><span id="line-123"></span>
-<span class="source-line-no">124</span><span id="line-124">  @Schema(description = "Whether the publication has been peer reviewed.")</span>
-<span class="source-line-no">125</span><span id="line-125">  private boolean peerReview;</span>
-<span class="source-line-no">126</span><span id="line-126"></span>
-<span class="source-line-no">127</span><span id="line-127">  @Schema(description = "The publisher of the paper.")</span>
-<span class="source-line-no">128</span><span id="line-128">  private String publisher;</span>
-<span class="source-line-no">129</span><span id="line-129"></span>
-<span class="source-line-no">130</span><span id="line-130">  @Schema(description = "Relevance to GBIF community, see [literature relevance](https://www.gbif.org/faq?question=literature-relevance).")</span>
-<span class="source-line-no">131</span><span id="line-131">  private Set&lt;LiteratureRelevance&gt; relevance = new HashSet&lt;&gt;();</span>
-<span class="source-line-no">132</span><span id="line-132"></span>
-<span class="source-line-no">133</span><span id="line-133">  @Schema(description = "Journal of publication.")</span>
-<span class="source-line-no">134</span><span id="line-134">  private String source;</span>
-<span class="source-line-no">135</span><span id="line-135"></span>
-<span class="source-line-no">136</span><span id="line-136">  @Schema(description = "Various tags applied to the literature.")</span>
-<span class="source-line-no">137</span><span id="line-137">  private List&lt;String&gt; tags = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">138</span><span id="line-138"></span>
-<span class="source-line-no">139</span><span id="line-139">  @Schema(description = "The title of the publication.")</span>
-<span class="source-line-no">140</span><span id="line-140">  private String title;</span>
-<span class="source-line-no">141</span><span id="line-141"></span>
-<span class="source-line-no">142</span><span id="line-142">  @Schema(description = "Topics of the publication.")</span>
-<span class="source-line-no">143</span><span id="line-143">  private Set&lt;LiteratureTopic&gt; topics = new HashSet&lt;&gt;();</span>
-<span class="source-line-no">144</span><span id="line-144"></span>
-<span class="source-line-no">145</span><span id="line-145">  @Schema(description = "The date this literature entry was last modified.")</span>
-<span class="source-line-no">146</span><span id="line-146">  private Date modified;</span>
-<span class="source-line-no">147</span><span id="line-147"></span>
-<span class="source-line-no">148</span><span id="line-148">  @Schema(description = "Websites associated with the publication.")</span>
-<span class="source-line-no">149</span><span id="line-149">  private List&lt;String&gt; websites = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">150</span><span id="line-150"></span>
-<span class="source-line-no">151</span><span id="line-151">  @Schema(description = "The year of publication.  See also `published`.")</span>
-<span class="source-line-no">152</span><span id="line-152">  private Integer year;</span>
-<span class="source-line-no">153</span><span id="line-153"></span>
-<span class="source-line-no">154</span><span id="line-154">  @Schema(name = "abstract", description = "The abstract from the publication.")</span>
-<span class="source-line-no">155</span><span id="line-155">  @JsonProperty("abstract")</span>
-<span class="source-line-no">156</span><span id="line-156">  public String getAbstract() {</span>
-<span class="source-line-no">157</span><span id="line-157">    return abstract_;</span>
-<span class="source-line-no">158</span><span id="line-158">  }</span>
-<span class="source-line-no">159</span><span id="line-159"></span>
-<span class="source-line-no">160</span><span id="line-160">  public void setAbstract(String abstract_) {</span>
-<span class="source-line-no">161</span><span id="line-161">    this.abstract_ = abstract_;</span>
+<span class="source-line-no">070</span><span id="line-70">  @Schema(description = "The publication date of the publication.  See also `year`, `month` and `day`.")</span>
+<span class="source-line-no">071</span><span id="line-71">  @JsonFormat(pattern = "yyyy-MM-dd")</span>
+<span class="source-line-no">072</span><span id="line-72">  private LocalDate published;</span>
+<span class="source-line-no">073</span><span id="line-73"></span>
+<span class="source-line-no">074</span><span id="line-74">  @Schema(description = "The day of publication. See also `published`.", minimum = "1", maximum = "31")</span>
+<span class="source-line-no">075</span><span id="line-75">  private Integer day;</span>
+<span class="source-line-no">076</span><span id="line-76"></span>
+<span class="source-line-no">077</span><span id="line-77">  @Schema(description = "Keys of GBIF downloads referenced by the publication.")</span>
+<span class="source-line-no">078</span><span id="line-78">  private List&lt;String&gt; gbifDownloadKey = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">079</span><span id="line-79"></span>
+<span class="source-line-no">080</span><span id="line-80">  @Schema(description = "Keys of GBIF occurrences directly mentioned by the paper.")</span>
+<span class="source-line-no">081</span><span id="line-81">  private List&lt;Long&gt; gbifOccurrenceKey = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">082</span><span id="line-82"></span>
+<span class="source-line-no">083</span><span id="line-83">  @Schema(description = "Keys of taxa from the GBIF Backbone Taxonomy that are the focus of the paper.")</span>
+<span class="source-line-no">084</span><span id="line-84">  private List&lt;Integer&gt; gbifTaxonKey = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">085</span><span id="line-85"></span>
+<span class="source-line-no">086</span><span id="line-86">  @Schema(description = "Keys of higher taxa from the GBIF Backbone Taxonomy that are the focus of the paper.")</span>
+<span class="source-line-no">087</span><span id="line-87">  private List&lt;Integer&gt; gbifHigherTaxonKey = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">088</span><span id="line-88"></span>
+<span class="source-line-no">089</span><span id="line-89">  @Schema(description = "A list of GBIF network keys relevant to the publication.")</span>
+<span class="source-line-no">090</span><span id="line-90">  private List&lt;UUID&gt; gbifNetworkKey = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">091</span><span id="line-91"></span>
+<span class="source-line-no">092</span><span id="line-92">  @Schema(description = "A list of GBIF project identifiers relevant to the publication.")</span>
+<span class="source-line-no">093</span><span id="line-93">  private List&lt;String&gt; gbifProjectIdentifier = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">094</span><span id="line-94"></span>
+<span class="source-line-no">095</span><span id="line-95">  @Schema(description = "A list of GBIF programmes relevant to the publication.")</span>
+<span class="source-line-no">096</span><span id="line-96">  private List&lt;String&gt; gbifProgramme = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">097</span><span id="line-97"></span>
+<span class="source-line-no">098</span><span id="line-98">  @Schema(description = "The manner in which GBIF is cited in a paper.")</span>
+<span class="source-line-no">099</span><span id="line-99">  private String citationType;</span>
+<span class="source-line-no">100</span><span id="line-100"></span>
+<span class="source-line-no">101</span><span id="line-101">  @Schema(description = "GBIF regions (political divisions) related to the publication.")</span>
+<span class="source-line-no">102</span><span id="line-102">  private Set&lt;GbifRegion&gt; gbifRegion = new HashSet&lt;&gt;();</span>
+<span class="source-line-no">103</span><span id="line-103"></span>
+<span class="source-line-no">104</span><span id="line-104">  @Schema(description = "GBIF identifier for this literature item.")</span>
+<span class="source-line-no">105</span><span id="line-105">  private UUID id;</span>
+<span class="source-line-no">106</span><span id="line-106"></span>
+<span class="source-line-no">107</span><span id="line-107">  @Schema(description = "Identifiers (such as DOIs) for the literature item.")</span>
+<span class="source-line-no">108</span><span id="line-108">  private Map&lt;String, Object&gt; identifiers = new HashMap&lt;&gt;();</span>
+<span class="source-line-no">109</span><span id="line-109"></span>
+<span class="source-line-no">110</span><span id="line-110">  @Schema(description = "Keywords assigned to the literature item.")</span>
+<span class="source-line-no">111</span><span id="line-111">  private List&lt;String&gt; keywords = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">112</span><span id="line-112"></span>
+<span class="source-line-no">113</span><span id="line-113">  @Schema(description = "The language of the publication.")</span>
+<span class="source-line-no">114</span><span id="line-114">  private Language language;</span>
+<span class="source-line-no">115</span><span id="line-115"></span>
+<span class="source-line-no">116</span><span id="line-116">  @Schema(description = "Type of literature, e.g. journal article.")</span>
+<span class="source-line-no">117</span><span id="line-117">  private LiteratureType literatureType;</span>
+<span class="source-line-no">118</span><span id="line-118"></span>
+<span class="source-line-no">119</span><span id="line-119">  @Schema(description = "The month of publication. See also `published`.", minimum = "1", maximum = "12")</span>
+<span class="source-line-no">120</span><span id="line-120">  private Integer month;</span>
+<span class="source-line-no">121</span><span id="line-121"></span>
+<span class="source-line-no">122</span><span id="line-122">  @Schema(description = "Unstructured notes.")</span>
+<span class="source-line-no">123</span><span id="line-123">  private String notes;</span>
+<span class="source-line-no">124</span><span id="line-124"></span>
+<span class="source-line-no">125</span><span id="line-125">  @Schema(description = "Whether the publication is open access.")</span>
+<span class="source-line-no">126</span><span id="line-126">  private boolean openAccess;</span>
+<span class="source-line-no">127</span><span id="line-127"></span>
+<span class="source-line-no">128</span><span id="line-128">  @Schema(description = "Whether the publication has been peer reviewed.")</span>
+<span class="source-line-no">129</span><span id="line-129">  private boolean peerReview;</span>
+<span class="source-line-no">130</span><span id="line-130"></span>
+<span class="source-line-no">131</span><span id="line-131">  @Schema(description = "The publisher of the paper.")</span>
+<span class="source-line-no">132</span><span id="line-132">  private String publisher;</span>
+<span class="source-line-no">133</span><span id="line-133"></span>
+<span class="source-line-no">134</span><span id="line-134">  @Schema(description = "Relevance to GBIF community, see [literature relevance](https://www.gbif.org/faq?question=literature-relevance).")</span>
+<span class="source-line-no">135</span><span id="line-135">  private Set&lt;LiteratureRelevance&gt; relevance = new HashSet&lt;&gt;();</span>
+<span class="source-line-no">136</span><span id="line-136"></span>
+<span class="source-line-no">137</span><span id="line-137">  @Schema(description = "Journal of publication.")</span>
+<span class="source-line-no">138</span><span id="line-138">  private String source;</span>
+<span class="source-line-no">139</span><span id="line-139"></span>
+<span class="source-line-no">140</span><span id="line-140">  @Schema(description = "Various tags applied to the literature.")</span>
+<span class="source-line-no">141</span><span id="line-141">  private List&lt;String&gt; tags = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">142</span><span id="line-142"></span>
+<span class="source-line-no">143</span><span id="line-143">  @Schema(description = "The title of the publication.")</span>
+<span class="source-line-no">144</span><span id="line-144">  private String title;</span>
+<span class="source-line-no">145</span><span id="line-145"></span>
+<span class="source-line-no">146</span><span id="line-146">  @Schema(description = "Topics of the publication.")</span>
+<span class="source-line-no">147</span><span id="line-147">  private Set&lt;LiteratureTopic&gt; topics = new HashSet&lt;&gt;();</span>
+<span class="source-line-no">148</span><span id="line-148"></span>
+<span class="source-line-no">149</span><span id="line-149">  @Schema(description = "The date this literature entry was last modified.")</span>
+<span class="source-line-no">150</span><span id="line-150">  private LocalDate modified;</span>
+<span class="source-line-no">151</span><span id="line-151"></span>
+<span class="source-line-no">152</span><span id="line-152">  @Schema(description = "Websites associated with the publication.")</span>
+<span class="source-line-no">153</span><span id="line-153">  private List&lt;String&gt; websites = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">154</span><span id="line-154"></span>
+<span class="source-line-no">155</span><span id="line-155">  @Schema(description = "The year of publication.  See also `published`.")</span>
+<span class="source-line-no">156</span><span id="line-156">  private Integer year;</span>
+<span class="source-line-no">157</span><span id="line-157"></span>
+<span class="source-line-no">158</span><span id="line-158">  @Schema(name = "abstract", description = "The abstract from the publication.")</span>
+<span class="source-line-no">159</span><span id="line-159">  @JsonProperty("abstract")</span>
+<span class="source-line-no">160</span><span id="line-160">  public String getAbstract() {</span>
+<span class="source-line-no">161</span><span id="line-161">    return abstract_;</span>
 <span class="source-line-no">162</span><span id="line-162">  }</span>
 <span class="source-line-no">163</span><span id="line-163"></span>
-<span class="source-line-no">164</span><span id="line-164">}</span>
+<span class="source-line-no">164</span><span id="line-164">  public void setAbstract(String abstract_) {</span>
+<span class="source-line-no">165</span><span id="line-165">    this.abstract_ = abstract_;</span>
+<span class="source-line-no">166</span><span id="line-166">  }</span>
+<span class="source-line-no">167</span><span id="line-167"></span>
+<span class="source-line-no">168</span><span id="line-168">}</span>
 
 
 

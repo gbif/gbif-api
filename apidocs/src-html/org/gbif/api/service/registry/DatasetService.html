@@ -119,71 +119,84 @@
 <span class="source-line-no">106</span><span id="line-106">  Metadata insertMetadata(UUID datasetKey, InputStream document);</span>
 <span class="source-line-no">107</span><span id="line-107"></span>
 <span class="source-line-no">108</span><span id="line-108">  /**</span>
-<span class="source-line-no">109</span><span id="line-109">   * Retrieves a GBIF generated EML document overlaying GBIF information with any existing metadata</span>
-<span class="source-line-no">110</span><span id="line-110">   * document data.</span>
-<span class="source-line-no">111</span><span id="line-111">   */</span>
-<span class="source-line-no">112</span><span id="line-112">  InputStream getMetadataDocument(UUID datasetKey);</span>
-<span class="source-line-no">113</span><span id="line-113"></span>
-<span class="source-line-no">114</span><span id="line-114">  /** Gets the actual metadata document content by its key. */</span>
-<span class="source-line-no">115</span><span id="line-115">  InputStream getMetadataDocument(int metadataKey);</span>
-<span class="source-line-no">116</span><span id="line-116"></span>
-<span class="source-line-no">117</span><span id="line-117">  /** Provides access to deleted datasets. */</span>
-<span class="source-line-no">118</span><span id="line-118">  PagingResponse&lt;Dataset&gt; listDeleted(DatasetRequestSearchParams searchParams);</span>
-<span class="source-line-no">119</span><span id="line-119"></span>
-<span class="source-line-no">120</span><span id="line-120">  /**</span>
-<span class="source-line-no">121</span><span id="line-121">   * Provides access to datasets that are marked as a duplicate of another. When 2 datasets are</span>
-<span class="source-line-no">122</span><span id="line-122">   * considered duplicates, one is marked as a duplicate of the other. Only the marked dataset is</span>
-<span class="source-line-no">123</span><span id="line-123">   * returned in this call.</span>
+<span class="source-line-no">109</span><span id="line-109">   * Inserts a metadata document, replacing any previously existing document of the same type.</span>
+<span class="source-line-no">110</span><span id="line-110">   * Updates dataset from metadata document, but only if metadata document does not exist already.</span>
+<span class="source-line-no">111</span><span id="line-111">   * The document type is discovered by the service and returned in the Metadata instance.</span>
+<span class="source-line-no">112</span><span id="line-112">   *</span>
+<span class="source-line-no">113</span><span id="line-113">   * @param datasetKey the dataset in question</span>
+<span class="source-line-no">114</span><span id="line-114">   * @param document metadata document to insert</span>
+<span class="source-line-no">115</span><span id="line-115">   * @param contentJson json string if the document is json</span>
+<span class="source-line-no">116</span><span id="line-116">   * @param type MetadataType (EML, DC, DWC_DP, COLDP)</span>
+<span class="source-line-no">117</span><span id="line-117">   * @throws IllegalArgumentException if document is not parsable</span>
+<span class="source-line-no">118</span><span id="line-118">   */</span>
+<span class="source-line-no">119</span><span id="line-119">  Metadata insertMetadata(UUID datasetKey, InputStream document, String contentJson, MetadataType type);</span>
+<span class="source-line-no">120</span><span id="line-120"></span>
+<span class="source-line-no">121</span><span id="line-121">  /**</span>
+<span class="source-line-no">122</span><span id="line-122">   * Retrieves a GBIF generated EML document overlaying GBIF information with any existing metadata</span>
+<span class="source-line-no">123</span><span id="line-123">   * document data.</span>
 <span class="source-line-no">124</span><span id="line-124">   */</span>
-<span class="source-line-no">125</span><span id="line-125">  PagingResponse&lt;Dataset&gt; listDuplicates(@Nullable Pageable page);</span>
+<span class="source-line-no">125</span><span id="line-125">  InputStream getMetadataDocument(UUID datasetKey);</span>
 <span class="source-line-no">126</span><span id="line-126"></span>
-<span class="source-line-no">127</span><span id="line-127">  /**</span>
-<span class="source-line-no">128</span><span id="line-128">   * Provides access to internal (e.g. not marked as external) datasets, that are not sub datasets</span>
-<span class="source-line-no">129</span><span id="line-129">   * that have no endpoint.</span>
-<span class="source-line-no">130</span><span id="line-130">   */</span>
-<span class="source-line-no">131</span><span id="line-131">  PagingResponse&lt;Dataset&gt; listDatasetsWithNoEndpoint(@Nullable Pageable page);</span>
+<span class="source-line-no">127</span><span id="line-127">  /** Gets the actual metadata document content by its key. */</span>
+<span class="source-line-no">128</span><span id="line-128">  InputStream getMetadataDocument(int metadataKey);</span>
+<span class="source-line-no">129</span><span id="line-129"></span>
+<span class="source-line-no">130</span><span id="line-130">  /** Provides access to deleted datasets. */</span>
+<span class="source-line-no">131</span><span id="line-131">  PagingResponse&lt;Dataset&gt; listDeleted(DatasetRequestSearchParams searchParams);</span>
 <span class="source-line-no">132</span><span id="line-132"></span>
 <span class="source-line-no">133</span><span id="line-133">  /**</span>
-<span class="source-line-no">134</span><span id="line-134">   * Get a Dataset list from a DOI. GBIF assigned DOIs and alternate identifiers are returned.</span>
-<span class="source-line-no">135</span><span id="line-135">   * Multiple dataset could share the same DOI since this is not enforced.</span>
-<span class="source-line-no">136</span><span id="line-136">   */</span>
-<span class="source-line-no">137</span><span id="line-137">  PagingResponse&lt;Dataset&gt; listByDOI(String doi, @Nullable Pageable page);</span>
-<span class="source-line-no">138</span><span id="line-138"></span>
-<span class="source-line-no">139</span><span id="line-139">  /**</span>
-<span class="source-line-no">140</span><span id="line-140">   * Get gridded datasets processing info</span>
-<span class="source-line-no">141</span><span id="line-141">   *</span>
-<span class="source-line-no">142</span><span id="line-142">   * @param datasetKey the dataset in question</span>
-<span class="source-line-no">143</span><span id="line-143">   * @return List of grids</span>
-<span class="source-line-no">144</span><span id="line-144">   */</span>
-<span class="source-line-no">145</span><span id="line-145">  List&lt;Grid&gt; listGrids(UUID datasetKey);</span>
-<span class="source-line-no">146</span><span id="line-146"></span>
-<span class="source-line-no">147</span><span id="line-147">  /**</span>
-<span class="source-line-no">148</span><span id="line-148">   * Provides paging service to list datasets that can be filtered by multiple parameters.</span>
-<span class="source-line-no">149</span><span id="line-149">   *</span>
-<span class="source-line-no">150</span><span id="line-150">   * @param searchParams {@link DatasetRequestSearchParams}</span>
-<span class="source-line-no">151</span><span id="line-151">   * @return list of datasets ordered by creation date with the latest coming first</span>
-<span class="source-line-no">152</span><span id="line-152">   */</span>
-<span class="source-line-no">153</span><span id="line-153">  PagingResponse&lt;Dataset&gt; list(DatasetRequestSearchParams searchParams);</span>
-<span class="source-line-no">154</span><span id="line-154"></span>
-<span class="source-line-no">155</span><span id="line-155"></span>
-<span class="source-line-no">156</span><span id="line-156">  /**</span>
-<span class="source-line-no">157</span><span id="line-157">   * Creates DwcA metadata to a target dataset.</span>
-<span class="source-line-no">158</span><span id="line-158">   *</span>
-<span class="source-line-no">159</span><span id="line-159">   * @param datasetKey   key of target dataset</span>
-<span class="source-line-no">160</span><span id="line-160">   * @param dwcA         dqwcA metadata</span>
-<span class="source-line-no">161</span><span id="line-161">   *</span>
-<span class="source-line-no">162</span><span id="line-162">   */</span>
-<span class="source-line-no">163</span><span id="line-163">  void createDwcaData(UUID datasetKey, @NotNull @Valid Dataset.DwcA dwcA);</span>
-<span class="source-line-no">164</span><span id="line-164"></span>
-<span class="source-line-no">165</span><span id="line-165">  /**</span>
-<span class="source-line-no">166</span><span id="line-166">   * Updates DwcA metadata to a target dataset.</span>
-<span class="source-line-no">167</span><span id="line-167">   *</span>
-<span class="source-line-no">168</span><span id="line-168">   * @param datasetKey   key of target dataset</span>
-<span class="source-line-no">169</span><span id="line-169">   * @param dwcA         dqwcA metadata</span>
-<span class="source-line-no">170</span><span id="line-170">   *</span>
-<span class="source-line-no">171</span><span id="line-171">   */</span>
-<span class="source-line-no">172</span><span id="line-172">  void updateDwcaData(UUID datasetKey, @NotNull @Valid Dataset.DwcA dwcA);</span>
-<span class="source-line-no">173</span><span id="line-173">}</span>
+<span class="source-line-no">134</span><span id="line-134">   * Provides access to datasets that are marked as a duplicate of another. When 2 datasets are</span>
+<span class="source-line-no">135</span><span id="line-135">   * considered duplicates, one is marked as a duplicate of the other. Only the marked dataset is</span>
+<span class="source-line-no">136</span><span id="line-136">   * returned in this call.</span>
+<span class="source-line-no">137</span><span id="line-137">   */</span>
+<span class="source-line-no">138</span><span id="line-138">  PagingResponse&lt;Dataset&gt; listDuplicates(@Nullable Pageable page);</span>
+<span class="source-line-no">139</span><span id="line-139"></span>
+<span class="source-line-no">140</span><span id="line-140">  /**</span>
+<span class="source-line-no">141</span><span id="line-141">   * Provides access to internal (e.g. not marked as external) datasets, that are not sub datasets</span>
+<span class="source-line-no">142</span><span id="line-142">   * that have no endpoint.</span>
+<span class="source-line-no">143</span><span id="line-143">   */</span>
+<span class="source-line-no">144</span><span id="line-144">  PagingResponse&lt;Dataset&gt; listDatasetsWithNoEndpoint(@Nullable Pageable page);</span>
+<span class="source-line-no">145</span><span id="line-145"></span>
+<span class="source-line-no">146</span><span id="line-146">  /**</span>
+<span class="source-line-no">147</span><span id="line-147">   * Get a Dataset list from a DOI. GBIF assigned DOIs and alternate identifiers are returned.</span>
+<span class="source-line-no">148</span><span id="line-148">   * Multiple dataset could share the same DOI since this is not enforced.</span>
+<span class="source-line-no">149</span><span id="line-149">   */</span>
+<span class="source-line-no">150</span><span id="line-150">  PagingResponse&lt;Dataset&gt; listByDOI(String doi, @Nullable Pageable page);</span>
+<span class="source-line-no">151</span><span id="line-151"></span>
+<span class="source-line-no">152</span><span id="line-152">  /**</span>
+<span class="source-line-no">153</span><span id="line-153">   * Get gridded datasets processing info</span>
+<span class="source-line-no">154</span><span id="line-154">   *</span>
+<span class="source-line-no">155</span><span id="line-155">   * @param datasetKey the dataset in question</span>
+<span class="source-line-no">156</span><span id="line-156">   * @return List of grids</span>
+<span class="source-line-no">157</span><span id="line-157">   */</span>
+<span class="source-line-no">158</span><span id="line-158">  List&lt;Grid&gt; listGrids(UUID datasetKey);</span>
+<span class="source-line-no">159</span><span id="line-159"></span>
+<span class="source-line-no">160</span><span id="line-160">  /**</span>
+<span class="source-line-no">161</span><span id="line-161">   * Provides paging service to list datasets that can be filtered by multiple parameters.</span>
+<span class="source-line-no">162</span><span id="line-162">   *</span>
+<span class="source-line-no">163</span><span id="line-163">   * @param searchParams {@link DatasetRequestSearchParams}</span>
+<span class="source-line-no">164</span><span id="line-164">   * @return list of datasets ordered by creation date with the latest coming first</span>
+<span class="source-line-no">165</span><span id="line-165">   */</span>
+<span class="source-line-no">166</span><span id="line-166">  PagingResponse&lt;Dataset&gt; list(DatasetRequestSearchParams searchParams);</span>
+<span class="source-line-no">167</span><span id="line-167"></span>
+<span class="source-line-no">168</span><span id="line-168"></span>
+<span class="source-line-no">169</span><span id="line-169">  /**</span>
+<span class="source-line-no">170</span><span id="line-170">   * Creates DwcA metadata to a target dataset.</span>
+<span class="source-line-no">171</span><span id="line-171">   *</span>
+<span class="source-line-no">172</span><span id="line-172">   * @param datasetKey   key of target dataset</span>
+<span class="source-line-no">173</span><span id="line-173">   * @param dwcA         dqwcA metadata</span>
+<span class="source-line-no">174</span><span id="line-174">   *</span>
+<span class="source-line-no">175</span><span id="line-175">   */</span>
+<span class="source-line-no">176</span><span id="line-176">  void createDwcaData(UUID datasetKey, @NotNull @Valid Dataset.DwcA dwcA);</span>
+<span class="source-line-no">177</span><span id="line-177"></span>
+<span class="source-line-no">178</span><span id="line-178">  /**</span>
+<span class="source-line-no">179</span><span id="line-179">   * Updates DwcA metadata to a target dataset.</span>
+<span class="source-line-no">180</span><span id="line-180">   *</span>
+<span class="source-line-no">181</span><span id="line-181">   * @param datasetKey   key of target dataset</span>
+<span class="source-line-no">182</span><span id="line-182">   * @param dwcA         dqwcA metadata</span>
+<span class="source-line-no">183</span><span id="line-183">   *</span>
+<span class="source-line-no">184</span><span id="line-184">   */</span>
+<span class="source-line-no">185</span><span id="line-185">  void updateDwcaData(UUID datasetKey, @NotNull @Valid Dataset.DwcA dwcA);</span>
+<span class="source-line-no">186</span><span id="line-186">}</span>
 
 
 
