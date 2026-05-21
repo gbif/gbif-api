@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.literature.search;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
+
 import org.gbif.api.model.literature.LiteratureRelevance;
 import org.gbif.api.model.literature.LiteratureTopic;
 import org.gbif.api.model.literature.LiteratureType;
@@ -21,7 +25,6 @@ import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.Language;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -62,10 +65,11 @@ public class LiteratureSearchResult {
   private Set<Country> publishingCountry = new HashSet<>();
 
   @Schema(description = "The date the publication was added to the GBIF literature database.")
-  private Date added;
+  private LocalDate added;
 
   @Schema(description = "The publication date of the publication.  See also `year`, `month` and `day`.")
-  private Date published;
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate published;
 
   @Schema(description = "The day of publication. See also `published`.", minimum = "1", maximum = "31")
   private Integer day;
@@ -143,7 +147,7 @@ public class LiteratureSearchResult {
   private Set<LiteratureTopic> topics = new HashSet<>();
 
   @Schema(description = "The date this literature entry was last modified.")
-  private Date modified;
+  private LocalDate modified;
 
   @Schema(description = "Websites associated with the publication.")
   private List<String> websites = new ArrayList<>();

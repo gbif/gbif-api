@@ -106,6 +106,19 @@ public interface DatasetService extends NetworkEntityService<Dataset> {
   Metadata insertMetadata(UUID datasetKey, InputStream document);
 
   /**
+   * Inserts a metadata document, replacing any previously existing document of the same type.
+   * Updates dataset from metadata document, but only if metadata document does not exist already.
+   * The document type is discovered by the service and returned in the Metadata instance.
+   *
+   * @param datasetKey the dataset in question
+   * @param document metadata document to insert
+   * @param contentJson json string if the document is json
+   * @param type MetadataType (EML, DC, DWC_DP, COLDP)
+   * @throws IllegalArgumentException if document is not parsable
+   */
+  Metadata insertMetadata(UUID datasetKey, InputStream document, String contentJson, MetadataType type);
+
+  /**
    * Retrieves a GBIF generated EML document overlaying GBIF information with any existing metadata
    * document data.
    */

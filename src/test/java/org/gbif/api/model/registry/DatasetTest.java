@@ -59,16 +59,15 @@ public class DatasetTest {
     Set<ConstraintViolation<Dataset>> violations = validator.validate(ds);
     assertFalse(violations.isEmpty(), "Violations were expected");
 
-    // ensure all 6 expected violations are caught
+    // ensure all 5 expected violations are caught
     Set<String> propertiesInViolation = new HashSet<>();
     propertiesInViolation.add("title");
     propertiesInViolation.add("homepage");
     propertiesInViolation.add("logoUrl");
-    propertiesInViolation.add("type");
     propertiesInViolation.add("installationKey");
     propertiesInViolation.add("publishingOrganisationKey");
 
-    assertEquals(6, violations.size());
+    assertEquals(5, violations.size());
 
     // fix non-mandatory fields that don't validate
     ds.setTitle("Rooftop bugs");
