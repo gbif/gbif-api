@@ -65,7 +65,12 @@ public enum DownloadFormat {
    * <strong>Experimental feature.</strong>
    * Zipped tab-delimited text file resulting from an SQL query.
    */
-  SQL_TSV_ZIP(".zip");
+  SQL_TSV_ZIP(".zip"),
+
+  /**
+   * Variant of a DWCA download that includes a FASTA file and DNA sequences.
+   */
+  FASTA_ARCHIVE(".zip");
 
   private final String extension;
 
