@@ -343,6 +343,10 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter FUNDING_ATTRIBUTION_ID =
     new EventSearchParameter("FUNDING_ATTRIBUTION_ID", String.class);
 
+  /** The event location ID. */
+  public static final EventSearchParameter LOCATION_ID =
+      new EventSearchParameter("LOCATION_ID", String.class);
+
   /** See @link {@link OccurrenceSearchParameter#MEASUREMENT_TYPE} */
   public static final EventSearchParameter MEASUREMENT_TYPE =
       new EventSearchParameter(OccurrenceSearchParameter.MEASUREMENT_TYPE);
