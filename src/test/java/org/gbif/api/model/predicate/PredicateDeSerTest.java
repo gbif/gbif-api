@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.predicate;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.File;
@@ -43,6 +44,13 @@ public class PredicateDeSerTest {
 
   private File getTestFile(String predicateFile) {
     return new File(getClass().getResource("/predicate/" + predicateFile).getFile());
+  }
+
+  @Test
+  public void deserTestWrong() throws IOException {
+    Assertions.assertThrows(JsonMappingException.class, () -> {
+      MAPPER.readValue(getTestFile("equals_wrong_key.json"), Predicate.class);
+    });
   }
 
   @Test
