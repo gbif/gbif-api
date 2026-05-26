@@ -21,9 +21,9 @@ import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
 import java.net.URI;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -40,48 +40,55 @@ public class DatasetTest {
 
   @Test
   public void testValidations() {
-    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-    Validator validator = validatorFactory.getValidator();
+    Validator validator;
+    try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
+      validator = validatorFactory.getValidator();
+      Dataset ds = new Dataset();
 
-    Dataset ds = new Dataset();
+      // 3 non-mandatory fields that don't validate
+      ds.setTitle("B"); // too short
+      ds.setHomepage(URI.create("www.gbif.org")); // doesn't start with http or https
+      ds.setLogoUrl(URI.create("file:///tmp/aha")); // bad http URI
+      ds.setVersion("2026-05-19s"); // too long
 
-    // 3 non-mandatory fields that don't validate
-    ds.setTitle("B"); // too short
-    ds.setHomepage(URI.create("www.gbif.org")); // doesn't start with http or https
-    ds.setLogoUrl(URI.create("file:///tmp/aha")); // bad http URI
+      // All mandatory fields missing include:
+      // type
+      // installationKey
+      // publishingOrganizationKey
 
-    // All mandatory fields missing include:
-    // ds.setType(?);
-    // ds.setInstallationKey(?);
-    // ds.setPublishingOrganizationKey(?);
+      // perform validation
+      Set<ConstraintViolation<Dataset>> violations = validator.validate(ds);
+      assertFalse(violations.isEmpty(), "Violations were expected");
 
-    // perform validation
-    Set<ConstraintViolation<Dataset>> violations = validator.validate(ds);
-    assertFalse(violations.isEmpty(), "Violations were expected");
+      // ensure all 6 expected violations are caught
+      // (type is no longer required)
+      Set<String> propertiesInViolation = Set.of(
+          "title", "homepage", "logoUrl", "version",
+          "installationKey", "publishingOrganizationKey"
+      );
 
-    // ensure all 5 expected violations are caught
-    Set<String> propertiesInViolation = new HashSet<>();
-    propertiesInViolation.add("title");
-    propertiesInViolation.add("homepage");
-    propertiesInViolation.add("logoUrl");
-    propertiesInViolation.add("installationKey");
-    propertiesInViolation.add("publishingOrganisationKey");
+      Set<String> actualProperties = violations.stream()
+          .map(v -> v.getPropertyPath().toString())
+          .collect(Collectors.toSet());
 
-    assertEquals(5, violations.size());
+      assertEquals(6, violations.size());
+      assertEquals(propertiesInViolation, actualProperties);
 
-    // fix non-mandatory fields that don't validate
-    ds.setTitle("Rooftop bugs");
-    ds.setHomepage(URI.create("http://www.gbif.org"));
-    ds.setLogoUrl(URI.create("http://www.gbif.org/logo.png"));
+      // fix non-mandatory fields that don't validate
+      ds.setTitle("Rooftop bugs");
+      ds.setHomepage(URI.create("https://www.gbif.org"));
+      ds.setLogoUrl(URI.create("https://www.gbif.org/logo.png"));
 
-    // add all mandatory fields that were missing
-    ds.setType(DatasetType.SAMPLING_EVENT);
-    ds.setInstallationKey(UUID.randomUUID());
-    ds.setPublishingOrganizationKey(UUID.randomUUID());
+      // add all mandatory fields that were missing
+      ds.setType(DatasetType.SAMPLING_EVENT);
+      ds.setInstallationKey(UUID.randomUUID());
+      ds.setPublishingOrganizationKey(UUID.randomUUID());
+      ds.setVersion("1");
 
-    // perform validation again
-    violations = validator.validate(ds);
-    assertTrue(violations.isEmpty(), "No violations were expected");
+      // perform validation again
+      violations = validator.validate(ds);
+      assertTrue(violations.isEmpty(), "No violations were expected");
+    }
   }
 
   @Test
