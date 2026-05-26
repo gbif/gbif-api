@@ -22,7 +22,7 @@ import org.gbif.api.util.VocabularyUtils;
  */
 public enum MetadataType {
 
-  EML, DC;
+  EML, DC, DWC_DP, COL_DP;
 
   /**
    * @return the matching MetadataType or null

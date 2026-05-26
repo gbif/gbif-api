@@ -60,17 +60,18 @@ public class DatasetTest {
       Set<ConstraintViolation<Dataset>> violations = validator.validate(ds);
       assertFalse(violations.isEmpty(), "Violations were expected");
 
-      // ensure all 7 expected violations are caught
+      // ensure all 6 expected violations are caught
+      // (type is no longer required)
       Set<String> propertiesInViolation = Set.of(
           "title", "homepage", "logoUrl", "version",
-          "type", "installationKey", "publishingOrganizationKey"
+          "installationKey", "publishingOrganizationKey"
       );
 
       Set<String> actualProperties = violations.stream()
           .map(v -> v.getPropertyPath().toString())
           .collect(Collectors.toSet());
 
-      assertEquals(7, violations.size());
+      assertEquals(6, violations.size());
       assertEquals(propertiesInViolation, actualProperties);
 
       // fix non-mandatory fields that don't validate
