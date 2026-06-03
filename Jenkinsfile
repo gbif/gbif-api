@@ -50,6 +50,7 @@ pipeline {
                 not { expression { params.RELEASE } };
                 anyOf {
                     branch 'dev';
+                    branch '484-index-dataset-category';
                 }
             }
         }
