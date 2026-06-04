@@ -24,6 +24,7 @@ import java.util.Set;
 public enum StepType {
 
   // Ingestion
+  NFS_TO_HDFS("nfsToHdfs"),
 
   // Verbatim
   TO_VERBATIM("toVerbatim"),
