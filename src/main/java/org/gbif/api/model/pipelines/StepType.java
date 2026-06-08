@@ -28,6 +28,7 @@ public enum StepType {
 
   // Verbatim
   TO_VERBATIM("toVerbatim"),
+  DWCDP_TO_VERBATIM("dwcdpToVerbatim"),
   DWCA_TO_VERBATIM("dwcaToVerbatim"),
   XML_TO_VERBATIM("xmlToVerbatim"),
   ABCD_TO_VERBATIM("abcdToVerbatim"),
@@ -58,7 +59,7 @@ public enum StepType {
   private final String label;
 
   private static final Set<StepType> VERBATIM_TYPE =
-    Set.of(TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);
+    Set.of(TO_VERBATIM, DWCDP_TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);
 
   private static final Set<StepType> OCCURRENCE_TYPE =
     Set.of(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX, HDFS_VIEW);

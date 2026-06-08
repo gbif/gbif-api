@@ -42,7 +42,10 @@ public class PipelinesWorkflow {
 
   static {
     // Pipelines occurrence workflow
+    // 0?
+    OCCURRENCE_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);
     // 1
+    OCCURRENCE_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
     OCCURRENCE_WF_GRAPH.addNode(DWCA_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
     OCCURRENCE_WF_GRAPH.addNode(XML_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
     OCCURRENCE_WF_GRAPH.addNode(ABCD_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
@@ -54,7 +57,10 @@ public class PipelinesWorkflow {
     OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, FRAGMENTER);
 
     // Pipelines event-occurrence workflow
+    // 0?
+    EVENT_OCCURRENCE_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);
     // 1
+    EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
     EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCA_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
     // 2
     EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED);
@@ -68,7 +74,10 @@ public class PipelinesWorkflow {
     EVENT_OCCURRENCE_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_HDFS_VIEW);
 
     // Pipelines event only workflow
+    // 0?
+    EVENT_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);
     // 1
+    EVENT_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);
     EVENT_WF_GRAPH.addNode(DWCA_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);
     // 2
     EVENT_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX);
@@ -167,8 +176,27 @@ public class PipelinesWorkflow {
         .collect(Collectors.toSet());
     }
 
-    public int getLevel(T t){
-      return levels.get(t);
+    /**
+     * Returns the depth level of a node in the workflow graph, calculated relative to the insertion
+     * order of edges in the static graph initializer.
+     *
+     * <p><b>Deprecated:</b> This method is fundamentally unreliable for graphs with multiple entry
+     * points, as there is no globally meaningful notion of depth in a directed acyclic graph with
+     * more than one root. The level of a node is only well-defined relative to a specific starting
+     * node, and will produce incorrect or inconsistent results when new entry points are added to
+     * the graph.
+     *
+     * <p>Use {@link Graph#getRootNodesFor(Set)} to determine which steps should be triggered first
+     * from a given set of requested steps. For execution history and step ordering, prefer deriving
+     * state from the persisted execution record in the registry rather than from static level
+     * arithmetic.
+     *
+     * @param t the node to look up
+     * @return the computed depth level of the node, unreliable in multi-root graphs
+     */
+    @Deprecated
+    public int getLevel(T t) {
+      return this.levels.get(t);
     }
 
     public Set<T> getRootNodesFor(Set<T> fromTypesSet) {
