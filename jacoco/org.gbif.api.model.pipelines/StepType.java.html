@@ -24,57 +24,59 @@ import java.util.Set;
 public enum StepType {
 
   // Ingestion
+<span class="fc" id="L27">  NFS_TO_HDFS(&quot;nfsToHdfs&quot;),</span>
 
   // Verbatim
-<span class="fc" id="L29">  TO_VERBATIM(&quot;toVerbatim&quot;),</span>
-<span class="fc" id="L30">  DWCA_TO_VERBATIM(&quot;dwcaToVerbatim&quot;),</span>
-<span class="fc" id="L31">  XML_TO_VERBATIM(&quot;xmlToVerbatim&quot;),</span>
-<span class="fc" id="L32">  ABCD_TO_VERBATIM(&quot;abcdToVerbatim&quot;),</span>
-<span class="fc" id="L33">  FRAGMENTER(&quot;fragmenter&quot;),</span>
+<span class="fc" id="L30">  TO_VERBATIM(&quot;toVerbatim&quot;),</span>
+<span class="fc" id="L31">  DWCDP_TO_VERBATIM(&quot;dwcdpToVerbatim&quot;),</span>
+<span class="fc" id="L32">  DWCA_TO_VERBATIM(&quot;dwcaToVerbatim&quot;),</span>
+<span class="fc" id="L33">  XML_TO_VERBATIM(&quot;xmlToVerbatim&quot;),</span>
+<span class="fc" id="L34">  ABCD_TO_VERBATIM(&quot;abcdToVerbatim&quot;),</span>
+<span class="fc" id="L35">  FRAGMENTER(&quot;fragmenter&quot;),</span>
 
   // Occurrence interpretation
-<span class="fc" id="L36">  VERBATIM_TO_IDENTIFIER(&quot;verbatimToIdentifier&quot;),</span>
-<span class="fc" id="L37">  VERBATIM_TO_INTERPRETED(&quot;verbatimToInterpreted&quot;),</span>
-<span class="fc" id="L38">  INTERPRETED_TO_INDEX(&quot;interpretedToIndex&quot;),</span>
-<span class="fc" id="L39">  HDFS_VIEW(&quot;hdfsView&quot;),</span>
+<span class="fc" id="L38">  VERBATIM_TO_IDENTIFIER(&quot;verbatimToIdentifier&quot;),</span>
+<span class="fc" id="L39">  VERBATIM_TO_INTERPRETED(&quot;verbatimToInterpreted&quot;),</span>
+<span class="fc" id="L40">  INTERPRETED_TO_INDEX(&quot;interpretedToIndex&quot;),</span>
+<span class="fc" id="L41">  HDFS_VIEW(&quot;hdfsView&quot;),</span>
 
   // Event interpretation
-<span class="fc" id="L42">  EVENTS_VERBATIM_TO_INTERPRETED(&quot;eventsVerbatimToInterpreted&quot;),</span>
-<span class="fc" id="L43">  EVENTS_INTERPRETED_TO_INDEX(&quot;eventsInterpretedToIndex&quot;),</span>
-<span class="fc" id="L44">  EVENTS_HDFS_VIEW(&quot;eventsHdfsView&quot;),</span>
+<span class="fc" id="L44">  EVENTS_VERBATIM_TO_INTERPRETED(&quot;eventsVerbatimToInterpreted&quot;),</span>
+<span class="fc" id="L45">  EVENTS_INTERPRETED_TO_INDEX(&quot;eventsInterpretedToIndex&quot;),</span>
+<span class="fc" id="L46">  EVENTS_HDFS_VIEW(&quot;eventsHdfsView&quot;),</span>
 
   // Validator
-<span class="fc" id="L47">  VALIDATOR_UPLOAD_ARCHIVE(&quot;validatorUploadArchive&quot;),</span>
-<span class="fc" id="L48">  VALIDATOR_VALIDATE_ARCHIVE(&quot;validatorValidateArchive&quot;),</span>
-<span class="fc" id="L49">  VALIDATOR_DWCA_TO_VERBATIM(&quot;validatorDwcaToVerbatim&quot;),</span>
-<span class="fc" id="L50">  VALIDATOR_XML_TO_VERBATIM(&quot;validatorXmlToVerbatim&quot;),</span>
-<span class="fc" id="L51">  VALIDATOR_ABCD_TO_VERBATIM(&quot;validatorAbcdToVerbatim&quot;),</span>
-<span class="fc" id="L52">  VALIDATOR_TABULAR_TO_VERBATIM(&quot;validatorTabularToVerbatim&quot;),</span>
-<span class="fc" id="L53">  VALIDATOR_VERBATIM_TO_INTERPRETED(&quot;validatorVerbatimToInterpreted&quot;),</span>
-<span class="fc" id="L54">  VALIDATOR_INTERPRETED_TO_INDEX(&quot;validatorInterpretedToIndex&quot;),</span>
-<span class="fc" id="L55">  VALIDATOR_COLLECT_METRICS(&quot;validatorCollectMetrics&quot;);</span>
+<span class="fc" id="L49">  VALIDATOR_UPLOAD_ARCHIVE(&quot;validatorUploadArchive&quot;),</span>
+<span class="fc" id="L50">  VALIDATOR_VALIDATE_ARCHIVE(&quot;validatorValidateArchive&quot;),</span>
+<span class="fc" id="L51">  VALIDATOR_DWCA_TO_VERBATIM(&quot;validatorDwcaToVerbatim&quot;),</span>
+<span class="fc" id="L52">  VALIDATOR_XML_TO_VERBATIM(&quot;validatorXmlToVerbatim&quot;),</span>
+<span class="fc" id="L53">  VALIDATOR_ABCD_TO_VERBATIM(&quot;validatorAbcdToVerbatim&quot;),</span>
+<span class="fc" id="L54">  VALIDATOR_TABULAR_TO_VERBATIM(&quot;validatorTabularToVerbatim&quot;),</span>
+<span class="fc" id="L55">  VALIDATOR_VERBATIM_TO_INTERPRETED(&quot;validatorVerbatimToInterpreted&quot;),</span>
+<span class="fc" id="L56">  VALIDATOR_INTERPRETED_TO_INDEX(&quot;validatorInterpretedToIndex&quot;),</span>
+<span class="fc" id="L57">  VALIDATOR_COLLECT_METRICS(&quot;validatorCollectMetrics&quot;);</span>
 
-<span class="nc" id="L57">  private final String label;</span>
+<span class="nc" id="L59">  private final String label;</span>
 
-<span class="fc" id="L59">  private static final Set&lt;StepType&gt; VERBATIM_TYPE =</span>
-<span class="fc" id="L60">    Set.of(TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);</span>
+<span class="fc" id="L61">  private static final Set&lt;StepType&gt; VERBATIM_TYPE =</span>
+<span class="fc" id="L62">    Set.of(TO_VERBATIM, DWCDP_TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);</span>
 
-<span class="fc" id="L62">  private static final Set&lt;StepType&gt; OCCURRENCE_TYPE =</span>
-<span class="fc" id="L63">    Set.of(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX, HDFS_VIEW);</span>
+<span class="fc" id="L64">  private static final Set&lt;StepType&gt; OCCURRENCE_TYPE =</span>
+<span class="fc" id="L65">    Set.of(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX, HDFS_VIEW);</span>
 
-<span class="fc" id="L65">  private static final Set&lt;StepType&gt; EVENT_TYPE =</span>
-<span class="fc" id="L66">    Set.of(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);</span>
+<span class="fc" id="L67">  private static final Set&lt;StepType&gt; EVENT_TYPE =</span>
+<span class="fc" id="L68">    Set.of(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);</span>
 
   public static boolean isEventType(StepType type) {
-<span class="nc" id="L69">    return EVENT_TYPE.contains(type);</span>
+<span class="nc" id="L71">    return EVENT_TYPE.contains(type);</span>
   }
 
   public static boolean isOccurrenceType(StepType type) {
-<span class="nc" id="L73">    return OCCURRENCE_TYPE.contains(type);</span>
+<span class="nc" id="L75">    return OCCURRENCE_TYPE.contains(type);</span>
   }
 
   public static boolean isVerbatimType(StepType type) {
-<span class="nc" id="L77">    return VERBATIM_TYPE.contains(type);</span>
+<span class="nc" id="L79">    return VERBATIM_TYPE.contains(type);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
