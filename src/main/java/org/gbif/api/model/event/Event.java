@@ -102,6 +102,7 @@ public class Event extends VerbatimOccurrence {
     event.setDatasetKey(occurrence.getDatasetKey());
     event.setPublishingOrgKey(occurrence.getPublishingOrgKey());
     event.setNetworkKeys(occurrence.getNetworkKeys());
+    event.setDatasetCategory(occurrence.getDatasetCategory());
     event.setInstallationKey(occurrence.getInstallationKey());
     event.setPublishingCountry(occurrence.getPublishingCountry());
     event.setProtocol(occurrence.getProtocol());
