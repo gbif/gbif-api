@@ -481,6 +481,7 @@ public class Dataset
     this.key = key;
   }
 
+  @Size(max = 10)
   @Nullable
   public String getVersion() {
     return version;
