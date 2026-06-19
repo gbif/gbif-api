@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TermNormalizationUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">TermNormalizationUtils.java</span></div><h1>TermNormalizationUtils.java</h1><pre class="source lang-java linenums">package org.gbif.api.util;
+
+<span class="nc" id="L3">public class TermNormalizationUtils {</span>
+
+  /**
+   * This normalization is used to generate the avro schemas of the verbatim extensions tables in
+   * downloadTables-&gt;XmlToAvscGeneratorMojo and hence the same normalization has to be used when
+   * populating the tables(pipelines-&gt;VerbatimExtensionsInterpretationPipeline) and when downloading
+   * these extensions from ES(occurrence-&gt;DownloadDwcaActor).
+   */
+  public static String normalizeFieldName(String name) {
+<span class="nc" id="L12">    String normalizedNamed = name.toLowerCase().trim()</span>
+<span class="nc" id="L13">      .replace(&quot;-&quot;, &quot;&quot;)</span>
+<span class="nc" id="L14">      .replace(&quot;_&quot;, &quot;&quot;)</span>
+<span class="nc" id="L15">      .replace(&quot;:&quot;, &quot;_&quot;);</span>
+<span class="nc bnc" id="L16" title="All 2 branches missed.">    if (Character.isDigit(normalizedNamed.charAt(0))) {</span>
+<span class="nc" id="L17">      return '_' + normalizedNamed;</span>
+    }
+<span class="nc" id="L19">    return normalizedNamed;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
