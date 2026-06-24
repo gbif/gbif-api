@@ -33,7 +33,7 @@ import org.gbif.api.model.occurrence.geo.DistanceUnit;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
-import org.locationtech.jts.algorithm.Area;
+import org.locationtech.jts.algorithm.Orientation;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LinearRing;
@@ -431,7 +431,7 @@ public class SearchTypeValidator {
   }
 
   private static boolean isLinearRingCCW(LinearRing linearRing) {
-    return Area.ofRingSigned(linearRing.getCoordinates()) < 0;
+    return Orientation.isCCW(linearRing.getCoordinates());
   }
 
   private static Polygon fixRingsOrder(Polygon polygon) {
