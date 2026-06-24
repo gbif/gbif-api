@@ -38,12 +38,14 @@ public class WithinPredicateTest {
   static Logger logger = (Logger) LoggerFactory.getLogger(WithinPredicate.class);
   static ListAppender<ILoggingEvent> appender = new ListAppender<>();
 
+  static {
+    appender.start();
+    logger.addAppender(appender);
+  }
+
   @BeforeEach
   public void initLogger() {
     appender = new ListAppender<>();
-    logger.detachAppender(appender);
-    appender.start();
-    logger.addAppender(appender);
   }
 
   // API no longer throws an exception here.

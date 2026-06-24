@@ -397,8 +397,7 @@ public class SearchTypeValidator {
   }
 
   private static void validatePolygon(Polygon polygon, String wellKnownText) {
-    // Calculating the area > 0 ensures that polygons that are representing lines or points are
-    // invalidated
+    // Calculating the area > 0 ensures that polygons that are representing lines or points are invalidated
     if (polygon.getArea() == 0.0) {
       throw new IllegalArgumentException("Polygon with zero area: " + polygon.toText());
     }
