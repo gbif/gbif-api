@@ -25,6 +25,7 @@ public class NucleotideSequence {
   private Boolean gapsOrWhitespaceRemoved;
   private Boolean invalid;
 
+  @Schema(name = "nFraction")
   public Double getnFraction() {
     return nFraction;
   }
@@ -33,6 +34,7 @@ public class NucleotideSequence {
     this.nFraction = nFraction;
   }
 
+  @Schema(name = "nRunsCapped")
   public Integer getnRunsCapped() {
     return nRunsCapped;
   }
