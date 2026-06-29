@@ -545,6 +545,11 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter NETWORK_KEY = new OccurrenceSearchParameter("NETWORK_KEY", UUID.class);
 
   /**
+   * The category of the dataset this record belongs to..
+   */
+  public final static OccurrenceSearchParameter DATASET_CATEGORY = new OccurrenceSearchParameter("DATASET_CATEGORY", String.class);
+
+  /**
    * The technical installation key that hosts/publishes this record.
    */
   public final static OccurrenceSearchParameter INSTALLATION_KEY = new OccurrenceSearchParameter("INSTALLATION_KEY", UUID.class);

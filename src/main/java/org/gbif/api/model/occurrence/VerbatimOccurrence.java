@@ -70,6 +70,11 @@ public class VerbatimOccurrence {
   private List<UUID> networkKeys;
 
   @Schema(
+    description = "Categories assigned to the dataset containing this occurrence."
+  )
+  private List<String> datasetCategory;
+
+  @Schema(
     description = "The UUID of the technical installation hosted the dataset containing this occurrence."
   )
   private UUID installationKey;
@@ -206,6 +211,18 @@ public class VerbatimOccurrence {
 
   public void setNetworkKeys(List<UUID> networkKeys) {
     this.networkKeys = networkKeys;
+  }
+
+  /**
+   * Categories assigned to the dataset containing this occurrence.
+   */
+  @Nullable
+  public List<String> getDatasetCategory() {
+    return datasetCategory;
+  }
+
+  public void setDatasetCategory(List<String> datasetCategory) {
+    this.datasetCategory = datasetCategory;
   }
 
   /**
@@ -361,6 +378,7 @@ public class VerbatimOccurrence {
       Objects.equals(datasetKey, that.datasetKey) &&
       Objects.equals(publishingOrgKey, that.publishingOrgKey) &&
       Objects.equals(networkKeys, that.networkKeys) &&
+      Objects.equals(datasetCategory, that.datasetCategory) &&
       Objects.equals(installationKey, that.installationKey) &&
       publishingCountry == that.publishingCountry &&
       protocol == that.protocol &&
@@ -376,7 +394,7 @@ public class VerbatimOccurrence {
   @Override
   public int hashCode() {
     return Objects
-      .hash(key, datasetKey, publishingOrgKey, networkKeys, installationKey, publishingCountry,
+      .hash(key, datasetKey, publishingOrgKey, networkKeys, datasetCategory, installationKey, publishingCountry,
         protocol, lastCrawled, lastParsed, crawlId, projectId, programmeAcronym, verbatimFields,
         extensions);
   }
@@ -388,6 +406,7 @@ public class VerbatimOccurrence {
       .add("datasetKey=" + datasetKey)
       .add("publishingOrgKey=" + publishingOrgKey)
       .add("networkKeys=" + networkKeys)
+      .add("datasetCategory=" + datasetCategory)
       .add("installationKey=" + installationKey)
       .add("publishingCountry=" + publishingCountry)
       .add("protocol=" + protocol)
