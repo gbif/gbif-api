@@ -52,6 +52,7 @@ public enum StepType {
   VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim"),
   VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim"),
   VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim"),
+  VALIDATOR_VERBATIM_TO_IDENTIFIER("validatorVerbatimToIdentifier"),
   VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted"),
   VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex"),
   VALIDATOR_COLLECT_METRICS("validatorCollectMetrics");
