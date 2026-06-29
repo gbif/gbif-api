@@ -230,6 +230,10 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter NETWORK_KEY =
       new EventSearchParameter(OccurrenceSearchParameter.NETWORK_KEY);
 
+  /** See @link {@link OccurrenceSearchParameter#DATASET_CATEGORY} */
+  public static final EventSearchParameter DATASET_CATEGORY =
+      new EventSearchParameter(OccurrenceSearchParameter.DATASET_CATEGORY);
+
   /** See @link {@link OccurrenceSearchParameter#INSTALLATION_KEY} */
   public static final EventSearchParameter INSTALLATION_KEY =
       new EventSearchParameter(OccurrenceSearchParameter.INSTALLATION_KEY);
