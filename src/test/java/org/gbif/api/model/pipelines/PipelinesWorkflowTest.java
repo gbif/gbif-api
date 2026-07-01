@@ -174,7 +174,7 @@ public class PipelinesWorkflowTest {
   public void validatorWorkflowTest() {
     Graph<StepType> wf = PipelinesWorkflow.getValidatorWorkflow();
 
-    Assertions.assertEquals(9, wf.getNodesQuantity());
+    Assertions.assertEquals(10, wf.getNodesQuantity());
 
     Assertions.assertEquals(1, wf.getLevel(VALIDATOR_UPLOAD_ARCHIVE));
     Assertions.assertEquals(2, wf.getLevel(VALIDATOR_VALIDATE_ARCHIVE));
@@ -182,18 +182,20 @@ public class PipelinesWorkflowTest {
     Assertions.assertEquals(3, wf.getLevel(VALIDATOR_ABCD_TO_VERBATIM));
     Assertions.assertEquals(3, wf.getLevel(VALIDATOR_XML_TO_VERBATIM));
     Assertions.assertEquals(3, wf.getLevel(VALIDATOR_TABULAR_TO_VERBATIM));
-    Assertions.assertEquals(4, wf.getLevel(VALIDATOR_VERBATIM_TO_INTERPRETED));
-    Assertions.assertEquals(5, wf.getLevel(VALIDATOR_INTERPRETED_TO_INDEX));
-    Assertions.assertEquals(6, wf.getLevel(VALIDATOR_COLLECT_METRICS));
+    Assertions.assertEquals(4, wf.getLevel(VALIDATOR_VERBATIM_TO_IDENTIFIER));
+    Assertions.assertEquals(5, wf.getLevel(VALIDATOR_VERBATIM_TO_INTERPRETED));
+    Assertions.assertEquals(6, wf.getLevel(VALIDATOR_INTERPRETED_TO_INDEX));
+    Assertions.assertEquals(7, wf.getLevel(VALIDATOR_COLLECT_METRICS));
 
     assertConnection(wf, VALIDATOR_UPLOAD_ARCHIVE, VALIDATOR_VALIDATE_ARCHIVE);
     assertConnection(wf, VALIDATOR_VALIDATE_ARCHIVE,
       VALIDATOR_DWCA_TO_VERBATIM, VALIDATOR_ABCD_TO_VERBATIM,
       VALIDATOR_XML_TO_VERBATIM, VALIDATOR_TABULAR_TO_VERBATIM);
-    assertConnection(wf, VALIDATOR_DWCA_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);
-    assertConnection(wf, VALIDATOR_ABCD_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);
-    assertConnection(wf, VALIDATOR_XML_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);
-    assertConnection(wf, VALIDATOR_TABULAR_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);
+    assertConnection(wf, VALIDATOR_DWCA_TO_VERBATIM, VALIDATOR_VERBATIM_TO_IDENTIFIER);
+    assertConnection(wf, VALIDATOR_ABCD_TO_VERBATIM, VALIDATOR_VERBATIM_TO_IDENTIFIER);
+    assertConnection(wf, VALIDATOR_XML_TO_VERBATIM, VALIDATOR_VERBATIM_TO_IDENTIFIER);
+    assertConnection(wf, VALIDATOR_TABULAR_TO_VERBATIM, VALIDATOR_VERBATIM_TO_IDENTIFIER);
+    assertConnection(wf, VALIDATOR_VERBATIM_TO_IDENTIFIER, VALIDATOR_VERBATIM_TO_INTERPRETED);
     assertConnection(wf, VALIDATOR_VERBATIM_TO_INTERPRETED, VALIDATOR_INTERPRETED_TO_INDEX);
     assertConnection(wf, VALIDATOR_INTERPRETED_TO_INDEX, VALIDATOR_COLLECT_METRICS);
     assertConnection(wf, VALIDATOR_COLLECT_METRICS);
