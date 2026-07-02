@@ -129,14 +129,14 @@ public class PipelinesWorkflowTest {
 
     Assertions.assertEquals(6, wf.getNodesQuantity());
 
-    Assertions.assertEquals(1, wf.getLevel(NFS_TO_HDFS));
+    Assertions.assertEquals(1, wf.getLevel(DWCDP_STAGE));
     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
     Assertions.assertEquals(2, wf.getLevel(DWCDP_TO_VERBATIM));
     Assertions.assertEquals(2, wf.getLevel(EVENTS_VERBATIM_TO_INTERPRETED));
     Assertions.assertEquals(3, wf.getLevel(EVENTS_INTERPRETED_TO_INDEX));
     Assertions.assertEquals(3, wf.getLevel(EVENTS_HDFS_VIEW));
 
-    assertConnection(wf, NFS_TO_HDFS, DWCDP_TO_VERBATIM);
+    assertConnection(wf, DWCDP_STAGE, DWCDP_TO_VERBATIM);
     assertConnection(wf, DWCA_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);
     assertConnection(wf, DWCDP_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);
     assertConnection(wf, EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);
