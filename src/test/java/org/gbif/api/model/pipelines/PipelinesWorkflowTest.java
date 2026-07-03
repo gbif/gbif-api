@@ -98,7 +98,7 @@ public class PipelinesWorkflowTest {
   public void eventOccurrenceWorkflowTest() {
     Graph<StepType> wf = PipelinesWorkflow.getEventOccurrenceWorkflow();
 
-    Assertions.assertEquals(11, wf.getNodesQuantity());
+    Assertions.assertEquals(12, wf.getNodesQuantity());
 
     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
     Assertions.assertEquals(2, wf.getLevel(DWCDP_TO_VERBATIM));
@@ -127,7 +127,7 @@ public class PipelinesWorkflowTest {
   public void eventOnlyWorkflowTest() {
     Graph<StepType> wf = PipelinesWorkflow.getEventWorkflow();
 
-    Assertions.assertEquals(6, wf.getNodesQuantity());
+    Assertions.assertEquals(7, wf.getNodesQuantity());
 
     Assertions.assertEquals(1, wf.getLevel(DWCDP_STAGE));
     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
@@ -148,7 +148,7 @@ public class PipelinesWorkflowTest {
   public void occurrenceWorkflowTest() {
     Graph<StepType> wf = PipelinesWorkflow.getOccurrenceWorkflow();
 
-    Assertions.assertEquals(10, wf.getNodesQuantity());
+    Assertions.assertEquals(11, wf.getNodesQuantity());
 
     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
     Assertions.assertEquals(1, wf.getLevel(ABCD_TO_VERBATIM));
