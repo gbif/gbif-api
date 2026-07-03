@@ -27,8 +27,6 @@ import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
-import javax.management.NotificationFilterSupport;
-
 import static org.gbif.api.model.pipelines.StepType.*;
 
 public class PipelinesWorkflow {

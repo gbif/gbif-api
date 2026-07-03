@@ -13,9 +13,12 @@
  */
 package org.gbif.api.vocabulary;
 
-import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;
-import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
-import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
+import org.gbif.api.util.AnnotationUtils;
+import org.gbif.dwc.terms.DcTerm;
+import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.GbifDnaTerm;
+import org.gbif.dwc.terms.MixsTerm;
+import org.gbif.dwc.terms.Term;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,13 +26,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.ArrayUtils;
-import org.gbif.api.util.AnnotationUtils;
-import org.gbif.dwc.terms.DcTerm;
-import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.GbifDnaTerm;
-import org.gbif.dwc.terms.MixsTerm;
-import org.gbif.dwc.terms.Term;
+
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 
 /** An enumeration of validation rules for single occurrence records. */
 public enum OccurrenceIssue implements InterpretationRemark {
