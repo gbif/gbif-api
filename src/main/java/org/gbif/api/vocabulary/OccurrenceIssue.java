@@ -514,7 +514,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
   NUCLEOTIDE_SEQUENCE_HIGH_AMBIGUITY(INFO, GbifDnaTerm.dna_sequence),
 
   /** Set when {@code target_gene} does not resolve to a concept in the vocabulary. */
-  TARGET_GENE_INVALID(INFO, MixsTerm.target_gene);
+  TARGET_GENE_INVALID(INFO, MixsTerm.target_gene),
+
+  /**
+   * Set when an infinite loop is detected in the event lineage.
+   */
+  PARENT_EVENT_INFINITE_LINEAGE(INFO, DwcTerm.parentEventID);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
