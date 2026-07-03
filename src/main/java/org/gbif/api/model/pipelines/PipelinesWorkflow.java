@@ -44,6 +44,7 @@ public class PipelinesWorkflow {
     // Pipelines occurrence workflow
     // 0?
     OCCURRENCE_WF_GRAPH.addNode(DWCDP_STAGE, DWCDP_TO_VERBATIM);
+    OCCURRENCE_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);
     // 1
     OCCURRENCE_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
     OCCURRENCE_WF_GRAPH.addNode(DWCA_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
@@ -58,6 +59,7 @@ public class PipelinesWorkflow {
 
     // Pipelines event-occurrence workflow
     // 0?
+    EVENT_OCCURRENCE_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);
     EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCDP_STAGE, DWCDP_TO_VERBATIM);
     // 1
     EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);
@@ -75,6 +77,7 @@ public class PipelinesWorkflow {
 
     // Pipelines event only workflow
     // 0?
+    EVENT_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);
     EVENT_WF_GRAPH.addNode(DWCDP_STAGE, DWCDP_TO_VERBATIM);
     // 1
     EVENT_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);

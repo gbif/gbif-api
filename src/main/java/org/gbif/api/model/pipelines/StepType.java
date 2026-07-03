@@ -13,10 +13,10 @@
  */
 package org.gbif.api.model.pipelines;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.Set;
 
 /** Enum to represent the pipelines step names. */
 @Getter
