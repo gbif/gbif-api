@@ -43,6 +43,7 @@ public interface CollectionEntity
         Serializable {
 
   /** Unique identifier. */
+  @NotNull
   UUID getKey();
 
   void setKey(UUID key);
