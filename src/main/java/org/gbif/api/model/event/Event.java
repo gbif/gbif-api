@@ -184,7 +184,6 @@ public class Event extends VerbatimOccurrence {
   }
 
   private String id;
-  private Set<String> samplingProtocols;
   private String eventID;
   private String parentEventID;
   private Integer startDayOfYear;
