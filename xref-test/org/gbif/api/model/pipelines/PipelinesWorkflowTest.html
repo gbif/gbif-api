@@ -106,7 +106,7 @@
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> eventOccurrenceWorkflowTest() {
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>      Graph&lt;StepType&gt; wf = PipelinesWorkflow.getEventOccurrenceWorkflow();
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> 
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>     Assertions.assertEquals(11, wf.getNodesQuantity());
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>     Assertions.assertEquals(12, wf.getNodesQuantity());
 <a class="jxr_linenumber" name="L102" href="#L102">102</a> 
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>     Assertions.assertEquals(2, wf.getLevel(DWCDP_TO_VERBATIM));
@@ -135,16 +135,16 @@
 <a class="jxr_linenumber" name="L127" href="#L127">127</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> eventOnlyWorkflowTest() {
 <a class="jxr_linenumber" name="L128" href="#L128">128</a>     Graph&lt;StepType&gt; wf = PipelinesWorkflow.getEventWorkflow();
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> 
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>     Assertions.assertEquals(6, wf.getNodesQuantity());
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>     Assertions.assertEquals(7, wf.getNodesQuantity());
 <a class="jxr_linenumber" name="L131" href="#L131">131</a> 
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>     Assertions.assertEquals(1, wf.getLevel(NFS_TO_HDFS));
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>     Assertions.assertEquals(1, wf.getLevel(DWCDP_STAGE));
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>     Assertions.assertEquals(2, wf.getLevel(DWCDP_TO_VERBATIM));
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>     Assertions.assertEquals(2, wf.getLevel(EVENTS_VERBATIM_TO_INTERPRETED));
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>     Assertions.assertEquals(3, wf.getLevel(EVENTS_INTERPRETED_TO_INDEX));
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>     Assertions.assertEquals(3, wf.getLevel(EVENTS_HDFS_VIEW));
 <a class="jxr_linenumber" name="L138" href="#L138">138</a> 
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>     assertConnection(wf, NFS_TO_HDFS, DWCDP_TO_VERBATIM);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>     assertConnection(wf, DWCDP_STAGE, DWCDP_TO_VERBATIM);
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>     assertConnection(wf, DWCA_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>     assertConnection(wf, DWCDP_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>     assertConnection(wf, EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);
@@ -156,7 +156,7 @@
 <a class="jxr_linenumber" name="L148" href="#L148">148</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> occurrenceWorkflowTest() {
 <a class="jxr_linenumber" name="L149" href="#L149">149</a>     Graph&lt;StepType&gt; wf = PipelinesWorkflow.getOccurrenceWorkflow();
 <a class="jxr_linenumber" name="L150" href="#L150">150</a> 
-<a class="jxr_linenumber" name="L151" href="#L151">151</a>     Assertions.assertEquals(10, wf.getNodesQuantity());
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>     Assertions.assertEquals(11, wf.getNodesQuantity());
 <a class="jxr_linenumber" name="L152" href="#L152">152</a> 
 <a class="jxr_linenumber" name="L153" href="#L153">153</a>     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>     Assertions.assertEquals(1, wf.getLevel(ABCD_TO_VERBATIM));

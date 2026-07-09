@@ -43,137 +43,140 @@ public class PipelinesWorkflow {
   static {
     // Pipelines occurrence workflow
     // 0?
-<span class="fc" id="L46">    OCCURRENCE_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);</span>
+<span class="fc" id="L46">    OCCURRENCE_WF_GRAPH.addNode(DWCDP_STAGE, DWCDP_TO_VERBATIM);</span>
+<span class="fc" id="L47">    OCCURRENCE_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);</span>
     // 1
-<span class="fc" id="L48">    OCCURRENCE_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
-<span class="fc" id="L49">    OCCURRENCE_WF_GRAPH.addNode(DWCA_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
-<span class="fc" id="L50">    OCCURRENCE_WF_GRAPH.addNode(XML_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
-<span class="fc" id="L51">    OCCURRENCE_WF_GRAPH.addNode(ABCD_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
+<span class="fc" id="L49">    OCCURRENCE_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
+<span class="fc" id="L50">    OCCURRENCE_WF_GRAPH.addNode(DWCA_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
+<span class="fc" id="L51">    OCCURRENCE_WF_GRAPH.addNode(XML_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
+<span class="fc" id="L52">    OCCURRENCE_WF_GRAPH.addNode(ABCD_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
     // 2
-<span class="fc" id="L53">    OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L54">    OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED);</span>
     // 3
-<span class="fc" id="L55">    OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX);</span>
-<span class="fc" id="L56">    OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, HDFS_VIEW);</span>
-<span class="fc" id="L57">    OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, FRAGMENTER);</span>
+<span class="fc" id="L56">    OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX);</span>
+<span class="fc" id="L57">    OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, HDFS_VIEW);</span>
+<span class="fc" id="L58">    OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, FRAGMENTER);</span>
 
     // Pipelines event-occurrence workflow
     // 0?
-<span class="fc" id="L61">    EVENT_OCCURRENCE_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);</span>
+<span class="fc" id="L62">    EVENT_OCCURRENCE_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);</span>
+<span class="fc" id="L63">    EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCDP_STAGE, DWCDP_TO_VERBATIM);</span>
     // 1
-<span class="fc" id="L63">    EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
-<span class="fc" id="L64">    EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCA_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
+<span class="fc" id="L65">    EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
+<span class="fc" id="L66">    EVENT_OCCURRENCE_WF_GRAPH.addNode(DWCA_TO_VERBATIM, VERBATIM_TO_IDENTIFIER);</span>
     // 2
-<span class="fc" id="L66">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L68">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED);</span>
     // 3
-<span class="fc" id="L68">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX);</span>
-<span class="fc" id="L69">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, HDFS_VIEW);</span>
-<span class="fc" id="L70">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, FRAGMENTER);</span>
-<span class="fc" id="L71">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, EVENTS_VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L70">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX);</span>
+<span class="fc" id="L71">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, HDFS_VIEW);</span>
+<span class="fc" id="L72">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, FRAGMENTER);</span>
+<span class="fc" id="L73">    EVENT_OCCURRENCE_WF_GRAPH.addNode(VERBATIM_TO_INTERPRETED, EVENTS_VERBATIM_TO_INTERPRETED);</span>
     // 4
-<span class="fc" id="L73">    EVENT_OCCURRENCE_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX);</span>
-<span class="fc" id="L74">    EVENT_OCCURRENCE_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_HDFS_VIEW);</span>
+<span class="fc" id="L75">    EVENT_OCCURRENCE_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX);</span>
+<span class="fc" id="L76">    EVENT_OCCURRENCE_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_HDFS_VIEW);</span>
 
     // Pipelines event only workflow
     // 0?
-<span class="fc" id="L78">    EVENT_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);</span>
+<span class="fc" id="L80">    EVENT_WF_GRAPH.addNode(NFS_TO_HDFS, DWCDP_TO_VERBATIM);</span>
+<span class="fc" id="L81">    EVENT_WF_GRAPH.addNode(DWCDP_STAGE, DWCDP_TO_VERBATIM);</span>
     // 1
-<span class="fc" id="L80">    EVENT_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);</span>
-<span class="fc" id="L81">    EVENT_WF_GRAPH.addNode(DWCA_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L83">    EVENT_WF_GRAPH.addNode(DWCDP_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L84">    EVENT_WF_GRAPH.addNode(DWCA_TO_VERBATIM, EVENTS_VERBATIM_TO_INTERPRETED);</span>
     // 2
-<span class="fc" id="L83">    EVENT_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX);</span>
-<span class="fc" id="L84">    EVENT_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_HDFS_VIEW);</span>
+<span class="fc" id="L86">    EVENT_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX);</span>
+<span class="fc" id="L87">    EVENT_WF_GRAPH.addNode(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_HDFS_VIEW);</span>
 
     // Pipelines validator workflow
     // 1
-<span class="fc" id="L88">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_UPLOAD_ARCHIVE, VALIDATOR_VALIDATE_ARCHIVE);</span>
+<span class="fc" id="L91">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_UPLOAD_ARCHIVE, VALIDATOR_VALIDATE_ARCHIVE);</span>
     // 2
-<span class="fc" id="L90">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VALIDATE_ARCHIVE, VALIDATOR_DWCA_TO_VERBATIM);</span>
-<span class="fc" id="L91">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VALIDATE_ARCHIVE, VALIDATOR_XML_TO_VERBATIM);</span>
-<span class="fc" id="L92">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VALIDATE_ARCHIVE, VALIDATOR_ABCD_TO_VERBATIM);</span>
-<span class="fc" id="L93">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VALIDATE_ARCHIVE, VALIDATOR_TABULAR_TO_VERBATIM);</span>
+<span class="fc" id="L93">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VALIDATE_ARCHIVE, VALIDATOR_DWCA_TO_VERBATIM);</span>
+<span class="fc" id="L94">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VALIDATE_ARCHIVE, VALIDATOR_XML_TO_VERBATIM);</span>
+<span class="fc" id="L95">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VALIDATE_ARCHIVE, VALIDATOR_ABCD_TO_VERBATIM);</span>
+<span class="fc" id="L96">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VALIDATE_ARCHIVE, VALIDATOR_TABULAR_TO_VERBATIM);</span>
     // 3
-<span class="fc" id="L95">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_DWCA_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);</span>
-<span class="fc" id="L96">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_XML_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);</span>
-<span class="fc" id="L97">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_ABCD_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);</span>
-<span class="fc" id="L98">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_TABULAR_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L98">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_DWCA_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L99">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_XML_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L100">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_ABCD_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);</span>
+<span class="fc" id="L101">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_TABULAR_TO_VERBATIM, VALIDATOR_VERBATIM_TO_INTERPRETED);</span>
     // 4
-<span class="fc" id="L100">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VERBATIM_TO_INTERPRETED, VALIDATOR_INTERPRETED_TO_INDEX);</span>
+<span class="fc" id="L103">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_VERBATIM_TO_INTERPRETED, VALIDATOR_INTERPRETED_TO_INDEX);</span>
     // 5
-<span class="fc" id="L102">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_INTERPRETED_TO_INDEX, VALIDATOR_COLLECT_METRICS);</span>
-<span class="fc" id="L103">  }</span>
+<span class="fc" id="L105">    VALIDATON_WF_GRAPH.addNode(VALIDATOR_INTERPRETED_TO_INDEX, VALIDATOR_COLLECT_METRICS);</span>
+<span class="fc" id="L106">  }</span>
 
   public static Graph&lt;StepType&gt; getOccurrenceWorkflow() {
-<span class="fc" id="L106">    return OCCURRENCE_WF_GRAPH;</span>
+<span class="fc" id="L109">    return OCCURRENCE_WF_GRAPH;</span>
   }
 
   public static Graph&lt;StepType&gt; getEventOccurrenceWorkflow() {
-<span class="fc" id="L110">    return EVENT_OCCURRENCE_WF_GRAPH;</span>
+<span class="fc" id="L113">    return EVENT_OCCURRENCE_WF_GRAPH;</span>
   }
 
   public static Graph&lt;StepType&gt; getEventWorkflow() {
-<span class="fc" id="L114">    return EVENT_WF_GRAPH;</span>
+<span class="fc" id="L117">    return EVENT_WF_GRAPH;</span>
   }
 
   public static Graph&lt;StepType&gt; getValidatorWorkflow() {
-<span class="fc" id="L118">    return VALIDATON_WF_GRAPH;</span>
+<span class="fc" id="L121">    return VALIDATON_WF_GRAPH;</span>
   }
 
   public static Graph&lt;StepType&gt; getWorkflow(boolean containsOccurrences, boolean containsEvents) {
-<span class="nc bnc" id="L122" title="All 4 branches missed.">    if(containsOccurrences &amp;&amp; containsEvents){</span>
-<span class="nc" id="L123">      return getEventOccurrenceWorkflow();</span>
-<span class="nc bnc" id="L124" title="All 2 branches missed.">    } else if(containsOccurrences){</span>
-<span class="nc" id="L125">      return getOccurrenceWorkflow();</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">    } else if (containsEvents){</span>
-<span class="nc" id="L127">      return getEventWorkflow();</span>
+<span class="nc bnc" id="L125" title="All 4 branches missed.">    if(containsOccurrences &amp;&amp; containsEvents){</span>
+<span class="nc" id="L126">      return getEventOccurrenceWorkflow();</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">    } else if(containsOccurrences){</span>
+<span class="nc" id="L128">      return getOccurrenceWorkflow();</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">    } else if (containsEvents){</span>
+<span class="nc" id="L130">      return getEventWorkflow();</span>
     }
-<span class="nc" id="L129">    return new Graph&lt;&gt;();</span>
+<span class="nc" id="L132">    return new Graph&lt;&gt;();</span>
   }
 
-<span class="fc" id="L132">  public static class Graph&lt;T&gt; {</span>
+<span class="fc" id="L135">  public static class Graph&lt;T&gt; {</span>
 
     public class Edge {
       private final T node;
 
-<span class="fc" id="L137">      public Edge(T node) {</span>
-<span class="fc" id="L138">        this.node = node;</span>
-<span class="fc" id="L139">      }</span>
+<span class="fc" id="L140">      public Edge(T node) {</span>
+<span class="fc" id="L141">        this.node = node;</span>
+<span class="fc" id="L142">      }</span>
 
       public T getNode() {
-<span class="fc" id="L142">        return node;</span>
+<span class="fc" id="L145">        return node;</span>
       }
     }
 
-<span class="fc" id="L146">    private final Map&lt;T, LinkedList&lt;Edge&gt;&gt; nodes = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L149">    private final Map&lt;T, LinkedList&lt;Edge&gt;&gt; nodes = new HashMap&lt;&gt;();</span>
 
-<span class="fc" id="L148">    private final Map&lt;T, Integer&gt; levels = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L151">    private final Map&lt;T, Integer&gt; levels = new HashMap&lt;&gt;();</span>
 
-<span class="fc bfc" id="L150" title="All 2 branches covered.">    private final ToIntFunction&lt;T&gt; calculateLevelFn = t -&gt; levels.get(t) != null ? levels.get(t) + 1 : 1;</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">    private final ToIntFunction&lt;T&gt; calculateLevelFn = t -&gt; levels.get(t) != null ? levels.get(t) + 1 : 1;</span>
 
-<span class="fc" id="L152">    private final ToIntFunction&lt;T&gt; findLevelFn = t -&gt; nodes.values()</span>
-<span class="fc" id="L153">      .stream()</span>
-<span class="fc" id="L154">      .flatMap(Collection::stream)</span>
-<span class="fc" id="L155">      .filter(x-&gt;x.getNode().equals(t))</span>
-<span class="fc" id="L156">      .findAny()</span>
-<span class="fc" id="L157">      .map(x-&gt;levels.get(x.getNode()))</span>
-<span class="fc" id="L158">      .orElse(1);</span>
+<span class="fc" id="L155">    private final ToIntFunction&lt;T&gt; findLevelFn = t -&gt; nodes.values()</span>
+<span class="fc" id="L156">      .stream()</span>
+<span class="fc" id="L157">      .flatMap(Collection::stream)</span>
+<span class="fc" id="L158">      .filter(x-&gt;x.getNode().equals(t))</span>
+<span class="fc" id="L159">      .findAny()</span>
+<span class="fc" id="L160">      .map(x-&gt;levels.get(x.getNode()))</span>
+<span class="fc" id="L161">      .orElse(1);</span>
 
     public int getNodesQuantity() {
-<span class="fc" id="L161">      return nodes.size();</span>
+<span class="fc" id="L164">      return nodes.size();</span>
     }
 
     public List&lt;Edge&gt; getNodeEdges(T node) {
-<span class="fc" id="L165">      return nodes.get(node);</span>
+<span class="fc" id="L168">      return nodes.get(node);</span>
     }
 
     public Set&lt;T&gt; getAllNodes() {
-<span class="nc" id="L169">      return nodes.keySet();</span>
+<span class="nc" id="L172">      return nodes.keySet();</span>
     }
 
     public Set&lt;T&gt; getAllNodesFor(Set&lt;T&gt; fromTypesSet) {
-<span class="fc" id="L173">      return fromTypesSet.stream()</span>
-<span class="fc" id="L174">        .map(ft -&gt; bfs(this, ft))</span>
-<span class="fc" id="L175">        .flatMap(Collection::stream)</span>
-<span class="fc" id="L176">        .collect(Collectors.toSet());</span>
+<span class="fc" id="L176">      return fromTypesSet.stream()</span>
+<span class="fc" id="L177">        .map(ft -&gt; bfs(this, ft))</span>
+<span class="fc" id="L178">        .flatMap(Collection::stream)</span>
+<span class="fc" id="L179">        .collect(Collectors.toSet());</span>
     }
 
     /**
@@ -196,76 +199,76 @@ public class PipelinesWorkflow {
      */
     @Deprecated
     public int getLevel(T t) {
-<span class="fc" id="L199">      return this.levels.get(t);</span>
+<span class="fc" id="L202">      return this.levels.get(t);</span>
     }
 
     public Set&lt;T&gt; getRootNodesFor(Set&lt;T&gt; fromTypesSet) {
-<span class="fc" id="L203">      Map&lt;T, Set&lt;T&gt;&gt; map = fromTypesSet.stream()</span>
-<span class="fc" id="L204">        .collect(Collectors.toMap(Function.identity(), ft -&gt; bfs(this, ft)));</span>
+<span class="fc" id="L206">      Map&lt;T, Set&lt;T&gt;&gt; map = fromTypesSet.stream()</span>
+<span class="fc" id="L207">        .collect(Collectors.toMap(Function.identity(), ft -&gt; bfs(this, ft)));</span>
 
-<span class="fc" id="L206">      Set&lt;T&gt; result = new LinkedHashSet&lt;&gt;();</span>
+<span class="fc" id="L209">      Set&lt;T&gt; result = new LinkedHashSet&lt;&gt;();</span>
 
-<span class="fc" id="L208">      fromTypesSet.forEach(ts -&gt; {</span>
-<span class="fc" id="L209">        result.add(ts);</span>
-<span class="fc" id="L210">        map.forEach((key, value) -&gt; {</span>
-<span class="fc bfc" id="L211" title="All 4 branches covered.">          if (key != ts &amp;&amp; value.contains(ts)) {</span>
-<span class="fc" id="L212">            result.remove(ts);</span>
+<span class="fc" id="L211">      fromTypesSet.forEach(ts -&gt; {</span>
+<span class="fc" id="L212">        result.add(ts);</span>
+<span class="fc" id="L213">        map.forEach((key, value) -&gt; {</span>
+<span class="fc bfc" id="L214" title="All 4 branches covered.">          if (key != ts &amp;&amp; value.contains(ts)) {</span>
+<span class="fc" id="L215">            result.remove(ts);</span>
           }
-<span class="fc" id="L214">        });</span>
-<span class="fc" id="L215">      });</span>
+<span class="fc" id="L217">        });</span>
+<span class="fc" id="L218">      });</span>
 
-<span class="fc" id="L217">      return result;</span>
+<span class="fc" id="L220">      return result;</span>
     }
 
     private void addNode(T fromNode, T toNode) {
-<span class="fc bfc" id="L221" title="All 2 branches covered.">      if (nodes.containsKey(fromNode)) {</span>
-<span class="fc" id="L222">        LinkedList&lt;Edge&gt; edges = nodes.get(fromNode);</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">      if (nodes.containsKey(fromNode)) {</span>
+<span class="fc" id="L225">        LinkedList&lt;Edge&gt; edges = nodes.get(fromNode);</span>
 
         int order;
-<span class="fc bfc" id="L225" title="All 2 branches covered.">        if (edges.isEmpty()) {</span>
-<span class="fc" id="L226">          order = calculateLevelFn.applyAsInt(fromNode);</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        if (edges.isEmpty()) {</span>
+<span class="fc" id="L229">          order = calculateLevelFn.applyAsInt(fromNode);</span>
         } else {
-<span class="fc" id="L228">          order = levels.get(edges.getLast().getNode());</span>
+<span class="fc" id="L231">          order = levels.get(edges.getLast().getNode());</span>
         }
 
-<span class="fc" id="L231">        edges.add(new Edge(toNode));</span>
-<span class="fc" id="L232">        levels.put(toNode, order);</span>
-<span class="fc" id="L233">      } else {</span>
-<span class="fc" id="L234">        int order = calculateLevelFn.applyAsInt(fromNode);</span>
-<span class="fc" id="L235">        nodes.put(fromNode, new LinkedList&lt;&gt;(Collections.singletonList(new Edge(toNode))));</span>
-<span class="fc" id="L236">        levels.put(fromNode, order);</span>
-<span class="fc" id="L237">        levels.put(toNode, order + 1);</span>
+<span class="fc" id="L234">        edges.add(new Edge(toNode));</span>
+<span class="fc" id="L235">        levels.put(toNode, order);</span>
+<span class="fc" id="L236">      } else {</span>
+<span class="fc" id="L237">        int order = calculateLevelFn.applyAsInt(fromNode);</span>
+<span class="fc" id="L238">        nodes.put(fromNode, new LinkedList&lt;&gt;(Collections.singletonList(new Edge(toNode))));</span>
+<span class="fc" id="L239">        levels.put(fromNode, order);</span>
+<span class="fc" id="L240">        levels.put(toNode, order + 1);</span>
       }
 
-<span class="fc" id="L240">      nodes.computeIfAbsent(toNode, n -&gt; new LinkedList&lt;&gt;(Collections.emptyList()));</span>
-<span class="fc" id="L241">      levels.put(toNode, findLevelFn.applyAsInt(toNode));</span>
-<span class="fc" id="L242">    }</span>
+<span class="fc" id="L243">      nodes.computeIfAbsent(toNode, n -&gt; new LinkedList&lt;&gt;(Collections.emptyList()));</span>
+<span class="fc" id="L244">      levels.put(toNode, findLevelFn.applyAsInt(toNode));</span>
+<span class="fc" id="L245">    }</span>
 
     private static &lt;T&gt; Set&lt;T&gt; bfs(Graph&lt;T&gt; graph, T startNode) {
 
-<span class="fc" id="L246">      Set&lt;T&gt; resultSet = new HashSet&lt;&gt;();</span>
-<span class="fc" id="L247">      Set&lt;T&gt; visitedNodes = new HashSet&lt;&gt;(graph.getNodesQuantity());</span>
-<span class="fc" id="L248">      Queue&lt;T&gt; queue = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L249">      Set&lt;T&gt; resultSet = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L250">      Set&lt;T&gt; visitedNodes = new HashSet&lt;&gt;(graph.getNodesQuantity());</span>
+<span class="fc" id="L251">      Queue&lt;T&gt; queue = new LinkedList&lt;&gt;();</span>
       T currentNode;
 
-<span class="fc" id="L251">      visitedNodes.add(startNode);</span>
-<span class="fc" id="L252">      queue.add(startNode);</span>
+<span class="fc" id="L254">      visitedNodes.add(startNode);</span>
+<span class="fc" id="L255">      queue.add(startNode);</span>
 
-<span class="fc bfc" id="L254" title="All 2 branches covered.">      while (!queue.isEmpty()) {</span>
-<span class="fc" id="L255">        currentNode = queue.poll();</span>
-<span class="fc" id="L256">        resultSet.add(currentNode);</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">      while (!queue.isEmpty()) {</span>
+<span class="fc" id="L258">        currentNode = queue.poll();</span>
+<span class="fc" id="L259">        resultSet.add(currentNode);</span>
 
-<span class="fc" id="L258">        graph.getNodeEdges(currentNode).forEach(edge -&gt; {</span>
-<span class="fc" id="L259">          T node = edge.getNode();</span>
-<span class="pc bpc" id="L260" title="1 of 2 branches missed.">          if (visitedNodes.contains(node)) {</span>
-<span class="nc" id="L261">            return;</span>
+<span class="fc" id="L261">        graph.getNodeEdges(currentNode).forEach(edge -&gt; {</span>
+<span class="fc" id="L262">          T node = edge.getNode();</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">          if (visitedNodes.contains(node)) {</span>
+<span class="nc" id="L264">            return;</span>
           }
-<span class="fc" id="L263">          visitedNodes.add(node);</span>
-<span class="fc" id="L264">          queue.add(node);</span>
-<span class="fc" id="L265">        });</span>
+<span class="fc" id="L266">          visitedNodes.add(node);</span>
+<span class="fc" id="L267">          queue.add(node);</span>
+<span class="fc" id="L268">        });</span>
       }
 
-<span class="fc" id="L268">      return resultSet;</span>
+<span class="fc" id="L271">      return resultSet;</span>
     }
 
   }
