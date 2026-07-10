@@ -188,6 +188,11 @@ public enum DatasetSearchParameter implements SearchParameter {
   IDENTIFIER(String.class),
 
   IDENTIFIER_TYPE(IdentifierType.class);
+  
+  /**
+   * Published DwC-DP schema.
+   */
+  DWCDP_SCHEMA(String.class);
 
   DatasetSearchParameter(Class<?> type) {
     this.type = type;
