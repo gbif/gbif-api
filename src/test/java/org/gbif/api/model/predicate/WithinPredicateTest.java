@@ -13,25 +13,22 @@
  */
 package org.gbif.api.model.predicate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import ch.qos.logback.classic.Logger;
-
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WithinPredicateTest {
 
@@ -45,12 +42,13 @@ public class WithinPredicateTest {
 
   @BeforeEach
   public void initLogger() {
-    appender = new ListAppender<>();
+    appender.list.clear();
   }
 
-  // API no longer throws an exception here.
+  @Test
   public void testEmptyConstructor() {
     new WithinPredicate("");
+    assertGeometryWarnings(1);
   }
 
   @Test
@@ -58,10 +56,10 @@ public class WithinPredicateTest {
     assertThrows(NullPointerException.class, () -> new WithinPredicate(null));
   }
 
-  // API no longer throws an exception here.
+  @Test
   public void testBadConstructor1() {
     new WithinPredicate("POLYGON");
-    assertNoGeometryWarnings();
+    assertGeometryWarnings(1);
   }
 
   @Test
@@ -70,10 +68,10 @@ public class WithinPredicateTest {
     assertNoGeometryWarnings();
   }
 
-  // API no longer throws an exception here.
+  @Test
   public void testBadRectangle() {
     new WithinPredicate("POLYGON ((30 10, 100 100, 20 40, 40 40, 30 10))");
-    assertNoGeometryWarnings();
+    assertGeometryWarnings(1);
   }
 
   @Test
@@ -128,7 +126,6 @@ public class WithinPredicateTest {
    *
    * https://github.com/locationtech/spatial4j/issues/5
    */
-  @Disabled
   @Test
   public void testGoodPolygonOverPole() {
     // A big polygon over the Arctic
@@ -139,7 +136,7 @@ public class WithinPredicateTest {
     // A more detailed polygon around the Arctic (CAFF polygon, vastly simplified).
     // https://dev.gbif.org/issues/browse/POR-3042/
     new WithinPredicate("POLYGON((-181 50,-180 50,-179 50,-170 51,-150 67,-130 62,-110 59,-90 55,-70 52,-50 59,-30 66,-10 62,10 66,30 66,50 66,70 65,90 64,110 63,130 63,150 62,170 53,178 50,179 50,-181 50))");
-    assertNoGeometryWarnings();
+    assertGeometryWarnings(3);
   }
 
   @Test
@@ -149,12 +146,11 @@ public class WithinPredicateTest {
     assertNoGeometryWarnings();
   }
 
-  // this doesn't work anymore in the WKTReader parser
-  // @Test
+  @Test
   public void testOldDownload() {
     // A polygon that is no longer valid should still be read.
     new WithinPredicate("POLYGON((179.99706 50.42798,175.71729 50.32125,164.69551 54.46408,164.41784 58.23259,152.93250 62.42883,149.28338 61.42635,145.49908 63.19071,135.05338 62.47747,121.47856 63.88828,118.42940 61.72106,92.03338 63.48794,88.04893 65.83859,72.38348 64.83205,35.10765 65.27235,20.53798 66.27026,15.93477 63.64430,13.23228 64.16949,14.02329 66.20159,-3.98112 66.35560,-5.28656 60.41050,-24.62696 63.13864,-26.61983 66.37187,-35.26608 65.57732,-42.55152 58.69327,-51.84071 58.60134,-55.81483 49.91863,-85.07522 48.86776,-87.99834 53.35866,-109.22832 59.11742,-121.84178 55.37470,-134.08814 63.56701,-141.82291 64.54874,-141.93138 68.24804,-158.60607 65.39087,-150.05958 56.55879,-167.23505 51.12098,-180.00299 50.42801,-180.00000 90.00000,180.00000 90.00000,179.99706 50.42798))");
-    assertNoGeometryWarnings();
+    assertGeometryWarnings(1);
   }
 
   private void assertNoGeometryWarnings() {
@@ -164,5 +160,14 @@ public class WithinPredicateTest {
             .filter(e -> e.getMessage().contains("Invalid geometry string"))
             .collect(Collectors.toList());
     assertTrue(warnings.isEmpty());
+  }
+
+  private void assertGeometryWarnings(int expected) {
+    List<ILoggingEvent> warnings =
+      appender.list.stream()
+        .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+        .filter(e -> e.getMessage().contains("Invalid geometry string"))
+        .collect(Collectors.toList());
+    assertEquals(expected, warnings.size());
   }
 }
