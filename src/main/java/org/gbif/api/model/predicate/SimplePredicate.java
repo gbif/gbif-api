@@ -105,9 +105,15 @@ public class SimplePredicate<S extends SearchParameter> implements Predicate {
    *                                  equals
    */
   private void checkNonEqualsComparatorAllowed() {
-    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()) || IsoDateInterval.class.isAssignableFrom(key.type()))) {
+    if (!(Number.class.isAssignableFrom(key.type())
+        || Date.class.isAssignableFrom(key.type())
+        || IsoDateInterval.class.isAssignableFrom(key.type())
+        || OccurrenceSearchParameter.GEOLOGICAL_TIME == key)) {
       throw new IllegalArgumentException(
-        "Only equals comparisons are allowed for search parameter " + key + " of type " + key.type());
+          "Only equals comparisons are allowed for search parameter "
+              + key
+              + " of type "
+              + key.type());
     }
   }
 
