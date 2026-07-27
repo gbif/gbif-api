@@ -56,7 +56,6 @@ public enum StepType {
   VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim"),
   VALIDATOR_VERBATIM_TO_IDENTIFIER("validatorVerbatimToIdentifier"),
   VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted"),
-  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex"),
   VALIDATOR_COLLECT_METRICS("validatorCollectMetrics");
 
   private final String label;
