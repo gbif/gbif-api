@@ -118,38 +118,44 @@
 <span class="source-line-no">105</span><span id="line-105">   *                                  equals</span>
 <span class="source-line-no">106</span><span id="line-106">   */</span>
 <span class="source-line-no">107</span><span id="line-107">  private void checkNonEqualsComparatorAllowed() {</span>
-<span class="source-line-no">108</span><span id="line-108">    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()) || IsoDateInterval.class.isAssignableFrom(key.type()))) {</span>
-<span class="source-line-no">109</span><span id="line-109">      throw new IllegalArgumentException(</span>
-<span class="source-line-no">110</span><span id="line-110">        "Only equals comparisons are allowed for search parameter " + key + " of type " + key.type());</span>
-<span class="source-line-no">111</span><span id="line-111">    }</span>
-<span class="source-line-no">112</span><span id="line-112">  }</span>
-<span class="source-line-no">113</span><span id="line-113"></span>
-<span class="source-line-no">114</span><span id="line-114">  @Override</span>
-<span class="source-line-no">115</span><span id="line-115">  public boolean equals(Object o) {</span>
-<span class="source-line-no">116</span><span id="line-116">    if (this == o) {</span>
-<span class="source-line-no">117</span><span id="line-117">      return true;</span>
-<span class="source-line-no">118</span><span id="line-118">    }</span>
-<span class="source-line-no">119</span><span id="line-119">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="source-line-no">120</span><span id="line-120">      return false;</span>
-<span class="source-line-no">121</span><span id="line-121">    }</span>
-<span class="source-line-no">122</span><span id="line-122">    SimplePredicate&lt;S&gt; that = (SimplePredicate&lt;S&gt;) o;</span>
-<span class="source-line-no">123</span><span id="line-123">    return key == that.key &amp;&amp; Objects.equals(value, that.value) &amp;&amp; matchCase == that.matchCase;</span>
-<span class="source-line-no">124</span><span id="line-124">  }</span>
-<span class="source-line-no">125</span><span id="line-125"></span>
-<span class="source-line-no">126</span><span id="line-126">  @Override</span>
-<span class="source-line-no">127</span><span id="line-127">  public int hashCode() {</span>
-<span class="source-line-no">128</span><span id="line-128">    return Objects.hash(key, value, matchCase);</span>
-<span class="source-line-no">129</span><span id="line-129">  }</span>
-<span class="source-line-no">130</span><span id="line-130"></span>
-<span class="source-line-no">131</span><span id="line-131">  @Override</span>
-<span class="source-line-no">132</span><span id="line-132">  public String toString() {</span>
-<span class="source-line-no">133</span><span id="line-133">    return new StringJoiner(", ", this.getClass().getSimpleName() + "[", "]")</span>
-<span class="source-line-no">134</span><span id="line-134">      .add("key=" + key)</span>
-<span class="source-line-no">135</span><span id="line-135">      .add("value='" + value + "'")</span>
-<span class="source-line-no">136</span><span id="line-136">      .add("matchCase='" + matchCase + "'")</span>
-<span class="source-line-no">137</span><span id="line-137">      .toString();</span>
-<span class="source-line-no">138</span><span id="line-138">  }</span>
-<span class="source-line-no">139</span><span id="line-139">}</span>
+<span class="source-line-no">108</span><span id="line-108">    if (!(Number.class.isAssignableFrom(key.type())</span>
+<span class="source-line-no">109</span><span id="line-109">        || Date.class.isAssignableFrom(key.type())</span>
+<span class="source-line-no">110</span><span id="line-110">        || IsoDateInterval.class.isAssignableFrom(key.type())</span>
+<span class="source-line-no">111</span><span id="line-111">        || OccurrenceSearchParameter.GEOLOGICAL_TIME == key)) {</span>
+<span class="source-line-no">112</span><span id="line-112">      throw new IllegalArgumentException(</span>
+<span class="source-line-no">113</span><span id="line-113">          "Only equals comparisons are allowed for search parameter "</span>
+<span class="source-line-no">114</span><span id="line-114">              + key</span>
+<span class="source-line-no">115</span><span id="line-115">              + " of type "</span>
+<span class="source-line-no">116</span><span id="line-116">              + key.type());</span>
+<span class="source-line-no">117</span><span id="line-117">    }</span>
+<span class="source-line-no">118</span><span id="line-118">  }</span>
+<span class="source-line-no">119</span><span id="line-119"></span>
+<span class="source-line-no">120</span><span id="line-120">  @Override</span>
+<span class="source-line-no">121</span><span id="line-121">  public boolean equals(Object o) {</span>
+<span class="source-line-no">122</span><span id="line-122">    if (this == o) {</span>
+<span class="source-line-no">123</span><span id="line-123">      return true;</span>
+<span class="source-line-no">124</span><span id="line-124">    }</span>
+<span class="source-line-no">125</span><span id="line-125">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="source-line-no">126</span><span id="line-126">      return false;</span>
+<span class="source-line-no">127</span><span id="line-127">    }</span>
+<span class="source-line-no">128</span><span id="line-128">    SimplePredicate&lt;S&gt; that = (SimplePredicate&lt;S&gt;) o;</span>
+<span class="source-line-no">129</span><span id="line-129">    return key == that.key &amp;&amp; Objects.equals(value, that.value) &amp;&amp; matchCase == that.matchCase;</span>
+<span class="source-line-no">130</span><span id="line-130">  }</span>
+<span class="source-line-no">131</span><span id="line-131"></span>
+<span class="source-line-no">132</span><span id="line-132">  @Override</span>
+<span class="source-line-no">133</span><span id="line-133">  public int hashCode() {</span>
+<span class="source-line-no">134</span><span id="line-134">    return Objects.hash(key, value, matchCase);</span>
+<span class="source-line-no">135</span><span id="line-135">  }</span>
+<span class="source-line-no">136</span><span id="line-136"></span>
+<span class="source-line-no">137</span><span id="line-137">  @Override</span>
+<span class="source-line-no">138</span><span id="line-138">  public String toString() {</span>
+<span class="source-line-no">139</span><span id="line-139">    return new StringJoiner(", ", this.getClass().getSimpleName() + "[", "]")</span>
+<span class="source-line-no">140</span><span id="line-140">      .add("key=" + key)</span>
+<span class="source-line-no">141</span><span id="line-141">      .add("value='" + value + "'")</span>
+<span class="source-line-no">142</span><span id="line-142">      .add("matchCase='" + matchCase + "'")</span>
+<span class="source-line-no">143</span><span id="line-143">      .toString();</span>
+<span class="source-line-no">144</span><span id="line-144">  }</span>
+<span class="source-line-no">145</span><span id="line-145">}</span>
 
 
 
