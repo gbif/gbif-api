@@ -181,7 +181,7 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * Table/Resource schema of a resource published as part of a DwC-DP dataset.
    */
-  DWCDP_RESOURCE_SCHEMA(String.class);
+  DWC_DP_RESOURCE_SCHEMA(String.class);
 
   DatasetSearchParameter(Class<?> type) {
     this.type = type;
