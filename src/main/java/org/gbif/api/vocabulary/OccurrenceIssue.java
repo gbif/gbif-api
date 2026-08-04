@@ -518,6 +518,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
   /** Set when {@code target_gene} does not resolve to a concept in the vocabulary. */
   TARGET_GENE_INVALID(INFO, MixsTerm.target_gene),
 
+  /** Indicates that duplicate nucleotide sequences have been found and collapsed. */
+  DUPLICATE_NUCLEOTIDE_SEQUENCES_COLLAPSED(INFO, GbifDnaTerm.dna_sequence, MixsTerm.target_gene),
+
   /**
    * Set when an infinite loop is detected in the event lineage.
    */
