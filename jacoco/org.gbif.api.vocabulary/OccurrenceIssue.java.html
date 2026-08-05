@@ -518,10 +518,13 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /** Set when {@code target_gene} does not resolve to a concept in the vocabulary. */
 <span class="fc" id="L519">  TARGET_GENE_INVALID(INFO, MixsTerm.target_gene),</span>
 
+  /** Indicates that duplicate nucleotide sequences have been found and collapsed. */
+<span class="fc" id="L522">  DUPLICATE_NUCLEOTIDE_SEQUENCES_COLLAPSED(INFO, GbifDnaTerm.dna_sequence, MixsTerm.target_gene),</span>
+
   /**
    * Set when an infinite loop is detected in the event lineage.
    */
-<span class="fc" id="L524">  PARENT_EVENT_INFINITE_LINEAGE(INFO, DwcTerm.parentEventID);</span>
+<span class="fc" id="L527">  PARENT_EVENT_INFINITE_LINEAGE(INFO, DwcTerm.parentEventID);</span>
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
@@ -529,7 +532,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    */
   private static class TermsGroup {
 
-<span class="fc" id="L532">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
+<span class="fc" id="L535">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -537,7 +540,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.verbatimCoordinates
     };
 
-<span class="fc" id="L540">    static final Term[] COORDINATES_TERMS = {</span>
+<span class="fc" id="L543">    static final Term[] COORDINATES_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -546,9 +549,9 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.geodeticDatum
     };
 
-<span class="fc" id="L549">    static final Term[] COUNTRY_TERMS = {DwcTerm.country, DwcTerm.countryCode};</span>
+<span class="fc" id="L552">    static final Term[] COUNTRY_TERMS = {DwcTerm.country, DwcTerm.countryCode};</span>
 
-<span class="fc" id="L551">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
+<span class="fc" id="L554">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -559,7 +562,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L562">    static final Term[] RECORDED_DATE_TERMS = {</span>
+<span class="fc" id="L565">    static final Term[] RECORDED_DATE_TERMS = {</span>
       DwcTerm.eventDate,
       DwcTerm.year,
       DwcTerm.month,
@@ -568,7 +571,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.endDayOfYear
     };
 
-<span class="fc" id="L571">    static final Term[] TAXONOMY_TERMS = {</span>
+<span class="fc" id="L574">    static final Term[] TAXONOMY_TERMS = {</span>
       DwcTerm.kingdom,
       DwcTerm.phylum,
       DwcTerm.class_,
@@ -585,11 +588,11 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.taxonID,
     };
 
-<span class="fc" id="L588">    static final Term[] INSTITUTION_TERMS = {</span>
+<span class="fc" id="L591">    static final Term[] INSTITUTION_TERMS = {</span>
       DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode
     };
 
-<span class="fc" id="L592">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
+<span class="fc" id="L595">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
   }
 
   private final Set&lt;Term&gt; relatedTerms;
@@ -597,45 +600,45 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   private final boolean isDeprecated;
 
   /** {@link OccurrenceIssue} not linked to any specific {@link Term}. */
-<span class="fc" id="L600">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
-<span class="fc" id="L601">    this.severity = severity;</span>
-<span class="fc" id="L602">    this.relatedTerms = Collections.emptySet();</span>
-<span class="fc" id="L603">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L604">  }</span>
+<span class="fc" id="L603">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
+<span class="fc" id="L604">    this.severity = severity;</span>
+<span class="fc" id="L605">    this.relatedTerms = Collections.emptySet();</span>
+<span class="fc" id="L606">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L607">  }</span>
 
   /** {@link OccurrenceIssue} linked to the provided {@link Term}. */
-<span class="fc" id="L607">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
-<span class="fc" id="L608">    this.severity = severity;</span>
-<span class="fc" id="L609">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
-<span class="fc" id="L610">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L611">  }</span>
+<span class="fc" id="L610">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
+<span class="fc" id="L611">    this.severity = severity;</span>
+<span class="fc" id="L612">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
+<span class="fc" id="L613">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L614">  }</span>
 
   @Override
   public String getId() {
-<span class="fc" id="L615">    return name();</span>
+<span class="fc" id="L618">    return name();</span>
   }
 
   @Override
   public Set&lt;Term&gt; getRelatedTerms() {
-<span class="fc" id="L620">    return relatedTerms;</span>
+<span class="fc" id="L623">    return relatedTerms;</span>
   }
 
   @Override
   public InterpretationRemarkSeverity getSeverity() {
-<span class="fc" id="L625">    return severity;</span>
+<span class="fc" id="L628">    return severity;</span>
   }
 
   @Override
   public boolean isDeprecated() {
-<span class="fc" id="L630">    return isDeprecated;</span>
+<span class="fc" id="L633">    return isDeprecated;</span>
   }
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
-<span class="fc" id="L636">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
-<span class="fc" id="L637">      Collections.unmodifiableList(</span>
-<span class="fc" id="L638">          Arrays.asList(</span>
+<span class="fc" id="L639">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
+<span class="fc" id="L640">      Collections.unmodifiableList(</span>
+<span class="fc" id="L641">          Arrays.asList(</span>
               ZERO_COORDINATE,
               COORDINATE_OUT_OF_RANGE,
               COORDINATE_INVALID,
@@ -645,12 +648,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
               PRESUMED_NEGATED_LATITUDE));
 
   /** All issues related to taxonomic fields. */
-<span class="fc" id="L648">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
-<span class="fc" id="L649">      Set.of(OccurrenceIssue.values()).stream()</span>
-<span class="fc" id="L650">          .filter(</span>
+<span class="fc" id="L651">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
+<span class="fc" id="L652">      Set.of(OccurrenceIssue.values()).stream()</span>
+<span class="fc" id="L653">          .filter(</span>
               issue -&gt;
-<span class="fc" id="L652">                  issue.getRelatedTerms().stream()</span>
-<span class="fc" id="L653">                      .anyMatch(term -&gt; Set.of(TermsGroup.TAXONOMY_TERMS).contains(term)))</span>
-<span class="fc" id="L654">          .collect(Collectors.toList());</span>
+<span class="fc" id="L655">                  issue.getRelatedTerms().stream()</span>
+<span class="fc" id="L656">                      .anyMatch(term -&gt; Set.of(TermsGroup.TAXONOMY_TERMS).contains(term)))</span>
+<span class="fc" id="L657">          .collect(Collectors.toList());</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
