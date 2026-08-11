@@ -498,7 +498,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.latestAgeOrHighestStage),
 
   /** Set when natural language text is detected in {@code dna_sequence}. */
-  NUCLEOTIDE_SEQUENCE_NATURAL_LANGUAGE(INFO, GbifDnaTerm.dna_sequence),
+  NUCLEOTIDE_SEQUENCE_NATURAL_LANGUAGE(ERROR, GbifDnaTerm.dna_sequence),
 
   /** Set when leading or trailing sequence characters are trimmed. */
   NUCLEOTIDE_SEQUENCE_ENDS_TRIMMED(INFO, GbifDnaTerm.dna_sequence),
@@ -507,16 +507,19 @@ public enum OccurrenceIssue implements InterpretationRemark {
   NUCLEOTIDE_SEQUENCE_GAPS_REMOVED(INFO, GbifDnaTerm.dna_sequence),
 
   /** Set when the sequence is invalid after normalization and validation. */
-  NUCLEOTIDE_SEQUENCE_INVALID(INFO, GbifDnaTerm.dna_sequence),
+  NUCLEOTIDE_SEQUENCE_INVALID(ERROR, GbifDnaTerm.dna_sequence),
 
   /** Set when the fraction of N bases exceeds the configured threshold. */
-  NUCLEOTIDE_SEQUENCE_HIGH_N_FRACTION(INFO, GbifDnaTerm.dna_sequence),
+  NUCLEOTIDE_SEQUENCE_HIGH_N_FRACTION(WARNING, GbifDnaTerm.dna_sequence),
 
   /** Set when the fraction of non-ACGTN bases exceeds the configured threshold. */
-  NUCLEOTIDE_SEQUENCE_HIGH_AMBIGUITY(INFO, GbifDnaTerm.dna_sequence),
+  NUCLEOTIDE_SEQUENCE_HIGH_AMBIGUITY(WARNING, GbifDnaTerm.dna_sequence),
 
   /** Set when {@code target_gene} does not resolve to a concept in the vocabulary. */
-  TARGET_GENE_INVALID(INFO, MixsTerm.target_gene),
+  TARGET_GENE_INVALID(WARNING, MixsTerm.target_gene),
+
+  /** Indicates that duplicate nucleotide sequences have been found and collapsed. */
+  DUPLICATE_NUCLEOTIDE_SEQUENCES_COLLAPSED(WARNING, GbifDnaTerm.dna_sequence, MixsTerm.target_gene),
 
   /**
    * Set when an infinite loop is detected in the event lineage.
