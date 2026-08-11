@@ -15,7 +15,6 @@
  */
 package org.gbif.api.model.registry.search;
 
-import java.util.Set;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
@@ -137,5 +136,9 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   public void addCategory(String category) {
     addParameter(DatasetSearchParameter.CATEGORY, category);
+  }
+
+  public void addMachineTagName(String machineTagName) {
+    addParameter(DatasetSearchParameter.MACHINE_TAG_NAME, machineTagName);
   }
 }

@@ -21,6 +21,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.License;
 
 import java.time.LocalDateTime;
@@ -177,6 +178,16 @@ public enum DatasetSearchParameter implements SearchParameter {
    * Category of the dataset.
    */
   CATEGORY(String.class),
+
+  MACHINE_TAG_NAMESPACE(String.class),
+
+  MACHINE_TAG_NAME(String.class),
+
+  MACHINE_TAG_VALUE(String.class),
+
+  IDENTIFIER(String.class),
+
+  IDENTIFIER_TYPE(IdentifierType.class),
 
   /**
    * Table/Resource schema of a resource published as part of a DwC-DP dataset.
