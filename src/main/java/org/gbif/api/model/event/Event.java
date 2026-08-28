@@ -13,27 +13,14 @@
  */
 package org.gbif.api.model.event;
 
-import org.gbif.api.annotation.Experimental;
-import org.gbif.api.model.common.Identifier;
-import org.gbif.api.model.common.MediaObject;
-import org.gbif.api.model.occurrence.AgentIdentifier;
-import org.gbif.api.model.occurrence.Gadm;
-import org.gbif.api.model.occurrence.MeasurementOrFact;
-import org.gbif.api.model.occurrence.Occurrence;
-import org.gbif.api.model.occurrence.OccurrenceRelation;
-import org.gbif.api.model.occurrence.VerbatimOccurrence;
-import org.gbif.api.util.IsoDateInterval;
-import org.gbif.api.vocabulary.BasisOfRecord;
-import org.gbif.api.vocabulary.Continent;
-import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.License;
-import org.gbif.api.vocabulary.OccurrenceIssue;
-import org.gbif.api.vocabulary.OccurrenceStatus;
-import org.gbif.api.vocabulary.Sex;
-import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.Term;
-import org.gbif.dwc.terms.UnknownTerm;
-
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URI;
@@ -50,15 +37,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import jakarta.annotation.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.gbif.api.model.common.Identifier;
@@ -248,6 +226,43 @@ public class Event extends VerbatimOccurrence {
   private String preparations;
   private String samplingProtocol;
   private List<Humboldt> humboldt = new ArrayList<>();
+
+  @Schema(
+    description = "The 2-letter country code (as per ISO-3166-1) of the country, territory or area in which the " +
+      "occurrence was recorded.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/countryCode"
+    )
+  )
+  @Nullable
+  @JsonProperty("countryCode")
+  public Country getCountry() {
+    return country;
+  }
+
+  /**
+    * Renders the country title as a JSON property country in addition to the ISO 3166 2 letter countryCode being
+   * serialized by the regular country Java property.
+   * Made private to use it only for JSON serialization and not within Java code.
+   */
+  @Schema(
+    description = "The title (as per ISO-3166-1) of the country, territory or area in which the " +
+      "occurrence was recorded.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/country"
+    )
+  )
+  @Nullable
+  @JsonProperty("country")
+  private String getCountryTitle() {
+    return country == null ? null : country.getTitle();
+  }
+
+  private void setCountryTitle(String country) {
+    // ignore, setter only to avoid JSON being written into the fields map
+  }
 
   /**
    * Convenience method checking if any spatial validation rule has not passed.
