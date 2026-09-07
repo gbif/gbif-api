@@ -1235,8 +1235,7 @@ public class Dataset
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
         && license == dataset.license
         && Objects.equals(dwca, dataset.dwca)
-        && Objects.equals(category, dataset.category)
-        && Objects.equals(approximateCounts, dataset.approximateCounts);
+        && Objects.equals(category, dataset.category);
   }
 
   @Override
