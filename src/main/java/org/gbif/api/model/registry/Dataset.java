@@ -24,7 +24,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.DOI;
@@ -467,6 +469,18 @@ public class Dataset
     accessMode = Schema.AccessMode.READ_ONLY
   )
   private Set<String> category;
+
+  @Schema(
+    description =
+        "Approximate record counts for this dataset, sourced from the dataset search index. "
+            + "Values are snapshots taken at index time and may lag live occurrence or checklist data. "
+            + "Useful to avoid extra calls for occurrence and name-usage totals; not authoritative.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
+  @Nullable
+  @Getter
+  @Setter
+  private ApproximateCounts approximateCounts;
 
   @Override
   public UUID getKey() {
@@ -1352,6 +1366,7 @@ public class Dataset
         .add("license=" + license)
         .add("dwca=" + dwca)
         .add("category=" + category)
+        .add("approximateCounts=" + approximateCounts)
         .toString();
   }
 
