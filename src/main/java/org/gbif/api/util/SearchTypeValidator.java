@@ -13,11 +13,8 @@
  */
 package org.gbif.api.util;
 
-import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.model.occurrence.geo.DistanceUnit;
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.Language;
+import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
+import static org.gbif.api.util.IsoDateParsingUtils.SIMPLE_ISO_DATE_STR_PATTERN;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -30,10 +27,16 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.occurrence.geo.DistanceUnit;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Language;
 import org.locationtech.jts.algorithm.Orientation;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LinearRing;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.operation.valid.IsValidOp;
@@ -43,9 +46,6 @@ import org.locationtech.spatial4j.exception.InvalidShapeException;
 import org.locationtech.spatial4j.io.WKTReader;
 import org.locationtech.spatial4j.shape.Shape;
 import org.locationtech.spatial4j.shape.jts.JtsGeometry;
-
-import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
-import static org.gbif.api.util.IsoDateParsingUtils.SIMPLE_ISO_DATE_STR_PATTERN;
 
 /**
  * Utility class to do basic validation of all search enum based values.
@@ -402,25 +402,54 @@ public class SearchTypeValidator {
       throw new IllegalArgumentException("Polygon with zero area: " + polygon.toText());
     }
 
+    polygon = fixRingsOrder(polygon);
+
     // Exterior ring must be anticlockwise
-    boolean isCCW = Orientation.isCCW(polygon.getExteriorRing().getCoordinates());
+    boolean isCCW = isLinearRingCCW(polygon.getExteriorRing());
     if (!isCCW) {
-      String reversedText = polygon.getExteriorRing().reverse().toText();
-      throw new IllegalArgumentException("Polygon with clockwise exterior ring: " + wellKnownText +
-        ". Did you mean these coordinates?  (Note this is only part of the polygon or multipolygon you provided.) " +
-        reversedText);
+        String reversedText = polygon.getExteriorRing().reverse().toText();
+        throw new IllegalArgumentException(
+            "Polygon with clockwise exterior ring: "
+                + wellKnownText
+                + ". Did you mean these coordinates?  (Note this is only part of the polygon or multipolygon you provided.) "
+                + reversedText);
     }
 
     // Interior rings must be clockwise
     for (int r = 0; r < polygon.getNumInteriorRing(); r++) {
-      isCCW = Orientation.isCCW(polygon.getInteriorRingN(r).getCoordinates());
+      isCCW = isLinearRingCCW(polygon.getInteriorRingN(r));
       if (isCCW) {
-        String reversedText = polygon.getInteriorRingN(r).reverse().toText();
-        throw new IllegalArgumentException("Polygon with anticlockwise interior ring: " + wellKnownText +
-          ". Did you mean these coordinates? (Note this is only part of the polygon or multipolygon you provided.) " +
-          reversedText);
+          String reversedText = polygon.getInteriorRingN(r).reverse().toText();
+          throw new IllegalArgumentException(
+              "Polygon with anticlockwise interior ring: "
+                  + wellKnownText
+                  + ". Did you mean these coordinates? (Note this is only part of the polygon or multipolygon you provided.) "
+                  + reversedText);
       }
     }
+  }
+
+  private static boolean isLinearRingCCW(LinearRing linearRing) {
+    return Orientation.isCCW(linearRing.getCoordinates());
+  }
+
+  private static Polygon fixRingsOrder(Polygon polygon) {
+    GeometryFactory gf = polygon.getFactory();
+
+    // Exterior ring must be anticlockwise
+    LinearRing exterior = polygon.getExteriorRing();
+    if (!isLinearRingCCW(exterior)) {
+      exterior = exterior.reverse();
+    }
+
+    // Interior rings must be clockwise
+    LinearRing[] holes = new LinearRing[polygon.getNumInteriorRing()];
+    for (int i = 0; i < holes.length; i++) {
+      LinearRing hole = polygon.getInteriorRingN(i);
+      holes[i] = isLinearRingCCW(hole) ? hole.reverse() : hole;
+    }
+
+    return gf.createPolygon(exterior, holes);
   }
 
   /**
