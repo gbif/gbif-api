@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.predicate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
@@ -87,8 +91,14 @@ public class SimplePredicate<S extends SearchParameter> implements Predicate {
    * This is an experimental feature and its implementation map change or be removed at any time.
    */
   @Experimental
+  @JsonIgnore
   public Boolean isMatchCase() {
     return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
+  }
+
+  @JsonProperty("matchCase")
+  public Boolean getMatchCase() {
+    return matchCase;
   }
 
   /**
