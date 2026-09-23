@@ -333,7 +333,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter IS_SEQUENCED = new OccurrenceSearchParameter("IS_SEQUENCED", Boolean.class);
 
   /**
-   * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for
+   * A taxon key from the selected taxonomy (e.g. Catalogue of Life). All included and synonym taxa are included in the search, so a search for
    * aves with taxonKey=212 will match all birds, no matter which species.
    */
   public final static OccurrenceSearchParameter TAXON_KEY = new OccurrenceSearchParameter("TAXON_KEY", String.class);
@@ -344,42 +344,42 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter ACCEPTED_TAXON_KEY = new OccurrenceSearchParameter("ACCEPTED_TAXON_KEY", String.class);
 
   /**
-   * A kingdom key from the GBIF backbone.
+   * A kingdom key from the selected taxonomy (e.g. Catalogue of Life).
    */
   public final static OccurrenceSearchParameter KINGDOM_KEY = new OccurrenceSearchParameter("KINGDOM_KEY", String.class);
 
   /**
-   * A phylum key from the GBIF backbone.
+   * A phylum key from the selected taxonomy (e.g. Catalogue of Life).
    */
   public final static OccurrenceSearchParameter PHYLUM_KEY = new OccurrenceSearchParameter("PHYLUM_KEY", String.class);
 
   /**
-   * A class key from the GBIF backbone.
+   * A class key from the selected taxonomy (e.g. Catalogue of Life).
    */
   public final static OccurrenceSearchParameter CLASS_KEY = new OccurrenceSearchParameter("CLASS_KEY", String.class);
 
   /**
-   * A order key from the GBIF backbone.
+   * A order key from the selected taxonomy (e.g. Catalogue of Life).
    */
   public final static OccurrenceSearchParameter ORDER_KEY = new OccurrenceSearchParameter("ORDER_KEY", String.class);
 
   /**
-   * A family key from the GBIF backbone.
+   * A family key from the selected taxonomy (e.g. Catalogue of Life).
    */
   public final static OccurrenceSearchParameter FAMILY_KEY = new OccurrenceSearchParameter("FAMILY_KEY", String.class);
 
   /**
-   * A genus key from the GBIF backbone.
+   * A genus key from the selected taxonomy (e.g. Catalogue of Life).
    */
   public final static OccurrenceSearchParameter GENUS_KEY = new OccurrenceSearchParameter("GENUS_KEY", String.class);
 
   /**
-   * A subgenus key from the GBIF backbone.
+   * A subgenus key from the selected taxonomy (e.g. Catalogue of Life).
    */
   public final static OccurrenceSearchParameter SUBGENUS_KEY = new OccurrenceSearchParameter("SUBGENUS_KEY", String.class);
 
   /**
-   * A species key from the GBIF backbone.
+   * A species key from the selected taxonomy (e.g. Catalogue of Life).
    */
   public final static OccurrenceSearchParameter SPECIES_KEY = new OccurrenceSearchParameter("SPECIES_KEY", String.class);
 
