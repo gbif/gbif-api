@@ -168,7 +168,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Map<String, Classification> classifications;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the most specific " +
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the most specific " +
       "(lowest rank) taxon for this occurrence.  This could be a synonym, see `acceptedTaxonKey`.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -179,7 +179,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer taxonKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the kingdom of this occurrence.",
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the kingdom of this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -189,7 +189,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer kingdomKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the phylum of this occurrence.",
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the phylum of this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -199,7 +199,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer phylumKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the class of this" +
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the class of this" +
       "occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -210,7 +210,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer classKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the order of this" +
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the order of this" +
       "occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -221,7 +221,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer orderKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the family of this" +
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the family of this" +
       "occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -232,7 +232,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer familyKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the genus of this" +
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the genus of this" +
       "occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -243,7 +243,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer genusKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the subgenus of this" +
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the subgenus of this" +
       "occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -254,7 +254,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer subgenusKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the species of this" +
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the species of this" +
       "occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -265,7 +265,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer speciesKey;
 
   @Schema(
-    description = "A taxon key from the selected taxonomy for the accepted taxon of " +
+    description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the accepted taxon of " +
       "this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -279,7 +279,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The scientific name (including authorship) for the taxon from the " +
-      "selected taxonomy matched to this occurrence.  This could be a synonym, see " +
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.  This could be a synonym, see " +
       "also `acceptedScientificName`.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -290,7 +290,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The scientific name authorship for the taxon from the " +
-      "selected taxonomy matched to this occurrence.  This could be a synonym, see " +
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.  This could be a synonym, see " +
       "also `acceptedScientificName`.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
@@ -301,7 +301,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The accepted scientific name (including authorship) for the taxon from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -311,7 +311,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The kingdom name (excluding authorship) for the kingdom from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -321,7 +321,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The phylum name (excluding authorship) for the phylum from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -331,7 +331,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The class name (excluding authorship) for the class from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -342,7 +342,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The order name (excluding authorship) for the order from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -352,7 +352,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The family name (excluding authorship) for the family from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -362,7 +362,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The genus name (excluding authorship) for the genus from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -372,7 +372,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The subgenus name (excluding authorship) for the subgenus from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -382,7 +382,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The species name (excluding authorship) for the species from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/"
@@ -394,7 +394,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The genus name part of the species name from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/genericName"
@@ -404,7 +404,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The specific name part of the species name from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/specificEpithet"
@@ -414,7 +414,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The infraspecific name part of the species name from the " +
-      "selected taxonomy matched to this occurrence.",
+      "selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/infraspecificEpithet"

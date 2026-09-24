@@ -175,7 +175,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may
+   * The scientificNameID was not used when mapping the record to the taxonomy. This may
    * indicate one of
    *
    * <ul>
@@ -191,7 +191,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, DwcTerm.scientificNameID),
 
   /**
-   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate
+   * The taxonConceptID was not used when mapping the record to the taxonomy. This may indicate
    * one of
    *
    * <ul>
@@ -207,7 +207,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, DwcTerm.taxonConceptID),
 
   /**
-   * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * The taxonID was not used when mapping the record to the taxonomy. This may indicate one of
    *
    * <ul>
    *   <li>The ID uses a pattern not configured for use by GBIF
@@ -273,9 +273,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The GBIF Backbone concept was found using the scientificNameID, taxonID or taxonConceptID, but
+   * The taxon concept was found using the scientificNameID, taxonID or taxonConceptID, but
    * it differs from what would have been found if the classification names on the record were used.
-   * This may indicate a gap in the GBIF backbone, a poor mapping between the checklist and the
+   * This may indicate a gap in the taxonomy, a poor mapping between the checklist and the
    * backbone, or a mismatch between the classification names and the declared IDs (scientificNameID
    * or taxonConceptID) on the occurrence record itself.
    *
