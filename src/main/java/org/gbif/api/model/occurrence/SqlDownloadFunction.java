@@ -6,6 +6,7 @@ package org.gbif.api.model.occurrence;
 public enum SqlDownloadFunction {
   // Builtin function used in classification queries, not known by Calcite.
   ARRAYS_OVERLAP("ARRAYS_OVERLAP"),
+  ARRAYS_AGG("ARRAYS_AGG"),
 
   // GBIF custom functions
   DEGREE_MINUTE_SECOND_GRID_CELL_CODE("GBIF_DMSGCode"),
