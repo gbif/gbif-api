@@ -38,6 +38,8 @@ import java.util.List;
  * <li>DiGIR</li>
  * <li>DiGIR (Manis)</li>
  * <li>EML</li>
+ * <li>DWC_DP</li>
+ * <li>COLDP</li>
  * </ol>
  */
 public class EndpointPriorityComparator implements Comparator<Endpoint>, Serializable {
@@ -48,6 +50,8 @@ public class EndpointPriorityComparator implements Comparator<Endpoint>, Seriali
   // Priorities from lowest to highest
   public static final List<EndpointType> PRIORITIES = Collections.unmodifiableList(
     Arrays.asList(
+      EndpointType.COLDP,
+      EndpointType.DWC_DP,
       EndpointType.EML,
       EndpointType.DIGIR_MANIS,
       EndpointType.DIGIR,
@@ -55,9 +59,7 @@ public class EndpointPriorityComparator implements Comparator<Endpoint>, Seriali
       EndpointType.TAPIR,
       EndpointType.BIOCASE_XML_ARCHIVE,
       EndpointType.DWC_ARCHIVE,
-      EndpointType.CAMTRAP_DP,
-      EndpointType.DWC_DP,
-      EndpointType.COLDP
+      EndpointType.CAMTRAP_DP
     ));
 
   private static final long serialVersionUID = 8085216142750609841L;
