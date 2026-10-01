@@ -47,11 +47,14 @@ public enum StepType {
 
   // Validator
   VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive"),
+  VALIDATOR_DWCDP_STAGE("validatorDwcdpStage"),
   VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive"),
+  VALIDATOR_VALIDATE_DWCDP("validatorValidateDWCDP"),
   VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim"),
   VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim"),
   VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim"),
   VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim"),
+  VALIDATOR_DWCDP_TO_VERBATIM("validatorDwcdpToVerbatim"),
   VALIDATOR_VERBATIM_TO_IDENTIFIER("validatorVerbatimToIdentifier"),
   VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted"),
   VALIDATOR_COLLECT_METRICS("validatorCollectMetrics");
