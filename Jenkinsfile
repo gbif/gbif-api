@@ -27,6 +27,41 @@ pipeline {
   }
   stages {
 
+    stage('Setup') {
+      steps {
+        script {
+          // Branch-qualified version is workspace-only and is never committed.
+          // Example: feature/foo -> 0.0.7-FEATURE-FOO-SNAPSHOT
+          if (env.BRANCH_NAME != 'dev' && env.BRANCH_NAME != 'master' && !params.RELEASE) {
+            def suffix = env.BRANCH_NAME.replaceAll('[^a-zA-Z0-9.-]', '-').toUpperCase()
+
+            if (!suffix?.trim()) {
+              error("Could not derive a valid version suffix from branch '${env.BRANCH_NAME}'")
+            }
+
+            sh """
+              set -e
+              BASE_VERSION=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
+
+              if [ -z "\${BASE_VERSION}" ]; then
+                echo >&2 "ERROR: Maven returned an empty project version while preparing branch '${env.BRANCH_NAME}'."
+                exit 1
+              fi
+
+              echo "Using feature branch Maven version: \${BASE_VERSION}-${suffix}-SNAPSHOT"
+
+              mvn versions:set \
+                -DnewVersion=\${BASE_VERSION}-${suffix}-SNAPSHOT \
+                -DgenerateBackupPoms=false \
+                -DprocessAllModules=true
+            """
+          }
+
+          echo "Release build: ${params.RELEASE}"
+        }
+      }
+    }
+
     stage('Maven build') {
        when {
         allOf {
