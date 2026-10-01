@@ -25,8 +25,6 @@ public enum StepType {
 
   // Ingestion
   DWCDP_STAGE("dwcdpStage"),
-  @Deprecated
-  NFS_TO_HDFS("nfsToHdfs"),
 
   // Verbatim
   TO_VERBATIM("toVerbatim"),
