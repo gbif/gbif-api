@@ -294,6 +294,13 @@ public class Event extends VerbatimOccurrence {
   }
 
   /**
+   * This private method is needed for jackson deserialization only.
+   */
+  private void setGeodeticDatum(String datum) {
+    // ignore, we have a static WGS84 value
+  }
+
+  /**
    * This private method is only for serialization via jackson and not exposed anywhere else!
    * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.
    */
