@@ -62,6 +62,15 @@ pipeline {
       }
     }
 
+    // spotless:check use the config from motherpom of rachetFrom: origin/master
+    // Somehow origin master is not pulled as part of CI clone in this repo yielding us:
+    /*
+    [ERROR] Failed to execute goal com.diffplug.spotless:spotless-maven-plugin:2.39.0:check
+    (default-cli) on project gbif-api: Execution default-cli of goal
+    com.diffplug.spotless:spotless-maven-plugin:2.39.0:check failed:
+    No such reference 'origin/master' -> [Help 1]
+    */
+    /*
     stage('Maven Spotless') {
       steps {
         withMaven(globalMavenSettingsConfig: 'org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1387378707709',
@@ -71,6 +80,7 @@ pipeline {
         }
       }
     }
+   */
 
     stage('Maven build') {
        when {
