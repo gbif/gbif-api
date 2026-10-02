@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.model.occurrence.Gadm;
@@ -148,6 +149,7 @@ public class Event extends VerbatimOccurrence {
   }
 
   @Data
+  @NoArgsConstructor
   @AllArgsConstructor
   public static class ParentLineage {
     private String id;
@@ -155,6 +157,7 @@ public class Event extends VerbatimOccurrence {
   }
 
   @Data
+  @NoArgsConstructor
   @AllArgsConstructor
   public static class VocabularyConcept {
     private String concept;
