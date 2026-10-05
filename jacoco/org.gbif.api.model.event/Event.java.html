@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.model.occurrence.Gadm;
@@ -59,173 +60,175 @@ import org.gbif.dwc.terms.UnknownTerm;
 /**
  * Event class based on https://dwc.tdwg.org/terms/#event.
  */
-<span class="nc bnc" id="L62" title="All 398 branches missed.">@Data</span>
+<span class="nc bnc" id="L63" title="All 398 branches missed.">@Data</span>
 public class Event extends VerbatimOccurrence {
 
   public static final String GEO_DATUM = &quot;WGS84&quot;;
 
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
-<span class="nc" id="L68">  private static final Set&lt;String&gt; PROPERTIES = Collections.unmodifiableSet(</span>
-<span class="nc" id="L69">    Stream.concat(</span>
+<span class="nc" id="L69">  private static final Set&lt;String&gt; PROPERTIES = Collections.unmodifiableSet(</span>
+<span class="nc" id="L70">    Stream.concat(</span>
       // we need to these json properties manually because we have a fixed getter but no field for it
-<span class="nc" id="L71">      Stream.of(DwcTerm.geodeticDatum.simpleName(), &quot;class&quot;, &quot;countryCode&quot;),</span>
-<span class="nc" id="L72">      Stream.concat(Arrays.stream(Event.class.getDeclaredFields()),</span>
-<span class="nc" id="L73">                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">        .filter(field -&gt; !Modifier.isStatic(field.getModifiers()))</span>
-<span class="nc" id="L75">        .map(Field::getName)).collect(Collectors.toSet()));</span>
+<span class="nc" id="L72">      Stream.of(DwcTerm.geodeticDatum.simpleName(), &quot;class&quot;, &quot;countryCode&quot;),</span>
+<span class="nc" id="L73">      Stream.concat(Arrays.stream(Event.class.getDeclaredFields()),</span>
+<span class="nc" id="L74">                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        .filter(field -&gt; !Modifier.isStatic(field.getModifiers()))</span>
+<span class="nc" id="L76">        .map(Field::getName)).collect(Collectors.toSet()));</span>
 
   public static Event fromOccurrence(Occurrence occurrence) {
-<span class="nc" id="L78">    Event event =new Event();</span>
-<span class="nc" id="L79">    event.setKey(occurrence.getKey());</span>
-<span class="nc" id="L80">    event.setDatasetKey(occurrence.getDatasetKey());</span>
-<span class="nc" id="L81">    event.setPublishingOrgKey(occurrence.getPublishingOrgKey());</span>
-<span class="nc" id="L82">    event.setNetworkKeys(occurrence.getNetworkKeys());</span>
-<span class="nc" id="L83">    event.setDatasetCategory(occurrence.getDatasetCategory());</span>
-<span class="nc" id="L84">    event.setInstallationKey(occurrence.getInstallationKey());</span>
-<span class="nc" id="L85">    event.setPublishingCountry(occurrence.getPublishingCountry());</span>
-<span class="nc" id="L86">    event.setProtocol(occurrence.getProtocol());</span>
-<span class="nc" id="L87">    event.setLastCrawled(occurrence.getLastCrawled());</span>
-<span class="nc" id="L88">    event.setLastParsed(occurrence.getLastParsed());</span>
-<span class="nc" id="L89">    event.setCrawlId(occurrence.getCrawlId());</span>
-<span class="nc" id="L90">    event.setProjectId(occurrence.getProjectId());</span>
-<span class="nc" id="L91">    event.setProgrammeAcronym(occurrence.getProgrammeAcronym());</span>
-<span class="nc" id="L92">    event.setHostingOrganizationKey(occurrence.getHostingOrganizationKey());</span>
-<span class="nc" id="L93">    event.setVerbatimFields(occurrence.getVerbatimFields());</span>
-<span class="nc" id="L94">    event.setExtensions(occurrence.getExtensions());</span>
-<span class="nc" id="L95">    event.setDateIdentified(occurrence.getDateIdentified());</span>
-<span class="nc" id="L96">    event.setDecimalLongitude(occurrence.getDecimalLongitude());</span>
-<span class="nc" id="L97">    event.setDecimalLatitude(occurrence.getDecimalLatitude());</span>
-<span class="nc" id="L98">    event.setCoordinatePrecision(occurrence.getCoordinatePrecision());</span>
-<span class="nc" id="L99">    event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());</span>
-<span class="nc" id="L100">    event.setElevation(occurrence.getElevation());</span>
-<span class="nc" id="L101">    event.setElevationAccuracy(occurrence.getElevationAccuracy());</span>
-<span class="nc" id="L102">    event.setDepth(occurrence.getDepth());</span>
-<span class="nc" id="L103">    event.setDepthAccuracy(occurrence.getDepthAccuracy());</span>
-<span class="nc" id="L104">    event.setContinent(occurrence.getContinent());</span>
-<span class="nc" id="L105">    event.setCountry(occurrence.getCountry());</span>
-<span class="nc" id="L106">    event.setStateProvince(occurrence.getStateProvince());</span>
-<span class="nc" id="L107">    event.setWaterBody(occurrence.getWaterBody());</span>
-<span class="nc" id="L108">    event.setDistanceFromCentroidInMeters(occurrence.getDistanceFromCentroidInMeters());</span>
-<span class="nc" id="L109">    event.setYear(occurrence.getYear());</span>
-<span class="nc" id="L110">    event.setMonth(occurrence.getMonth());</span>
-<span class="nc" id="L111">    event.setDay(occurrence.getDay());</span>
-<span class="nc" id="L112">    event.setEventDate(occurrence.getEventDate());</span>
-<span class="nc" id="L113">    event.setIssues(toEventIssues(occurrence.getIssues()));</span>
-<span class="nc" id="L114">    event.setModified(occurrence.getModified());</span>
-<span class="nc" id="L115">    event.setLastInterpreted(occurrence.getLastInterpreted());</span>
-<span class="nc" id="L116">    event.setReferences(occurrence.getReferences());</span>
-<span class="nc" id="L117">    event.setLicense(occurrence.getLicense());</span>
-<span class="nc" id="L118">    event.setOrganismQuantity(occurrence.getOrganismQuantity());</span>
-<span class="nc" id="L119">    event.setOrganismQuantityType(occurrence.getOrganismQuantityType());</span>
-<span class="nc" id="L120">    event.setSampleSizeUnit(occurrence.getSampleSizeUnit());</span>
-<span class="nc" id="L121">    event.setSampleSizeValue(occurrence.getSampleSizeValue());</span>
-<span class="nc" id="L122">    event.setRelativeOrganismQuantity(occurrence.getRelativeOrganismQuantity());</span>
-<span class="nc" id="L123">    event.setIdentifiers(occurrence.getIdentifiers());</span>
-<span class="nc" id="L124">    event.setMedia(occurrence.getMedia());</span>
-<span class="nc" id="L125">    event.setFacts(occurrence.getFacts());</span>
-<span class="nc" id="L126">    event.setRelations(occurrence.getRelations());</span>
-<span class="nc" id="L127">    event.setGadm(occurrence.getGadm());</span>
-<span class="nc" id="L128">    event.setDatasetID(occurrence.getDatasetID());</span>
-<span class="nc" id="L129">    event.setDatasetName(occurrence.getDatasetName());</span>
-<span class="nc" id="L130">    event.setPreparations(occurrence.getPreparations());</span>
-<span class="nc" id="L131">    event.setSamplingProtocol(occurrence.getSamplingProtocol());</span>
-<span class="nc" id="L132">    return event;</span>
+<span class="nc" id="L79">    Event event =new Event();</span>
+<span class="nc" id="L80">    event.setKey(occurrence.getKey());</span>
+<span class="nc" id="L81">    event.setDatasetKey(occurrence.getDatasetKey());</span>
+<span class="nc" id="L82">    event.setPublishingOrgKey(occurrence.getPublishingOrgKey());</span>
+<span class="nc" id="L83">    event.setNetworkKeys(occurrence.getNetworkKeys());</span>
+<span class="nc" id="L84">    event.setDatasetCategory(occurrence.getDatasetCategory());</span>
+<span class="nc" id="L85">    event.setInstallationKey(occurrence.getInstallationKey());</span>
+<span class="nc" id="L86">    event.setPublishingCountry(occurrence.getPublishingCountry());</span>
+<span class="nc" id="L87">    event.setProtocol(occurrence.getProtocol());</span>
+<span class="nc" id="L88">    event.setLastCrawled(occurrence.getLastCrawled());</span>
+<span class="nc" id="L89">    event.setLastParsed(occurrence.getLastParsed());</span>
+<span class="nc" id="L90">    event.setCrawlId(occurrence.getCrawlId());</span>
+<span class="nc" id="L91">    event.setProjectId(occurrence.getProjectId());</span>
+<span class="nc" id="L92">    event.setProgrammeAcronym(occurrence.getProgrammeAcronym());</span>
+<span class="nc" id="L93">    event.setHostingOrganizationKey(occurrence.getHostingOrganizationKey());</span>
+<span class="nc" id="L94">    event.setVerbatimFields(occurrence.getVerbatimFields());</span>
+<span class="nc" id="L95">    event.setExtensions(occurrence.getExtensions());</span>
+<span class="nc" id="L96">    event.setDateIdentified(occurrence.getDateIdentified());</span>
+<span class="nc" id="L97">    event.setDecimalLongitude(occurrence.getDecimalLongitude());</span>
+<span class="nc" id="L98">    event.setDecimalLatitude(occurrence.getDecimalLatitude());</span>
+<span class="nc" id="L99">    event.setCoordinatePrecision(occurrence.getCoordinatePrecision());</span>
+<span class="nc" id="L100">    event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());</span>
+<span class="nc" id="L101">    event.setElevation(occurrence.getElevation());</span>
+<span class="nc" id="L102">    event.setElevationAccuracy(occurrence.getElevationAccuracy());</span>
+<span class="nc" id="L103">    event.setDepth(occurrence.getDepth());</span>
+<span class="nc" id="L104">    event.setDepthAccuracy(occurrence.getDepthAccuracy());</span>
+<span class="nc" id="L105">    event.setContinent(occurrence.getContinent());</span>
+<span class="nc" id="L106">    event.setCountry(occurrence.getCountry());</span>
+<span class="nc" id="L107">    event.setStateProvince(occurrence.getStateProvince());</span>
+<span class="nc" id="L108">    event.setWaterBody(occurrence.getWaterBody());</span>
+<span class="nc" id="L109">    event.setDistanceFromCentroidInMeters(occurrence.getDistanceFromCentroidInMeters());</span>
+<span class="nc" id="L110">    event.setYear(occurrence.getYear());</span>
+<span class="nc" id="L111">    event.setMonth(occurrence.getMonth());</span>
+<span class="nc" id="L112">    event.setDay(occurrence.getDay());</span>
+<span class="nc" id="L113">    event.setEventDate(occurrence.getEventDate());</span>
+<span class="nc" id="L114">    event.setIssues(toEventIssues(occurrence.getIssues()));</span>
+<span class="nc" id="L115">    event.setModified(occurrence.getModified());</span>
+<span class="nc" id="L116">    event.setLastInterpreted(occurrence.getLastInterpreted());</span>
+<span class="nc" id="L117">    event.setReferences(occurrence.getReferences());</span>
+<span class="nc" id="L118">    event.setLicense(occurrence.getLicense());</span>
+<span class="nc" id="L119">    event.setOrganismQuantity(occurrence.getOrganismQuantity());</span>
+<span class="nc" id="L120">    event.setOrganismQuantityType(occurrence.getOrganismQuantityType());</span>
+<span class="nc" id="L121">    event.setSampleSizeUnit(occurrence.getSampleSizeUnit());</span>
+<span class="nc" id="L122">    event.setSampleSizeValue(occurrence.getSampleSizeValue());</span>
+<span class="nc" id="L123">    event.setRelativeOrganismQuantity(occurrence.getRelativeOrganismQuantity());</span>
+<span class="nc" id="L124">    event.setIdentifiers(occurrence.getIdentifiers());</span>
+<span class="nc" id="L125">    event.setMedia(occurrence.getMedia());</span>
+<span class="nc" id="L126">    event.setFacts(occurrence.getFacts());</span>
+<span class="nc" id="L127">    event.setRelations(occurrence.getRelations());</span>
+<span class="nc" id="L128">    event.setGadm(occurrence.getGadm());</span>
+<span class="nc" id="L129">    event.setDatasetID(occurrence.getDatasetID());</span>
+<span class="nc" id="L130">    event.setDatasetName(occurrence.getDatasetName());</span>
+<span class="nc" id="L131">    event.setPreparations(occurrence.getPreparations());</span>
+<span class="nc" id="L132">    event.setSamplingProtocol(occurrence.getSamplingProtocol());</span>
+<span class="nc" id="L133">    return event;</span>
   }
 
   private static Set&lt;EventIssue&gt; toEventIssues(Collection&lt;OccurrenceIssue&gt; occurrenceIssues) {
-<span class="nc" id="L136">    return occurrenceIssues.stream()</span>
-<span class="nc" id="L137">        .map(</span>
+<span class="nc" id="L137">    return occurrenceIssues.stream()</span>
+<span class="nc" id="L138">        .map(</span>
             occIssue -&gt; {
               try {
-<span class="nc" id="L140">                return EventIssue.valueOf(occIssue.name());</span>
-<span class="nc" id="L141">              } catch (Exception ex) {</span>
+<span class="nc" id="L141">                return EventIssue.valueOf(occIssue.name());</span>
+<span class="nc" id="L142">              } catch (Exception ex) {</span>
                 // we ignore the value
               }
-<span class="nc" id="L144">              return null;</span>
+<span class="nc" id="L145">              return null;</span>
             })
-<span class="nc" id="L146">        .filter(Objects::nonNull)</span>
-<span class="nc" id="L147">        .collect(Collectors.toSet());</span>
+<span class="nc" id="L147">        .filter(Objects::nonNull)</span>
+<span class="nc" id="L148">        .collect(Collectors.toSet());</span>
   }
 
-<span class="nc bnc" id="L150" title="All 22 branches missed.">  @Data</span>
-<span class="nc" id="L151">  @AllArgsConstructor</span>
+<span class="nc bnc" id="L151" title="All 22 branches missed.">  @Data</span>
+<span class="nc" id="L152">  @NoArgsConstructor</span>
+<span class="nc" id="L153">  @AllArgsConstructor</span>
   public static class ParentLineage {
-<span class="nc" id="L153">    private String id;</span>
-<span class="nc" id="L154">    private String eventType;</span>
+<span class="nc" id="L155">    private String id;</span>
+<span class="nc" id="L156">    private String eventType;</span>
   }
 
-<span class="nc bnc" id="L157" title="All 22 branches missed.">  @Data</span>
-<span class="nc" id="L158">  @AllArgsConstructor</span>
+<span class="nc bnc" id="L159" title="All 22 branches missed.">  @Data</span>
+<span class="nc" id="L160">  @NoArgsConstructor</span>
+<span class="nc" id="L161">  @AllArgsConstructor</span>
   public static class VocabularyConcept {
-<span class="nc" id="L160">    private String concept;</span>
-<span class="nc" id="L161">    private Set&lt;String&gt; lineage;</span>
+<span class="nc" id="L163">    private String concept;</span>
+<span class="nc" id="L164">    private Set&lt;String&gt; lineage;</span>
   }
 
-<span class="nc" id="L164">  private String id;</span>
-<span class="nc" id="L165">  private String eventID;</span>
-<span class="nc" id="L166">  private String parentEventID;</span>
-<span class="nc" id="L167">  private Integer startDayOfYear;</span>
-<span class="nc" id="L168">  private Integer endDayOfYear;</span>
-<span class="nc" id="L169">  private String locationID;</span>
-<span class="nc" id="L170">  private String eventType;</span>
-<span class="nc" id="L171">  private List&lt;ParentLineage&gt; parentsLineage;</span>
+<span class="nc" id="L167">  private String id;</span>
+<span class="nc" id="L168">  private String eventID;</span>
+<span class="nc" id="L169">  private String parentEventID;</span>
+<span class="nc" id="L170">  private Integer startDayOfYear;</span>
+<span class="nc" id="L171">  private Integer endDayOfYear;</span>
+<span class="nc" id="L172">  private String locationID;</span>
+<span class="nc" id="L173">  private String eventType;</span>
+<span class="nc" id="L174">  private List&lt;ParentLineage&gt; parentsLineage;</span>
 
   // identification
-<span class="nc" id="L174">  private Date dateIdentified;</span>
+<span class="nc" id="L177">  private Date dateIdentified;</span>
   // location
-<span class="nc" id="L176">  private Double decimalLongitude;</span>
-<span class="nc" id="L177">  private Double decimalLatitude;</span>
+<span class="nc" id="L179">  private Double decimalLongitude;</span>
+<span class="nc" id="L180">  private Double decimalLatitude;</span>
 
   //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795
-<span class="nc" id="L180">  private Double coordinatePrecision;</span>
-<span class="nc" id="L181">  private Double coordinateUncertaintyInMeters;</span>
+<span class="nc" id="L183">  private Double coordinatePrecision;</span>
+<span class="nc" id="L184">  private Double coordinateUncertaintyInMeters;</span>
 
-<span class="nc" id="L183">  private Double elevation;</span>
-<span class="nc" id="L184">  private Double elevationAccuracy;</span>
-<span class="nc" id="L185">  private Double depth;</span>
-<span class="nc" id="L186">  private Double depthAccuracy;</span>
-<span class="nc" id="L187">  private Continent continent;</span>
+<span class="nc" id="L186">  private Double elevation;</span>
+<span class="nc" id="L187">  private Double elevationAccuracy;</span>
+<span class="nc" id="L188">  private Double depth;</span>
+<span class="nc" id="L189">  private Double depthAccuracy;</span>
+<span class="nc" id="L190">  private Continent continent;</span>
   @JsonSerialize(using = Country.IsoSerializer.class)
   @JsonDeserialize(using = Country.IsoDeserializer.class)
   private Country country;
-<span class="nc" id="L191">  private String stateProvince;</span>
-<span class="nc" id="L192">  private String waterBody;</span>
-<span class="nc" id="L193">  private Double distanceFromCentroidInMeters;</span>
+<span class="nc" id="L194">  private String stateProvince;</span>
+<span class="nc" id="L195">  private String waterBody;</span>
+<span class="nc" id="L196">  private Double distanceFromCentroidInMeters;</span>
 
   // recording event
-<span class="nc" id="L196">  private Integer year;</span>
-<span class="nc" id="L197">  private Integer month;</span>
-<span class="nc" id="L198">  private Integer day;</span>
-<span class="nc" id="L199">  private IsoDateInterval eventDate;</span>
+<span class="nc" id="L199">  private Integer year;</span>
+<span class="nc" id="L200">  private Integer month;</span>
+<span class="nc" id="L201">  private Integer day;</span>
+<span class="nc" id="L202">  private IsoDateInterval eventDate;</span>
 
-<span class="nc" id="L201">  private Set&lt;EventIssue&gt; issues = EnumSet.noneOf(EventIssue.class);</span>
+<span class="nc" id="L204">  private Set&lt;EventIssue&gt; issues = EnumSet.noneOf(EventIssue.class);</span>
 
   // record level
-<span class="nc" id="L204">  private Date modified;  // interpreted dc:modified, i.e. date changed in source</span>
-<span class="nc" id="L205">  private Date lastInterpreted;</span>
-<span class="nc" id="L206">  private URI references;</span>
-<span class="nc" id="L207">  private License license;</span>
-<span class="nc" id="L208">  private Double organismQuantity;</span>
-<span class="nc" id="L209">  private String organismQuantityType;</span>
-<span class="nc" id="L210">  private String sampleSizeUnit;</span>
-<span class="nc" id="L211">  private Double sampleSizeValue;</span>
-<span class="nc" id="L212">  private Double relativeOrganismQuantity;</span>
-<span class="nc" id="L213">  private String projectTitle;</span>
-<span class="nc" id="L214">  private String fundingAttribution;</span>
-<span class="nc" id="L215">  private String fundingAttributionID;</span>
+<span class="nc" id="L207">  private Date modified;  // interpreted dc:modified, i.e. date changed in source</span>
+<span class="nc" id="L208">  private Date lastInterpreted;</span>
+<span class="nc" id="L209">  private URI references;</span>
+<span class="nc" id="L210">  private License license;</span>
+<span class="nc" id="L211">  private Double organismQuantity;</span>
+<span class="nc" id="L212">  private String organismQuantityType;</span>
+<span class="nc" id="L213">  private String sampleSizeUnit;</span>
+<span class="nc" id="L214">  private Double sampleSizeValue;</span>
+<span class="nc" id="L215">  private Double relativeOrganismQuantity;</span>
+<span class="nc" id="L216">  private String projectTitle;</span>
+<span class="nc" id="L217">  private String fundingAttribution;</span>
+<span class="nc" id="L218">  private String fundingAttributionID;</span>
 
 
   // interpreted extension data
-<span class="nc" id="L219">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L220">  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L221">  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L222">  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L223">  private Gadm gadm = new Gadm();</span>
-<span class="nc" id="L224">  private String datasetID;</span>
-<span class="nc" id="L225">  private String datasetName;</span>
-<span class="nc" id="L226">  private String preparations;</span>
-<span class="nc" id="L227">  private String samplingProtocol;</span>
-<span class="nc" id="L228">  private List&lt;Humboldt&gt; humboldt = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L222">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L223">  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L224">  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L225">  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L226">  private Gadm gadm = new Gadm();</span>
+<span class="nc" id="L227">  private String datasetID;</span>
+<span class="nc" id="L228">  private String datasetName;</span>
+<span class="nc" id="L229">  private String preparations;</span>
+<span class="nc" id="L230">  private String samplingProtocol;</span>
+<span class="nc" id="L231">  private List&lt;Humboldt&gt; humboldt = new ArrayList&lt;&gt;();</span>
 
   @Schema(
     description = &quot;The 2-letter country code (as per ISO-3166-1) of the country, territory or area in which the &quot; +
@@ -238,7 +241,7 @@ public class Event extends VerbatimOccurrence {
   @Nullable
   @JsonProperty(&quot;countryCode&quot;)
   public Country getCountry() {
-<span class="nc" id="L241">    return country;</span>
+<span class="nc" id="L244">    return country;</span>
   }
 
   /**
@@ -257,12 +260,12 @@ public class Event extends VerbatimOccurrence {
   @Nullable
   @JsonProperty(&quot;country&quot;)
   private String getCountryTitle() {
-<span class="nc bnc" id="L260" title="All 2 branches missed.">    return country == null ? null : country.getTitle();</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">    return country == null ? null : country.getTitle();</span>
   }
 
   private void setCountryTitle(String country) {
     // ignore, setter only to avoid JSON being written into the fields map
-<span class="nc" id="L265">  }</span>
+<span class="nc" id="L268">  }</span>
 
   /**
    * Convenience method checking if any spatial validation rule has not passed.
@@ -270,12 +273,12 @@ public class Event extends VerbatimOccurrence {
    */
   @JsonIgnore
   public boolean hasSpatialIssue() {
-<span class="nc bnc" id="L273" title="All 2 branches missed.">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
-<span class="nc bnc" id="L274" title="All 2 branches missed.">      if (issues.contains(rule)) {</span>
-<span class="nc" id="L275">        return true;</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">      if (issues.contains(rule)) {</span>
+<span class="nc" id="L278">        return true;</span>
       }
-<span class="nc" id="L277">    }</span>
-<span class="nc" id="L278">    return false;</span>
+<span class="nc" id="L280">    }</span>
+<span class="nc" id="L281">    return false;</span>
   }
 
   /**
@@ -284,11 +287,18 @@ public class Event extends VerbatimOccurrence {
    */
   @Nullable
   public String getGeodeticDatum() {
-<span class="nc bnc" id="L287" title="All 2 branches missed.">    if (decimalLatitude != null) {</span>
-<span class="nc" id="L288">      return GEO_DATUM;</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">    if (decimalLatitude != null) {</span>
+<span class="nc" id="L291">      return GEO_DATUM;</span>
     }
-<span class="nc" id="L290">    return null;</span>
+<span class="nc" id="L293">    return null;</span>
   }
+
+  /**
+   * This private method is needed for jackson deserialization only.
+   */
+  private void setGeodeticDatum(String datum) {
+    // ignore, we have a static WGS84 value
+<span class="nc" id="L301">  }</span>
 
   /**
    * This private method is only for serialization via jackson and not exposed anywhere else!
@@ -296,17 +306,17 @@ public class Event extends VerbatimOccurrence {
    */
   @JsonAnyGetter
   private Map&lt;String, String&gt; jsonVerbatimFields() {
-<span class="nc" id="L299">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
-<span class="nc bnc" id="L300" title="All 2 branches missed.">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
-<span class="nc" id="L301">      Term t = prop.getKey();</span>
-<span class="nc bnc" id="L302" title="All 4 branches missed.">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
-<span class="nc" id="L303">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
+<span class="nc" id="L309">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
+<span class="nc" id="L311">      Term t = prop.getKey();</span>
+<span class="nc bnc" id="L312" title="All 4 branches missed.">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
+<span class="nc" id="L313">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
       } else {
         // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!
-<span class="nc" id="L306">        extendedProps.put(t.simpleName(), prop.getValue());</span>
+<span class="nc" id="L316">        extendedProps.put(t.simpleName(), prop.getValue());</span>
       }
-<span class="nc" id="L308">    }</span>
-<span class="nc" id="L309">    return extendedProps;</span>
+<span class="nc" id="L318">    }</span>
+<span class="nc" id="L319">    return extendedProps;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
