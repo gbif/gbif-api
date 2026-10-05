@@ -2,7 +2,6 @@ package org.gbif.api.service.collections;
 
 import java.util.Set;
 import java.util.UUID;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.gbif.api.model.collections.descriptors.Descriptor;
 import org.gbif.api.model.collections.descriptors.DescriptorGroup;
@@ -28,7 +27,7 @@ public interface DescriptorsService {
    * @return key of the created descriptor group.
    */
   long createDescriptorGroup(
-      @NotNull @Valid byte[] descriptorsGroupFile,
+      @NotNull byte[] descriptorsGroupFile,
       @NotNull ExportFormat format,
       @NotNull String title,
       String description,
