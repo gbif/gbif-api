@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -62,6 +63,8 @@ public interface SearchParameter {
         if (opt.isPresent()) {
           return opt.get();
         }
+        // If a non-empty string was provided but could not be mapped, fail with a clear message
+        assetSearchParameterDeSer(p, raw);
       }
 
       // If parameter is an object, try to use the "name" property or map directly
@@ -75,10 +78,20 @@ public interface SearchParameter {
           if (opt.isPresent()) {
             return opt.get();
           }
+          // If a name property is present but cannot be mapped, fail with a clear message
+          assetSearchParameterDeSer(p, name);
         }
       }
 
       return null;
+    }
+
+    /** Helper method to handle the case when a non-empty string is provided but cannot be mapped to a known search parameter. */
+    private void assetSearchParameterDeSer(JsonParser p, String parameter) throws JsonMappingException {
+      // If a non-empty string was provided but could not be mapped, fail with a clear message
+      if (parameter != null && !parameter.trim().isEmpty()) {
+        throw JsonMappingException.from(p,"Unknown search parameter: '" + parameter + "'");
+      }
     }
 
     private Optional<SearchParameter> fromString(String value) {
