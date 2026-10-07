@@ -51,6 +51,7 @@ pipeline {
                 anyOf {
                     branch 'dev';
                     branch 'feature/*';
+                    branch 'coordinates_flipping';
                 }
             }
         }
