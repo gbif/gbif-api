@@ -141,6 +141,15 @@ public enum OccurrenceIssue implements InterpretationRemark {
   /** Latitude appears to be negated, e.g. 32.3 instead of -32.3 */
   PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
+  /** Latitude and longitude suspected to be swapped. */
+  SUSPECTED_SWAPPED_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
+
+  /** Longitude suspected to be negated, e.g. 32.3 instead of -32.3 */
+  SUSPECTED_NEGATED_LONGITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
+
+  /** Latitude suspected to be negated, e.g. 32.3 instead of -32.3 */
+  SUSPECTED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
+
   /**
    * The recorded date specified as the eventDate string and the individual year, month, day and/or
    * startDayOfYear, endDayOfYear are contradictory.
@@ -645,7 +654,10 @@ public enum OccurrenceIssue implements InterpretationRemark {
               COUNTRY_COORDINATE_MISMATCH,
               PRESUMED_SWAPPED_COORDINATE,
               PRESUMED_NEGATED_LONGITUDE,
-              PRESUMED_NEGATED_LATITUDE));
+              PRESUMED_NEGATED_LATITUDE,
+              SUSPECTED_SWAPPED_COORDINATE,
+              SUSPECTED_NEGATED_LONGITUDE,
+              SUSPECTED_NEGATED_LATITUDE));
 
   /** All issues related to taxonomic fields. */
   public static final List<OccurrenceIssue> TAXONOMIC_RULES =

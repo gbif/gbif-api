@@ -105,7 +105,12 @@ public enum TagName {
    * The modification time of the last-available Darwin Core Archive from temporary storage,
    * used to rescue the dataset.
    */
-  ORPHAN_DWCA_CACHE_TIME("crawlerDwcaCacheTime", GBIF_ORPHANS);
+  ORPHAN_DWCA_CACHE_TIME("crawlerDwcaCacheTime", GBIF_ORPHANS),
+
+  /**
+   * It indicates whether the pipelines location interpretation is allowed to flip coordinates or not.
+   */
+  ALLOW_COORDINATES_FLIPPING("allowCoordinatesFlipping", PIPELINES);
 
   private final String name;
 
