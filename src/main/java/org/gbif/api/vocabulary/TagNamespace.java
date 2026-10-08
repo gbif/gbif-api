@@ -71,7 +71,12 @@ public enum TagNamespace {
   /**
    * The Atlas of Living Australia namespace.
    */
-  ALA("ala.org.au");
+  ALA("ala.org.au"),
+
+  /**
+   * Used by pipelines.
+   */
+  PIPELINES("pipelines.gbif.org"),;
 
   private final String namespace;
 
