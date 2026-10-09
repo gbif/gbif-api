@@ -71,32 +71,37 @@ import java.util.List;
   /**
    * The Atlas of Living Australia namespace.
    */
-<span class="nc" id="L74">  ALA(&quot;ala.org.au&quot;);</span>
+<span class="nc" id="L74">  ALA(&quot;ala.org.au&quot;),</span>
+
+  /**
+   * Used by pipelines.
+   */
+<span class="nc" id="L79">  PIPELINES(&quot;pipelines.gbif.org&quot;),;</span>
 
   private final String namespace;
 
-<span class="nc" id="L78">  TagNamespace(String namespace) {</span>
-<span class="nc" id="L79">    this.namespace = namespace;</span>
-<span class="nc" id="L80">  }</span>
+<span class="nc" id="L83">  TagNamespace(String namespace) {</span>
+<span class="nc" id="L84">    this.namespace = namespace;</span>
+<span class="nc" id="L85">  }</span>
 
   /**
    * @return the unique full namespace uri in lower case.
    */
   public String getNamespace() {
-<span class="nc" id="L86">    return namespace;</span>
+<span class="nc" id="L91">    return namespace;</span>
   }
 
   /**
    * Gets the list of {@link TagName} which belongs to the namespace.
    */
   public List&lt;TagName&gt; getPredicates() {
-<span class="nc" id="L93">    List&lt;TagName&gt; tagNames = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">    for (TagName tagName : TagName.values()) {</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">      if (tagName.getNamespace() == this) {</span>
-<span class="nc" id="L96">        tagNames.add(tagName);</span>
+<span class="nc" id="L98">    List&lt;TagName&gt; tagNames = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">    for (TagName tagName : TagName.values()) {</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">      if (tagName.getNamespace() == this) {</span>
+<span class="nc" id="L101">        tagNames.add(tagName);</span>
       }
     }
-<span class="nc" id="L99">    return tagNames;</span>
+<span class="nc" id="L104">    return tagNames;</span>
   }
 
 }
