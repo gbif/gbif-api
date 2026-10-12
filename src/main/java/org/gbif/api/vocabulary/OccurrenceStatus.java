@@ -34,5 +34,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
   @Deprecated
   ABSENT,
   DETECTED,
-  NOT_DETECTED
+  NOT_DETECTED;
+
+  /**
+   * Maps deprecated aliases to the current terms: {@link #PRESENT}→{@link #DETECTED},
+   * {@link #ABSENT}→{@link #NOT_DETECTED}.
+   */
+  public OccurrenceStatus normalize() {
+    if (this == ABSENT || this == NOT_DETECTED) {
+      return NOT_DETECTED;
+    }
+    return DETECTED;
+  }
 }
