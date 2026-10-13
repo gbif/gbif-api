@@ -22,15 +22,28 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @see <a href="https://rs.gbif.org/vocabulary/gbif/occurrence_status/">rs.gbif.org vocabulary</a>
  */
 @Schema(
-  description = "A statement about the presence or absence of a Taxon at a Location.\n\n" +
+  description = "A statement about whether a Taxon was detected at a Location.\n\n" +
     "For definitions, see the [GBIF occurrence status vocabulary](https://rs.gbif.org/vocabulary/gbif/occurrence_status/).",
   externalDocs = @ExternalDocumentation(
     description = "Darwin Core definition",
     url = "https://rs.tdwg.org/dwc/terms/occurrenceStatus"
   )
 )public enum OccurrenceStatus {
+  @Deprecated
   PRESENT,
+  @Deprecated
   ABSENT,
   DETECTED,
-  NOT_DETECTED
+  NOT_DETECTED;
+
+  /**
+   * Maps deprecated aliases to the current terms: {@link #PRESENT}→{@link #DETECTED},
+   * {@link #ABSENT}→{@link #NOT_DETECTED}.
+   */
+  public OccurrenceStatus normalize() {
+    if (this == ABSENT || this == NOT_DETECTED) {
+      return NOT_DETECTED;
+    }
+    return DETECTED;
+  }
 }
