@@ -670,6 +670,12 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter IUCN_RED_LIST_CATEGORY = new OccurrenceSearchParameter("IUCN_RED_LIST_CATEGORY", String.class);
 
   /**
+   * Searches for occurrences whose taxon, according to the checklist, lives in the given environment,
+   * e.g. MARINE, BRACKISH, FRESHWATER or TERRESTRIAL.
+   */
+  public final static OccurrenceSearchParameter ENVIRONMENTS = new OccurrenceSearchParameter("ENVIRONMENTS", String.class);
+
+  /**
    * The dwc dataset id.
    */
   public final static OccurrenceSearchParameter DATASET_ID = new OccurrenceSearchParameter("DATASET_ID", String.class);

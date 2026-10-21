@@ -31,6 +31,8 @@ public class Classification {
   private List<RankedName> classification;
   /** The IUCN status of the taxon */
   private String iucnRedListCategoryCode;
+  /** The environments the taxon lives in, as provided by the checklist, e.g. MARINE, FRESHWATER */
+  private List<String> environments;
   /** The issues associated with the match to this classification */
   private List<String> issues;
 }
