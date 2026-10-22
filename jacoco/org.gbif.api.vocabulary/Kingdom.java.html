@@ -16,7 +16,7 @@
 package org.gbif.api.vocabulary;
 
 /**
- * A simple enumeration of all kingdoms found in the GBIF Backbone Taxonomy.
+ * A simple enumeration of all kingdoms.
  *
  * The Catalogue of Life has many more kingdoms these days and data keeps changing,
  * thus this enumeration is deprecated.

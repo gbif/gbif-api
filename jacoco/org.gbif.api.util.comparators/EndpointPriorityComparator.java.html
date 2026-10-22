@@ -38,16 +38,20 @@ import java.util.List;
  * &lt;li&gt;DiGIR&lt;/li&gt;
  * &lt;li&gt;DiGIR (Manis)&lt;/li&gt;
  * &lt;li&gt;EML&lt;/li&gt;
+ * &lt;li&gt;DWC_DP&lt;/li&gt;
+ * &lt;li&gt;COLDP&lt;/li&gt;
  * &lt;/ol&gt;
  */
-<span class="fc" id="L43">public class EndpointPriorityComparator implements Comparator&lt;Endpoint&gt;, Serializable {</span>
+<span class="fc" id="L45">public class EndpointPriorityComparator implements Comparator&lt;Endpoint&gt;, Serializable {</span>
 
   /* Note: Due to legacy reasons this is a Comparator itself instead of just using the PRIORITY_COMPARATOR.
    It should be easy to remove this class or change it into a factory */
 
   // Priorities from lowest to highest
-<span class="fc" id="L49">  public static final List&lt;EndpointType&gt; PRIORITIES = Collections.unmodifiableList(</span>
-<span class="fc" id="L50">    Arrays.asList(</span>
+<span class="fc" id="L51">  public static final List&lt;EndpointType&gt; PRIORITIES = Collections.unmodifiableList(</span>
+<span class="fc" id="L52">    Arrays.asList(</span>
+      EndpointType.COLDP,
+      EndpointType.DWC_DP,
       EndpointType.EML,
       EndpointType.DIGIR_MANIS,
       EndpointType.DIGIR,
@@ -55,24 +59,22 @@ import java.util.List;
       EndpointType.TAPIR,
       EndpointType.BIOCASE_XML_ARCHIVE,
       EndpointType.DWC_ARCHIVE,
-      EndpointType.CAMTRAP_DP,
-      EndpointType.DWC_DP,
-      EndpointType.COLDP
+      EndpointType.CAMTRAP_DP
     ));
 
   private static final long serialVersionUID = 8085216142750609841L;
 
   @Override
   public int compare(Endpoint endpoint1, Endpoint endpoint2) {
-<span class="fc" id="L67">    int firstEndpointTypeIndex = PRIORITIES.indexOf(endpoint1.getType());</span>
-<span class="fc" id="L68">    int secondEndpointTypeIndex = PRIORITIES.indexOf(endpoint2.getType());</span>
+<span class="fc" id="L69">    int firstEndpointTypeIndex = PRIORITIES.indexOf(endpoint1.getType());</span>
+<span class="fc" id="L70">    int secondEndpointTypeIndex = PRIORITIES.indexOf(endpoint2.getType());</span>
 
-<span class="fc bfc" id="L70" title="All 2 branches covered.">    if (firstEndpointTypeIndex == -1) {</span>
-<span class="fc" id="L71">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint1.getType());</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">    } else if (secondEndpointTypeIndex == -1) {</span>
-<span class="fc" id="L73">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint2.getType());</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">    if (firstEndpointTypeIndex == -1) {</span>
+<span class="fc" id="L73">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint1.getType());</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">    } else if (secondEndpointTypeIndex == -1) {</span>
+<span class="fc" id="L75">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint2.getType());</span>
     } else {
-<span class="fc" id="L75">      return Integer.compare(firstEndpointTypeIndex, secondEndpointTypeIndex);</span>
+<span class="fc" id="L77">      return Integer.compare(firstEndpointTypeIndex, secondEndpointTypeIndex);</span>
     }
   }
 }

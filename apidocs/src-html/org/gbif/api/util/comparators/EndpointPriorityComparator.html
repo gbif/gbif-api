@@ -51,44 +51,46 @@
 <span class="source-line-no">038</span><span id="line-38"> * &lt;li&gt;DiGIR&lt;/li&gt;</span>
 <span class="source-line-no">039</span><span id="line-39"> * &lt;li&gt;DiGIR (Manis)&lt;/li&gt;</span>
 <span class="source-line-no">040</span><span id="line-40"> * &lt;li&gt;EML&lt;/li&gt;</span>
-<span class="source-line-no">041</span><span id="line-41"> * &lt;/ol&gt;</span>
-<span class="source-line-no">042</span><span id="line-42"> */</span>
-<span class="source-line-no">043</span><span id="line-43">public class EndpointPriorityComparator implements Comparator&lt;Endpoint&gt;, Serializable {</span>
-<span class="source-line-no">044</span><span id="line-44"></span>
-<span class="source-line-no">045</span><span id="line-45">  /* Note: Due to legacy reasons this is a Comparator itself instead of just using the PRIORITY_COMPARATOR.</span>
-<span class="source-line-no">046</span><span id="line-46">   It should be easy to remove this class or change it into a factory */</span>
-<span class="source-line-no">047</span><span id="line-47"></span>
-<span class="source-line-no">048</span><span id="line-48">  // Priorities from lowest to highest</span>
-<span class="source-line-no">049</span><span id="line-49">  public static final List&lt;EndpointType&gt; PRIORITIES = Collections.unmodifiableList(</span>
-<span class="source-line-no">050</span><span id="line-50">    Arrays.asList(</span>
-<span class="source-line-no">051</span><span id="line-51">      EndpointType.EML,</span>
-<span class="source-line-no">052</span><span id="line-52">      EndpointType.DIGIR_MANIS,</span>
-<span class="source-line-no">053</span><span id="line-53">      EndpointType.DIGIR,</span>
-<span class="source-line-no">054</span><span id="line-54">      EndpointType.BIOCASE,</span>
-<span class="source-line-no">055</span><span id="line-55">      EndpointType.TAPIR,</span>
-<span class="source-line-no">056</span><span id="line-56">      EndpointType.BIOCASE_XML_ARCHIVE,</span>
-<span class="source-line-no">057</span><span id="line-57">      EndpointType.DWC_ARCHIVE,</span>
-<span class="source-line-no">058</span><span id="line-58">      EndpointType.CAMTRAP_DP,</span>
-<span class="source-line-no">059</span><span id="line-59">      EndpointType.DWC_DP,</span>
-<span class="source-line-no">060</span><span id="line-60">      EndpointType.COLDP</span>
-<span class="source-line-no">061</span><span id="line-61">    ));</span>
-<span class="source-line-no">062</span><span id="line-62"></span>
-<span class="source-line-no">063</span><span id="line-63">  private static final long serialVersionUID = 8085216142750609841L;</span>
+<span class="source-line-no">041</span><span id="line-41"> * &lt;li&gt;DWC_DP&lt;/li&gt;</span>
+<span class="source-line-no">042</span><span id="line-42"> * &lt;li&gt;COLDP&lt;/li&gt;</span>
+<span class="source-line-no">043</span><span id="line-43"> * &lt;/ol&gt;</span>
+<span class="source-line-no">044</span><span id="line-44"> */</span>
+<span class="source-line-no">045</span><span id="line-45">public class EndpointPriorityComparator implements Comparator&lt;Endpoint&gt;, Serializable {</span>
+<span class="source-line-no">046</span><span id="line-46"></span>
+<span class="source-line-no">047</span><span id="line-47">  /* Note: Due to legacy reasons this is a Comparator itself instead of just using the PRIORITY_COMPARATOR.</span>
+<span class="source-line-no">048</span><span id="line-48">   It should be easy to remove this class or change it into a factory */</span>
+<span class="source-line-no">049</span><span id="line-49"></span>
+<span class="source-line-no">050</span><span id="line-50">  // Priorities from lowest to highest</span>
+<span class="source-line-no">051</span><span id="line-51">  public static final List&lt;EndpointType&gt; PRIORITIES = Collections.unmodifiableList(</span>
+<span class="source-line-no">052</span><span id="line-52">    Arrays.asList(</span>
+<span class="source-line-no">053</span><span id="line-53">      EndpointType.COLDP,</span>
+<span class="source-line-no">054</span><span id="line-54">      EndpointType.DWC_DP,</span>
+<span class="source-line-no">055</span><span id="line-55">      EndpointType.EML,</span>
+<span class="source-line-no">056</span><span id="line-56">      EndpointType.DIGIR_MANIS,</span>
+<span class="source-line-no">057</span><span id="line-57">      EndpointType.DIGIR,</span>
+<span class="source-line-no">058</span><span id="line-58">      EndpointType.BIOCASE,</span>
+<span class="source-line-no">059</span><span id="line-59">      EndpointType.TAPIR,</span>
+<span class="source-line-no">060</span><span id="line-60">      EndpointType.BIOCASE_XML_ARCHIVE,</span>
+<span class="source-line-no">061</span><span id="line-61">      EndpointType.DWC_ARCHIVE,</span>
+<span class="source-line-no">062</span><span id="line-62">      EndpointType.CAMTRAP_DP</span>
+<span class="source-line-no">063</span><span id="line-63">    ));</span>
 <span class="source-line-no">064</span><span id="line-64"></span>
-<span class="source-line-no">065</span><span id="line-65">  @Override</span>
-<span class="source-line-no">066</span><span id="line-66">  public int compare(Endpoint endpoint1, Endpoint endpoint2) {</span>
-<span class="source-line-no">067</span><span id="line-67">    int firstEndpointTypeIndex = PRIORITIES.indexOf(endpoint1.getType());</span>
-<span class="source-line-no">068</span><span id="line-68">    int secondEndpointTypeIndex = PRIORITIES.indexOf(endpoint2.getType());</span>
-<span class="source-line-no">069</span><span id="line-69"></span>
-<span class="source-line-no">070</span><span id="line-70">    if (firstEndpointTypeIndex == -1) {</span>
-<span class="source-line-no">071</span><span id="line-71">      throw new ClassCastException("Cannot compare value: " + endpoint1.getType());</span>
-<span class="source-line-no">072</span><span id="line-72">    } else if (secondEndpointTypeIndex == -1) {</span>
-<span class="source-line-no">073</span><span id="line-73">      throw new ClassCastException("Cannot compare value: " + endpoint2.getType());</span>
-<span class="source-line-no">074</span><span id="line-74">    } else {</span>
-<span class="source-line-no">075</span><span id="line-75">      return Integer.compare(firstEndpointTypeIndex, secondEndpointTypeIndex);</span>
-<span class="source-line-no">076</span><span id="line-76">    }</span>
-<span class="source-line-no">077</span><span id="line-77">  }</span>
-<span class="source-line-no">078</span><span id="line-78">}</span>
+<span class="source-line-no">065</span><span id="line-65">  private static final long serialVersionUID = 8085216142750609841L;</span>
+<span class="source-line-no">066</span><span id="line-66"></span>
+<span class="source-line-no">067</span><span id="line-67">  @Override</span>
+<span class="source-line-no">068</span><span id="line-68">  public int compare(Endpoint endpoint1, Endpoint endpoint2) {</span>
+<span class="source-line-no">069</span><span id="line-69">    int firstEndpointTypeIndex = PRIORITIES.indexOf(endpoint1.getType());</span>
+<span class="source-line-no">070</span><span id="line-70">    int secondEndpointTypeIndex = PRIORITIES.indexOf(endpoint2.getType());</span>
+<span class="source-line-no">071</span><span id="line-71"></span>
+<span class="source-line-no">072</span><span id="line-72">    if (firstEndpointTypeIndex == -1) {</span>
+<span class="source-line-no">073</span><span id="line-73">      throw new ClassCastException("Cannot compare value: " + endpoint1.getType());</span>
+<span class="source-line-no">074</span><span id="line-74">    } else if (secondEndpointTypeIndex == -1) {</span>
+<span class="source-line-no">075</span><span id="line-75">      throw new ClassCastException("Cannot compare value: " + endpoint2.getType());</span>
+<span class="source-line-no">076</span><span id="line-76">    } else {</span>
+<span class="source-line-no">077</span><span id="line-77">      return Integer.compare(firstEndpointTypeIndex, secondEndpointTypeIndex);</span>
+<span class="source-line-no">078</span><span id="line-78">    }</span>
+<span class="source-line-no">079</span><span id="line-79">  }</span>
+<span class="source-line-no">080</span><span id="line-80">}</span>
 
 
 
