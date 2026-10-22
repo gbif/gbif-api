@@ -22,29 +22,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @see &lt;a href=&quot;https://rs.gbif.org/vocabulary/gbif/occurrence_status/&quot;&gt;rs.gbif.org vocabulary&lt;/a&gt;
  */
 <span class="fc" id="L24">@Schema(</span>
-  description = &quot;A statement about whether a Taxon was detected at a Location.\n\n&quot; +
+  description = &quot;A statement about the presence or absence of a Taxon at a Location.\n\n&quot; +
     &quot;For definitions, see the [GBIF occurrence status vocabulary](https://rs.gbif.org/vocabulary/gbif/occurrence_status/).&quot;,
   externalDocs = @ExternalDocumentation(
     description = &quot;Darwin Core definition&quot;,
     url = &quot;https://rs.tdwg.org/dwc/terms/occurrenceStatus&quot;
   )
 )public enum OccurrenceStatus {
-<span class="fc" id="L32">  @Deprecated</span>
-  PRESENT,
-<span class="fc" id="L34">  @Deprecated</span>
-  ABSENT,
-<span class="fc" id="L36">  DETECTED,</span>
-<span class="fc" id="L37">  NOT_DETECTED;</span>
-
-  /**
-   * Maps deprecated aliases to the current terms: {@link #PRESENT}→{@link #DETECTED},
-   * {@link #ABSENT}→{@link #NOT_DETECTED}.
-   */
-  public OccurrenceStatus normalize() {
-<span class="nc bnc" id="L44" title="All 4 branches missed.">    if (this == ABSENT || this == NOT_DETECTED) {</span>
-<span class="nc" id="L45">      return NOT_DETECTED;</span>
-    }
-<span class="nc" id="L47">    return DETECTED;</span>
-  }
+<span class="fc" id="L32">  PRESENT,</span>
+<span class="fc" id="L33">  ABSENT</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
