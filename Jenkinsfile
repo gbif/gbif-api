@@ -67,7 +67,7 @@ pipeline {
       when {
           allOf {
               expression { params.RELEASE };
-              branch 'master';
+              branch 'ebird';
           }
       }
       environment {
@@ -78,7 +78,7 @@ pipeline {
             globalMavenSettingsConfig: 'org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1387378707709',
             mavenSettingsConfig: 'org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig1396361652540',
             traceability: true) {
-              git 'https://github.com/gbif/gbif-api.git'
+              git branch: 'ebird', url: 'https://github.com/gbif/gbif-api.git'
               sh '''
                 mvn -B -Dresume=false release:prepare release:perform $RELEASE_ARGS
                 '''
