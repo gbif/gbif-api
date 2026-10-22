@@ -178,6 +178,10 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter IUCN_RED_LIST_CATEGORY =
       new EventSearchParameter(OccurrenceSearchParameter.IUCN_RED_LIST_CATEGORY);
 
+  /** See @link {@link OccurrenceSearchParameter#ENVIRONMENTS} */
+  public static final EventSearchParameter ENVIRONMENTS =
+      new EventSearchParameter(OccurrenceSearchParameter.ENVIRONMENTS);
+
   /** See @link {@link OccurrenceSearchParameter#HAS_COORDINATE} */
   public static final EventSearchParameter HAS_COORDINATE =
       new EventSearchParameter(OccurrenceSearchParameter.HAS_COORDINATE);
@@ -402,6 +406,8 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY =
       new EventSearchParameter(
           "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY", String.class);
+  public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ENVIRONMENTS =
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ENVIRONMENTS", String.class);
   public static final EventSearchParameter HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS =
       new EventSearchParameter("HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS", String.class);
   public static final EventSearchParameter HUMBOLDT_IS_TAXONOMIC_SCOPE_FULLY_REPORTED =

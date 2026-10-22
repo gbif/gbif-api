@@ -67,6 +67,7 @@ public class Humboldt {
     private String acceptedUsageName;
     private String acceptedUsageRank;
     private String iucnRedListCategory;
+    private List<String> environments;
     private List<RankedName> classification;
     private List<String> issues;
   }
