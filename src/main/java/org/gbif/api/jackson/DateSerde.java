@@ -16,10 +16,10 @@
 package org.gbif.api.jackson;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.TimeZone;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -36,11 +36,9 @@ import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
  */
 public class DateSerde {
 
-  private static final SimpleDateFormat NO_TIMEZONE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
-  static {
-    NO_TIMEZONE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-  }
+  // DateTimeFormatter is immutable and thread-safe, unlike SimpleDateFormat which must not be shared between threads.
+  private static final DateTimeFormatter NO_TIMEZONE_FORMAT =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss").withZone(ZoneOffset.UTC);
 
   /**
    * Jackson {@link JsonSerializer} for {@link Date}.
@@ -51,7 +49,8 @@ public class DateSerde {
     public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
       // Empty fields aren't included in the JSON.
       if (value != null) {
-        jgen.writeString(NO_TIMEZONE_FORMAT.format(value));
+        // Instant.ofEpochMilli rather than Date.toInstant(), which java.sql.Date doesn't support.
+        jgen.writeString(NO_TIMEZONE_FORMAT.format(Instant.ofEpochMilli(value.getTime())));
       }
     }
   }
