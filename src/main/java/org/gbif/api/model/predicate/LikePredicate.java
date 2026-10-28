@@ -58,11 +58,13 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
   }
 
   @Experimental
+  @Nullable
   public String getChecklistKey() {
     return checklistKey;
   }
 
   @Experimental
+  @Nullable
   public Boolean getDnaTaxonSearch() {
     return dnaTaxonSearch;
   }
