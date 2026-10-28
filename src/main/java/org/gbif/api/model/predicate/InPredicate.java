@@ -71,12 +71,28 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
   @Nullable
   private final String checklistKey;
 
+  @Schema(
+    description = "Flag to additionally search in DNA taxonomies to improve the taxon search."
+  )
+  @Experimental
+  @Nullable
+  private final Boolean dnaTaxonSearch;
+
   public InPredicate(
     S key,
     Collection<String> values,
     Boolean matchCase
   ) {
-    this(key, values, matchCase, null);
+    this(key, values, matchCase, null, null);
+  }
+
+  public InPredicate(
+    S key,
+    Collection<String> values,
+    Boolean matchCase,
+    String checklistKey
+  ) {
+    this(key, values, matchCase, checklistKey, null);
   }
 
   @JsonCreator
@@ -84,10 +100,12 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
       @JsonProperty("key") S key,
       @JsonProperty("values") Collection<String> values,
       @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
-      @Nullable @JsonProperty(value = "checklistKey") String checklistKey
+      @Nullable @JsonProperty(value = "checklistKey") String checklistKey,
+      @Nullable @JsonProperty(value = "dnaTaxonSearch") Boolean dnaTaxonSearch
     ) {
     this.matchCase = matchCase;
     this.checklistKey = checklistKey;
+    this.dnaTaxonSearch = dnaTaxonSearch;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(values, "<values> may not be null");
     checkArgument(!values.isEmpty(), "<values> may not be empty");
@@ -135,6 +153,11 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
     return checklistKey;
   }
 
+  @Experimental
+  public Boolean getDnaTaxonSearch() {
+    return dnaTaxonSearch;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -147,12 +170,13 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
     return key == that.key
       && Objects.equals(values, that.values)
       && matchCase == that.matchCase
-      && Objects.equals(checklistKey, that.checklistKey);
+      && Objects.equals(checklistKey, that.checklistKey)
+      && Objects.equals(dnaTaxonSearch, that.dnaTaxonSearch);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, values, matchCase, checklistKey);
+    return Objects.hash(key, values, matchCase, checklistKey, dnaTaxonSearch);
   }
 
   @Override
@@ -162,6 +186,7 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
       .add("values=" + values)
       .add("matchCase=" + matchCase)
       .add("checklistKey=" + checklistKey)
+      .add("dnaTaxonSearch=" + dnaTaxonSearch)
       .toString();
   }
 }

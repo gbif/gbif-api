@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -922,6 +924,12 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * Searches the eMoF measurementTypeID.
    */
   public final static OccurrenceSearchParameter MEASUREMENT_TYPE_ID = new OccurrenceSearchParameter("MEASUREMENT_TYPE_ID", String.class);
+
+  /**
+   * Flag to additionally search in DNA taxonomies to improve the taxon search.
+   */
+  @Experimental
+  public final static OccurrenceSearchParameter DNA_TAXON_SEARCH = new OccurrenceSearchParameter("DNA_TAXON_SEARCH", Boolean.class);
 
 
   public static OccurrenceSearchParameter[] values(){

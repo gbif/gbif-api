@@ -42,8 +42,19 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
   @Nullable
   private final String checklistKey;
 
+  @Schema(
+    description = "Flag to additionally search in DNA taxonomies to improve the taxon search."
+  )
+  @Experimental
+  @Nullable
+  private final Boolean dnaTaxonSearch;
+
   public LikePredicate(S key, String value, Boolean matchCase) {
-    this(key, value, null, matchCase);
+    this(key, value, null, matchCase, null);
+  }
+
+  public LikePredicate(S key, String value, String checklistKey, Boolean matchCase) {
+    this(key, value, checklistKey, matchCase, null);
   }
 
   @Experimental
@@ -51,14 +62,21 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
     return checklistKey;
   }
 
+  @Experimental
+  public Boolean getDnaTaxonSearch() {
+    return dnaTaxonSearch;
+  }
+
   @JsonCreator
   public LikePredicate(
       @JsonProperty("key") S key,
       @JsonProperty("value") String value,
       @Nullable @JsonProperty(value = "checklistKey") String checklistKey,
-      @Nullable @JsonProperty(value = "matchCase") Boolean matchCase) {
+      @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
+      @Nullable @JsonProperty(value = "dnaTaxonSearch") Boolean dnaTaxonSearch) {
     super(false, key, value, matchCase);
     this.checklistKey = checklistKey;
+    this.dnaTaxonSearch = dnaTaxonSearch;
     // make sure we deal with a String type
     if (!String.class.equals(key.type())) {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);
