@@ -57,6 +57,8 @@ public abstract class BaseSearchRequest<P extends SearchParameter> extends Pagea
 
   @Hidden @Experimental @Setter private Boolean matchCase;
 
+  @Hidden @Experimental @Setter private Boolean dnaTaxonSearch;
+
   /**
    * This flag allows to sort the results in a random order by specifying a seed. The seed makes the
    * random results reproducible so we can use paging. The same seed has to be sent for each page.
@@ -80,6 +82,19 @@ public abstract class BaseSearchRequest<P extends SearchParameter> extends Pagea
   @Experimental
   public Boolean isMatchCase() {
     return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
+  }
+
+  /**
+   * This flag additionally searches the taxonomic parameters in the DNA assisted classification of
+   * the checklist to improve the taxon search.
+   *
+   * <p>This is an experimental feature, and its implementation may change or be removed at any
+   * time.
+   */
+  @Override
+  @Experimental
+  public Boolean isDnaTaxonSearch() {
+    return Optional.ofNullable(dnaTaxonSearch).orElse(Boolean.FALSE);
   }
 
   /** Constructor with default paging offset & limit. */
