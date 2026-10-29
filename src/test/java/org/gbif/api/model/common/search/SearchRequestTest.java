@@ -25,6 +25,8 @@ import org.gbif.api.vocabulary.Rank;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test class for SearchRequest model class
@@ -41,6 +43,15 @@ public class SearchRequestTest {
     reqO.addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, BasisOfRecord.LITERATURE);
     assertEquals("LITERATURE",
       reqO.getParameters().get(OccurrenceSearchParameter.BASIS_OF_RECORD).iterator().next());
+  }
+
+  @Test
+  public void testDnaTaxonSearch() {
+    OccurrenceSearchRequest req = new OccurrenceSearchRequest();
+    assertFalse(req.isDnaTaxonSearch());
+
+    req.setDnaTaxonSearch(true);
+    assertTrue(req.isDnaTaxonSearch());
   }
 
 }

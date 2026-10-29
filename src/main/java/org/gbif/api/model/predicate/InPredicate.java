@@ -31,6 +31,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -154,6 +155,8 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
   }
 
   @Experimental
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   public Boolean getDnaTaxonSearch() {
     return dnaTaxonSearch;
   }

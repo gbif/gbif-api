@@ -19,6 +19,7 @@ import org.gbif.api.model.common.search.SearchParameter;
 import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -65,6 +66,8 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
 
   @Experimental
   @Nullable
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   public Boolean getDnaTaxonSearch() {
     return dnaTaxonSearch;
   }
