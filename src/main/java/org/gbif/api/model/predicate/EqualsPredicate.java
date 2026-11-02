@@ -13,11 +13,13 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 
 import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,8 +37,18 @@ public class EqualsPredicate<S extends SearchParameter> extends SimplePredicate<
 
   private final String checklistKey;
 
+  @Schema(
+    description = "Flag to additionally search in DNA taxonomies to improve the taxon search."
+  )
+  @Experimental
+  private final Boolean dnaTaxonSearch;
+
   public EqualsPredicate(S key, String value, Boolean matchCase) {
-    this(key, value, matchCase, null);
+    this(key, value, matchCase, null, null);
+  }
+
+  public EqualsPredicate(S key, String value, Boolean matchCase, String checklistKey) {
+    this(key, value, matchCase, checklistKey, null);
   }
 
   @JsonCreator
@@ -44,14 +56,23 @@ public class EqualsPredicate<S extends SearchParameter> extends SimplePredicate<
     @JsonProperty("key") S key,
     @JsonProperty("value") String value,
     @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
-    @Nullable @JsonProperty(value = "checklistKey") String checklistKey
+    @Nullable @JsonProperty(value = "checklistKey") String checklistKey,
+    @Nullable @JsonProperty(value = "dnaTaxonSearch") Boolean dnaTaxonSearch
     ) {
     super(false, key, value, matchCase);
     this.checklistKey = checklistKey;
+    this.dnaTaxonSearch = dnaTaxonSearch;
   }
 
   public String getChecklistKey() {
     return checklistKey;
+  }
+
+  @Experimental
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public Boolean getDnaTaxonSearch() {
+    return dnaTaxonSearch;
   }
 
   @Override
@@ -66,12 +87,13 @@ public class EqualsPredicate<S extends SearchParameter> extends SimplePredicate<
     return this.getKey() == that.getKey()
       && Objects.equals(this.getValue(), that.getValue())
       && this.isMatchCase() == that.isMatchCase()
-      && Objects.equals(this.checklistKey, ((EqualsPredicate<?>) o).checklistKey);
+      && Objects.equals(this.checklistKey, ((EqualsPredicate<?>) o).checklistKey)
+      && Objects.equals(this.dnaTaxonSearch, ((EqualsPredicate<?>) o).dnaTaxonSearch);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getKey(), this.getValue(), this.isMatchCase(), checklistKey);
+    return Objects.hash(getKey(), this.getValue(), this.isMatchCase(), checklistKey, dnaTaxonSearch);
   }
 
   @Override
@@ -81,6 +103,7 @@ public class EqualsPredicate<S extends SearchParameter> extends SimplePredicate<
       .add("value='" + getValue() + "'")
       .add("matchCase='" + this.isMatchCase() + "'")
       .add("checklistKey='" + checklistKey + "'")
+      .add("dnaTaxonSearch='" + dnaTaxonSearch + "'")
       .toString();
   }
 }
