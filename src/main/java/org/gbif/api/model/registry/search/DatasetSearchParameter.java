@@ -121,6 +121,11 @@ public enum DatasetSearchParameter implements SearchParameter {
   CREATED_DATE(LocalDateTime.class),
 
   /**
+   * Date when the dataset was published
+   */
+  PUBLICATION_DATE(LocalDateTime.class),
+
+  /**
    * Dataset title/name.
    */
   DATASET_TITLE(String.class),
