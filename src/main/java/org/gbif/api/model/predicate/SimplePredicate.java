@@ -13,11 +13,6 @@
  */
 package org.gbif.api.model.predicate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.IsoDateInterval;
@@ -28,10 +23,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
@@ -53,7 +50,6 @@ public class SimplePredicate<S extends SearchParameter> implements Predicate {
   @Schema(
     description = "Whether to match letter case (UPPER or lower case) on string value comparisons."
   )
-  @Experimental
   @Nullable
   private final Boolean matchCase;
 
@@ -87,10 +83,7 @@ public class SimplePredicate<S extends SearchParameter> implements Predicate {
    * <p>
    * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
    * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
-   * <p>
-   * This is an experimental feature and its implementation map change or be removed at any time.
    */
-  @Experimental
   @JsonIgnore
   public Boolean isMatchCase() {
     return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);

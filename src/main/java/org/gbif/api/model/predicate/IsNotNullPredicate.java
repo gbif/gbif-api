@@ -13,20 +13,19 @@
  */
 package org.gbif.api.model.predicate;
 
-import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
 import java.util.StringJoiner;
-
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 @Schema(
   description = "This predicate checks if the `parameter` is not null (empty)."
@@ -41,16 +40,15 @@ public class IsNotNullPredicate<S extends SearchParameter> implements Predicate 
   @Schema(
     description = "Specify which taxonomy to use."
   )
-  @Experimental
   @Nullable
-  private final String checklistKey;
+  private final UUID checklistKey;
 
   public IsNotNullPredicate(S parameter) {
     this(parameter, null);
   }
 
   @JsonCreator
-  public IsNotNullPredicate(@JsonProperty("parameter") S parameter, @Nullable @JsonProperty(value = "checklistKey") String checklistKey) {
+  public IsNotNullPredicate(@JsonProperty("parameter") S parameter, @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey) {
     Objects.requireNonNull(parameter, "<parameter> may not be null");
     this.parameter = parameter;
     this.checklistKey = checklistKey;
@@ -61,8 +59,7 @@ public class IsNotNullPredicate<S extends SearchParameter> implements Predicate 
     return parameter;
   }
 
-  @Experimental
-  public String getChecklistKey() {
+  public UUID getChecklistKey() {
     return checklistKey;
   }
 

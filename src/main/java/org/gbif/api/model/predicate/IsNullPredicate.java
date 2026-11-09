@@ -13,12 +13,12 @@
  */
 package org.gbif.api.model.predicate;
 
-import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -41,16 +41,15 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
   @Schema(
     description = "Specify which taxonomy to use."
   )
-  @Experimental
   @Nullable
-  private final String checklistKey;
+  private final UUID checklistKey;
 
   public IsNullPredicate(S parameter) {
     this(parameter, null);
   }
 
   @JsonCreator
-  public IsNullPredicate(@JsonProperty("parameter") S parameter, @Nullable @JsonProperty(value = "checklistKey") String checklistKey) {
+  public IsNullPredicate(@JsonProperty("parameter") S parameter, @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey) {
     Objects.requireNonNull(parameter, "<parameter> may not be null");
     this.parameter = parameter;
     this.checklistKey = checklistKey;
@@ -61,8 +60,7 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
     return parameter;
   }
 
-  @Experimental
-  public String getChecklistKey() {
+  public UUID getChecklistKey() {
     return checklistKey;
   }
 

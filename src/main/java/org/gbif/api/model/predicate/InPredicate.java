@@ -13,9 +13,6 @@
  */
 package org.gbif.api.model.predicate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -25,15 +22,16 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
-
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
@@ -60,16 +58,14 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
   @Schema(
     description = "Whether to match letter case (UPPER or lower case) on string value comparisons."
   )
-  @Experimental
   @Nullable
   private final Boolean matchCase;
 
   @Schema(
     description = "Specify which taxonomy to use."
   )
-  @Experimental
   @Nullable
-  private final String checklistKey;
+  private final UUID checklistKey;
 
   public InPredicate(
     S key,
@@ -84,7 +80,7 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
       @JsonProperty("key") S key,
       @JsonProperty("values") Collection<String> values,
       @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
-      @Nullable @JsonProperty(value = "checklistKey") String checklistKey
+      @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey
     ) {
     this.matchCase = matchCase;
     this.checklistKey = checklistKey;
@@ -116,10 +112,7 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
    * <p>
    * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
    * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
-   * <p>
-   * This is an experimental feature and its implementation map change or be removed at any time.
    */
-  @Experimental
   @JsonIgnore
   public Boolean isMatchCase() {
     return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
@@ -130,8 +123,7 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
     return matchCase;
   }
 
-  @Experimental
-  public String getChecklistKey() {
+  public UUID getChecklistKey() {
     return checklistKey;
   }
 

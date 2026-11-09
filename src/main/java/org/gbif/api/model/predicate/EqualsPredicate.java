@@ -15,15 +15,15 @@ package org.gbif.api.model.predicate;
 
 import org.gbif.api.model.common.search.SearchParameter;
 
-import jakarta.annotation.Nullable;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.Objects;
-import java.util.StringJoiner;
+import jakarta.annotation.Nullable;
 
 /**
  * This predicate checks if its {@code key} is equal to its {@code value}.
@@ -33,7 +33,11 @@ import java.util.StringJoiner;
 )
 public class EqualsPredicate<S extends SearchParameter> extends SimplePredicate<S> {
 
-  private final String checklistKey;
+  @Schema(
+    description = "Specify which taxonomy to use."
+  )
+  @Nullable
+  private final UUID checklistKey;
 
   public EqualsPredicate(S key, String value, Boolean matchCase) {
     this(key, value, matchCase, null);
@@ -44,13 +48,13 @@ public class EqualsPredicate<S extends SearchParameter> extends SimplePredicate<
     @JsonProperty("key") S key,
     @JsonProperty("value") String value,
     @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
-    @Nullable @JsonProperty(value = "checklistKey") String checklistKey
+    @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey
     ) {
     super(false, key, value, matchCase);
     this.checklistKey = checklistKey;
   }
 
-  public String getChecklistKey() {
+  public UUID getChecklistKey() {
     return checklistKey;
   }
 
