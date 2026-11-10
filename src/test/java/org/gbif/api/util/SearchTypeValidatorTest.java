@@ -14,17 +14,27 @@
 package org.gbif.api.util;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
+import org.gbif.api.model.event.search.EventSearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.IS_EXTINCT;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ACCEPTED_TAXON_KEY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.CATALOG_NUMBER;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.CHECKLIST_KEY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COLLECTION_KEY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
@@ -33,18 +43,31 @@ import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DEC
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DISTANCE_FROM_CENTROID_IN_METERS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ENVIRONMENTS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GADM_GID;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GADM_LEVEL_1_GID;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GBIF_ID;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOLOGICAL_TIME;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEO_DISTANCE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.INSTITUTION_KEY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.IUCN_RED_LIST_CATEGORY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.KINGDOM_KEY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LAST_INTERPRETED;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MEDIA_TYPE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.PUBLISHING_COUNTRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.RECORDED_BY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.SCIENTIFIC_NAME;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.SPECIES_KEY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.TAXONOMIC_ISSUE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.TAXON_KEY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.TYPE_STATUS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.YEAR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class SearchTypeValidatorTest {
@@ -172,7 +195,50 @@ public class SearchTypeValidatorTest {
       Arguments.of(GEO_DISTANCE, "30,90,277", true, false, false),
       Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "100", true, false, false),
       Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "100,*", true, true, false),
-      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "*,277", true, true, false)
+      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "*,277", true, true, false),
+      // Identifiers and codes with a known format
+      Arguments.of(TAXON_KEY, "212", true, false, false),
+      Arguments.of(TAXON_KEY, "4QHKG", true, false, false),
+      Arguments.of(TAXON_KEY, "*", true, false, false),
+      Arguments.of(TAXON_KEY, "212' OR '1'='1", false, false, false),
+      Arguments.of(TAXON_KEY, "212\\", false, false, false),
+      Arguments.of(TAXON_KEY, "212\n", false, false, false),
+      Arguments.of(TAXON_KEY, "2 12", false, false, false),
+      Arguments.of(TAXON_KEY, "", false, false, false),
+      Arguments.of(ACCEPTED_TAXON_KEY, "6W3C4", true, false, false),
+      Arguments.of(KINGDOM_KEY, "1", true, false, false),
+      Arguments.of(SPECIES_KEY, "-1", false, false, false),
+      Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY, "212", true, false, false),
+      Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY, "212')", false, false, false),
+      Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY, "x;y", false, false, false),
+      Arguments.of(GADM_GID, "IRL", true, false, false),
+      Arguments.of(GADM_GID, "IRL.1_1", true, false, false),
+      Arguments.of(GADM_GID, "GBR.1.2_1", true, false, false),
+      Arguments.of(GADM_GID, "Z01.14_1", true, false, false),
+      Arguments.of(GADM_GID, "irl.1_1", true, false, false),
+      Arguments.of(GADM_GID, "IRL_1", true, false, false),
+      Arguments.of(GADM_GID, "IRL.1_1'", false, false, false),
+      Arguments.of(GADM_GID, "IR", false, false, false),
+      Arguments.of(GADM_GID, "IRL..1", false, false, false),
+      Arguments.of(GADM_LEVEL_1_GID, "ESP.1_1", true, false, false),
+      Arguments.of(GADM_LEVEL_1_GID, "ESP.1_1 OR 1=1", false, false, false),
+      Arguments.of(IUCN_RED_LIST_CATEGORY, "LC", true, false, false),
+      Arguments.of(IUCN_RED_LIST_CATEGORY, "LEAST_CONCERN", true, false, false),
+      Arguments.of(IUCN_RED_LIST_CATEGORY, "LC')", false, false, false),
+      Arguments.of(TAXONOMIC_ISSUE, "TAXON_MATCH_NONE", true, false, false),
+      Arguments.of(TAXONOMIC_ISSUE, "TAXON MATCH", false, false, false),
+      Arguments.of(ENVIRONMENTS, "MARINE", true, false, false),
+      Arguments.of(ENVIRONMENTS, "MARINE\\", false, false, false),
+      Arguments.of(CHECKLIST_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),
+      Arguments.of(CHECKLIST_KEY, "d7dd'", false, false, false),
+      Arguments.of(COLLECTION_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),
+      Arguments.of(COLLECTION_KEY, "abc def", false, false, false),
+      Arguments.of(INSTITUTION_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),
+      Arguments.of(GBIF_ID, "1234567890", true, false, false),
+      Arguments.of(GBIF_ID, "123a", false, false, false),
+      Arguments.of(GEOLOGICAL_TIME, "Jurassic", true, false, false),
+      Arguments.of(GEOLOGICAL_TIME, "LateJurassic", true, false, false),
+      Arguments.of(CATALOG_NUMBER, "x' OR '1'='1", true, false, false)
     );
   }
 
@@ -198,6 +264,58 @@ public class SearchTypeValidatorTest {
   }
 
   /**
+   * Every parameter with a restricted format rejects an apostrophe.
+   *
+   * (Useful for preventing injection attacks and plain mistakes.)
+   */
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "TAXON_KEY",
+    "ACCEPTED_TAXON_KEY",
+    "KINGDOM_KEY",
+    "PHYLUM_KEY",
+    "CLASS_KEY",
+    "ORDER_KEY",
+    "FAMILY_KEY",
+    "GENUS_KEY",
+    "SUBGENUS_KEY",
+    "SPECIES_KEY",
+    "GADM_GID",
+    "GADM_LEVEL_0_GID",
+    "GADM_LEVEL_1_GID",
+    "GADM_LEVEL_2_GID",
+    "GADM_LEVEL_3_GID",
+    "IUCN_RED_LIST_CATEGORY",
+    "TAXONOMIC_ISSUE",
+    "ENVIRONMENTS",
+    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY",
+    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY",
+    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY",
+    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY",
+    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ENVIRONMENTS"
+  })
+  public void testRestrictedParametersRejectInjection(String name) {
+    List<SearchParameter> parameters = parametersNamed(name);
+    assertFalse(parameters.isEmpty(), "No occurrence or event search parameter named " + name);
+
+    for (SearchParameter parameter : parameters) {
+      assertThrows(
+        IllegalArgumentException.class,
+        () -> SearchTypeValidator.validate(parameter, "'"),
+        "Value ' should be invalid for " + parameter.getClass().getSimpleName() + "." + name);
+    }
+  }
+
+  private static List<SearchParameter> parametersNamed(String name) {
+    return Stream.concat(
+        Stream.of(OccurrenceSearchParameter.values()),
+        Stream.of(EventSearchParameter.values()))
+      .filter(p -> name.equals(p.name()))
+      .filter(p -> String.class.equals(p.type()))
+      .collect(Collectors.toList());
+  }
+
+  /**
    * Mock implementation of SearchParameter that used a {@link Temporal}.
    */
   private enum SearchLocalDateTime implements SearchParameter {
@@ -205,6 +323,11 @@ public class SearchTypeValidatorTest {
     @Override
     public Class<?> type() {
       return LocalDateTime.class;
+    }
+
+    @Override
+    public SearchParameterFormat format() {
+      return null;
     }
   }
 }

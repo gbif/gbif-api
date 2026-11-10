@@ -16,6 +16,7 @@ package org.gbif.api.model.literature.search;
 import java.util.Date;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
 import org.gbif.api.model.literature.LiteratureRelevance;
 import org.gbif.api.model.literature.LiteratureTopic;
 import org.gbif.api.model.literature.LiteratureType;
@@ -66,5 +67,10 @@ public enum LiteratureSearchParameter implements SearchParameter {
   @Override
   public Class<?> type() {
     return type;
+  }
+
+  @Override
+  public SearchParameterFormat format() {
+    return null;
   }
 }

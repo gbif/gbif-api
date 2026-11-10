@@ -13,9 +13,16 @@
  */
 package org.gbif.api.util;
 
-import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
-import static org.gbif.api.util.IsoDateParsingUtils.SIMPLE_ISO_DATE_STR_PATTERN;
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
+import org.gbif.api.model.event.search.EventSearchParameter;
+import org.gbif.api.model.occurrence.geo.DistanceUnit;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Language;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.Temporal;
@@ -27,12 +34,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
-import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.model.occurrence.geo.DistanceUnit;
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.Language;
 import org.locationtech.jts.algorithm.Orientation;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -46,6 +49,10 @@ import org.locationtech.spatial4j.exception.InvalidShapeException;
 import org.locationtech.spatial4j.io.WKTReader;
 import org.locationtech.spatial4j.shape.Shape;
 import org.locationtech.spatial4j.shape.jts.JtsGeometry;
+
+import static java.lang.Long.parseLong;
+import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
+import static org.gbif.api.util.IsoDateParsingUtils.SIMPLE_ISO_DATE_STR_PATTERN;
 
 /**
  * Utility class to do basic validation of all search enum based values.
@@ -69,28 +76,30 @@ public class SearchTypeValidator {
 
   /**
    * Matches ranges in formats
-   *
-   * <pre>
-   * 23.1,55.2
-   * </pre>
-   *
-   * <pre>
-   * *,88
-   * </pre>
-   *
-   * and
-   *
-   * <pre>
-   * 55,*
-   * </pre>
-   *
-   * .
+   * <code>23.1,55.2</code>
+   * <code>*,88</code>
+   * <code>55,*</code>.
    * The matcher returns 2 groups:
    * group 1: lower bound
    * group 2: upper bound
    */
   private static final Pattern DECIMAL_RANGE_PATTERN = Pattern.compile(
     "^" + DECIMAL_OR_WILDCARD + "\\s*,\\s*" + DECIMAL_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);
+
+  /** Vocabulary-like concept names, e.g. NorthAmerica. */
+  private static final Pattern ALPHABETIC_PATTERN = Pattern.compile("[a-zA-Z]+");
+
+  /** Enumeration-like codes, e.g. LC, TAXON_MATCH_NONE, MARINE. */
+  private static final Pattern ALPHABETIC_UNDERSCORE_PATTERN = Pattern.compile("[a-zA-Z0-9_]+");
+
+  /** Taxon keys from any checklist, e.g. 212 (GBIF Backbone) or 4QHKG (Catalogue of Life). */
+  private static final Pattern ALPHANUMERIC_PATTERN = Pattern.compile("[a-zA-Z0-9]+");
+
+  /** Vocabulary-like concept names like CambrianStage10. */
+  private static final Pattern ALPHANUMERIC_UNDERSCORE_PATTERN = Pattern.compile("[a-zA-Z0-9_]+");
+
+  /** GADM identifiers etc, e.g. IRL, IRL.1_1, GBR.1.2_1, Z01.14_1. */
+  private static final Pattern ALPHANUMERIC_UNDERSCORE_DOT_PATTERN = Pattern.compile("[a-zA-Z0-9_.]+");
 
   public static final String SIMPLE_ISO_YEAR_MONTH_PATTERN = "\\d{4}(?:-\\d{1,2})?";
 
@@ -177,6 +186,23 @@ public class SearchTypeValidator {
   }
 
   /**
+   * Parses a long integer range in the format 123,456
+   *
+   * @return the parsed range with wildcards represented as null values
+   * @throws IllegalArgumentException if value is invalid or null
+   */
+  public static Range<Long> parseLongRange(String value) {
+    if (StringUtils.isNotEmpty(value)) {
+      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
+      if (m.find()) {
+
+        return Range.closed(parseLong(m.group(1)), parseLong(m.group(2)));
+      }
+    }
+    throw new IllegalArgumentException("Invalid long integer range: " + value);
+  }
+
+  /**
    * Validates that a given parameter value matches the expected type of the parameter as defined by
    * {@link SearchParameter#type()} and throws an IllegalArgumentException otherwise.
    *
@@ -219,6 +245,9 @@ public class SearchTypeValidator {
             validateDay(intsFound);
           }
 
+        } else if (Long.class.isAssignableFrom(pType)) {
+          validateLong(value);
+
         } else if (Boolean.class.isAssignableFrom(pType)) {
           // we cannot use Boolean.parseBoolean as this accepted anything as false
           if (!BOOLEAN.matcher(value).find()) {
@@ -248,8 +277,11 @@ public class SearchTypeValidator {
           // ISO date strings
           validateDate(value);
 
-        } else if (!String.class.isAssignableFrom(pType)) {
-          // any string allowed
+        } else if (String.class.isAssignableFrom(pType)) {
+          // Many String parameters have a known format
+          validateStringFormat(param, value);
+
+        } else {
           // an unexpected data type - update this method!!
           throw new IllegalArgumentException("Unknown SearchParameter data type " + pType.getCanonicalName());
         }
@@ -257,6 +289,60 @@ public class SearchTypeValidator {
     } catch (NullPointerException e) {
       // Objects.requireNonNull throws NPE but we want IllegalArgumentException
       throw new IllegalArgumentException("Value " + value + " invalid for filter parameter " + param, e);
+    }
+  }
+
+  /**
+   * Validates the format of String parameters which are identifiers or codes rather than free text.
+   *
+   * @throws IllegalArgumentException if the value does not have the expected format
+   */
+  private static void validateStringFormat(SearchParameter param, String value) {
+    String name = param.name();
+
+    SearchParameterFormat format = param.format();
+    if (format == null) {
+      return;
+    }
+
+    Pattern pattern;
+    String description;
+    switch (format) {
+      case ALPHABETIC:
+        pattern = ALPHABETIC_PATTERN;
+        description = "a code using letters only.";
+        break;
+      case ALPHABETIC_UNDERSCORE:
+        pattern = ALPHABETIC_UNDERSCORE_PATTERN;
+        description = "a code using letters and underscores only.";
+        break;
+      case ALPHANUMERIC:
+        pattern = ALPHANUMERIC_PATTERN;
+        description = "a code using letters and digits only.";
+        break;
+      case ALPHANUMERIC_UNDERSCORE:
+        pattern = ALPHANUMERIC_UNDERSCORE_PATTERN;
+        description = "a code with letters, digits and underscores only.";
+        break;
+      case ALPHANUMERIC_UNDERSCORE_DOT:
+        pattern = ALPHANUMERIC_UNDERSCORE_DOT_PATTERN;
+        description = "a code with letters, digits, underscores and full stops only.";
+        break;
+      case IRI:
+        try {
+          new URI(value);
+        } catch (URISyntaxException e) {
+          throw new IllegalArgumentException(
+            "Value " + value + " invalid for filter parameter " + name + ", expected an IRI (URL).");
+        }
+        return;
+      default:
+        return;
+    }
+
+    if (!pattern.matcher(value).matches()) {
+      throw new IllegalArgumentException(
+        "Value " + value + " invalid for filter parameter " + name + ", expected " + description);
     }
   }
 
@@ -476,6 +562,33 @@ public class SearchTypeValidator {
         ints.add(range.upperEndpoint());
       }
       return ints;
+    }
+  }
+
+  /**
+   * Validates if the value is a valid single long integer or a range of long integer values.
+   * If the value is a range each limit is validated and the wildcard character '*' is skipped.
+   *
+   * @throws IllegalArgumentException if value is invalid or null
+   */
+  private static Collection<Long> validateLong(String value) {
+    if (StringUtils.isEmpty(value)) {
+      throw new IllegalArgumentException("Long integer cannot be null or empty");
+    }
+    try {
+      List<Long> list = new ArrayList<>();
+      list.add(parseLong(value));
+      return list;
+    } catch (NumberFormatException e) {
+      Range<Long> range = parseLongRange(value);
+      List<Long> longs = new ArrayList<>();
+      if (range.hasLowerBound()) {
+        longs.add(range.lowerEndpoint());
+      }
+      if (range.hasUpperBound()) {
+        longs.add(range.upperEndpoint());
+      }
+      return longs;
     }
   }
 

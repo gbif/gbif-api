@@ -31,9 +31,13 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.DurationUnit;
 import org.gbif.api.vocabulary.EventIssue;
+
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHABETIC_UNDERSCORE;
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC;
 
 /**
  * Supported query parameters by the occurrence search and download service. For download predicates
@@ -396,18 +400,18 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY =
-      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY", String.class);
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY", String.class, ALPHANUMERIC);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_NAME =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_NAME", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY =
-      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY", String.class);
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY", String.class, ALPHANUMERIC);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY =
-      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY", String.class);
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY", String.class, ALPHANUMERIC);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY =
       new EventSearchParameter(
-          "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY", String.class);
+          "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY", String.class, ALPHABETIC_UNDERSCORE);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ENVIRONMENTS =
-      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ENVIRONMENTS", String.class);
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ENVIRONMENTS", String.class, ALPHABETIC_UNDERSCORE);
   public static final EventSearchParameter HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS =
       new EventSearchParameter("HUMBOLDT_TAXON_COMPLETENESS_PROTOCOLS", String.class);
   public static final EventSearchParameter HUMBOLDT_IS_TAXONOMIC_SCOPE_FULLY_REPORTED =
@@ -487,12 +491,20 @@ public class EventSearchParameter implements SearchParameter, Serializable {
 
   private Class<?> type;
   private String name;
+  private SearchParameterFormat format;
 
   public EventSearchParameter() {}
 
   public EventSearchParameter(OccurrenceSearchParameter occurrenceSearchParameter) {
     this.name = occurrenceSearchParameter.getName();
     this.type = occurrenceSearchParameter.getType();
+    this.format = occurrenceSearchParameter.getFormat();
+  }
+
+  public EventSearchParameter(String name, Class<?> type, SearchParameterFormat format) {
+    this.name = name;
+    this.type = type;
+    this.format = format;
   }
 
   public EventSearchParameter(String name, Class<?> type) {
@@ -505,10 +517,6 @@ public class EventSearchParameter implements SearchParameter, Serializable {
     return this.name;
   }
 
-  public Class<?> getType() {
-    return type;
-  }
-
   public String getName() {
     return name;
   }
@@ -516,6 +524,18 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   @Override
   public Class<?> type() {
     return this.type;
+  }
+
+  public Class<?> getType() {
+    return type;
+  }
+
+  public SearchParameterFormat format() {
+    return this.format;
+  }
+
+  public SearchParameterFormat getFormat() {
+    return format;
   }
 
   @Override
@@ -528,7 +548,7 @@ public class EventSearchParameter implements SearchParameter, Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     EventSearchParameter that = (EventSearchParameter) o;
-    return Objects.equals(type, that.type) && Objects.equals(name, that.name);
+    return Objects.equals(type, that.type) && Objects.equals(name, that.name) && Objects.equals(format, that.format);
   }
 
   @JsonValue
@@ -538,7 +558,7 @@ public class EventSearchParameter implements SearchParameter, Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, name);
+    return Objects.hash(name, type, format);
   }
 
   /**

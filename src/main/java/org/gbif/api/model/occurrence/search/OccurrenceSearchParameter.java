@@ -12,23 +12,9 @@
  * limitations under the License.
  */
 package org.gbif.api.model.occurrence.search;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.KeyDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
 import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
@@ -40,6 +26,31 @@ import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TaxonomicStatus;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.KeyDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHABETIC;
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHABETIC_UNDERSCORE;
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC;
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC_UNDERSCORE;
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC_UNDERSCORE_DOT;
+import static org.gbif.api.model.common.search.SearchParameterFormat.IRI;
 
 /**
  * Supported query parameters by the occurrence search and download service.
@@ -56,7 +67,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The checklist key to use for taxonomy matching.
    */
-  public final static OccurrenceSearchParameter CHECKLIST_KEY = new OccurrenceSearchParameter("CHECKLIST_KEY", String.class);
+  public final static OccurrenceSearchParameter CHECKLIST_KEY = new OccurrenceSearchParameter("CHECKLIST_KEY", UUID.class);
 
   /**
    * The 4 digit year. A year of 98 will be 98 common era, not 1998.
@@ -325,7 +336,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The sex of the biological individual(s) represented in the occurrence.
    */
-  public final static OccurrenceSearchParameter SEX = new OccurrenceSearchParameter("SEX", String.class);
+  public final static OccurrenceSearchParameter SEX = new OccurrenceSearchParameter("SEX", String.class, ALPHABETIC);
 
   /**
    * Presents of associated sequences or an extension
@@ -336,52 +347,52 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)  All included and synonym taxa are included in the search, so a search for
    * aves with taxonKey=212 will match all birds, no matter which species.
    */
-  public final static OccurrenceSearchParameter TAXON_KEY = new OccurrenceSearchParameter("TAXON_KEY", String.class);
+  public final static OccurrenceSearchParameter TAXON_KEY = new OccurrenceSearchParameter("TAXON_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the name usage of the currently valid or accepted taxon.
    */
-  public final static OccurrenceSearchParameter ACCEPTED_TAXON_KEY = new OccurrenceSearchParameter("ACCEPTED_TAXON_KEY", String.class);
+  public final static OccurrenceSearchParameter ACCEPTED_TAXON_KEY = new OccurrenceSearchParameter("ACCEPTED_TAXON_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A kingdom key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter KINGDOM_KEY = new OccurrenceSearchParameter("KINGDOM_KEY", String.class);
+  public final static OccurrenceSearchParameter KINGDOM_KEY = new OccurrenceSearchParameter("KINGDOM_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A phylum key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter PHYLUM_KEY = new OccurrenceSearchParameter("PHYLUM_KEY", String.class);
+  public final static OccurrenceSearchParameter PHYLUM_KEY = new OccurrenceSearchParameter("PHYLUM_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A class key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter CLASS_KEY = new OccurrenceSearchParameter("CLASS_KEY", String.class);
+  public final static OccurrenceSearchParameter CLASS_KEY = new OccurrenceSearchParameter("CLASS_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A order key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter ORDER_KEY = new OccurrenceSearchParameter("ORDER_KEY", String.class);
+  public final static OccurrenceSearchParameter ORDER_KEY = new OccurrenceSearchParameter("ORDER_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A family key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter FAMILY_KEY = new OccurrenceSearchParameter("FAMILY_KEY", String.class);
+  public final static OccurrenceSearchParameter FAMILY_KEY = new OccurrenceSearchParameter("FAMILY_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A genus key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter GENUS_KEY = new OccurrenceSearchParameter("GENUS_KEY", String.class);
+  public final static OccurrenceSearchParameter GENUS_KEY = new OccurrenceSearchParameter("GENUS_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A subgenus key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter SUBGENUS_KEY = new OccurrenceSearchParameter("SUBGENUS_KEY", String.class);
+  public final static OccurrenceSearchParameter SUBGENUS_KEY = new OccurrenceSearchParameter("SUBGENUS_KEY", String.class, ALPHANUMERIC);
 
   /**
    * A species key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter SPECIES_KEY = new OccurrenceSearchParameter("SPECIES_KEY", String.class);
+  public final static OccurrenceSearchParameter SPECIES_KEY = new OccurrenceSearchParameter("SPECIES_KEY", String.class, ALPHANUMERIC);
 
   /**
    * Searches the interpreted, full scientific name of the occurrence.
@@ -460,12 +471,12 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * Searches occurrence for those that have a specific taxonomic issue. This is separated out from the general issue
    * field as taxonomic issues will be tied to a specific checklist.
    */
-  public final static OccurrenceSearchParameter TAXONOMIC_ISSUE = new OccurrenceSearchParameter("TAXONOMIC_ISSUE", String.class);
+  public final static OccurrenceSearchParameter TAXONOMIC_ISSUE = new OccurrenceSearchParameter("TAXONOMIC_ISSUE", String.class, ALPHABETIC_UNDERSCORE);
 
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
-  public final static OccurrenceSearchParameter TYPE_STATUS = new OccurrenceSearchParameter("TYPE_STATUS", String.class);
+  public final static OccurrenceSearchParameter TYPE_STATUS = new OccurrenceSearchParameter("TYPE_STATUS", String.class, ALPHABETIC_UNDERSCORE);
 
   /**
    * The kind of media object.
@@ -484,18 +495,18 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The process by which the biological individual(s) represented in the Occurrence became established at the location.
    */
-  public final static OccurrenceSearchParameter ESTABLISHMENT_MEANS = new OccurrenceSearchParameter("ESTABLISHMENT_MEANS", String.class);
+  public final static OccurrenceSearchParameter ESTABLISHMENT_MEANS = new OccurrenceSearchParameter("ESTABLISHMENT_MEANS", String.class, ALPHABETIC);
 
   /**
    * Provides the controlled vocabulary for information about degree to which an Organism survives, reproduces, and expands its range at the given place and time.
    */
-  public final static OccurrenceSearchParameter DEGREE_OF_ESTABLISHMENT = new OccurrenceSearchParameter("DEGREE_OF_ESTABLISHMENT", String.class);
+  public final static OccurrenceSearchParameter DEGREE_OF_ESTABLISHMENT = new OccurrenceSearchParameter("DEGREE_OF_ESTABLISHMENT", String.class, ALPHABETIC);
 
   /**
    * Provides the controlled vocabulary for information about the process by which an Organism came to be in a given place at a given time.
    * The pathway of an organism or organisms have been introduced to a given place and time.
    */
-  public final static OccurrenceSearchParameter PATHWAY = new OccurrenceSearchParameter("PATHWAY", String.class);
+  public final static OccurrenceSearchParameter PATHWAY = new OccurrenceSearchParameter("PATHWAY", String.class, ALPHABETIC);
 
   /**
    * Searches for records whose publishing country is different to the country where the record was recorded in.
@@ -530,7 +541,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter PROTOCOL = new OccurrenceSearchParameter("PROTOCOL", EndpointType.class);
 
   /**
-   * The license applied to the dataset.
+   * The licence applied to the dataset.
    */
   public final static OccurrenceSearchParameter LICENSE = new OccurrenceSearchParameter("LICENSE", License.class);
 
@@ -547,7 +558,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The category of the dataset this record belongs to..
    */
-  public final static OccurrenceSearchParameter DATASET_CATEGORY = new OccurrenceSearchParameter("DATASET_CATEGORY", String.class);
+  public final static OccurrenceSearchParameter DATASET_CATEGORY = new OccurrenceSearchParameter("DATASET_CATEGORY", String.class, ALPHABETIC);
 
   /**
    * The technical installation key that hosts/publishes this record.
@@ -602,12 +613,12 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * Collection key. It links to the collection to which this record belongs.
    */
-  public final static OccurrenceSearchParameter COLLECTION_KEY = new OccurrenceSearchParameter("COLLECTION_KEY", String.class);
+  public final static OccurrenceSearchParameter COLLECTION_KEY = new OccurrenceSearchParameter("COLLECTION_KEY", UUID.class);
 
   /**
    * Institution key. It links to the institution that maintains, recorded or digitized  this record.
    */
-  public final static OccurrenceSearchParameter INSTITUTION_KEY = new OccurrenceSearchParameter("INSTITUTION_KEY", String.class);
+  public final static OccurrenceSearchParameter INSTITUTION_KEY = new OccurrenceSearchParameter("INSTITUTION_KEY", UUID.class);
 
   /**
    * Agent identifiers from GbifTerm.recordedByID
@@ -627,32 +638,32 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * A <a href="https://gadm.org">GADM</a> identifier at any level.
    */
-  public final static OccurrenceSearchParameter GADM_GID = new OccurrenceSearchParameter("GADM_GID", String.class);
+  public final static OccurrenceSearchParameter GADM_GID = new OccurrenceSearchParameter("GADM_GID", String.class, ALPHANUMERIC_UNDERSCORE_DOT);
 
   /**
    * A <a href="https://gadm.org">GADM</a> country, island or territory (level zero) identifier.
    */
-  public final static OccurrenceSearchParameter GADM_LEVEL_0_GID = new OccurrenceSearchParameter("GADM_LEVEL_0_GID", String.class);
+  public final static OccurrenceSearchParameter GADM_LEVEL_0_GID = new OccurrenceSearchParameter("GADM_LEVEL_0_GID", String.class, ALPHANUMERIC_UNDERSCORE_DOT);
 
   /**
    * A <a href="https://gadm.org">GADM</a> first-level identifier.
    */
-  public final static OccurrenceSearchParameter GADM_LEVEL_1_GID = new OccurrenceSearchParameter("GADM_LEVEL_1_GID", String.class);
+  public final static OccurrenceSearchParameter GADM_LEVEL_1_GID = new OccurrenceSearchParameter("GADM_LEVEL_1_GID", String.class, ALPHANUMERIC_UNDERSCORE_DOT);
 
   /**
    * A <a href="https://gadm.org">GADM</a> second-level identifier.
    */
-  public final static OccurrenceSearchParameter GADM_LEVEL_2_GID = new OccurrenceSearchParameter("GADM_LEVEL_2_GID", String.class);
+  public final static OccurrenceSearchParameter GADM_LEVEL_2_GID = new OccurrenceSearchParameter("GADM_LEVEL_2_GID", String.class, ALPHANUMERIC_UNDERSCORE_DOT);
 
   /**
    * A <a href="https://gadm.org">GADM</a> third-level identifier.
    */
-  public final static OccurrenceSearchParameter GADM_LEVEL_3_GID = new OccurrenceSearchParameter("GADM_LEVEL_3_GID", String.class);
+  public final static OccurrenceSearchParameter GADM_LEVEL_3_GID = new OccurrenceSearchParameter("GADM_LEVEL_3_GID", String.class, ALPHANUMERIC_UNDERSCORE_DOT);
 
   /**
    * The life stage of an occurrence.
    */
-  public final static OccurrenceSearchParameter   LIFE_STAGE = new OccurrenceSearchParameter("LIFE_STAGE", String.class);
+  public final static OccurrenceSearchParameter   LIFE_STAGE = new OccurrenceSearchParameter("LIFE_STAGE", String.class, ALPHABETIC);
 
   /**
    * Searches for occurrences that are clustered.
@@ -662,18 +673,18 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * Searches for occurrences that have a particular DwC-A extension.
    */
-  public final static OccurrenceSearchParameter DWCA_EXTENSION = new OccurrenceSearchParameter("DWCA_EXTENSION", String.class);
+  public final static OccurrenceSearchParameter DWCA_EXTENSION = new OccurrenceSearchParameter("DWCA_EXTENSION", String.class, IRI);
 
   /**
    * Searches for occurrences that have a IUCN Red List Category.
    */
-  public final static OccurrenceSearchParameter IUCN_RED_LIST_CATEGORY = new OccurrenceSearchParameter("IUCN_RED_LIST_CATEGORY", String.class);
+  public final static OccurrenceSearchParameter IUCN_RED_LIST_CATEGORY = new OccurrenceSearchParameter("IUCN_RED_LIST_CATEGORY", String.class, ALPHABETIC_UNDERSCORE);
 
   /**
    * Searches for occurrences whose taxon, according to the checklist, lives in the given environment,
    * e.g. MARINE, BRACKISH, FRESHWATER or TERRESTRIAL.
    */
-  public final static OccurrenceSearchParameter ENVIRONMENTS = new OccurrenceSearchParameter("ENVIRONMENTS", String.class);
+  public final static OccurrenceSearchParameter ENVIRONMENTS = new OccurrenceSearchParameter("ENVIRONMENTS", String.class, ALPHABETIC_UNDERSCORE);
 
   /**
    * The dwc dataset id.
@@ -726,73 +737,73 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal
    * name ("Precambrian") attributable to the stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter EARLIEST_EON_OR_LOWEST_EONOTHEM = new OccurrenceSearchParameter("EARLIEST_EON_OR_LOWEST_EONOTHEM", String.class);
+  public final static OccurrenceSearchParameter EARLIEST_EON_OR_LOWEST_EONOTHEM = new OccurrenceSearchParameter("EARLIEST_EON_OR_LOWEST_EONOTHEM", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal
    * name ("Precambrian") attributable to the stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter LATEST_EON_OR_HIGHEST_EONOTHEM = new OccurrenceSearchParameter("LATEST_EON_OR_HIGHEST_EONOTHEM", String.class);
+  public final static OccurrenceSearchParameter LATEST_EON_OR_HIGHEST_EONOTHEM = new OccurrenceSearchParameter("LATEST_EON_OR_HIGHEST_EONOTHEM", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter EARLIEST_ERA_OR_LOWEST_ERATHEM = new OccurrenceSearchParameter("EARLIEST_ERA_OR_LOWEST_ERATHEM", String.class);
+  public final static OccurrenceSearchParameter EARLIEST_ERA_OR_LOWEST_ERATHEM = new OccurrenceSearchParameter("EARLIEST_ERA_OR_LOWEST_ERATHEM", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter LATEST_ERA_OR_HIGHEST_ERATHEM = new OccurrenceSearchParameter("LATEST_ERA_OR_HIGHEST_ERATHEM", String.class);
+  public final static OccurrenceSearchParameter LATEST_ERA_OR_HIGHEST_ERATHEM = new OccurrenceSearchParameter("LATEST_ERA_OR_HIGHEST_ERATHEM", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter EARLIEST_PERIOD_OR_LOWEST_SYSTEM = new OccurrenceSearchParameter("EARLIEST_PERIOD_OR_LOWEST_SYSTEM", String.class);
+  public final static OccurrenceSearchParameter EARLIEST_PERIOD_OR_LOWEST_SYSTEM = new OccurrenceSearchParameter("EARLIEST_PERIOD_OR_LOWEST_SYSTEM", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter LATEST_PERIOD_OR_HIGHEST_SYSTEM = new OccurrenceSearchParameter("LATEST_PERIOD_OR_HIGHEST_SYSTEM", String.class);
+  public final static OccurrenceSearchParameter LATEST_PERIOD_OR_HIGHEST_SYSTEM = new OccurrenceSearchParameter("LATEST_PERIOD_OR_HIGHEST_SYSTEM", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter EARLIEST_EPOCH_OR_LOWEST_SERIES = new OccurrenceSearchParameter("EARLIEST_EPOCH_OR_LOWEST_SERIES", String.class);
+  public final static OccurrenceSearchParameter EARLIEST_EPOCH_OR_LOWEST_SERIES = new OccurrenceSearchParameter("EARLIEST_EPOCH_OR_LOWEST_SERIES", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter LATEST_EPOCH_OR_HIGHEST_SERIES = new OccurrenceSearchParameter("LATEST_EPOCH_OR_HIGHEST_SERIES", String.class);
+  public final static OccurrenceSearchParameter LATEST_EPOCH_OR_HIGHEST_SERIES = new OccurrenceSearchParameter("LATEST_EPOCH_OR_HIGHEST_SERIES", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter EARLIEST_AGE_OR_LOWEST_STAGE = new OccurrenceSearchParameter("EARLIEST_AGE_OR_LOWEST_STAGE", String.class);
+  public final static OccurrenceSearchParameter EARLIEST_AGE_OR_LOWEST_STAGE = new OccurrenceSearchParameter("EARLIEST_AGE_OR_LOWEST_STAGE", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the
    * stratigraphic horizon from which the MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter LATEST_AGE_OR_HIGHEST_STAGE = new OccurrenceSearchParameter("LATEST_AGE_OR_HIGHEST_STAGE", String.class);
+  public final static OccurrenceSearchParameter LATEST_AGE_OR_HIGHEST_STAGE = new OccurrenceSearchParameter("LATEST_AGE_OR_HIGHEST_STAGE", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the
    * MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter LOWEST_BIOSTRATIGRAPHIC_ZONE = new OccurrenceSearchParameter("LOWEST_BIOSTRATIGRAPHIC_ZONE", String.class);
+  public final static OccurrenceSearchParameter LOWEST_BIOSTRATIGRAPHIC_ZONE = new OccurrenceSearchParameter("LOWEST_BIOSTRATIGRAPHIC_ZONE", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the
    * MaterialEntity was collected.
    */
-  public final static OccurrenceSearchParameter HIGHEST_BIOSTRATIGRAPHIC_ZONE = new OccurrenceSearchParameter("HIGHEST_BIOSTRATIGRAPHIC_ZONE", String.class);
+  public final static OccurrenceSearchParameter HIGHEST_BIOSTRATIGRAPHIC_ZONE = new OccurrenceSearchParameter("HIGHEST_BIOSTRATIGRAPHIC_ZONE", String.class, ALPHANUMERIC);
 
   /**
    * The full name of the lithostratigraphic group from which the MaterialEntity was collected.
@@ -823,20 +834,20 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * Unique GBIF key for the occurrence.
    */
-  public final static OccurrenceSearchParameter GBIF_ID = new OccurrenceSearchParameter("GBIF_ID", String.class);
+  public final static OccurrenceSearchParameter GBIF_ID = new OccurrenceSearchParameter("GBIF_ID", Long.class);
 
   /**
-   * Geological time of an occurrence that searchs in the chronostratigraphy fields.
+   * Geological time of an occurrence that searches in the chronostratigraphy fields.
    */
   public final static OccurrenceSearchParameter GEOLOGICAL_TIME = new OccurrenceSearchParameter("GEOLOGICAL_TIME", String.class);
 
   /**
-   * Searches in the lithostratigraphy fields(bed, formation, group, member).
+   * Searches in the lithostratigraphy fields (bed, formation, group, member).
    */
   public final static OccurrenceSearchParameter LITHOSTRATIGRAPHY = new OccurrenceSearchParameter("LITHOSTRATIGRAPHY", String.class);
 
   /**
-   * Searches in the biostratigraphy fields(lowest and highest biostratigraphy).
+   * Searches in the biostratigraphy fields (lowest and highest biostratigraphy).
    */
   public final static OccurrenceSearchParameter BIOSTRATIGRAPHY = new OccurrenceSearchParameter("BIOSTRATIGRAPHY", String.class);
 
@@ -851,7 +862,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * MD5 hash of the final cleaned sequence.
    */
-  public final static OccurrenceSearchParameter NUCLEOTIDE_SEQUENCE_NUCLEOTIDE_SEQUENCE_ID = new OccurrenceSearchParameter("NUCLEOTIDE_SEQUENCE_NUCLEOTIDE_SEQUENCE_ID", String.class);
+  public final static OccurrenceSearchParameter NUCLEOTIDE_SEQUENCE_NUCLEOTIDE_SEQUENCE_ID = new OccurrenceSearchParameter("NUCLEOTIDE_SEQUENCE_NUCLEOTIDE_SEQUENCE_ID", String.class, ALPHANUMERIC);
 
   /**
    * Normalized gene name using the target_gene vocabulary.
@@ -940,8 +951,15 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
 
   private Class<?> type;
   private String name;
+  private SearchParameterFormat format;
 
   public OccurrenceSearchParameter() {}
+
+  public OccurrenceSearchParameter(String name, Class<?> type, SearchParameterFormat format) {
+    this.name = name;
+    this.type = type;
+    this.format = format;
+  }
 
   public OccurrenceSearchParameter(String name, Class<?> type) {
     this.name = name;
@@ -953,10 +971,6 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
     return this.name;
   }
 
-  public Class<?> getType() {
-    return type;
-  }
-
   public String getName() {
     return name;
   }
@@ -964,6 +978,18 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   @Override
   public Class<?> type() {
     return this.type;
+  }
+
+  public Class<?> getType() {
+    return type;
+  }
+
+  public SearchParameterFormat format() {
+    return this.format;
+  }
+
+  public SearchParameterFormat getFormat() {
+    return format;
   }
 
   @Override
@@ -976,7 +1002,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     OccurrenceSearchParameter that = (OccurrenceSearchParameter) o;
-    return Objects.equals(type, that.type) && Objects.equals(name, that.name);
+    return Objects.equals(type, that.type) && Objects.equals(name, that.name) && Objects.equals(format, that.format);
   }
 
   @JsonValue
@@ -986,7 +1012,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, name);
+    return Objects.hash(name, type, format);
   }
 
   /**
