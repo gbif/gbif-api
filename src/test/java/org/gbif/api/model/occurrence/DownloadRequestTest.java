@@ -116,7 +116,7 @@ public class DownloadRequestTest {
         null,
         Collections.singleton(Extension.AUDUBON),
         Collections.singleton(Extension.HUMBOLDT),
-        Constants.NUB_DATASET_KEY.toString());
+        Constants.NUB_DATASET_KEY);
   }
 
   @Test

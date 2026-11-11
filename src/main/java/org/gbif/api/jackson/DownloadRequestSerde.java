@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -130,10 +131,10 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
     String description = Optional.ofNullable(node.get(DESCRIPTION)).map(JsonNode::asText).orElse(null);
 
-    String checklistKey = Optional.ofNullable(node.get(CHECKLIST_KEY))
+    UUID checklistKey = Optional.ofNullable(node.get(CHECKLIST_KEY))
       .map(JsonNode::asText)
       .map(String::trim)
-      .map(s -> s.equalsIgnoreCase("null") ? null : s)
+      .map(UUID::fromString)
       .orElse(null);
 
     List<String> notificationAddresses = new ArrayList<>();

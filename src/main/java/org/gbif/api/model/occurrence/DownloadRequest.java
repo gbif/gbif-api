@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -95,7 +96,7 @@ public abstract class DownloadRequest implements Serializable {
   private JsonNode machineDescription;
 
   @JsonProperty("checklistKey")
-  private String checklistKey;
+  private UUID checklistKey;
 
   /**
    * Default constructor.
@@ -107,7 +108,7 @@ public abstract class DownloadRequest implements Serializable {
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
                          Boolean sendNotification, DownloadFormat format,
                          DownloadType downloadType, String description,
-                         JsonNode machineDescription, String checklistKey) {
+                         JsonNode machineDescription, UUID checklistKey) {
     this.creator = creator;
     this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
       Collections.unmodifiableSet(new HashSet<>(notificationAddresses));
@@ -228,11 +229,11 @@ public abstract class DownloadRequest implements Serializable {
     return format.getExtension();
   }
 
-  public String getChecklistKey() {
+  public UUID getChecklistKey() {
     return checklistKey;
   }
 
-  public void setChecklistKey(String checklistKey) {
+  public void setChecklistKey(UUID checklistKey) {
     this.checklistKey = checklistKey;
   }
 
