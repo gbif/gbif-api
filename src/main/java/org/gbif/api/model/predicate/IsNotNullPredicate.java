@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
@@ -55,7 +56,7 @@ public class IsNotNullPredicate<S extends SearchParameter> implements Predicate 
     this(parameter, null, null);
   }
 
-  public IsNotNullPredicate(S parameter, String checklistKey) {
+  public IsNotNullPredicate(S parameter, UUID checklistKey) {
     this(parameter, checklistKey, null);
   }
 

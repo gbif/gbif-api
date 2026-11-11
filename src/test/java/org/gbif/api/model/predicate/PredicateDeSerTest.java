@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.event.search.EventSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
@@ -94,7 +96,7 @@ public class PredicateDeSerTest {
     Assertions.assertEquals(5, predicates.size());
     EqualsPredicate<?> equals = (EqualsPredicate<?>) predicates.get(0);
     Assertions.assertTrue(equals.getDnaTaxonSearch());
-    Assertions.assertEquals("7ddf754f-d193-4cc9-b351-99906754a03b", equals.getChecklistKey());
+    Assertions.assertEquals(UUID.fromString("7ddf754f-d193-4cc9-b351-99906754a03b"), equals.getChecklistKey());
     Assertions.assertTrue(((InPredicate<?>) predicates.get(1)).getDnaTaxonSearch());
     Assertions.assertTrue(((LikePredicate<?>) predicates.get(2)).getDnaTaxonSearch());
     Assertions.assertTrue(((IsNullPredicate<?>) predicates.get(3)).getDnaTaxonSearch());
@@ -106,11 +108,12 @@ public class PredicateDeSerTest {
     // the stored downloads are serialized and deserialized again, so the flag must be kept
     List<Predicate> predicates =
         List.of(
-            new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, "1", true),
+            new EqualsPredicate<>(
+                OccurrenceSearchParameter.TAXON_KEY, "212", false, UUID.randomUUID(), true),
             new InPredicate<>(
-                OccurrenceSearchParameter.KINGDOM_KEY, List.of("1", "6"), false, "1", true),
-            new IsNullPredicate<>(OccurrenceSearchParameter.GENUS_KEY, "1", true),
-            new IsNotNullPredicate<>(OccurrenceSearchParameter.SPECIES_KEY, "1", true));
+                OccurrenceSearchParameter.KINGDOM_KEY, List.of("1", "6"), false, UUID.randomUUID(), true),
+            new IsNullPredicate<>(OccurrenceSearchParameter.GENUS_KEY, UUID.randomUUID(), true),
+            new IsNotNullPredicate<>(OccurrenceSearchParameter.SPECIES_KEY, UUID.randomUUID(), true));
 
     for (Predicate p : predicates) {
       Predicate roundTrip = MAPPER.readValue(MAPPER.writeValueAsString(p), Predicate.class);
@@ -119,7 +122,7 @@ public class PredicateDeSerTest {
 
     // LikePredicate equality doesn't take into account the flag, so it's checked explicitly
     LikePredicate<OccurrenceSearchParameter> like =
-        new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", "1", false, true);
+        new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", UUID.randomUUID(), false, true);
     LikePredicate<?> likeRoundTrip =
         (LikePredicate<?>) MAPPER.readValue(MAPPER.writeValueAsString(like), Predicate.class);
     Assertions.assertTrue(likeRoundTrip.getDnaTaxonSearch());
@@ -128,17 +131,17 @@ public class PredicateDeSerTest {
   @Test
   public void dnaTaxonSearchDistinguishesPredicatesTest() {
     Assertions.assertNotEquals(
-        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, "1", true),
-        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, "1", null));
+        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, UUID.randomUUID(), true),
+        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, UUID.randomUUID(), null));
     Assertions.assertNotEquals(
-        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, "1", true),
-        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, "1", null));
+        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, UUID.randomUUID(), true),
+        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, UUID.randomUUID(), null));
     Assertions.assertNotEquals(
-        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "1", true),
-        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "1", null));
+        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, UUID.randomUUID(), true),
+        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, UUID.randomUUID(), null));
     Assertions.assertNotEquals(
-        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "1", true),
-        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "1", null));
+        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, UUID.randomUUID(), true),
+        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, UUID.randomUUID(), null));
   }
 
   @Test

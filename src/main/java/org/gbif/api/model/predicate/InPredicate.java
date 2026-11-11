@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 

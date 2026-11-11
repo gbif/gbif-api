@@ -17,6 +17,8 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class IsNotNullPredicateTest {
@@ -30,6 +32,6 @@ public class IsNotNullPredicateTest {
 
   @Test
   public void testDnaTaxonSearchFlagAllowed() {
-    new IsNotNullPredicate<>(OccurrenceSearchParameter.KINGDOM_KEY, "1", true);
+    new IsNotNullPredicate<>(OccurrenceSearchParameter.KINGDOM_KEY, UUID.randomUUID(), true);
   }
 }
