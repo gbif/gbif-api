@@ -14,6 +14,7 @@
 package org.gbif.api.model.occurrence.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
 
 import java.util.Date;
 
@@ -37,5 +38,10 @@ public enum InternalOccurrenceSearchParameter implements SearchParameter {
   @Override
   public Class<?> type() {
     return type;
+  }
+
+  @Override
+  public SearchParameterFormat format() {
+    return null;
   }
 }

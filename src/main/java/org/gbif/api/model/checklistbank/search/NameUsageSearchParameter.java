@@ -16,6 +16,7 @@ package org.gbif.api.model.checklistbank.search;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Habitat;
 import org.gbif.api.vocabulary.NameType;
@@ -107,5 +108,10 @@ public enum NameUsageSearchParameter implements SearchParameter {
   @Override
   public Class<?> type() {
     return type;
+  }
+
+  @Override
+  public SearchParameterFormat format() {
+    return null;
   }
 }

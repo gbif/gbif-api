@@ -47,7 +47,9 @@ public interface SearchParameter {
 
   Class<?> type();
 
-  // This deserializer is used only when the type property is not set. Otherwise it uses the custom
+  SearchParameterFormat format();
+
+  // This deserializer is used only when the type property is not set, otherwise it uses the custom
   // deserializers of each type
   class SearchParameterDeserializer extends JsonDeserializer<SearchParameter> {
 

@@ -61,10 +61,11 @@ public abstract class DownloadRequest implements Serializable {
 
   @ArraySchema(
     schema = @Schema(
-      description = "An email addresses to notify when the download finishes."
+      description = "Ignored since November 2026. Email notifications are sent to the registered user's email address."
     )
   )
   @JsonProperty("notificationAddresses")
+  @Deprecated
   private Set<String> notificationAddresses;
 
   @Schema(
@@ -134,6 +135,7 @@ public abstract class DownloadRequest implements Serializable {
    * @return set of email addresses for notifications
    */
   @Nullable
+  @Deprecated
   public Set<String> getNotificationAddresses() {
     return notificationAddresses;
   }
@@ -147,6 +149,7 @@ public abstract class DownloadRequest implements Serializable {
    */
   @Nullable
   @JsonIgnore
+  @Deprecated
   public String getNotificationAddressesAsString() {
     if (notificationAddresses != null) {
       return notificationAddresses.stream()
@@ -160,6 +163,7 @@ public abstract class DownloadRequest implements Serializable {
   /**
    * Sets the notificationAddresses using a single String value that is split by ','.
    */
+  @Deprecated
   public void setNotificationAddressesAsString(String notificationAddressesAsString) {
     if (notificationAddressesAsString != null) {
       notificationAddresses = Stream.of(notificationAddressesAsString.split(DELIMITER))

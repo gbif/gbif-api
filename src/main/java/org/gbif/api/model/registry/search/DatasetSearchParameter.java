@@ -16,6 +16,7 @@
 package org.gbif.api.model.registry.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
@@ -121,6 +122,11 @@ public enum DatasetSearchParameter implements SearchParameter {
   CREATED_DATE(LocalDateTime.class),
 
   /**
+   * Date when the dataset was published
+   */
+  PUBLICATION_DATE(LocalDateTime.class),
+
+  /**
    * Dataset title/name.
    */
   DATASET_TITLE(String.class),
@@ -208,4 +214,8 @@ public enum DatasetSearchParameter implements SearchParameter {
     return type;
   }
 
+  @Override
+  public SearchParameterFormat format() {
+    return null;
+  }
 }

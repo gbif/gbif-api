@@ -16,13 +16,14 @@ package org.gbif.api.model.predicate;
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 
-import jakarta.annotation.Nullable;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
 
 /**
  * This predicate checks if its {@code key} is LIKE its {@code value}.
@@ -39,9 +40,8 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
   @Schema(
     description = "Specify which taxonomy to use."
   )
-  @Experimental
   @Nullable
-  private final String checklistKey;
+  private final UUID checklistKey;
 
   @Schema(
     description = "Flag to additionally search in DNA taxonomies to improve the taxon search."
@@ -54,13 +54,11 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
     this(key, value, null, matchCase, null);
   }
 
-  public LikePredicate(S key, String value, String checklistKey, Boolean matchCase) {
+  public LikePredicate(S key, String value, UUID checklistKey, Boolean matchCase) {
     this(key, value, checklistKey, matchCase, null);
   }
 
-  @Experimental
-  @Nullable
-  public String getChecklistKey() {
+  public UUID getChecklistKey() {
     return checklistKey;
   }
 
@@ -76,7 +74,7 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
   public LikePredicate(
       @JsonProperty("key") S key,
       @JsonProperty("value") String value,
-      @Nullable @JsonProperty(value = "checklistKey") String checklistKey,
+      @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey,
       @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
       @Nullable @JsonProperty(value = "dnaTaxonSearch") Boolean dnaTaxonSearch) {
     super(false, key, value, matchCase);
