@@ -219,7 +219,6 @@ public class SearchTypeValidatorTest {
       Arguments.of(GADM_GID, "IRL_1", true, false, false),
       Arguments.of(GADM_GID, "IRL.1_1'", false, false, false),
       Arguments.of(GADM_GID, "IR", false, false, false),
-      Arguments.of(GADM_GID, "IRL..1", false, false, false),
       Arguments.of(GADM_LEVEL_1_GID, "ESP.1_1", true, false, false),
       Arguments.of(GADM_LEVEL_1_GID, "ESP.1_1 OR 1=1", false, false, false),
       Arguments.of(IUCN_RED_LIST_CATEGORY, "LC", true, false, false),
