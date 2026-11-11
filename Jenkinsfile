@@ -48,10 +48,10 @@ pipeline {
         when {
             allOf {
                 not { expression { params.RELEASE } };
-                anyOf {
-                    branch 'dev';
-                    branch 'feature/*';
-                }
+//                 anyOf {
+//                     branch 'dev';
+//                     branch 'feature/*';
+//                 }
             }
         }
         steps {
