@@ -27,6 +27,61 @@ pipeline {
   }
   stages {
 
+    stage('Setup') {
+      steps {
+        script {
+          // Branch-qualified version is workspace-only and is never committed.
+          // Example: feature/foo -> 0.0.7-FEATURE-FOO-SNAPSHOT
+          if (env.BRANCH_NAME != 'dev' && env.BRANCH_NAME != 'master' && !params.RELEASE) {
+            def suffix = env.BRANCH_NAME.replaceAll('[^a-zA-Z0-9.-]', '-').toUpperCase()
+
+            if (!suffix?.trim()) {
+              error("Could not derive a valid version suffix from branch '${env.BRANCH_NAME}'")
+            }
+
+            sh """
+              set -e
+              BASE_VERSION=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
+
+              if [ -z "\${BASE_VERSION}" ]; then
+                echo >&2 "ERROR: Maven returned an empty project version while preparing branch '${env.BRANCH_NAME}'."
+                exit 1
+              fi
+
+              echo "Using feature branch Maven version: \${BASE_VERSION}-${suffix}-SNAPSHOT"
+
+              mvn versions:set \
+                -DnewVersion=\${BASE_VERSION}-${suffix}-SNAPSHOT \
+                -DgenerateBackupPoms=false \
+                -DprocessAllModules=true
+            """
+          }
+
+          echo "Release build: ${params.RELEASE}"
+        }
+      }
+    }
+
+    // spotless:check use the config from motherpom of rachetFrom: origin/master
+    // Somehow origin master is not pulled as part of CI clone in this repo yielding us:
+    /*
+    [ERROR] Failed to execute goal com.diffplug.spotless:spotless-maven-plugin:2.39.0:check
+    (default-cli) on project gbif-api: Execution default-cli of goal
+    com.diffplug.spotless:spotless-maven-plugin:2.39.0:check failed:
+    No such reference 'origin/master' -> [Help 1]
+    */
+    /*
+    stage('Maven Spotless') {
+      steps {
+        withMaven(globalMavenSettingsConfig: 'org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1387378707709',
+                  mavenSettingsConfig: 'org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig1396361652540',
+                  traceability: true) {
+          sh 'mvn spotless:check -DratchetFrom=NONE'
+        }
+      }
+    }
+   */
+
     stage('Maven build') {
        when {
         allOf {
