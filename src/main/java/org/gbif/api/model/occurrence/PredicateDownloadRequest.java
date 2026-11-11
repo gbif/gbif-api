@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
@@ -127,7 +128,7 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty("machineDescription") @Nullable JsonNode machineDescription,
     @JsonProperty("verbatimExtensions") @Nullable Set<Extension> verbatimExtensions,
     @JsonProperty("interpretedExtensions") @Nullable Set<Extension> interpretedExtensions,
-    @JsonProperty("checklistKey") @Nullable String checklistKey
+    @JsonProperty("checklistKey") @Nullable UUID checklistKey
     ) {
     super(
       creator,

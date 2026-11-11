@@ -87,22 +87,22 @@ public class SearchTypeValidator {
     "^" + DECIMAL_OR_WILDCARD + "\\s*,\\s*" + DECIMAL_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);
 
   /** Vocabulary-like concept names, e.g. NorthAmerica. */
-  private static final Pattern ALPHABETIC_PATTERN = Pattern.compile("^[a-zA-Z]+$");
+  private static final Pattern ALPHABETIC_PATTERN = Pattern.compile("^[a-zA-Z?*]+$");
 
   /** Enumeration-like codes, e.g. LC, TAXON_MATCH_NONE, MARINE. */
-  private static final Pattern ALPHABETIC_UNDERSCORE_PATTERN = Pattern.compile("^[a-zA-Z0-9_]+$");
+  private static final Pattern ALPHABETIC_UNDERSCORE_PATTERN = Pattern.compile("[a-zA-Z0-9_?*]+");
 
   /** Vocabulary-like concept names like CambrianStage10 */
-  private static final Pattern ALPHANUMERIC_PATTERN = Pattern.compile("^[a-zA-Z0-9]+$");
-
-  /** Taxon keys from any checklist, e.g. 212 (GBIF Backbone) or 4QHKG (Catalogue of Life). */
-  private static final Pattern ALPHANUMERIC_DOT_PATTERN = Pattern.compile("^[a-zA-Z0-9.]+$");
+  private static final Pattern ALPHANUMERIC_PATTERN = Pattern.compile("[a-zA-Z0-9?*]+");
 
   /** Vocabulary-like concept names like CambrianStage10. */
-  private static final Pattern ALPHANUMERIC_UNDERSCORE_PATTERN = Pattern.compile("^[a-zA-Z0-9_]+$");
+  private static final Pattern ALPHANUMERIC_UNDERSCORE_PATTERN = Pattern.compile("[a-zA-Z0-9_?*]+");
 
   /** GADM identifiers etc, e.g. IRL, IRL.1_1, GBR.1.2_1, Z01.14_1. */
-  private static final Pattern ALPHANUMERIC_UNDERSCORE_DOT_PATTERN = Pattern.compile("^[a-zA-Z0-9_.]+$");
+  private static final Pattern ALPHANUMERIC_UNDERSCORE_DOT_PATTERN = Pattern.compile("[a-zA-Z0-9_.?*]+");
+
+  /** Taxon keys from any checklist, e.g. 212 (GBIF Backbone) or 4QHKG (Catalogue of Life). */
+  private static final Pattern TAXON_KEY_PATTERN = Pattern.compile("[a-zA-Z0-9.:?*-]+");
 
   public static final String SIMPLE_ISO_YEAR_MONTH_PATTERN = "\\d{4}(?:-\\d{1,2})?";
 
@@ -323,10 +323,6 @@ public class SearchTypeValidator {
         pattern = ALPHANUMERIC_PATTERN;
         description = "a code using letters and digits only.";
         break;
-      case ALPHANUMERIC_DOT:
-        pattern = ALPHANUMERIC_DOT_PATTERN;
-        description = "a code using letters, digits and full stops only.";
-        break;
       case ALPHANUMERIC_UNDERSCORE:
         pattern = ALPHANUMERIC_UNDERSCORE_PATTERN;
         description = "a code with letters, digits and underscores only.";
@@ -343,6 +339,10 @@ public class SearchTypeValidator {
             "Value " + value + " invalid for filter parameter " + name + ", expected an IRI (URL).");
         }
         return;
+      case TAXON_KEY:
+        pattern = TAXON_KEY_PATTERN;
+        description = "a code using letters, digits and full stops only.";
+        break;
       default:
         throw new IllegalArgumentException("Unknown SearchParameter format type " + param.format());
     }

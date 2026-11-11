@@ -3,6 +3,7 @@ package org.gbif.api.model.occurrence;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
@@ -49,7 +50,7 @@ public class SqlDownloadRequest extends DownloadRequest {
     @JsonProperty("type") @Nullable DownloadType type,
     @JsonProperty("description") @Nullable String description,
     @JsonProperty("machineDescription") @Nullable JsonNode machineDescription,
-    @JsonProperty("checklistKey") @Nullable String checklistKey
+    @JsonProperty("checklistKey") @Nullable UUID checklistKey
     ) {
     // Check the format is suitable for an SQL download, and check predicate formats are suitable for predicate downloads.
     super(

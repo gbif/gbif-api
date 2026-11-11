@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -834,16 +835,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private List<AgentIdentifier> identifiedByIds = new ArrayList<>();
 
   @Schema(
-    description = "**Experimental.**  The UUID of the institution holding the specimen occurrence, from GRSciColl."
+    description = "The UUID of the institution holding the specimen occurrence, from GRSciColl."
   )
-  @Experimental
-  private String institutionKey;
+  private UUID institutionKey;
 
   @Schema(
-    description = "**Experimental.**  The UUID of the collection containing the specimen occurrence, from GRSciColl."
+    description = "The UUID of the collection containing the specimen occurrence, from GRSciColl."
   )
-  @Experimental
-  private String collectionKey;
+  private UUID collectionKey;
 
   @Schema(
     description = "**Experimental.**  Whether the occurrence belongs to a machine-calculated cluster of probable " +
@@ -2089,22 +2088,20 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
-  @Experimental
-  public String getInstitutionKey() {
+  public UUID getInstitutionKey() {
     return institutionKey;
   }
 
-  public void setInstitutionKey(String institutionKey) {
+  public void setInstitutionKey(UUID institutionKey) {
     this.institutionKey = institutionKey;
   }
 
   @Nullable
-  @Experimental
-  public String getCollectionKey() {
+  public UUID getCollectionKey() {
     return collectionKey;
   }
 
-  public void setCollectionKey(String collectionKey) {
+  public void setCollectionKey(UUID collectionKey) {
     this.collectionKey = collectionKey;
   }
 

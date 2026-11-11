@@ -2,6 +2,8 @@ package org.gbif.api.model.collections.request;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +39,7 @@ public class DescriptorSearchRequest extends PageableBase implements Serializabl
   @Nullable private List<String> biomeType;
   @Nullable private List<String> issues;
   @Nullable private List<String> taxonIssues;
-  @Nullable private String checklistKey;
+  @Nullable private UUID checklistKey;
 
   public Pageable getPage() {
     return new PagingRequest(getOffset(), getLimit());

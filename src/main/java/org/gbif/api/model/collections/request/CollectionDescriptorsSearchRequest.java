@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +38,7 @@ public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest
   @Nullable private List<String> biomeType;
   @Nullable private List<String> issue;
   @Nullable private List<String> taxonIssue;
-  @Nullable private String checklistKey;
+  @Nullable private UUID checklistKey;
 
   @Builder.Default @Nullable private Set<CollectionFacetParameter> facets = new HashSet<>();
   @Nullable private boolean multiSelectFacets;

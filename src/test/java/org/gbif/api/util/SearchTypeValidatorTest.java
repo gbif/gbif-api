@@ -207,7 +207,7 @@ public class SearchTypeValidatorTest {
       Arguments.of(TAXON_KEY, "", false, false, false),
       Arguments.of(ACCEPTED_TAXON_KEY, "6W3C4", true, false, false),
       Arguments.of(KINGDOM_KEY, "1", true, false, false),
-      Arguments.of(SPECIES_KEY, "-1", false, false, false),
+      Arguments.of(SPECIES_KEY, "+1", false, false, false),
       Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY, "212", true, false, false),
       Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY, "212')", false, false, false),
       Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY, "x;y", false, false, false),
