@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
@@ -24,6 +25,7 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,15 +46,30 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
   @Nullable
   private final UUID checklistKey;
 
+  @Schema(
+    description = "Flag to additionally search in DNA taxonomies to improve the taxon search."
+  )
+  @Experimental
+  @Nullable
+  private final Boolean dnaTaxonSearch;
+
   public IsNullPredicate(S parameter) {
-    this(parameter, null);
+    this(parameter, null, null);
+  }
+
+  public IsNullPredicate(S parameter, UUID checklistKey) {
+    this(parameter, checklistKey, null);
   }
 
   @JsonCreator
-  public IsNullPredicate(@JsonProperty("parameter") S parameter, @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey) {
+  public IsNullPredicate(
+    @JsonProperty("parameter") S parameter,
+    @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey,
+    @Nullable @JsonProperty(value = "dnaTaxonSearch") Boolean dnaTaxonSearch) {
     Objects.requireNonNull(parameter, "<parameter> may not be null");
     this.parameter = parameter;
     this.checklistKey = checklistKey;
+    this.dnaTaxonSearch = dnaTaxonSearch;
     checkPredicateAllowed();
   }
 
@@ -62,6 +79,13 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
 
   public UUID getChecklistKey() {
     return checklistKey;
+  }
+
+  @Experimental
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public Boolean getDnaTaxonSearch() {
+    return dnaTaxonSearch;
   }
 
   /**
@@ -82,18 +106,22 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
       return false;
     }
     IsNullPredicate<S> that = (IsNullPredicate<S>) o;
-    return parameter == that.parameter;
+    return parameter == that.parameter
+      && Objects.equals(checklistKey, that.checklistKey)
+      && Objects.equals(dnaTaxonSearch, that.dnaTaxonSearch);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(parameter);
+    return Objects.hash(parameter, checklistKey, dnaTaxonSearch);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", IsNullPredicate.class.getSimpleName() + "[", "]")
       .add("parameter=" + parameter)
+      .add("checklistKey=" + checklistKey)
+      .add("dnaTaxonSearch=" + dnaTaxonSearch)
       .toString();
   }
 }

@@ -13,11 +13,13 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,12 +43,31 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
   @Nullable
   private final UUID checklistKey;
 
+  @Schema(
+    description = "Flag to additionally search in DNA taxonomies to improve the taxon search."
+  )
+  @Experimental
+  @Nullable
+  private final Boolean dnaTaxonSearch;
+
   public LikePredicate(S key, String value, Boolean matchCase) {
-    this(key, value, null, matchCase);
+    this(key, value, null, matchCase, null);
+  }
+
+  public LikePredicate(S key, String value, UUID checklistKey, Boolean matchCase) {
+    this(key, value, checklistKey, matchCase, null);
   }
 
   public UUID getChecklistKey() {
     return checklistKey;
+  }
+
+  @Experimental
+  @Nullable
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public Boolean getDnaTaxonSearch() {
+    return dnaTaxonSearch;
   }
 
   @JsonCreator
@@ -54,9 +75,11 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
       @JsonProperty("key") S key,
       @JsonProperty("value") String value,
       @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey,
-      @Nullable @JsonProperty(value = "matchCase") Boolean matchCase) {
+      @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
+      @Nullable @JsonProperty(value = "dnaTaxonSearch") Boolean dnaTaxonSearch) {
     super(false, key, value, matchCase);
     this.checklistKey = checklistKey;
+    this.dnaTaxonSearch = dnaTaxonSearch;
     // make sure we deal with a String type
     if (!String.class.equals(key.type())) {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);

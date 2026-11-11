@@ -44,6 +44,18 @@ public interface SearchRequest<P extends SearchParameter> extends Pageable {
   @Experimental
   Boolean isMatchCase();
 
+  /**
+   * This flag additionally searches the taxonomic parameters in the DNA assisted classification of
+   * the checklist to improve the taxon search.
+   *
+   * <p>This is an experimental feature, and its implementation may change or be removed at any
+   * time.
+   */
+  @Experimental
+  default Boolean isDnaTaxonSearch() {
+    return Boolean.FALSE;
+  }
+
   interface QueryField {}
 
   /**
