@@ -228,26 +228,22 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.BIOSTRATIGRAPHY, biostratigraphy);
   }
 
-  @Experimental
-  public void addInstitutionKeyFilter(String institutionKey) {
-    addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey);
+  public void addInstitutionKeyFilter(UUID institutionKey) {
+    addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey.toString());
   }
 
-  @Experimental
-  public void addCollectionKeyFilter(String collectionKey) {
-    addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);
+  public void addCollectionKeyFilter(UUID collectionKey) {
+    addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey.toString());
   }
 
   public void addDnaSequenceIDFilter(String dnaSequenceID) {
     addParameter(OccurrenceSearchParameter.DNA_SEQUENCE_ID, dnaSequenceID);
   }
 
-  @Experimental
-  public void addChecklistKeyFilter(String checklistKey) {
-    addParameter(OccurrenceSearchParameter.CHECKLIST_KEY, checklistKey);
+  public void addChecklistKeyFilter(UUID checklistKey) {
+    addParameter(OccurrenceSearchParameter.CHECKLIST_KEY, checklistKey.toString());
   }
 
-  @Experimental
   public void addTaxonomicIssueFilter(String taxonomicIssue) {
     addParameter(OccurrenceSearchParameter.TAXONOMIC_ISSUE, taxonomicIssue);
   }
