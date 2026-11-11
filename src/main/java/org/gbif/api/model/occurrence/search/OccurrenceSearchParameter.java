@@ -48,6 +48,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHABETIC;
 import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHABETIC_UNDERSCORE;
 import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC;
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC_DOT;
 import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC_UNDERSCORE;
 import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC_UNDERSCORE_DOT;
 import static org.gbif.api.model.common.search.SearchParameterFormat.IRI;
@@ -347,52 +348,52 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)  All included and synonym taxa are included in the search, so a search for
    * aves with taxonKey=212 will match all birds, no matter which species.
    */
-  public final static OccurrenceSearchParameter TAXON_KEY = new OccurrenceSearchParameter("TAXON_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter TAXON_KEY = new OccurrenceSearchParameter("TAXON_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the name usage of the currently valid or accepted taxon.
    */
-  public final static OccurrenceSearchParameter ACCEPTED_TAXON_KEY = new OccurrenceSearchParameter("ACCEPTED_TAXON_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter ACCEPTED_TAXON_KEY = new OccurrenceSearchParameter("ACCEPTED_TAXON_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A kingdom key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter KINGDOM_KEY = new OccurrenceSearchParameter("KINGDOM_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter KINGDOM_KEY = new OccurrenceSearchParameter("KINGDOM_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A phylum key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter PHYLUM_KEY = new OccurrenceSearchParameter("PHYLUM_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter PHYLUM_KEY = new OccurrenceSearchParameter("PHYLUM_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A class key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter CLASS_KEY = new OccurrenceSearchParameter("CLASS_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter CLASS_KEY = new OccurrenceSearchParameter("CLASS_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A order key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter ORDER_KEY = new OccurrenceSearchParameter("ORDER_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter ORDER_KEY = new OccurrenceSearchParameter("ORDER_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A family key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter FAMILY_KEY = new OccurrenceSearchParameter("FAMILY_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter FAMILY_KEY = new OccurrenceSearchParameter("FAMILY_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A genus key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter GENUS_KEY = new OccurrenceSearchParameter("GENUS_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter GENUS_KEY = new OccurrenceSearchParameter("GENUS_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A subgenus key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter SUBGENUS_KEY = new OccurrenceSearchParameter("SUBGENUS_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter SUBGENUS_KEY = new OccurrenceSearchParameter("SUBGENUS_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * A species key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone)
    */
-  public final static OccurrenceSearchParameter SPECIES_KEY = new OccurrenceSearchParameter("SPECIES_KEY", String.class, ALPHANUMERIC);
+  public final static OccurrenceSearchParameter SPECIES_KEY = new OccurrenceSearchParameter("SPECIES_KEY", String.class, ALPHANUMERIC_DOT);
 
   /**
    * Searches the interpreted, full scientific name of the occurrence.
@@ -495,18 +496,18 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The process by which the biological individual(s) represented in the Occurrence became established at the location.
    */
-  public final static OccurrenceSearchParameter ESTABLISHMENT_MEANS = new OccurrenceSearchParameter("ESTABLISHMENT_MEANS", String.class, ALPHABETIC);
+  public final static OccurrenceSearchParameter ESTABLISHMENT_MEANS = new OccurrenceSearchParameter("ESTABLISHMENT_MEANS", String.class, ALPHABETIC_UNDERSCORE);
 
   /**
    * Provides the controlled vocabulary for information about degree to which an Organism survives, reproduces, and expands its range at the given place and time.
    */
-  public final static OccurrenceSearchParameter DEGREE_OF_ESTABLISHMENT = new OccurrenceSearchParameter("DEGREE_OF_ESTABLISHMENT", String.class, ALPHABETIC);
+  public final static OccurrenceSearchParameter DEGREE_OF_ESTABLISHMENT = new OccurrenceSearchParameter("DEGREE_OF_ESTABLISHMENT", String.class, ALPHABETIC_UNDERSCORE);
 
   /**
    * Provides the controlled vocabulary for information about the process by which an Organism came to be in a given place at a given time.
    * The pathway of an organism or organisms have been introduced to a given place and time.
    */
-  public final static OccurrenceSearchParameter PATHWAY = new OccurrenceSearchParameter("PATHWAY", String.class, ALPHABETIC);
+  public final static OccurrenceSearchParameter PATHWAY = new OccurrenceSearchParameter("PATHWAY", String.class, ALPHABETIC_UNDERSCORE);
 
   /**
    * Searches for records whose publishing country is different to the country where the record was recorded in.
@@ -558,7 +559,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The category of the dataset this record belongs to..
    */
-  public final static OccurrenceSearchParameter DATASET_CATEGORY = new OccurrenceSearchParameter("DATASET_CATEGORY", String.class, ALPHABETIC);
+  public final static OccurrenceSearchParameter DATASET_CATEGORY = new OccurrenceSearchParameter("DATASET_CATEGORY", String.class, ALPHABETIC_UNDERSCORE);
 
   /**
    * The technical installation key that hosts/publishes this record.

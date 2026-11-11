@@ -38,6 +38,7 @@ import org.gbif.api.vocabulary.EventIssue;
 
 import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHABETIC_UNDERSCORE;
 import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC;
+import static org.gbif.api.model.common.search.SearchParameterFormat.ALPHANUMERIC_DOT;
 
 /**
  * Supported query parameters by the occurrence search and download service. For download predicates
@@ -400,13 +401,13 @@ public class EventSearchParameter implements SearchParameter, Serializable {
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_NAME", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY =
-      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY", String.class, ALPHANUMERIC);
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY", String.class, ALPHANUMERIC_DOT);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_NAME =
       new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_NAME", String.class);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY =
-      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY", String.class, ALPHANUMERIC);
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY", String.class, ALPHANUMERIC_DOT);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY =
-      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY", String.class, ALPHANUMERIC);
+      new EventSearchParameter("HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY", String.class, ALPHANUMERIC_DOT);
   public static final EventSearchParameter HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY =
       new EventSearchParameter(
           "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY", String.class, ALPHABETIC_UNDERSCORE);
