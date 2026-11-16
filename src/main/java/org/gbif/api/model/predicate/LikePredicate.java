@@ -44,11 +44,20 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
   private final UUID checklistKey;
 
   @Schema(
-    description = "Flag to additionally search in DNA taxonomies to improve the taxon search."
+    description = "Flag to also match the DNA-assisted classifications of the occurrences, in addition to their " +
+      "regular classifications."
   )
   @Experimental
   @Nullable
-  private final Boolean dnaTaxonSearch;
+  private final Boolean useDnaAssistance;
+
+  @Schema(
+    description = "Specify the taxonomy whose DNA-assisted classifications are used instead of the regular " +
+      "classifications. It is ignored when useDnaAssistance is used."
+  )
+  @Experimental
+  @Nullable
+  private final UUID dnaAssistedChecklistKey;
 
   public LikePredicate(S key, String value, Boolean matchCase) {
     this(key, value, null, matchCase, null);
@@ -66,8 +75,21 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
   @Nullable
   // not serialized when unset, so the JSON of the predicates without it doesn't change
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  public Boolean getDnaTaxonSearch() {
-    return dnaTaxonSearch;
+  public Boolean getUseDnaAssistance() {
+    return useDnaAssistance;
+  }
+
+  @Experimental
+  @Nullable
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public UUID getDnaAssistedChecklistKey() {
+    return dnaAssistedChecklistKey;
+  }
+
+  public LikePredicate(
+      S key, String value, UUID checklistKey, Boolean matchCase, Boolean useDnaAssistance) {
+    this(key, value, checklistKey, matchCase, useDnaAssistance, null);
   }
 
   @JsonCreator
@@ -76,10 +98,12 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
       @JsonProperty("value") String value,
       @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey,
       @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
-      @Nullable @JsonProperty(value = "dnaTaxonSearch") Boolean dnaTaxonSearch) {
+      @Nullable @JsonProperty(value = "useDnaAssistance") Boolean useDnaAssistance,
+      @Nullable @JsonProperty(value = "dnaAssistedChecklistKey") UUID dnaAssistedChecklistKey) {
     super(false, key, value, matchCase);
     this.checklistKey = checklistKey;
-    this.dnaTaxonSearch = dnaTaxonSearch;
+    this.useDnaAssistance = useDnaAssistance;
+    this.dnaAssistedChecklistKey = dnaAssistedChecklistKey;
     // make sure we deal with a String type
     if (!String.class.equals(key.type())) {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);

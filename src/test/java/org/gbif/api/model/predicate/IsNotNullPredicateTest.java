@@ -31,7 +31,7 @@ public class IsNotNullPredicateTest {
   }
 
   @Test
-  public void testDnaTaxonSearchFlagAllowed() {
+  public void testUseDnaAssistanceFlagAllowed() {
     new IsNotNullPredicate<>(OccurrenceSearchParameter.KINGDOM_KEY, UUID.randomUUID(), true);
   }
 }

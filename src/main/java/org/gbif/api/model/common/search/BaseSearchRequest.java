@@ -57,7 +57,7 @@ public abstract class BaseSearchRequest<P extends SearchParameter> extends Pagea
 
   @Hidden @Experimental @Setter private Boolean matchCase;
 
-  @Hidden @Experimental @Setter private Boolean dnaTaxonSearch;
+  @Hidden @Experimental @Setter private Boolean useDnaAssistance;
 
   /**
    * This flag allows to sort the results in a random order by specifying a seed. The seed makes the
@@ -93,8 +93,8 @@ public abstract class BaseSearchRequest<P extends SearchParameter> extends Pagea
    */
   @Override
   @Experimental
-  public Boolean isDnaTaxonSearch() {
-    return Optional.ofNullable(dnaTaxonSearch).orElse(Boolean.FALSE);
+  public Boolean isUseDnaAssistance() {
+    return Optional.ofNullable(useDnaAssistance).orElse(Boolean.FALSE);
   }
 
   /** Constructor with default paging offset & limit. */

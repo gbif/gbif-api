@@ -88,23 +88,23 @@ public class PredicateDeSerTest {
   }
 
   @Test
-  public void dnaTaxonSearchDeserTest() throws IOException {
+  public void useDnaAssistanceDeserTest() throws IOException {
     ConjunctionPredicate predicate =
-        (ConjunctionPredicate) MAPPER.readValue(getTestFile("dna_taxon_search.json"), Predicate.class);
+        (ConjunctionPredicate) MAPPER.readValue(getTestFile("use_dna_assistance.json"), Predicate.class);
 
     List<Predicate> predicates = new ArrayList<>(predicate.getPredicates());
     Assertions.assertEquals(5, predicates.size());
     EqualsPredicate<?> equals = (EqualsPredicate<?>) predicates.get(0);
-    Assertions.assertTrue(equals.getDnaTaxonSearch());
+    Assertions.assertTrue(equals.getUseDnaAssistance());
     Assertions.assertEquals(UUID.fromString("7ddf754f-d193-4cc9-b351-99906754a03b"), equals.getChecklistKey());
-    Assertions.assertTrue(((InPredicate<?>) predicates.get(1)).getDnaTaxonSearch());
-    Assertions.assertTrue(((LikePredicate<?>) predicates.get(2)).getDnaTaxonSearch());
-    Assertions.assertTrue(((IsNullPredicate<?>) predicates.get(3)).getDnaTaxonSearch());
-    Assertions.assertTrue(((IsNotNullPredicate<?>) predicates.get(4)).getDnaTaxonSearch());
+    Assertions.assertTrue(((InPredicate<?>) predicates.get(1)).getUseDnaAssistance());
+    Assertions.assertTrue(((LikePredicate<?>) predicates.get(2)).getUseDnaAssistance());
+    Assertions.assertTrue(((IsNullPredicate<?>) predicates.get(3)).getUseDnaAssistance());
+    Assertions.assertTrue(((IsNotNullPredicate<?>) predicates.get(4)).getUseDnaAssistance());
   }
 
   @Test
-  public void dnaTaxonSearchRoundTripTest() throws IOException {
+  public void useDnaAssistanceRoundTripTest() throws IOException {
     // the stored downloads are serialized and deserialized again, so the flag must be kept
     List<Predicate> predicates =
         List.of(
@@ -125,11 +125,11 @@ public class PredicateDeSerTest {
         new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", UUID.randomUUID(), false, true);
     LikePredicate<?> likeRoundTrip =
         (LikePredicate<?>) MAPPER.readValue(MAPPER.writeValueAsString(like), Predicate.class);
-    Assertions.assertTrue(likeRoundTrip.getDnaTaxonSearch());
+    Assertions.assertTrue(likeRoundTrip.getUseDnaAssistance());
   }
 
   @Test
-  public void dnaTaxonSearchDistinguishesPredicatesTest() {
+  public void useDnaAssistanceDistinguishesPredicatesTest() {
     Assertions.assertNotEquals(
         new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, UUID.randomUUID(), true),
         new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, UUID.randomUUID(), null));
@@ -145,7 +145,7 @@ public class PredicateDeSerTest {
   }
 
   @Test
-  public void dnaTaxonSearchOnlySerializedWhenSetTest() throws IOException {
+  public void useDnaAssistanceOnlySerializedWhenSetTest() throws IOException {
     // predicates without the flag keep the same JSON, so older clients can still read them
     List<Predicate> withoutFlag =
         List.of(
@@ -155,7 +155,7 @@ public class PredicateDeSerTest {
             new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY),
             new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY));
     for (Predicate p : withoutFlag) {
-      Assertions.assertFalse(MAPPER.writeValueAsString(p).contains("dnaTaxonSearch"));
+      Assertions.assertFalse(MAPPER.writeValueAsString(p).contains("useDnaAssistance"));
     }
 
     List<Predicate> withFlag =
@@ -166,15 +166,67 @@ public class PredicateDeSerTest {
             new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, true),
             new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, true));
     for (Predicate p : withFlag) {
-      Assertions.assertTrue(MAPPER.writeValueAsString(p).contains("\"dnaTaxonSearch\":true"));
+      Assertions.assertTrue(MAPPER.writeValueAsString(p).contains("\"useDnaAssistance\":true"));
     }
   }
 
   @Test
-  public void withoutDnaTaxonSearchTest() throws IOException {
+  public void dnaAssistedChecklistKeyRoundTripTest() throws IOException {
+    UUID dnaChecklistKey = UUID.randomUUID();
+    List<Predicate> predicates =
+        List.of(
+            new EqualsPredicate<>(
+                OccurrenceSearchParameter.TAXON_KEY, "212", false, null, null, dnaChecklistKey),
+            new InPredicate<>(
+                OccurrenceSearchParameter.KINGDOM_KEY, List.of("1", "6"), false, null, null, dnaChecklistKey),
+            new IsNullPredicate<>(OccurrenceSearchParameter.GENUS_KEY, null, null, dnaChecklistKey),
+            new IsNotNullPredicate<>(OccurrenceSearchParameter.SPECIES_KEY, null, null, dnaChecklistKey));
+
+    for (Predicate p : predicates) {
+      String json = MAPPER.writeValueAsString(p);
+      Assertions.assertTrue(json.contains("\"dnaAssistedChecklistKey\":\"" + dnaChecklistKey + "\""));
+      Assertions.assertEquals(p, MAPPER.readValue(json, Predicate.class));
+    }
+
+    // LikePredicate equality doesn't take into account the key, so it's checked explicitly
+    LikePredicate<OccurrenceSearchParameter> like =
+        new LikePredicate<>(
+            OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", null, false, null, dnaChecklistKey);
+    LikePredicate<?> likeRoundTrip =
+        (LikePredicate<?>) MAPPER.readValue(MAPPER.writeValueAsString(like), Predicate.class);
+    Assertions.assertEquals(dnaChecklistKey, likeRoundTrip.getDnaAssistedChecklistKey());
+  }
+
+  @Test
+  public void dnaAssistedChecklistKeyNotSerializedWhenUnsetTest() throws IOException {
+    List<Predicate> predicates =
+        List.of(
+            new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false),
+            new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false),
+            new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", false),
+            new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY),
+            new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY));
+    for (Predicate p : predicates) {
+      Assertions.assertFalse(MAPPER.writeValueAsString(p).contains("dnaAssistedChecklistKey"));
+    }
+  }
+
+  @Test
+  public void dnaAssistedChecklistKeyDistinguishesPredicatesTest() {
+    UUID dnaChecklistKey = UUID.randomUUID();
+    Assertions.assertNotEquals(
+        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, null, null, dnaChecklistKey),
+        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, null, null, null));
+    Assertions.assertNotEquals(
+        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, null, dnaChecklistKey),
+        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, null, null));
+  }
+
+  @Test
+  public void withoutUseDnaAssistanceTest() throws IOException {
     EqualsPredicate<?> predicate =
         (EqualsPredicate<?>) MAPPER.readValue(getTestFile("equals_catalog_number.json"), Predicate.class);
-    Assertions.assertNull(predicate.getDnaTaxonSearch());
+    Assertions.assertNull(predicate.getUseDnaAssistance());
   }
 
   private void assertPredicate(String fileName) throws IOException {

@@ -46,12 +46,12 @@ public class SearchRequestTest {
   }
 
   @Test
-  public void testDnaTaxonSearch() {
+  public void testUseDnaAssistance() {
     OccurrenceSearchRequest req = new OccurrenceSearchRequest();
-    assertFalse(req.isDnaTaxonSearch());
+    assertFalse(req.isUseDnaAssistance());
 
-    req.setDnaTaxonSearch(true);
-    assertTrue(req.isDnaTaxonSearch());
+    req.setUseDnaAssistance(true);
+    assertTrue(req.isUseDnaAssistance());
   }
 
 }

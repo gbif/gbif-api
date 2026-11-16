@@ -69,6 +69,11 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   public final static OccurrenceSearchParameter CHECKLIST_KEY = new OccurrenceSearchParameter("CHECKLIST_KEY", UUID.class);
 
   /**
+   * The checklist key to use for DNA-assisted taxonomy matching.
+   */
+  public final static OccurrenceSearchParameter DNA_ASSISTED_CHECKLIST_KEY = new OccurrenceSearchParameter("DNA_ASSISTED_CHECKLIST_KEY", UUID.class);
+
+  /**
    * The 4 digit year. A year of 98 will be 98 common era, not 1998.
    * This parameter accepts comma separated range values, e.g.:
    * <dl>

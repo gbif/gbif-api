@@ -47,11 +47,20 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
   private final UUID checklistKey;
 
   @Schema(
-    description = "Flag to additionally search in DNA taxonomies to improve the taxon search."
+    description = "Flag to also match the DNA-assisted classifications of the occurrences, in addition to their " +
+      "regular classifications."
   )
   @Experimental
   @Nullable
-  private final Boolean dnaTaxonSearch;
+  private final Boolean useDnaAssistance;
+
+  @Schema(
+    description = "Specify the taxonomy whose DNA-assisted classifications are used instead of the regular " +
+      "classifications. It is ignored when useDnaAssistance is used."
+  )
+  @Experimental
+  @Nullable
+  private final UUID dnaAssistedChecklistKey;
 
   public IsNullPredicate(S parameter) {
     this(parameter, null, null);
@@ -61,15 +70,21 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
     this(parameter, checklistKey, null);
   }
 
+  public IsNullPredicate(S parameter, UUID checklistKey, Boolean useDnaAssistance) {
+    this(parameter, checklistKey, useDnaAssistance, null);
+  }
+
   @JsonCreator
   public IsNullPredicate(
     @JsonProperty("parameter") S parameter,
     @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey,
-    @Nullable @JsonProperty(value = "dnaTaxonSearch") Boolean dnaTaxonSearch) {
+    @Nullable @JsonProperty(value = "useDnaAssistance") Boolean useDnaAssistance,
+    @Nullable @JsonProperty(value = "dnaAssistedChecklistKey") UUID dnaAssistedChecklistKey) {
     Objects.requireNonNull(parameter, "<parameter> may not be null");
     this.parameter = parameter;
     this.checklistKey = checklistKey;
-    this.dnaTaxonSearch = dnaTaxonSearch;
+    this.useDnaAssistance = useDnaAssistance;
+    this.dnaAssistedChecklistKey = dnaAssistedChecklistKey;
     checkPredicateAllowed();
   }
 
@@ -84,8 +99,16 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
   @Experimental
   // not serialized when unset, so the JSON of the predicates without it doesn't change
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  public Boolean getDnaTaxonSearch() {
-    return dnaTaxonSearch;
+  public Boolean getUseDnaAssistance() {
+    return useDnaAssistance;
+  }
+
+  @Experimental
+  @Nullable
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public UUID getDnaAssistedChecklistKey() {
+    return dnaAssistedChecklistKey;
   }
 
   /**
@@ -108,12 +131,13 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
     IsNullPredicate<S> that = (IsNullPredicate<S>) o;
     return parameter == that.parameter
       && Objects.equals(checklistKey, that.checklistKey)
-      && Objects.equals(dnaTaxonSearch, that.dnaTaxonSearch);
+      && Objects.equals(useDnaAssistance, that.useDnaAssistance)
+      && Objects.equals(dnaAssistedChecklistKey, that.dnaAssistedChecklistKey);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(parameter, checklistKey, dnaTaxonSearch);
+    return Objects.hash(parameter, checklistKey, useDnaAssistance, dnaAssistedChecklistKey);
   }
 
   @Override
@@ -121,7 +145,8 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
     return new StringJoiner(", ", IsNullPredicate.class.getSimpleName() + "[", "]")
       .add("parameter=" + parameter)
       .add("checklistKey=" + checklistKey)
-      .add("dnaTaxonSearch=" + dnaTaxonSearch)
+      .add("useDnaAssistance=" + useDnaAssistance)
+      .add("dnaAssistedChecklistKey=" + dnaAssistedChecklistKey)
       .toString();
   }
 }

@@ -52,7 +52,7 @@ public interface SearchRequest<P extends SearchParameter> extends Pageable {
    * time.
    */
   @Experimental
-  default Boolean isDnaTaxonSearch() {
+  default Boolean isUseDnaAssistance() {
     return Boolean.FALSE;
   }
 

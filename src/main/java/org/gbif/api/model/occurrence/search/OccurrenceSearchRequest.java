@@ -244,6 +244,10 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.CHECKLIST_KEY, checklistKey.toString());
   }
 
+  public void addDnaAssistedChecklistKeyFilter(UUID dnaAssistedChecklistKey) {
+    addParameter(OccurrenceSearchParameter.DNA_ASSISTED_CHECKLIST_KEY, dnaAssistedChecklistKey.toString());
+  }
+
   public void addTaxonomicIssueFilter(String taxonomicIssue) {
     addParameter(OccurrenceSearchParameter.TAXONOMIC_ISSUE, taxonomicIssue);
   }

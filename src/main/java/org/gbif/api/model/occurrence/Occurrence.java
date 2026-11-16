@@ -19,6 +19,7 @@ import lombok.Setter;
 
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.Classification;
+import org.gbif.api.model.common.DnaClassifications;
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
@@ -167,6 +168,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     )
   )
   private Map<String, Classification> classifications;
+
+  @Schema(
+    description = "The DNA-assisted classifications associated with this occurrence keyed by checklistKey, " +
+      "with remarks common to all of them."
+  )
+  @Experimental
+  private DnaClassifications dnaClassifications;
 
   @Schema(
     description = "A taxon key from the selected taxonomy (e.g. Catalogue of Life, GBIF Backbone) for the most specific " +
@@ -2347,6 +2355,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setClassifications(Map<String, Classification> classifications) {
     this.classifications = classifications;
+  }
+
+  public DnaClassifications getDnaClassifications() {
+    return dnaClassifications;
+  }
+
+  public void setDnaClassifications(DnaClassifications dnaClassifications) {
+    this.dnaClassifications = dnaClassifications;
   }
 
   /**
