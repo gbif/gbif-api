@@ -27,18 +27,13 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
@@ -76,15 +71,15 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
 
   @Schema(
     description = "Flag to also match the DNA-assisted classifications of the occurrences, in addition to their " +
-      "regular classifications."
+      "regular classifications. It takes precedence over dnaAssistedChecklistKey."
   )
   @Experimental
   @Nullable
   private final Boolean useDnaAssistance;
 
   @Schema(
-    description = "Specify the taxonomy whose DNA-assisted classifications are used instead of the regular " +
-      "classifications. It is ignored when useDnaAssistance is used."
+    description = "Specify the taxonomy whose DNA-assisted classifications are matched instead of the regular " +
+      "classifications. It is ignored when useDnaAssistance is true, since both classifications are matched then."
   )
   @Experimental
   @Nullable

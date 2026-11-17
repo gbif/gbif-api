@@ -113,35 +113,63 @@ public class PredicateDeSerTest {
             new InPredicate<>(
                 OccurrenceSearchParameter.KINGDOM_KEY, List.of("1", "6"), false, UUID.randomUUID(), true),
             new IsNullPredicate<>(OccurrenceSearchParameter.GENUS_KEY, UUID.randomUUID(), true),
-            new IsNotNullPredicate<>(OccurrenceSearchParameter.SPECIES_KEY, UUID.randomUUID(), true));
+            new IsNotNullPredicate<>(OccurrenceSearchParameter.SPECIES_KEY, UUID.randomUUID(), true),
+            new LikePredicate<>(
+                OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", UUID.randomUUID(), false, true));
 
     for (Predicate p : predicates) {
       Predicate roundTrip = MAPPER.readValue(MAPPER.writeValueAsString(p), Predicate.class);
       Assertions.assertEquals(p, roundTrip);
     }
-
-    // LikePredicate equality doesn't take into account the flag, so it's checked explicitly
-    LikePredicate<OccurrenceSearchParameter> like =
-        new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", UUID.randomUUID(), false, true);
-    LikePredicate<?> likeRoundTrip =
-        (LikePredicate<?>) MAPPER.readValue(MAPPER.writeValueAsString(like), Predicate.class);
-    Assertions.assertTrue(likeRoundTrip.getUseDnaAssistance());
   }
 
   @Test
   public void useDnaAssistanceDistinguishesPredicatesTest() {
+    // the same checklistKey in each pair, so the flag is the only difference
+    UUID checklistKey = UUID.randomUUID();
     Assertions.assertNotEquals(
-        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, UUID.randomUUID(), true),
-        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, UUID.randomUUID(), null));
+        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, checklistKey, true),
+        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, checklistKey, null));
     Assertions.assertNotEquals(
-        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, UUID.randomUUID(), true),
-        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, UUID.randomUUID(), null));
+        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, checklistKey, true),
+        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, checklistKey, null));
     Assertions.assertNotEquals(
-        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, UUID.randomUUID(), true),
-        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, UUID.randomUUID(), null));
+        new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", checklistKey, false, true),
+        new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", checklistKey, false, null));
     Assertions.assertNotEquals(
-        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, UUID.randomUUID(), true),
-        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, UUID.randomUUID(), null));
+        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, checklistKey, true),
+        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, checklistKey, null));
+    Assertions.assertNotEquals(
+        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, checklistKey, true),
+        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, checklistKey, null));
+  }
+
+  @Test
+  public void dnaAssistedChecklistKeyDistinguishesPredicatesTest() {
+    UUID dnaChecklistKey = UUID.randomUUID();
+    Assertions.assertNotEquals(
+        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, null, null, dnaChecklistKey),
+        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, null, null, null));
+    Assertions.assertNotEquals(
+        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, null, null, dnaChecklistKey),
+        new InPredicate<>(OccurrenceSearchParameter.TAXON_KEY, List.of("212"), false, null, null, null));
+    Assertions.assertNotEquals(
+        new LikePredicate<>(
+            OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", null, false, null, dnaChecklistKey),
+        new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", null, false, null, null));
+    Assertions.assertNotEquals(
+        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, null, dnaChecklistKey),
+        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, null, null));
+    Assertions.assertNotEquals(
+        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, null, dnaChecklistKey),
+        new IsNotNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, null, null));
+  }
+
+  @Test
+  public void checklistKeyDistinguishesLikePredicatesTest() {
+    Assertions.assertNotEquals(
+        new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", UUID.randomUUID(), false),
+        new LikePredicate<>(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", null, false));
   }
 
   @Test
@@ -180,21 +208,15 @@ public class PredicateDeSerTest {
             new InPredicate<>(
                 OccurrenceSearchParameter.KINGDOM_KEY, List.of("1", "6"), false, null, null, dnaChecklistKey),
             new IsNullPredicate<>(OccurrenceSearchParameter.GENUS_KEY, null, null, dnaChecklistKey),
-            new IsNotNullPredicate<>(OccurrenceSearchParameter.SPECIES_KEY, null, null, dnaChecklistKey));
+            new IsNotNullPredicate<>(OccurrenceSearchParameter.SPECIES_KEY, null, null, dnaChecklistKey),
+            new LikePredicate<>(
+                OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", null, false, null, dnaChecklistKey));
 
     for (Predicate p : predicates) {
       String json = MAPPER.writeValueAsString(p);
       Assertions.assertTrue(json.contains("\"dnaAssistedChecklistKey\":\"" + dnaChecklistKey + "\""));
       Assertions.assertEquals(p, MAPPER.readValue(json, Predicate.class));
     }
-
-    // LikePredicate equality doesn't take into account the key, so it's checked explicitly
-    LikePredicate<OccurrenceSearchParameter> like =
-        new LikePredicate<>(
-            OccurrenceSearchParameter.SCIENTIFIC_NAME, "Puma*", null, false, null, dnaChecklistKey);
-    LikePredicate<?> likeRoundTrip =
-        (LikePredicate<?>) MAPPER.readValue(MAPPER.writeValueAsString(like), Predicate.class);
-    Assertions.assertEquals(dnaChecklistKey, likeRoundTrip.getDnaAssistedChecklistKey());
   }
 
   @Test
@@ -209,17 +231,6 @@ public class PredicateDeSerTest {
     for (Predicate p : predicates) {
       Assertions.assertFalse(MAPPER.writeValueAsString(p).contains("dnaAssistedChecklistKey"));
     }
-  }
-
-  @Test
-  public void dnaAssistedChecklistKeyDistinguishesPredicatesTest() {
-    UUID dnaChecklistKey = UUID.randomUUID();
-    Assertions.assertNotEquals(
-        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, null, null, dnaChecklistKey),
-        new EqualsPredicate<>(OccurrenceSearchParameter.TAXON_KEY, "212", false, null, null, null));
-    Assertions.assertNotEquals(
-        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, null, dnaChecklistKey),
-        new IsNullPredicate<>(OccurrenceSearchParameter.TAXON_KEY, null, null, null));
   }
 
   @Test

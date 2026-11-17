@@ -16,6 +16,8 @@ package org.gbif.api.model.predicate;
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -45,15 +47,15 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
 
   @Schema(
     description = "Flag to also match the DNA-assisted classifications of the occurrences, in addition to their " +
-      "regular classifications."
+      "regular classifications. It takes precedence over dnaAssistedChecklistKey."
   )
   @Experimental
   @Nullable
   private final Boolean useDnaAssistance;
 
   @Schema(
-    description = "Specify the taxonomy whose DNA-assisted classifications are used instead of the regular " +
-      "classifications. It is ignored when useDnaAssistance is used."
+    description = "Specify the taxonomy whose DNA-assisted classifications are matched instead of the regular " +
+      "classifications. It is ignored when useDnaAssistance is true, since both classifications are matched then."
   )
   @Experimental
   @Nullable
@@ -108,5 +110,34 @@ public class LikePredicate<S extends SearchParameter> extends SimplePredicate<S>
     if (!String.class.equals(key.type())) {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    // the superclass checks the class, key, value and matchCase
+    if (!super.equals(o)) {
+      return false;
+    }
+    LikePredicate<?> that = (LikePredicate<?>) o;
+    return Objects.equals(this.checklistKey, that.checklistKey)
+      && Objects.equals(this.useDnaAssistance, that.useDnaAssistance)
+      && Objects.equals(this.dnaAssistedChecklistKey, that.dnaAssistedChecklistKey);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), checklistKey, useDnaAssistance, dnaAssistedChecklistKey);
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", this.getClass().getSimpleName() + "[", "]")
+      .add("key=" + getKey())
+      .add("value='" + getValue() + "'")
+      .add("matchCase='" + this.isMatchCase() + "'")
+      .add("checklistKey='" + checklistKey + "'")
+      .add("useDnaAssistance='" + useDnaAssistance + "'")
+      .add("dnaAssistedChecklistKey='" + dnaAssistedChecklistKey + "'")
+      .toString();
   }
 }

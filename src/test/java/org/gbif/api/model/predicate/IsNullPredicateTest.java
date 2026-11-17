@@ -15,9 +15,9 @@ package org.gbif.api.model.predicate;
 
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -48,15 +48,15 @@ public class IsNullPredicate<S extends SearchParameter> implements Predicate {
 
   @Schema(
     description = "Flag to also match the DNA-assisted classifications of the occurrences, in addition to their " +
-      "regular classifications."
+      "regular classifications. It takes precedence over dnaAssistedChecklistKey."
   )
   @Experimental
   @Nullable
   private final Boolean useDnaAssistance;
 
   @Schema(
-    description = "Specify the taxonomy whose DNA-assisted classifications are used instead of the regular " +
-      "classifications. It is ignored when useDnaAssistance is used."
+    description = "Specify the taxonomy whose DNA-assisted classifications are matched instead of the regular " +
+      "classifications. It is ignored when useDnaAssistance is true, since both classifications are matched then."
   )
   @Experimental
   @Nullable
