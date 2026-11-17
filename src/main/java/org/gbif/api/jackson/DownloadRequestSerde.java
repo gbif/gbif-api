@@ -132,8 +132,10 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
     String description = Optional.ofNullable(node.get(DESCRIPTION)).map(JsonNode::asText).orElse(null);
 
     UUID checklistKey = Optional.ofNullable(node.get(CHECKLIST_KEY))
+      .filter(n -> !n.isNull())
       .map(JsonNode::asText)
       .map(String::trim)
+      .filter(s -> !s.isEmpty() && !s.equalsIgnoreCase("null"))
       .map(UUID::fromString)
       .orElse(null);
 

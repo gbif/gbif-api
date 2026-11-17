@@ -210,6 +210,23 @@ public class DownloadRequestTest {
   }
 
   @Test
+  public void testDownloadRequestNullChecklistKey() throws IOException {
+    for (String checklistKey : new String[] {"null", "\"null\"", "\"\"", "\" \""}) {
+      String json = SIMPLE_CSV.replace("{ \"creator\"", "{ \"checklistKey\": " + checklistKey + ", \"creator\"");
+      DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);
+      assertNull(request.getChecklistKey(), "checklistKey " + checklistKey);
+    }
+  }
+
+  @Test
+  public void testDownloadRequestChecklistKey() throws IOException {
+    String json = SIMPLE_CSV.replace("{ \"creator\"",
+      "{ \"checklistKey\": \" " + Constants.NUB_DATASET_KEY + " \", \"creator\"");
+    DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);
+    assertEquals(Constants.NUB_DATASET_KEY, request.getChecklistKey());
+  }
+
+  @Test
   public void testDownloadRequestSerde2() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);
     assertNull(((PredicateDownloadRequest)request).getPredicate());
