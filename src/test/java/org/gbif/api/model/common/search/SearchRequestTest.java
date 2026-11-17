@@ -22,6 +22,9 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Rank;
 
+import java.util.Set;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,6 +55,16 @@ public class SearchRequestTest {
 
     req.setUseDnaAssistance(true);
     assertTrue(req.isUseDnaAssistance());
+  }
+
+  @Test
+  public void testDnaAssistedChecklistKeyFilter() {
+    UUID dnaChecklistKey = UUID.randomUUID();
+    OccurrenceSearchRequest req = new OccurrenceSearchRequest();
+    req.addDnaAssistedChecklistKeyFilter(dnaChecklistKey);
+    assertEquals(
+        Set.of(dnaChecklistKey.toString()),
+        req.getParameters().get(OccurrenceSearchParameter.DNA_ASSISTED_CHECKLIST_KEY));
   }
 
 }

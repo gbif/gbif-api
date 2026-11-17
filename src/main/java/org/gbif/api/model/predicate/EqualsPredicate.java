@@ -46,6 +46,7 @@ public class EqualsPredicate<S extends SearchParameter> extends SimplePredicate<
       "regular classifications. It takes precedence over dnaAssistedChecklistKey."
   )
   @Experimental
+  @Nullable
   private final Boolean useDnaAssistance;
 
   @Schema(

@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.model.common.Classification;
+import org.gbif.api.model.common.DnaClassifications;
 import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -401,5 +402,36 @@ public class OccurrenceTest {
     Occurrence o2 = mapper.readValue(json, Occurrence.class);
 
     assertEquals(o2.getMedia().get(0), mediaObject);
+  }
+
+  @Test
+  public void testDnaClassificationsSerialization() throws Exception {
+    String checklistKey = UUID.randomUUID().toString();
+    Classification classification =
+        Classification.builder()
+            .taxonomicStatus("ACCEPTED")
+            .issues(List.of("TAXON_MATCH_FUZZY"))
+            .build();
+
+    Occurrence o = buildTestOccurrence();
+    o.setDnaClassifications(
+        DnaClassifications.builder()
+            .remarks("Matched with 99% identity")
+            .classifications(Map.of(checklistKey, classification))
+            .build());
+
+    String json = mapper.writeValueAsString(o);
+    assertTrue(json.contains("\"dnaClassifications\""));
+    assertTrue(json.contains("\"remarks\" : \"Matched with 99% identity\""));
+
+    Occurrence o2 = mapper.readValue(json, Occurrence.class);
+    assertEquals(o.getDnaClassifications(), o2.getDnaClassifications());
+    assertEquals(classification, o2.getDnaClassifications().getClassifications().get(checklistKey));
+  }
+
+  @Test
+  public void testDnaClassificationsNotSerializedWhenUnset() throws Exception {
+    String json = mapper.writeValueAsString(buildTestOccurrence());
+    assertFalse(json.contains("dnaClassifications"));
   }
 }
