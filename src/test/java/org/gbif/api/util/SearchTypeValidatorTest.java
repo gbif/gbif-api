@@ -42,6 +42,7 @@ import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DAY
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DISTANCE_FROM_CENTROID_IN_METERS;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DNA_ASSISTED_CHECKLIST_KEY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ENVIRONMENTS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;
@@ -229,6 +230,8 @@ public class SearchTypeValidatorTest {
       Arguments.of(ENVIRONMENTS, "MARINE\\", false, false, false),
       Arguments.of(CHECKLIST_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),
       Arguments.of(CHECKLIST_KEY, "d7dd'", false, false, false),
+      Arguments.of(DNA_ASSISTED_CHECKLIST_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),
+      Arguments.of(DNA_ASSISTED_CHECKLIST_KEY, "d7dd'", false, false, false),
       Arguments.of(COLLECTION_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),
       Arguments.of(COLLECTION_KEY, "abc def", false, false, false),
       Arguments.of(INSTITUTION_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),

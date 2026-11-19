@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -26,6 +27,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -67,12 +69,47 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
   @Nullable
   private final UUID checklistKey;
 
+  @Schema(
+    description = "Flag to also match the DNA-assisted classifications of the occurrences, in addition to their " +
+      "regular classifications. It takes precedence over dnaAssistedChecklistKey."
+  )
+  @Experimental
+  @Nullable
+  private final Boolean useDnaAssistance;
+
+  @Schema(
+    description = "Specify the taxonomy whose DNA-assisted classifications are matched instead of the regular " +
+      "classifications. It is ignored when useDnaAssistance is true, since both classifications are matched then."
+  )
+  @Experimental
+  @Nullable
+  private final UUID dnaAssistedChecklistKey;
+
   public InPredicate(
     S key,
     Collection<String> values,
     Boolean matchCase
   ) {
-    this(key, values, matchCase, null);
+    this(key, values, matchCase, null, null);
+  }
+
+  public InPredicate(
+    S key,
+    Collection<String> values,
+    Boolean matchCase,
+    UUID checklistKey
+  ) {
+    this(key, values, matchCase, checklistKey, null);
+  }
+
+  public InPredicate(
+    S key,
+    Collection<String> values,
+    Boolean matchCase,
+    UUID checklistKey,
+    Boolean useDnaAssistance
+  ) {
+    this(key, values, matchCase, checklistKey, useDnaAssistance, null);
   }
 
   @JsonCreator
@@ -80,10 +117,14 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
       @JsonProperty("key") S key,
       @JsonProperty("values") Collection<String> values,
       @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
-      @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey
+      @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey,
+      @Nullable @JsonProperty(value = "useDnaAssistance") Boolean useDnaAssistance,
+      @Nullable @JsonProperty(value = "dnaAssistedChecklistKey") UUID dnaAssistedChecklistKey
     ) {
     this.matchCase = matchCase;
     this.checklistKey = checklistKey;
+    this.useDnaAssistance = useDnaAssistance;
+    this.dnaAssistedChecklistKey = dnaAssistedChecklistKey;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(values, "<values> may not be null");
     checkArgument(!values.isEmpty(), "<values> may not be empty");
@@ -127,6 +168,21 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
     return checklistKey;
   }
 
+  @Experimental
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public Boolean getUseDnaAssistance() {
+    return useDnaAssistance;
+  }
+
+  @Experimental
+  @Nullable
+  // not serialized when unset, so the JSON of the predicates without it doesn't change
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public UUID getDnaAssistedChecklistKey() {
+    return dnaAssistedChecklistKey;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -139,12 +195,14 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
     return key == that.key
       && Objects.equals(values, that.values)
       && matchCase == that.matchCase
-      && Objects.equals(checklistKey, that.checklistKey);
+      && Objects.equals(checklistKey, that.checklistKey)
+      && Objects.equals(useDnaAssistance, that.useDnaAssistance)
+      && Objects.equals(dnaAssistedChecklistKey, that.dnaAssistedChecklistKey);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, values, matchCase, checklistKey);
+    return Objects.hash(key, values, matchCase, checklistKey, useDnaAssistance, dnaAssistedChecklistKey);
   }
 
   @Override
@@ -154,6 +212,8 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
       .add("values=" + values)
       .add("matchCase=" + matchCase)
       .add("checklistKey=" + checklistKey)
+      .add("useDnaAssistance=" + useDnaAssistance)
+      .add("dnaAssistedChecklistKey=" + dnaAssistedChecklistKey)
       .toString();
   }
 }

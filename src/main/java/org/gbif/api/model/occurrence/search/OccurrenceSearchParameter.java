@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.occurrence.search;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.common.search.SearchParameterFormat;
 import org.gbif.api.util.IsoDateInterval;
@@ -67,6 +68,12 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    * The checklist key to use for taxonomy matching.
    */
   public final static OccurrenceSearchParameter CHECKLIST_KEY = new OccurrenceSearchParameter("CHECKLIST_KEY", UUID.class);
+
+  /**
+   * The checklist key to use for DNA-assisted taxonomy matching.
+   */
+  @Experimental
+  public final static OccurrenceSearchParameter DNA_ASSISTED_CHECKLIST_KEY = new OccurrenceSearchParameter("DNA_ASSISTED_CHECKLIST_KEY", UUID.class);
 
   /**
    * The 4 digit year. A year of 98 will be 98 common era, not 1998.

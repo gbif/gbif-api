@@ -22,9 +22,14 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Rank;
 
+import java.util.Set;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test class for SearchRequest model class
@@ -41,6 +46,25 @@ public class SearchRequestTest {
     reqO.addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, BasisOfRecord.LITERATURE);
     assertEquals("LITERATURE",
       reqO.getParameters().get(OccurrenceSearchParameter.BASIS_OF_RECORD).iterator().next());
+  }
+
+  @Test
+  public void testUseDnaAssistance() {
+    OccurrenceSearchRequest req = new OccurrenceSearchRequest();
+    assertFalse(req.isUseDnaAssistance());
+
+    req.setUseDnaAssistance(true);
+    assertTrue(req.isUseDnaAssistance());
+  }
+
+  @Test
+  public void testDnaAssistedChecklistKeyFilter() {
+    UUID dnaChecklistKey = UUID.randomUUID();
+    OccurrenceSearchRequest req = new OccurrenceSearchRequest();
+    req.addDnaAssistedChecklistKeyFilter(dnaChecklistKey);
+    assertEquals(
+        Set.of(dnaChecklistKey.toString()),
+        req.getParameters().get(OccurrenceSearchParameter.DNA_ASSISTED_CHECKLIST_KEY));
   }
 
 }
