@@ -47,55 +47,57 @@ public interface SearchParameter {
 
   Class&lt;?&gt; type();
 
-  // This deserializer is used only when the type property is not set. Otherwise it uses the custom
+  SearchParameterFormat format();
+
+  // This deserializer is used only when the type property is not set, otherwise it uses the custom
   // deserializers of each type
-<span class="fc" id="L52">  class SearchParameterDeserializer extends JsonDeserializer&lt;SearchParameter&gt; {</span>
+<span class="fc" id="L54">  class SearchParameterDeserializer extends JsonDeserializer&lt;SearchParameter&gt; {</span>
 
     @Override
     public SearchParameter deserialize(JsonParser p, DeserializationContext ctx)
         throws IOException {
-<span class="fc" id="L57">      JsonToken token = p.currentToken();</span>
+<span class="fc" id="L59">      JsonToken token = p.currentToken();</span>
 
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">      if (token == JsonToken.VALUE_STRING) {</span>
-<span class="fc" id="L60">        String raw = p.getText();</span>
-<span class="fc" id="L61">        Optional&lt;SearchParameter&gt; opt = fromString(raw);</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (opt.isPresent()) {</span>
-<span class="fc" id="L63">          return opt.get();</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">      if (token == JsonToken.VALUE_STRING) {</span>
+<span class="fc" id="L62">        String raw = p.getText();</span>
+<span class="fc" id="L63">        Optional&lt;SearchParameter&gt; opt = fromString(raw);</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (opt.isPresent()) {</span>
+<span class="fc" id="L65">          return opt.get();</span>
         }
       }
 
       // If parameter is an object, try to use the &quot;name&quot; property or map directly
-<span class="nc" id="L68">      ObjectMapper mapper = (ObjectMapper) p.getCodec();</span>
-<span class="nc" id="L69">      JsonNode node = mapper.readTree(p);</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">      if (node.isObject()) {</span>
-<span class="nc" id="L71">        JsonNode nameNode = node.get(&quot;name&quot;);</span>
-<span class="nc bnc" id="L72" title="All 4 branches missed.">        if (nameNode != null &amp;&amp; nameNode.isTextual()) {</span>
-<span class="nc" id="L73">          String name = nameNode.asText();</span>
-<span class="nc" id="L74">          Optional&lt;SearchParameter&gt; opt = fromString(name);</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">          if (opt.isPresent()) {</span>
-<span class="nc" id="L76">            return opt.get();</span>
+<span class="nc" id="L70">      ObjectMapper mapper = (ObjectMapper) p.getCodec();</span>
+<span class="nc" id="L71">      JsonNode node = mapper.readTree(p);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">      if (node.isObject()) {</span>
+<span class="nc" id="L73">        JsonNode nameNode = node.get(&quot;name&quot;);</span>
+<span class="nc bnc" id="L74" title="All 4 branches missed.">        if (nameNode != null &amp;&amp; nameNode.isTextual()) {</span>
+<span class="nc" id="L75">          String name = nameNode.asText();</span>
+<span class="nc" id="L76">          Optional&lt;SearchParameter&gt; opt = fromString(name);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">          if (opt.isPresent()) {</span>
+<span class="nc" id="L78">            return opt.get();</span>
           }
         }
       }
 
-<span class="nc" id="L81">      return null;</span>
+<span class="nc" id="L83">      return null;</span>
     }
 
     private Optional&lt;SearchParameter&gt; fromString(String value) {
-<span class="pc bpc" id="L85" title="2 of 4 branches missed.">      if (value == null || value.isEmpty()) {</span>
-<span class="nc" id="L86">        return Optional.empty();</span>
+<span class="pc bpc" id="L87" title="2 of 4 branches missed.">      if (value == null || value.isEmpty()) {</span>
+<span class="nc" id="L88">        return Optional.empty();</span>
       }
 
-<span class="fc" id="L89">      String name = value.trim();</span>
+<span class="fc" id="L91">      String name = value.trim();</span>
 
       // Try occurrence first
-<span class="fc" id="L92">      Optional&lt;OccurrenceSearchParameter&gt; occ = OccurrenceSearchParameter.lookup(name);</span>
-<span class="fc bfc" id="L93" title="All 2 branches covered.">      if (occ.isPresent()) {</span>
-<span class="fc" id="L94">        return occ.map(o -&gt; o);</span>
+<span class="fc" id="L94">      Optional&lt;OccurrenceSearchParameter&gt; occ = OccurrenceSearchParameter.lookup(name);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">      if (occ.isPresent()) {</span>
+<span class="fc" id="L96">        return occ.map(o -&gt; o);</span>
       }
 
       // Then event
-<span class="fc" id="L98">      return EventSearchParameter.lookupEventParam(name).map(v -&gt; v);</span>
+<span class="fc" id="L100">      return EventSearchParameter.lookupEventParam(name).map(v -&gt; v);</span>
     }
   }
 }

@@ -14,29 +14,35 @@
 package org.gbif.api.model.occurrence.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
 
 import java.util.Date;
 
 /**
  * Query parameters used internally (not part of the public API) to support complex data types.
  */
-<span class="nc" id="L23">public enum InternalOccurrenceSearchParameter implements SearchParameter {</span>
+<span class="nc" id="L24">public enum InternalOccurrenceSearchParameter implements SearchParameter {</span>
 
-<span class="nc" id="L25">  EVENT_DATE_GTE(Date.class),</span>
-<span class="nc" id="L26">  EVENT_DATE_LTE(Date.class);</span>
+<span class="nc" id="L26">  EVENT_DATE_GTE(Date.class),</span>
+<span class="nc" id="L27">  EVENT_DATE_LTE(Date.class);</span>
 
   private final Class&lt;?&gt; type;
 
-<span class="nc" id="L30">  InternalOccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="nc" id="L31">    this.type = type;</span>
-<span class="nc" id="L32">  }</span>
+<span class="nc" id="L31">  InternalOccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="nc" id="L32">    this.type = type;</span>
+<span class="nc" id="L33">  }</span>
 
   /**
    * @return the data type expected for the value of the respective search parameter
    */
   @Override
   public Class&lt;?&gt; type() {
-<span class="nc" id="L39">    return type;</span>
+<span class="nc" id="L40">    return type;</span>
+  }
+
+  @Override
+  public SearchParameterFormat format() {
+<span class="nc" id="L45">    return null;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

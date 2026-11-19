@@ -124,7 +124,7 @@
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>         <strong class="jxr_keyword">null</strong>,
 <a class="jxr_linenumber" name="L117" href="#L117">117</a>         Collections.singleton(Extension.AUDUBON),
 <a class="jxr_linenumber" name="L118" href="#L118">118</a>         Collections.singleton(Extension.HUMBOLDT),
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>         Constants.NUB_DATASET_KEY.toString());
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>         Constants.NUB_DATASET_KEY);
 <a class="jxr_linenumber" name="L120" href="#L120">120</a>   }
 <a class="jxr_linenumber" name="L121" href="#L121">121</a> 
 <a class="jxr_linenumber" name="L122" href="#L122">122</a>   @Test
@@ -218,215 +218,232 @@
 <a class="jxr_linenumber" name="L210" href="#L210">210</a>   }
 <a class="jxr_linenumber" name="L211" href="#L211">211</a> 
 <a class="jxr_linenumber" name="L212" href="#L212">212</a>   @Test
-<a class="jxr_linenumber" name="L213" href="#L213">213</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDownloadRequestSerde2() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L214" href="#L214">214</a>     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L215" href="#L215">215</a>     assertNull(((PredicateDownloadRequest)request).getPredicate());
-<a class="jxr_linenumber" name="L216" href="#L216">216</a>     assertTrue(request.getSendNotification());
-<a class="jxr_linenumber" name="L217" href="#L217">217</a>     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
-<a class="jxr_linenumber" name="L218" href="#L218">218</a>   }
-<a class="jxr_linenumber" name="L219" href="#L219">219</a> 
-<a class="jxr_linenumber" name="L220" href="#L220">220</a>   @Test
-<a class="jxr_linenumber" name="L221" href="#L221">221</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSQLDownloadSerde() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L222" href="#L222">222</a>     SqlDownloadRequest request = MAPPER.readValue(SQL_REQUEST, SqlDownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L223" href="#L223">223</a>     assertEquals(TEST_USER, request.getCreator());
-<a class="jxr_linenumber" name="L224" href="#L224">224</a>     assertNotNull(request.getSql());
-<a class="jxr_linenumber" name="L225" href="#L225">225</a>     assertEquals(DownloadFormat.SQL_TSV_ZIP, request.getFormat());
-<a class="jxr_linenumber" name="L226" href="#L226">226</a>     assertTrue(request.getSendNotification());
-<a class="jxr_linenumber" name="L227" href="#L227">227</a>     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
-<a class="jxr_linenumber" name="L228" href="#L228">228</a>     assertEquals(TEST_DESCRIPTION, request.getDescription());
-<a class="jxr_linenumber" name="L229" href="#L229">229</a> 
-<a class="jxr_linenumber" name="L230" href="#L230">230</a>     <em class="jxr_comment">// Test no-schema JSON</em>
-<a class="jxr_linenumber" name="L231" href="#L231">231</a>     assertEquals(TEST_DESCRIPTION, request.getMachineDescription().get(<span class="jxr_string">"purpose"</span>).asText());
-<a class="jxr_linenumber" name="L232" href="#L232">232</a>     assertEquals(0, request.getMachineDescription().get(<span class="jxr_string">"elements"</span>).size());
-<a class="jxr_linenumber" name="L233" href="#L233">233</a>     assertEquals(0, request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(0).size());
-<a class="jxr_linenumber" name="L234" href="#L234">234</a>     assertEquals(<span class="jxr_string">"a"</span>, request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(1).asText());
-<a class="jxr_linenumber" name="L235" href="#L235">235</a>     assertEquals(<span class="jxr_string">"1.0"</span>, request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(2).asText());
-<a class="jxr_linenumber" name="L236" href="#L236">236</a>     assertEquals(1, request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(2).asInt());
-<a class="jxr_linenumber" name="L237" href="#L237">237</a>     assertTrue(request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(3).asBoolean());
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>     assertTrue(request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(4).isNull());
-<a class="jxr_linenumber" name="L239" href="#L239">239</a>   }
-<a class="jxr_linenumber" name="L240" href="#L240">240</a> 
-<a class="jxr_linenumber" name="L241" href="#L241">241</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L242" href="#L242">242</a> <em class="jxr_javadoccomment">   * Tests that an unknown property is rejected.</em>
-<a class="jxr_linenumber" name="L243" href="#L243">243</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">   * For much of the API these are allowed, but it causes problems when typing errors etc trigger all-data downloads.</em>
-<a class="jxr_linenumber" name="L245" href="#L245">245</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>   @Test
-<a class="jxr_linenumber" name="L247" href="#L247">247</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDownloadRequestSerdeUnknown() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>     <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L249" href="#L249">249</a>       DownloadRequest request = MAPPER.readValue(UNKNOWN_PROPERTY, DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L250" href="#L250">250</a>       fail();
-<a class="jxr_linenumber" name="L251" href="#L251">251</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="L252" href="#L252">252</a>       assertEquals(<span class="jxr_string">"Unknown JSON property 'somethingElse'."</span>, e.getMessage());
-<a class="jxr_linenumber" name="L253" href="#L253">253</a>     }
-<a class="jxr_linenumber" name="L254" href="#L254">254</a>   }
-<a class="jxr_linenumber" name="L255" href="#L255">255</a> 
-<a class="jxr_linenumber" name="L256" href="#L256">256</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">   * Tests that an empty JSON {} is translated into null.</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>   @Test
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDownloadRequestSerdeNull() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>     String json = <span class="jxr_string">"{}"</span>;
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>     DownloadRequest request = MAPPER.readValue(json, DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>     assertNull(request);
-<a class="jxr_linenumber" name="L264" href="#L264">264</a>   }
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> 
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">   * Request sent by PyGBIF ≤ 0.6.1.  For backward compatibility, do not change this test!</em>
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> <em class="jxr_javadoccomment">   * Note the 'created' property, the quoted booleans, and the underscore in notification_address.</em>
-<a class="jxr_linenumber" name="L270" href="#L270">270</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L271" href="#L271">271</a>   @Test
-<a class="jxr_linenumber" name="L272" href="#L272">272</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> downloadFromPygbifTest() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L273" href="#L273">273</a>     String downloadRequest = <span class="jxr_string">"{\n"</span>
-<a class="jxr_linenumber" name="L274" href="#L274">274</a>       + <span class="jxr_string">"  \&quot;creator\&quot;:\&quot;pygbif\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>       + <span class="jxr_string">"  \&quot;notification_address\&quot;:[\&quot;pygbif@mailinator.com\&quot;],\n"</span>
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>       + <span class="jxr_string">"  \&quot;created\&quot;:\&quot;2023\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>       + <span class="jxr_string">"  \&quot;sendNotification\&quot;:\&quot;true\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L278" href="#L278">278</a>       + <span class="jxr_string">"  \&quot;format\&quot;: \&quot;SIMPLE_CSV\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L279" href="#L279">279</a>       + <span class="jxr_string">"  \&quot;predicate\&quot;:{\n"</span>
-<a class="jxr_linenumber" name="L280" href="#L280">280</a>       + <span class="jxr_string">"    \&quot;type\&quot;:\&quot;within\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>       + <span class="jxr_string">"    \&quot;geometry\&quot;:\&quot;POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\&quot;\n"</span>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>       + <span class="jxr_string">"  }\n"</span>
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>       + <span class="jxr_string">"}"</span>;
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> 
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>     DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>     assertEquals(<span class="jxr_string">"pygbif"</span>, request.getCreator());
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>     assertTrue(request.getSendNotification());
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>     assertEquals(<span class="jxr_string">"pygbif@mailinator.com"</span>, request.getNotificationAddressesAsString());
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>     assertEquals(WithinPredicate.<strong class="jxr_keyword">class</strong>, ((PredicateDownloadRequest) request).getPredicate().getClass());
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>   }
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> 
-<a class="jxr_linenumber" name="L293" href="#L293">293</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> <em class="jxr_javadoccomment">   * Request sent by RGBIF 3.75+.  For backward compatibility, do not change this test!</em>
-<a class="jxr_linenumber" name="L295" href="#L295">295</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">   * Note the lack of sendNotification.</em>
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L298" href="#L298">298</a>   @Test
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> downloadFromRgbifTest() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>     String downloadRequest = <span class="jxr_string">"{\n"</span>
-<a class="jxr_linenumber" name="L301" href="#L301">301</a>       + <span class="jxr_string">"  \&quot;creator\&quot;:\&quot;rgbif\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L302" href="#L302">302</a>       + <span class="jxr_string">"  \&quot;notification_address\&quot;:[\&quot;rgbif@mailinator.com\&quot;],\n"</span>
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>       + <span class="jxr_string">"  \&quot;format\&quot;: \&quot;SIMPLE_CSV\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>       + <span class="jxr_string">"  \&quot;predicate\&quot;:{\n"</span>
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>       + <span class="jxr_string">"    \&quot;type\&quot;:\&quot;within\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>       + <span class="jxr_string">"    \&quot;geometry\&quot;:\&quot;POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\&quot;\n"</span>
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>       + <span class="jxr_string">"  }\n"</span>
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>       + <span class="jxr_string">"}"</span>;
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDownloadRequestNullChecklistKey() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>     <strong class="jxr_keyword">for</strong> (String checklistKey : <strong class="jxr_keyword">new</strong> String[] {<span class="jxr_string">"null"</span>, <span class="jxr_string">"\&quot;null\&quot;"</span>, <span class="jxr_string">"\&quot;\&quot;"</span>, <span class="jxr_string">"\&quot; \&quot;"</span>}) {
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>       String json = SIMPLE_CSV.replace(<span class="jxr_string">"{ \&quot;creator\&quot;"</span>, <span class="jxr_string">"{ \&quot;checklistKey\&quot;: "</span> + checklistKey + <span class="jxr_string">", \&quot;creator\&quot;"</span>);
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>       DownloadRequest request = MAPPER.readValue(json, DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>       assertNull(request.getChecklistKey(), <span class="jxr_string">"checklistKey "</span> + checklistKey);
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>     }
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>   }
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>   @Test
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDownloadRequestChecklistKey() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>     String json = SIMPLE_CSV.replace(<span class="jxr_string">"{ \&quot;creator\&quot;"</span>,
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>       <span class="jxr_string">"{ \&quot;checklistKey\&quot;: \&quot; "</span> + Constants.NUB_DATASET_KEY + <span class="jxr_string">" \&quot;, \&quot;creator\&quot;"</span>);
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>     DownloadRequest request = MAPPER.readValue(json, DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>     assertEquals(Constants.NUB_DATASET_KEY, request.getChecklistKey());
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>   }
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>   @Test
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDownloadRequestSerde2() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>     assertNull(((PredicateDownloadRequest)request).getPredicate());
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>     assertTrue(request.getSendNotification());
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>   }
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> 
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>   @Test
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSQLDownloadSerde() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>     SqlDownloadRequest request = MAPPER.readValue(SQL_REQUEST, SqlDownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>     assertEquals(TEST_USER, request.getCreator());
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>     assertNotNull(request.getSql());
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>     assertEquals(DownloadFormat.SQL_TSV_ZIP, request.getFormat());
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>     assertTrue(request.getSendNotification());
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>     assertEquals(TEST_DESCRIPTION, request.getDescription());
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> 
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>     <em class="jxr_comment">// Test no-schema JSON</em>
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>     assertEquals(TEST_DESCRIPTION, request.getMachineDescription().get(<span class="jxr_string">"purpose"</span>).asText());
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>     assertEquals(0, request.getMachineDescription().get(<span class="jxr_string">"elements"</span>).size());
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>     assertEquals(0, request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(0).size());
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>     assertEquals(<span class="jxr_string">"a"</span>, request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(1).asText());
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>     assertEquals(<span class="jxr_string">"1.0"</span>, request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(2).asText());
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>     assertEquals(1, request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(2).asInt());
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>     assertTrue(request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(3).asBoolean());
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>     assertTrue(request.getMachineDescription().get(<span class="jxr_string">"array"</span>).get(4).isNull());
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>   }
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> 
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">   * Tests that an unknown property is rejected.</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> <em class="jxr_javadoccomment">   * For much of the API these are allowed, but it causes problems when typing errors etc trigger all-data downloads.</em>
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>   @Test
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDownloadRequestSerdeUnknown() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>     <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>       DownloadRequest request = MAPPER.readValue(UNKNOWN_PROPERTY, DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>       fail();
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>       assertEquals(<span class="jxr_string">"Unknown JSON property 'somethingElse'."</span>, e.getMessage());
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>     }
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>   }
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> <em class="jxr_javadoccomment">   * Tests that an empty JSON {} is translated into null.</em>
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>   @Test
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDownloadRequestSerdeNull() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>     String json = <span class="jxr_string">"{}"</span>;
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>     DownloadRequest request = MAPPER.readValue(json, DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>     assertNull(request);
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>   }
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> 
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> <em class="jxr_javadoccomment">   * Request sent by PyGBIF ≤ 0.6.1.  For backward compatibility, do not change this test!</em>
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> <em class="jxr_javadoccomment">   * Note the 'created' property, the quoted booleans, and the underscore in notification_address.</em>
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>   @Test
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> downloadFromPygbifTest() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>     String downloadRequest = <span class="jxr_string">"{\n"</span>
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>       + <span class="jxr_string">"  \&quot;creator\&quot;:\&quot;pygbif\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>       + <span class="jxr_string">"  \&quot;notification_address\&quot;:[\&quot;pygbif@mailinator.com\&quot;],\n"</span>
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>       + <span class="jxr_string">"  \&quot;created\&quot;:\&quot;2023\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>       + <span class="jxr_string">"  \&quot;sendNotification\&quot;:\&quot;true\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>       + <span class="jxr_string">"  \&quot;format\&quot;: \&quot;SIMPLE_CSV\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>       + <span class="jxr_string">"  \&quot;predicate\&quot;:{\n"</span>
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>       + <span class="jxr_string">"    \&quot;type\&quot;:\&quot;within\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>       + <span class="jxr_string">"    \&quot;geometry\&quot;:\&quot;POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\&quot;\n"</span>
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>       + <span class="jxr_string">"  }\n"</span>
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>       + <span class="jxr_string">"}"</span>;
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>     DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>     assertEquals(<span class="jxr_string">"pygbif"</span>, request.getCreator());
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>     assertTrue(request.getSendNotification());
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>     assertEquals(<span class="jxr_string">"pygbif@mailinator.com"</span>, request.getNotificationAddressesAsString());
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>     assertEquals(WithinPredicate.<strong class="jxr_keyword">class</strong>, ((PredicateDownloadRequest) request).getPredicate().getClass());
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>   }
 <a class="jxr_linenumber" name="L309" href="#L309">309</a> 
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>     DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L311" href="#L311">311</a>     assertEquals(<span class="jxr_string">"rgbif"</span>, request.getCreator());
-<a class="jxr_linenumber" name="L312" href="#L312">312</a>     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
-<a class="jxr_linenumber" name="L313" href="#L313">313</a>     assertFalse(request.getSendNotification());
-<a class="jxr_linenumber" name="L314" href="#L314">314</a>     assertEquals(<span class="jxr_string">"rgbif@mailinator.com"</span>, request.getNotificationAddressesAsString());
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>     assertEquals(WithinPredicate.<strong class="jxr_keyword">class</strong>, ((PredicateDownloadRequest) request).getPredicate().getClass());
-<a class="jxr_linenumber" name="L316" href="#L316">316</a>   }
-<a class="jxr_linenumber" name="L317" href="#L317">317</a> 
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L319" href="#L319">319</a> <em class="jxr_javadoccomment">   * Working request at v0.188.  For backward compatibility, do not change this test!</em>
-<a class="jxr_linenumber" name="L320" href="#L320">320</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L321" href="#L321">321</a> <em class="jxr_javadoccomment">   * Note the 212 rather than "212".</em>
-<a class="jxr_linenumber" name="L322" href="#L322">322</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L323" href="#L323">323</a>   @Test
-<a class="jxr_linenumber" name="L324" href="#L324">324</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> downloadWithNumbersTest() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L325" href="#L325">325</a>     String downloadRequest = <span class="jxr_string">"{\n"</span>
-<a class="jxr_linenumber" name="L326" href="#L326">326</a>       + <span class="jxr_string">"  \&quot;creator\&quot;:\&quot;gbif_user\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L327" href="#L327">327</a>       + <span class="jxr_string">"  \&quot;notification_address\&quot;:[\&quot;gbif_user@mailinator.com\&quot;],\n"</span>
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>       + <span class="jxr_string">"  \&quot;created\&quot;:\&quot;2023\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L329" href="#L329">329</a>       + <span class="jxr_string">"  \&quot;format\&quot;: \&quot;SIMPLE_CSV\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L330" href="#L330">330</a>       + <span class="jxr_string">"  \&quot;predicate\&quot;:{\n"</span>
-<a class="jxr_linenumber" name="L331" href="#L331">331</a>       + <span class="jxr_string">"    \&quot;type\&quot;:\&quot;equals\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L332" href="#L332">332</a>       + <span class="jxr_string">"    \&quot;key\&quot;:\&quot;TAXON_KEY\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L333" href="#L333">333</a>       + <span class="jxr_string">"    \&quot;value\&quot;:212\n"</span>
-<a class="jxr_linenumber" name="L334" href="#L334">334</a>       + <span class="jxr_string">"  }\n"</span>
-<a class="jxr_linenumber" name="L335" href="#L335">335</a>       + <span class="jxr_string">"}"</span>;
-<a class="jxr_linenumber" name="L336" href="#L336">336</a> 
-<a class="jxr_linenumber" name="L337" href="#L337">337</a>     DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L338" href="#L338">338</a>     assertEquals(<span class="jxr_string">"gbif_user"</span>, request.getCreator());
-<a class="jxr_linenumber" name="L339" href="#L339">339</a>     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
-<a class="jxr_linenumber" name="L340" href="#L340">340</a>     assertFalse(request.getSendNotification());
-<a class="jxr_linenumber" name="L341" href="#L341">341</a>     assertEquals(<span class="jxr_string">"gbif_user@mailinator.com"</span>, request.getNotificationAddressesAsString());
-<a class="jxr_linenumber" name="L342" href="#L342">342</a>     assertEquals(EqualsPredicate.<strong class="jxr_keyword">class</strong>, ((PredicateDownloadRequest) request).getPredicate().getClass());
-<a class="jxr_linenumber" name="L343" href="#L343">343</a>     assertEquals(<span class="jxr_string">"212"</span>, ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());
-<a class="jxr_linenumber" name="L344" href="#L344">344</a>   }
-<a class="jxr_linenumber" name="L345" href="#L345">345</a> 
-<a class="jxr_linenumber" name="L346" href="#L346">346</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L347" href="#L347">347</a> <em class="jxr_javadoccomment">   * Test three extension situations: known and supported, known but not supported, unknown.</em>
-<a class="jxr_linenumber" name="L348" href="#L348">348</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L349" href="#L349">349</a>   @Test
-<a class="jxr_linenumber" name="L350" href="#L350">350</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> downloadWithExtensionTest() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L351" href="#L351">351</a>     String requestTemplate = <span class="jxr_string">"{\n"</span>
-<a class="jxr_linenumber" name="L352" href="#L352">352</a>       + <span class="jxr_string">"  \&quot;creator\&quot;:\&quot;gbif_user\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L353" href="#L353">353</a>       + <span class="jxr_string">"  \&quot;notification_address\&quot;:[\&quot;gbif_user@mailinator.com\&quot;],\n"</span>
-<a class="jxr_linenumber" name="L354" href="#L354">354</a>       + <span class="jxr_string">"  \&quot;created\&quot;:\&quot;2024\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L355" href="#L355">355</a>       + <span class="jxr_string">"  \&quot;format\&quot;: \&quot;DWCA\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L356" href="#L356">356</a>       + <span class="jxr_string">"  \&quot;predicate\&quot;:{\n"</span>
-<a class="jxr_linenumber" name="L357" href="#L357">357</a>       + <span class="jxr_string">"    \&quot;type\&quot;:\&quot;equals\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L358" href="#L358">358</a>       + <span class="jxr_string">"    \&quot;key\&quot;:\&quot;TAXON_KEY\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L359" href="#L359">359</a>       + <span class="jxr_string">"    \&quot;value\&quot;:\&quot;212\&quot;\n"</span>
-<a class="jxr_linenumber" name="L360" href="#L360">360</a>       + <span class="jxr_string">"  },\n"</span>
-<a class="jxr_linenumber" name="L361" href="#L361">361</a>       + <span class="jxr_string">"  %s\n"</span>
-<a class="jxr_linenumber" name="L362" href="#L362">362</a>       + <span class="jxr_string">"}"</span>;
-<a class="jxr_linenumber" name="L363" href="#L363">363</a> 
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>     DownloadRequest request;
-<a class="jxr_linenumber" name="L365" href="#L365">365</a> 
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>     <em class="jxr_comment">// Known and supported extension</em>
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>     request = MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':['http://rs.tdwg.org/dwc/terms/MeasurementOrFact']"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>     assertEquals(<span class="jxr_string">"gbif_user"</span>, request.getCreator());
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>     assertEquals(DownloadFormat.DWCA, request.getFormat());
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>     assertEquals(<span class="jxr_string">"gbif_user@mailinator.com"</span>, request.getNotificationAddressesAsString());
-<a class="jxr_linenumber" name="L371" href="#L371">371</a>     assertEquals(EqualsPredicate.<strong class="jxr_keyword">class</strong>, ((PredicateDownloadRequest) request).getPredicate().getClass());
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>     assertEquals(<span class="jxr_string">"212"</span>, ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());
-<a class="jxr_linenumber" name="L373" href="#L373">373</a>     assertEquals(Extension.MEASUREMENT_OR_FACT, ((PredicateDownloadRequest) request).getVerbatimExtensions().iterator().next());
-<a class="jxr_linenumber" name="L374" href="#L374">374</a> 
-<a class="jxr_linenumber" name="L375" href="#L375">375</a>     <em class="jxr_comment">// Known and *unsupported* extension</em>
-<a class="jxr_linenumber" name="L376" href="#L376">376</a>     <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L377" href="#L377">377</a>       MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':['http://zooarchnet.org/dwc/terms/ChronometricDate']"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L378" href="#L378">378</a>       fail();
-<a class="jxr_linenumber" name="L379" href="#L379">379</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="L380" href="#L380">380</a>     }
-<a class="jxr_linenumber" name="L381" href="#L381">381</a> 
-<a class="jxr_linenumber" name="L382" href="#L382">382</a>     <em class="jxr_comment">// Unknown extension</em>
-<a class="jxr_linenumber" name="L383" href="#L383">383</a>     <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L384" href="#L384">384</a>       MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':['http://example.org/nothing']"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L385" href="#L385">385</a>       fail();
-<a class="jxr_linenumber" name="L386" href="#L386">386</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="L387" href="#L387">387</a>     }
-<a class="jxr_linenumber" name="L388" href="#L388">388</a> 
-<a class="jxr_linenumber" name="L389" href="#L389">389</a>     <em class="jxr_comment">// Extension enum value — not supported as these are a bit too internal</em>
-<a class="jxr_linenumber" name="L390" href="#L390">390</a>     <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L391" href="#L391">391</a>       MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':['MEASUREMENT_OR_FACT']"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L392" href="#L392">392</a>       fail();
-<a class="jxr_linenumber" name="L393" href="#L393">393</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="L394" href="#L394">394</a>     }
-<a class="jxr_linenumber" name="L395" href="#L395">395</a> 
-<a class="jxr_linenumber" name="L396" href="#L396">396</a>     <em class="jxr_comment">// Null value</em>
-<a class="jxr_linenumber" name="L397" href="#L397">397</a>     <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L398" href="#L398">398</a>       MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':[null]"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L399" href="#L399">399</a>       fail();
-<a class="jxr_linenumber" name="L400" href="#L400">400</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="L401" href="#L401">401</a>     }
-<a class="jxr_linenumber" name="L402" href="#L402">402</a>   }
-<a class="jxr_linenumber" name="L403" href="#L403">403</a> 
-<a class="jxr_linenumber" name="L404" href="#L404">404</a>   @Disabled
-<a class="jxr_linenumber" name="L405" href="#L405">405</a>   @Test
-<a class="jxr_linenumber" name="L406" href="#L406">406</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> existingDownloadsTest() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L407" href="#L407">407</a>     String format = <span class="jxr_string">"{\&quot;predicate\&quot;: %s}"</span>;
-<a class="jxr_linenumber" name="L408" href="#L408">408</a>     String line = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L409" href="#L409">409</a>     String[] filterLine = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L410" href="#L410">410</a>     <em class="jxr_comment">// SELECT key, filter FROM occurrence_download WHERE filter IS NOT NULL ORDER BY created</em>
-<a class="jxr_linenumber" name="L411" href="#L411">411</a>     <strong class="jxr_keyword">try</strong> (RandomAccessFile filterLines = <strong class="jxr_keyword">new</strong> RandomAccessFile(<span class="jxr_string">"/home/mblissett/Temp/all-download-filters"</span>, <span class="jxr_string">"r"</span>)) {
-<a class="jxr_linenumber" name="L412" href="#L412">412</a>       <strong class="jxr_keyword">while</strong> ((line = filterLines.readLine()) != <strong class="jxr_keyword">null</strong> ) {
-<a class="jxr_linenumber" name="L413" href="#L413">413</a>         filterLine = line.split(<span class="jxr_string">"\t"</span>);
-<a class="jxr_linenumber" name="L414" href="#L414">414</a>         MAPPER.readValue(String.format(format, filterLine[1]), DownloadRequest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L415" href="#L415">415</a>       }
-<a class="jxr_linenumber" name="L416" href="#L416">416</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="L417" href="#L417">417</a>       System.err.println(e);
-<a class="jxr_linenumber" name="L418" href="#L418">418</a>       fail(<span class="jxr_string">"Exception with existing download "</span> + filterLine[0] + <span class="jxr_string">" «"</span> + filterLine[1] + <span class="jxr_string">"»"</span>);
-<a class="jxr_linenumber" name="L419" href="#L419">419</a>     }
-<a class="jxr_linenumber" name="L420" href="#L420">420</a>   }
-<a class="jxr_linenumber" name="L421" href="#L421">421</a> }
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> <em class="jxr_javadoccomment">   * Request sent by RGBIF 3.75+.  For backward compatibility, do not change this test!</em>
+<a class="jxr_linenumber" name="L312" href="#L312">312</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> <em class="jxr_javadoccomment">   * Note the lack of sendNotification.</em>
+<a class="jxr_linenumber" name="L314" href="#L314">314</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>   @Test
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> downloadFromRgbifTest() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>     String downloadRequest = <span class="jxr_string">"{\n"</span>
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>       + <span class="jxr_string">"  \&quot;creator\&quot;:\&quot;rgbif\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>       + <span class="jxr_string">"  \&quot;notification_address\&quot;:[\&quot;rgbif@mailinator.com\&quot;],\n"</span>
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>       + <span class="jxr_string">"  \&quot;format\&quot;: \&quot;SIMPLE_CSV\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>       + <span class="jxr_string">"  \&quot;predicate\&quot;:{\n"</span>
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>       + <span class="jxr_string">"    \&quot;type\&quot;:\&quot;within\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>       + <span class="jxr_string">"    \&quot;geometry\&quot;:\&quot;POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\&quot;\n"</span>
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>       + <span class="jxr_string">"  }\n"</span>
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>       + <span class="jxr_string">"}"</span>;
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> 
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>     DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>     assertEquals(<span class="jxr_string">"rgbif"</span>, request.getCreator());
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>     assertFalse(request.getSendNotification());
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>     assertEquals(<span class="jxr_string">"rgbif@mailinator.com"</span>, request.getNotificationAddressesAsString());
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>     assertEquals(WithinPredicate.<strong class="jxr_keyword">class</strong>, ((PredicateDownloadRequest) request).getPredicate().getClass());
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>   }
+<a class="jxr_linenumber" name="L334" href="#L334">334</a> 
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> <em class="jxr_javadoccomment">   * Working request at v0.188.  For backward compatibility, do not change this test!</em>
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L338" href="#L338">338</a> <em class="jxr_javadoccomment">   * Note the 212 rather than "212".</em>
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>   @Test
+<a class="jxr_linenumber" name="L341" href="#L341">341</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> downloadWithNumbersTest() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>     String downloadRequest = <span class="jxr_string">"{\n"</span>
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>       + <span class="jxr_string">"  \&quot;creator\&quot;:\&quot;gbif_user\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>       + <span class="jxr_string">"  \&quot;notification_address\&quot;:[\&quot;gbif_user@mailinator.com\&quot;],\n"</span>
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>       + <span class="jxr_string">"  \&quot;created\&quot;:\&quot;2023\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>       + <span class="jxr_string">"  \&quot;format\&quot;: \&quot;SIMPLE_CSV\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>       + <span class="jxr_string">"  \&quot;predicate\&quot;:{\n"</span>
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>       + <span class="jxr_string">"    \&quot;type\&quot;:\&quot;equals\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>       + <span class="jxr_string">"    \&quot;key\&quot;:\&quot;TAXON_KEY\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>       + <span class="jxr_string">"    \&quot;value\&quot;:212\n"</span>
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>       + <span class="jxr_string">"  }\n"</span>
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>       + <span class="jxr_string">"}"</span>;
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> 
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>     DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>     assertEquals(<span class="jxr_string">"gbif_user"</span>, request.getCreator());
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>     assertFalse(request.getSendNotification());
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>     assertEquals(<span class="jxr_string">"gbif_user@mailinator.com"</span>, request.getNotificationAddressesAsString());
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>     assertEquals(EqualsPredicate.<strong class="jxr_keyword">class</strong>, ((PredicateDownloadRequest) request).getPredicate().getClass());
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>     assertEquals(<span class="jxr_string">"212"</span>, ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>   }
+<a class="jxr_linenumber" name="L362" href="#L362">362</a> 
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L364" href="#L364">364</a> <em class="jxr_javadoccomment">   * Test three extension situations: known and supported, known but not supported, unknown.</em>
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>   @Test
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> downloadWithExtensionTest() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>     String requestTemplate = <span class="jxr_string">"{\n"</span>
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>       + <span class="jxr_string">"  \&quot;creator\&quot;:\&quot;gbif_user\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>       + <span class="jxr_string">"  \&quot;notification_address\&quot;:[\&quot;gbif_user@mailinator.com\&quot;],\n"</span>
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>       + <span class="jxr_string">"  \&quot;created\&quot;:\&quot;2024\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>       + <span class="jxr_string">"  \&quot;format\&quot;: \&quot;DWCA\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>       + <span class="jxr_string">"  \&quot;predicate\&quot;:{\n"</span>
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>       + <span class="jxr_string">"    \&quot;type\&quot;:\&quot;equals\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>       + <span class="jxr_string">"    \&quot;key\&quot;:\&quot;TAXON_KEY\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>       + <span class="jxr_string">"    \&quot;value\&quot;:\&quot;212\&quot;\n"</span>
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>       + <span class="jxr_string">"  },\n"</span>
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>       + <span class="jxr_string">"  %s\n"</span>
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>       + <span class="jxr_string">"}"</span>;
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> 
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>     DownloadRequest request;
+<a class="jxr_linenumber" name="L382" href="#L382">382</a> 
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>     <em class="jxr_comment">// Known and supported extension</em>
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>     request = MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':['http://rs.tdwg.org/dwc/terms/MeasurementOrFact']"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>     assertEquals(<span class="jxr_string">"gbif_user"</span>, request.getCreator());
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>     assertEquals(DownloadFormat.DWCA, request.getFormat());
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>     assertEquals(<span class="jxr_string">"gbif_user@mailinator.com"</span>, request.getNotificationAddressesAsString());
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>     assertEquals(EqualsPredicate.<strong class="jxr_keyword">class</strong>, ((PredicateDownloadRequest) request).getPredicate().getClass());
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>     assertEquals(<span class="jxr_string">"212"</span>, ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>     assertEquals(Extension.MEASUREMENT_OR_FACT, ((PredicateDownloadRequest) request).getVerbatimExtensions().iterator().next());
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> 
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>     <em class="jxr_comment">// Known and *unsupported* extension</em>
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>     <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>       MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':['http://zooarchnet.org/dwc/terms/ChronometricDate']"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>       fail();
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>     }
+<a class="jxr_linenumber" name="L398" href="#L398">398</a> 
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>     <em class="jxr_comment">// Unknown extension</em>
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>     <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>       MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':['http://example.org/nothing']"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>       fail();
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>     }
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> 
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>     <em class="jxr_comment">// Extension enum value — not supported as these are a bit too internal</em>
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>     <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>       MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':['MEASUREMENT_OR_FACT']"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>       fail();
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>     }
+<a class="jxr_linenumber" name="L412" href="#L412">412</a> 
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>     <em class="jxr_comment">// Null value</em>
+<a class="jxr_linenumber" name="L414" href="#L414">414</a>     <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L415" href="#L415">415</a>       MAPPER.readValue(String.format(requestTemplate, <span class="jxr_string">"'verbatimExtensions':[null]"</span>.replace(<span class="jxr_string">"'"</span>, <span class="jxr_string">"\&quot;"</span>)), DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>       fail();
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>     }
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>   }
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> 
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>   @Disabled
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>   @Test
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> existingDownloadsTest() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>     String format = <span class="jxr_string">"{\&quot;predicate\&quot;: %s}"</span>;
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>     String line = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>     String[] filterLine = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>     <em class="jxr_comment">// SELECT key, filter FROM occurrence_download WHERE filter IS NOT NULL ORDER BY created</em>
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>     <strong class="jxr_keyword">try</strong> (RandomAccessFile filterLines = <strong class="jxr_keyword">new</strong> RandomAccessFile(<span class="jxr_string">"/home/mblissett/Temp/all-download-filters"</span>, <span class="jxr_string">"r"</span>)) {
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>       <strong class="jxr_keyword">while</strong> ((line = filterLines.readLine()) != <strong class="jxr_keyword">null</strong> ) {
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>         filterLine = line.split(<span class="jxr_string">"\t"</span>);
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>         MAPPER.readValue(String.format(format, filterLine[1]), DownloadRequest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>       }
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>     } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>       System.err.println(e);
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>       fail(<span class="jxr_string">"Exception with existing download "</span> + filterLine[0] + <span class="jxr_string">" «"</span> + filterLine[1] + <span class="jxr_string">"»"</span>);
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>     }
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>   }
+<a class="jxr_linenumber" name="L438" href="#L438">438</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2026 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>

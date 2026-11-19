@@ -16,112 +16,113 @@
 <span class="source-line-no">003</span><span id="line-3">import java.util.Collection;</span>
 <span class="source-line-no">004</span><span id="line-4">import java.util.Objects;</span>
 <span class="source-line-no">005</span><span id="line-5">import java.util.StringJoiner;</span>
-<span class="source-line-no">006</span><span id="line-6"></span>
-<span class="source-line-no">007</span><span id="line-7">import jakarta.annotation.Nullable;</span>
-<span class="source-line-no">008</span><span id="line-8">import jakarta.validation.Valid;</span>
-<span class="source-line-no">009</span><span id="line-9"></span>
-<span class="source-line-no">010</span><span id="line-10">import com.fasterxml.jackson.annotation.JsonCreator;</span>
-<span class="source-line-no">011</span><span id="line-11">import com.fasterxml.jackson.annotation.JsonProperty;</span>
-<span class="source-line-no">012</span><span id="line-12"></span>
-<span class="source-line-no">013</span><span id="line-13">import com.fasterxml.jackson.databind.JsonNode;</span>
-<span class="source-line-no">014</span><span id="line-14"></span>
-<span class="source-line-no">015</span><span id="line-15">import io.swagger.v3.oas.annotations.ExternalDocumentation;</span>
-<span class="source-line-no">016</span><span id="line-16">import io.swagger.v3.oas.annotations.media.Schema;</span>
-<span class="source-line-no">017</span><span id="line-17"></span>
-<span class="source-line-no">018</span><span id="line-18">/**</span>
-<span class="source-line-no">019</span><span id="line-19"> * SQL Based downloads — experimental feature.</span>
-<span class="source-line-no">020</span><span id="line-20"> */</span>
-<span class="source-line-no">021</span><span id="line-21">@Schema(</span>
-<span class="source-line-no">022</span><span id="line-22">  description = "An occurrence download request defined in SQL.",</span>
-<span class="source-line-no">023</span><span id="line-23">  externalDocs = @ExternalDocumentation(url = "https://techdocs.gbif.org/en/data-use/api-sql-downloads")</span>
-<span class="source-line-no">024</span><span id="line-24">)</span>
-<span class="source-line-no">025</span><span id="line-25">public class SqlDownloadRequest extends DownloadRequest {</span>
-<span class="source-line-no">026</span><span id="line-26"></span>
-<span class="source-line-no">027</span><span id="line-27">  //Default download format.</span>
-<span class="source-line-no">028</span><span id="line-28">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SQL_TSV_ZIP;</span>
-<span class="source-line-no">029</span><span id="line-29"></span>
-<span class="source-line-no">030</span><span id="line-30">  @Schema(</span>
-<span class="source-line-no">031</span><span id="line-31">    description = "An SQL query defining the filter and output for the download."</span>
-<span class="source-line-no">032</span><span id="line-32">  )</span>
-<span class="source-line-no">033</span><span id="line-33">  private String sql;</span>
-<span class="source-line-no">034</span><span id="line-34"></span>
-<span class="source-line-no">035</span><span id="line-35">  public SqlDownloadRequest() {</span>
-<span class="source-line-no">036</span><span id="line-36"></span>
-<span class="source-line-no">037</span><span id="line-37">  }</span>
-<span class="source-line-no">038</span><span id="line-38"></span>
-<span class="source-line-no">039</span><span id="line-39">  /**</span>
-<span class="source-line-no">040</span><span id="line-40">   * Full constructor. Used to create instances using JSON serialization.</span>
-<span class="source-line-no">041</span><span id="line-41">   */</span>
-<span class="source-line-no">042</span><span id="line-42">  @JsonCreator</span>
-<span class="source-line-no">043</span><span id="line-43">  public SqlDownloadRequest(</span>
-<span class="source-line-no">044</span><span id="line-44">    @JsonProperty("sql") String sql,</span>
-<span class="source-line-no">045</span><span id="line-45">    @JsonProperty("creator") @Nullable String creator,</span>
-<span class="source-line-no">046</span><span id="line-46">    @JsonProperty("notificationAddresses") @Nullable Collection&lt;String&gt; notificationAddresses,</span>
-<span class="source-line-no">047</span><span id="line-47">    @JsonProperty("sendNotification") @Nullable Boolean sendNotification,</span>
-<span class="source-line-no">048</span><span id="line-48">    @JsonProperty("format") @Nullable DownloadFormat format,</span>
-<span class="source-line-no">049</span><span id="line-49">    @JsonProperty("type") @Nullable DownloadType type,</span>
-<span class="source-line-no">050</span><span id="line-50">    @JsonProperty("description") @Nullable String description,</span>
-<span class="source-line-no">051</span><span id="line-51">    @JsonProperty("machineDescription") @Nullable JsonNode machineDescription,</span>
-<span class="source-line-no">052</span><span id="line-52">    @JsonProperty("checklistKey") @Nullable String checklistKey</span>
-<span class="source-line-no">053</span><span id="line-53">    ) {</span>
-<span class="source-line-no">054</span><span id="line-54">    // Check the format is suitable for an SQL download, and check predicate formats are suitable for predicate downloads.</span>
-<span class="source-line-no">055</span><span id="line-55">    super(</span>
-<span class="source-line-no">056</span><span id="line-56">      creator,</span>
-<span class="source-line-no">057</span><span id="line-57">      notificationAddresses,</span>
-<span class="source-line-no">058</span><span id="line-58">      sendNotification == null ? Boolean.TRUE : sendNotification,</span>
-<span class="source-line-no">059</span><span id="line-59">      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,</span>
-<span class="source-line-no">060</span><span id="line-60">      type == null ? DownloadType.OCCURRENCE : type,</span>
-<span class="source-line-no">061</span><span id="line-61">      description,</span>
-<span class="source-line-no">062</span><span id="line-62">      machineDescription,</span>
-<span class="source-line-no">063</span><span id="line-63">      checklistKey</span>
-<span class="source-line-no">064</span><span id="line-64">    );</span>
-<span class="source-line-no">065</span><span id="line-65">    this.sql = sql;</span>
-<span class="source-line-no">066</span><span id="line-66">  }</span>
-<span class="source-line-no">067</span><span id="line-67"></span>
-<span class="source-line-no">068</span><span id="line-68">  /**</span>
-<span class="source-line-no">069</span><span id="line-69">   *</span>
-<span class="source-line-no">070</span><span id="line-70">   * @return the sql query.</span>
-<span class="source-line-no">071</span><span id="line-71">   */</span>
-<span class="source-line-no">072</span><span id="line-72">  @Valid</span>
-<span class="source-line-no">073</span><span id="line-73">  public String getSql() {</span>
-<span class="source-line-no">074</span><span id="line-74">    return sql;</span>
-<span class="source-line-no">075</span><span id="line-75">  }</span>
-<span class="source-line-no">076</span><span id="line-76"></span>
-<span class="source-line-no">077</span><span id="line-77">  /**</span>
-<span class="source-line-no">078</span><span id="line-78">   * This parameter when present provides the SQL query for custom download</span>
-<span class="source-line-no">079</span><span id="line-79">   * @param sql</span>
-<span class="source-line-no">080</span><span id="line-80">   */</span>
-<span class="source-line-no">081</span><span id="line-81">  public void setSql(String sql) {</span>
-<span class="source-line-no">082</span><span id="line-82">    this.sql = sql;</span>
-<span class="source-line-no">083</span><span id="line-83">  }</span>
-<span class="source-line-no">084</span><span id="line-84"></span>
-<span class="source-line-no">085</span><span id="line-85">  @Override</span>
-<span class="source-line-no">086</span><span id="line-86">  public int hashCode() {</span>
-<span class="source-line-no">087</span><span id="line-87">    return Objects.hash(super.hashCode(), sql);</span>
-<span class="source-line-no">088</span><span id="line-88">  }</span>
-<span class="source-line-no">089</span><span id="line-89"></span>
-<span class="source-line-no">090</span><span id="line-90">  @Override</span>
-<span class="source-line-no">091</span><span id="line-91">  public boolean equals(Object o) {</span>
-<span class="source-line-no">092</span><span id="line-92">    if (this == o) {</span>
-<span class="source-line-no">093</span><span id="line-93">      return true;</span>
-<span class="source-line-no">094</span><span id="line-94">    }</span>
-<span class="source-line-no">095</span><span id="line-95">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="source-line-no">096</span><span id="line-96">      return false;</span>
-<span class="source-line-no">097</span><span id="line-97">    }</span>
-<span class="source-line-no">098</span><span id="line-98">    if (!super.equals(o)) {</span>
-<span class="source-line-no">099</span><span id="line-99">      return false;</span>
-<span class="source-line-no">100</span><span id="line-100">    }</span>
-<span class="source-line-no">101</span><span id="line-101">    SqlDownloadRequest that = (SqlDownloadRequest) o;</span>
-<span class="source-line-no">102</span><span id="line-102">    return Objects.equals(sql, that.sql);</span>
-<span class="source-line-no">103</span><span id="line-103">  }</span>
-<span class="source-line-no">104</span><span id="line-104"></span>
-<span class="source-line-no">105</span><span id="line-105">  @Override</span>
-<span class="source-line-no">106</span><span id="line-106">  public String toString() {</span>
-<span class="source-line-no">107</span><span id="line-107">    return new StringJoiner(", ", SqlDownloadRequest.class.getSimpleName() + "[", "]")</span>
-<span class="source-line-no">108</span><span id="line-108">      .add("sql=" + sql)</span>
-<span class="source-line-no">109</span><span id="line-109">      .toString();</span>
-<span class="source-line-no">110</span><span id="line-110">  }</span>
-<span class="source-line-no">111</span><span id="line-111">}</span>
+<span class="source-line-no">006</span><span id="line-6">import java.util.UUID;</span>
+<span class="source-line-no">007</span><span id="line-7"></span>
+<span class="source-line-no">008</span><span id="line-8">import jakarta.annotation.Nullable;</span>
+<span class="source-line-no">009</span><span id="line-9">import jakarta.validation.Valid;</span>
+<span class="source-line-no">010</span><span id="line-10"></span>
+<span class="source-line-no">011</span><span id="line-11">import com.fasterxml.jackson.annotation.JsonCreator;</span>
+<span class="source-line-no">012</span><span id="line-12">import com.fasterxml.jackson.annotation.JsonProperty;</span>
+<span class="source-line-no">013</span><span id="line-13"></span>
+<span class="source-line-no">014</span><span id="line-14">import com.fasterxml.jackson.databind.JsonNode;</span>
+<span class="source-line-no">015</span><span id="line-15"></span>
+<span class="source-line-no">016</span><span id="line-16">import io.swagger.v3.oas.annotations.ExternalDocumentation;</span>
+<span class="source-line-no">017</span><span id="line-17">import io.swagger.v3.oas.annotations.media.Schema;</span>
+<span class="source-line-no">018</span><span id="line-18"></span>
+<span class="source-line-no">019</span><span id="line-19">/**</span>
+<span class="source-line-no">020</span><span id="line-20"> * SQL Based downloads — experimental feature.</span>
+<span class="source-line-no">021</span><span id="line-21"> */</span>
+<span class="source-line-no">022</span><span id="line-22">@Schema(</span>
+<span class="source-line-no">023</span><span id="line-23">  description = "An occurrence download request defined in SQL.",</span>
+<span class="source-line-no">024</span><span id="line-24">  externalDocs = @ExternalDocumentation(url = "https://techdocs.gbif.org/en/data-use/api-sql-downloads")</span>
+<span class="source-line-no">025</span><span id="line-25">)</span>
+<span class="source-line-no">026</span><span id="line-26">public class SqlDownloadRequest extends DownloadRequest {</span>
+<span class="source-line-no">027</span><span id="line-27"></span>
+<span class="source-line-no">028</span><span id="line-28">  //Default download format.</span>
+<span class="source-line-no">029</span><span id="line-29">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SQL_TSV_ZIP;</span>
+<span class="source-line-no">030</span><span id="line-30"></span>
+<span class="source-line-no">031</span><span id="line-31">  @Schema(</span>
+<span class="source-line-no">032</span><span id="line-32">    description = "An SQL query defining the filter and output for the download."</span>
+<span class="source-line-no">033</span><span id="line-33">  )</span>
+<span class="source-line-no">034</span><span id="line-34">  private String sql;</span>
+<span class="source-line-no">035</span><span id="line-35"></span>
+<span class="source-line-no">036</span><span id="line-36">  public SqlDownloadRequest() {</span>
+<span class="source-line-no">037</span><span id="line-37"></span>
+<span class="source-line-no">038</span><span id="line-38">  }</span>
+<span class="source-line-no">039</span><span id="line-39"></span>
+<span class="source-line-no">040</span><span id="line-40">  /**</span>
+<span class="source-line-no">041</span><span id="line-41">   * Full constructor. Used to create instances using JSON serialization.</span>
+<span class="source-line-no">042</span><span id="line-42">   */</span>
+<span class="source-line-no">043</span><span id="line-43">  @JsonCreator</span>
+<span class="source-line-no">044</span><span id="line-44">  public SqlDownloadRequest(</span>
+<span class="source-line-no">045</span><span id="line-45">    @JsonProperty("sql") String sql,</span>
+<span class="source-line-no">046</span><span id="line-46">    @JsonProperty("creator") @Nullable String creator,</span>
+<span class="source-line-no">047</span><span id="line-47">    @JsonProperty("notificationAddresses") @Nullable Collection&lt;String&gt; notificationAddresses,</span>
+<span class="source-line-no">048</span><span id="line-48">    @JsonProperty("sendNotification") @Nullable Boolean sendNotification,</span>
+<span class="source-line-no">049</span><span id="line-49">    @JsonProperty("format") @Nullable DownloadFormat format,</span>
+<span class="source-line-no">050</span><span id="line-50">    @JsonProperty("type") @Nullable DownloadType type,</span>
+<span class="source-line-no">051</span><span id="line-51">    @JsonProperty("description") @Nullable String description,</span>
+<span class="source-line-no">052</span><span id="line-52">    @JsonProperty("machineDescription") @Nullable JsonNode machineDescription,</span>
+<span class="source-line-no">053</span><span id="line-53">    @JsonProperty("checklistKey") @Nullable UUID checklistKey</span>
+<span class="source-line-no">054</span><span id="line-54">    ) {</span>
+<span class="source-line-no">055</span><span id="line-55">    // Check the format is suitable for an SQL download, and check predicate formats are suitable for predicate downloads.</span>
+<span class="source-line-no">056</span><span id="line-56">    super(</span>
+<span class="source-line-no">057</span><span id="line-57">      creator,</span>
+<span class="source-line-no">058</span><span id="line-58">      notificationAddresses,</span>
+<span class="source-line-no">059</span><span id="line-59">      sendNotification == null ? Boolean.TRUE : sendNotification,</span>
+<span class="source-line-no">060</span><span id="line-60">      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,</span>
+<span class="source-line-no">061</span><span id="line-61">      type == null ? DownloadType.OCCURRENCE : type,</span>
+<span class="source-line-no">062</span><span id="line-62">      description,</span>
+<span class="source-line-no">063</span><span id="line-63">      machineDescription,</span>
+<span class="source-line-no">064</span><span id="line-64">      checklistKey</span>
+<span class="source-line-no">065</span><span id="line-65">    );</span>
+<span class="source-line-no">066</span><span id="line-66">    this.sql = sql;</span>
+<span class="source-line-no">067</span><span id="line-67">  }</span>
+<span class="source-line-no">068</span><span id="line-68"></span>
+<span class="source-line-no">069</span><span id="line-69">  /**</span>
+<span class="source-line-no">070</span><span id="line-70">   *</span>
+<span class="source-line-no">071</span><span id="line-71">   * @return the sql query.</span>
+<span class="source-line-no">072</span><span id="line-72">   */</span>
+<span class="source-line-no">073</span><span id="line-73">  @Valid</span>
+<span class="source-line-no">074</span><span id="line-74">  public String getSql() {</span>
+<span class="source-line-no">075</span><span id="line-75">    return sql;</span>
+<span class="source-line-no">076</span><span id="line-76">  }</span>
+<span class="source-line-no">077</span><span id="line-77"></span>
+<span class="source-line-no">078</span><span id="line-78">  /**</span>
+<span class="source-line-no">079</span><span id="line-79">   * This parameter when present provides the SQL query for custom download</span>
+<span class="source-line-no">080</span><span id="line-80">   * @param sql</span>
+<span class="source-line-no">081</span><span id="line-81">   */</span>
+<span class="source-line-no">082</span><span id="line-82">  public void setSql(String sql) {</span>
+<span class="source-line-no">083</span><span id="line-83">    this.sql = sql;</span>
+<span class="source-line-no">084</span><span id="line-84">  }</span>
+<span class="source-line-no">085</span><span id="line-85"></span>
+<span class="source-line-no">086</span><span id="line-86">  @Override</span>
+<span class="source-line-no">087</span><span id="line-87">  public int hashCode() {</span>
+<span class="source-line-no">088</span><span id="line-88">    return Objects.hash(super.hashCode(), sql);</span>
+<span class="source-line-no">089</span><span id="line-89">  }</span>
+<span class="source-line-no">090</span><span id="line-90"></span>
+<span class="source-line-no">091</span><span id="line-91">  @Override</span>
+<span class="source-line-no">092</span><span id="line-92">  public boolean equals(Object o) {</span>
+<span class="source-line-no">093</span><span id="line-93">    if (this == o) {</span>
+<span class="source-line-no">094</span><span id="line-94">      return true;</span>
+<span class="source-line-no">095</span><span id="line-95">    }</span>
+<span class="source-line-no">096</span><span id="line-96">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="source-line-no">097</span><span id="line-97">      return false;</span>
+<span class="source-line-no">098</span><span id="line-98">    }</span>
+<span class="source-line-no">099</span><span id="line-99">    if (!super.equals(o)) {</span>
+<span class="source-line-no">100</span><span id="line-100">      return false;</span>
+<span class="source-line-no">101</span><span id="line-101">    }</span>
+<span class="source-line-no">102</span><span id="line-102">    SqlDownloadRequest that = (SqlDownloadRequest) o;</span>
+<span class="source-line-no">103</span><span id="line-103">    return Objects.equals(sql, that.sql);</span>
+<span class="source-line-no">104</span><span id="line-104">  }</span>
+<span class="source-line-no">105</span><span id="line-105"></span>
+<span class="source-line-no">106</span><span id="line-106">  @Override</span>
+<span class="source-line-no">107</span><span id="line-107">  public String toString() {</span>
+<span class="source-line-no">108</span><span id="line-108">    return new StringJoiner(", ", SqlDownloadRequest.class.getSimpleName() + "[", "]")</span>
+<span class="source-line-no">109</span><span id="line-109">      .add("sql=" + sql)</span>
+<span class="source-line-no">110</span><span id="line-110">      .toString();</span>
+<span class="source-line-no">111</span><span id="line-111">  }</span>
+<span class="source-line-no">112</span><span id="line-112">}</span>
 
 
 

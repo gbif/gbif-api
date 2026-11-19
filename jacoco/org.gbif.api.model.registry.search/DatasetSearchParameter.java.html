@@ -16,6 +16,7 @@
 package org.gbif.api.model.registry.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.common.search.SearchParameterFormat;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
@@ -30,178 +31,178 @@ import java.util.UUID;
 /**
  * Each value in the enum represents a possible facet for the Dataset search.
  */
-<span class="fc" id="L33">public enum DatasetSearchParameter implements SearchParameter {</span>
+<span class="fc" id="L34">public enum DatasetSearchParameter implements SearchParameter {</span>
 
   /**
    * {@link org.gbif.api.vocabulary.DatasetType} enumeration value.
    */
-<span class="fc" id="L38">  TYPE(DatasetType.class),</span>
+<span class="fc" id="L39">  TYPE(DatasetType.class),</span>
 
   /**
    * {@link org.gbif.api.vocabulary.DatasetSubtype} enumeration value.
    */
-<span class="fc" id="L43">  SUBTYPE(DatasetSubtype.class),</span>
+<span class="fc" id="L44">  SUBTYPE(DatasetSubtype.class),</span>
 
   /**
    * The owning organizations uuid key.
    */
-<span class="fc" id="L48">  PUBLISHING_ORG(UUID.class),</span>
+<span class="fc" id="L49">  PUBLISHING_ORG(UUID.class),</span>
 
   /**
    * The hosting organization's uuid key.
    */
-<span class="fc" id="L53">  HOSTING_ORG(UUID.class),</span>
+<span class="fc" id="L54">  HOSTING_ORG(UUID.class),</span>
 
   /**
    * A case-insensitive plain text keyword from coverages or serialized tag as created by Tag.toString().
    */
-<span class="fc" id="L58">  KEYWORD(String.class),</span>
+<span class="fc" id="L59">  KEYWORD(String.class),</span>
 
   /**
    * Filters datasets by their temporal coverage broken down to decades.
    * Decade given as a full year, e.g. 1950, 1960 or 1980.
    */
-<span class="fc" id="L64">  DECADE(Integer.class),</span>
+<span class="fc" id="L65">  DECADE(Integer.class),</span>
 
   /**
    * The hosting organization's country.
    */
-<span class="fc" id="L69">  PUBLISHING_COUNTRY(Country.class),</span>
+<span class="fc" id="L70">  PUBLISHING_COUNTRY(Country.class),</span>
 
   /**
    * The owning organization's country.
    */
-<span class="fc" id="L74">  HOSTING_COUNTRY(Country.class),</span>
+<span class="fc" id="L75">  HOSTING_COUNTRY(Country.class),</span>
 
   /**
    * Country of the geospatial coverage of a dataset.
    */
-<span class="fc" id="L79">  COUNTRY(Country.class),</span>
+<span class="fc" id="L80">  COUNTRY(Country.class),</span>
 
   /**
    * {@link org.gbif.api.vocabulary.Continent} of the geospatial coverage of a dataset.
    */
-<span class="fc" id="L84">  CONTINENT(Continent.class),</span>
+<span class="fc" id="L85">  CONTINENT(Continent.class),</span>
 
   /**
    * {@link org.gbif.api.vocabulary.License} of a dataset.
    */
-<span class="fc" id="L89">  LICENSE(License.class),</span>
+<span class="fc" id="L90">  LICENSE(License.class),</span>
 
   /**
    * Identifier of the associated project.
    */
-<span class="fc" id="L94">  PROJECT_ID(String.class),</span>
+<span class="fc" id="L95">  PROJECT_ID(String.class),</span>
 
   /**
    * Backbone name usage key that this dataset covers.
    */
-<span class="fc" id="L99">  TAXON_KEY(Integer.class),</span>
+<span class="fc" id="L100">  TAXON_KEY(Integer.class),</span>
 
   /**
    * Number of indexed records.
    * Depending on type of dataset these are occurrences or name usages.
    */
-<span class="fc" id="L105">  RECORD_COUNT(Integer.class),</span>
+<span class="fc" id="L106">  RECORD_COUNT(Integer.class),</span>
 
   /**
    * Filters datasets by their temporal coverage broken down to years
    * as extracted from the occurrence data.
    */
-<span class="fc" id="L111">  YEAR(Integer.class),</span>
+<span class="fc" id="L112">  YEAR(Integer.class),</span>
 
   /**
    * Date when the dataset was last updated
    */
-<span class="fc" id="L116">  MODIFIED_DATE(LocalDateTime.class),</span>
+<span class="fc" id="L117">  MODIFIED_DATE(LocalDateTime.class),</span>
 
   /**
    * Date when the dataset was created
    */
-<span class="fc" id="L121">  CREATED_DATE(LocalDateTime.class),</span>
+<span class="fc" id="L122">  CREATED_DATE(LocalDateTime.class),</span>
 
   /**
    * Date when the dataset was published
    */
-<span class="fc" id="L126">  PUBLICATION_DATE(LocalDateTime.class),</span>
+<span class="fc" id="L127">  PUBLICATION_DATE(LocalDateTime.class),</span>
 
   /**
    * Dataset title/name.
    */
-<span class="fc" id="L131">  DATASET_TITLE(String.class),</span>
+<span class="fc" id="L132">  DATASET_TITLE(String.class),</span>
 
   /**
    * Collection key associate to this dataset.
    */
-<span class="fc" id="L136">  COLLECTION_KEY(UUID.class),</span>
+<span class="fc" id="L137">  COLLECTION_KEY(UUID.class),</span>
 
   /**
    * Institution key associated to the dataset and/or to the collection.
    */
-<span class="fc" id="L141">  INSTITUTION_KEY(UUID.class),</span>
+<span class="fc" id="L142">  INSTITUTION_KEY(UUID.class),</span>
 
   /**
    * DOI associated to one more dataset.
    */
-<span class="fc" id="L146">  DOI(String.class),</span>
+<span class="fc" id="L147">  DOI(String.class),</span>
 
   /**
    * Network key associated to a dataset.
    */
-<span class="fc" id="L151">  NETWORK_KEY(UUID.class),</span>
+<span class="fc" id="L152">  NETWORK_KEY(UUID.class),</span>
 
   /**
    * Node key that endorsed this dataset's publisher.
    */
-<span class="fc" id="L156">  ENDORSING_NODE_KEY(UUID.class),</span>
+<span class="fc" id="L157">  ENDORSING_NODE_KEY(UUID.class),</span>
 
   /**
    * Hosting installation key.
    */
-<span class="fc" id="L161">  INSTALLATION_KEY(UUID.class),</span>
+<span class="fc" id="L162">  INSTALLATION_KEY(UUID.class),</span>
 
   /**
    * EndpointType associated to a dataset.
    */
-<span class="fc" id="L166">  ENDPOINT_TYPE(EndpointType.class),</span>
+<span class="fc" id="L167">  ENDPOINT_TYPE(EndpointType.class),</span>
 
   /**
    * Published DwC-A extension.
    */
-<span class="fc" id="L171">  DWCA_EXTENSION(String.class),</span>
+<span class="fc" id="L172">  DWCA_EXTENSION(String.class),</span>
 
   /**
    * Published DwC-A row/core type.
    */
-<span class="fc" id="L176">  DWCA_CORE_TYPE(String.class),</span>
+<span class="fc" id="L177">  DWCA_CORE_TYPE(String.class),</span>
 
-<span class="fc" id="L178">  CONTACT_USER_ID(String.class),</span>
+<span class="fc" id="L179">  CONTACT_USER_ID(String.class),</span>
 
-<span class="fc" id="L180">  CONTACT_EMAIL(String.class),</span>
+<span class="fc" id="L181">  CONTACT_EMAIL(String.class),</span>
 
   /**
    * Category of the dataset.
    */
-<span class="fc" id="L185">  CATEGORY(String.class),</span>
+<span class="fc" id="L186">  CATEGORY(String.class),</span>
 
-<span class="fc" id="L187">  MACHINE_TAG_NAMESPACE(String.class),</span>
+<span class="fc" id="L188">  MACHINE_TAG_NAMESPACE(String.class),</span>
 
-<span class="fc" id="L189">  MACHINE_TAG_NAME(String.class),</span>
+<span class="fc" id="L190">  MACHINE_TAG_NAME(String.class),</span>
 
-<span class="fc" id="L191">  MACHINE_TAG_VALUE(String.class),</span>
+<span class="fc" id="L192">  MACHINE_TAG_VALUE(String.class),</span>
 
-<span class="fc" id="L193">  IDENTIFIER(String.class),</span>
+<span class="fc" id="L194">  IDENTIFIER(String.class),</span>
 
-<span class="fc" id="L195">  IDENTIFIER_TYPE(IdentifierType.class),</span>
+<span class="fc" id="L196">  IDENTIFIER_TYPE(IdentifierType.class),</span>
 
   /**
    * Table/Resource schema of a resource published as part of a DwC-DP dataset.
    */
-<span class="fc" id="L200">  DWC_DP_RESOURCE_SCHEMA(String.class);</span>
+<span class="fc" id="L201">  DWC_DP_RESOURCE_SCHEMA(String.class);</span>
 
-<span class="fc" id="L202">  DatasetSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="fc" id="L203">    this.type = type;</span>
-<span class="fc" id="L204">  }</span>
+<span class="fc" id="L203">  DatasetSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="fc" id="L204">    this.type = type;</span>
+<span class="fc" id="L205">  }</span>
 
   private final Class&lt;?&gt; type;
 
@@ -210,8 +211,12 @@ import java.util.UUID;
    */
   @Override
   public Class&lt;?&gt; type() {
-<span class="nc" id="L213">    return type;</span>
+<span class="nc" id="L214">    return type;</span>
   }
 
+  @Override
+  public SearchParameterFormat format() {
+<span class="nc" id="L219">    return null;</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

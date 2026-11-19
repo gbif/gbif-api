@@ -27,200 +27,321 @@
 <span class="source-line-no">014</span><span id="line-14">package org.gbif.api.util;</span>
 <span class="source-line-no">015</span><span id="line-15"></span>
 <span class="source-line-no">016</span><span id="line-16">import org.gbif.api.model.common.search.SearchParameter;</span>
-<span class="source-line-no">017</span><span id="line-17"></span>
-<span class="source-line-no">018</span><span id="line-18">import java.time.LocalDateTime;</span>
-<span class="source-line-no">019</span><span id="line-19">import java.time.temporal.Temporal;</span>
-<span class="source-line-no">020</span><span id="line-20">import java.util.UUID;</span>
-<span class="source-line-no">021</span><span id="line-21">import java.util.stream.Stream;</span>
-<span class="source-line-no">022</span><span id="line-22"></span>
-<span class="source-line-no">023</span><span id="line-23">import org.junit.jupiter.params.ParameterizedTest;</span>
-<span class="source-line-no">024</span><span id="line-24">import org.junit.jupiter.params.provider.Arguments;</span>
-<span class="source-line-no">025</span><span id="line-25">import org.junit.jupiter.params.provider.MethodSource;</span>
-<span class="source-line-no">026</span><span id="line-26"></span>
-<span class="source-line-no">027</span><span id="line-27">import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.IS_EXTINCT;</span>
-<span class="source-line-no">028</span><span id="line-28">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS;</span>
-<span class="source-line-no">029</span><span id="line-29">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;</span>
-<span class="source-line-no">030</span><span id="line-30">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;</span>
-<span class="source-line-no">031</span><span id="line-31">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DAY;</span>
-<span class="source-line-no">032</span><span id="line-32">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;</span>
-<span class="source-line-no">033</span><span id="line-33">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;</span>
-<span class="source-line-no">034</span><span id="line-34">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DISTANCE_FROM_CENTROID_IN_METERS;</span>
-<span class="source-line-no">035</span><span id="line-35">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;</span>
-<span class="source-line-no">036</span><span id="line-36">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;</span>
-<span class="source-line-no">037</span><span id="line-37">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;</span>
-<span class="source-line-no">038</span><span id="line-38">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEO_DISTANCE;</span>
-<span class="source-line-no">039</span><span id="line-39">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LAST_INTERPRETED;</span>
-<span class="source-line-no">040</span><span id="line-40">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MEDIA_TYPE;</span>
-<span class="source-line-no">041</span><span id="line-41">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;</span>
-<span class="source-line-no">042</span><span id="line-42">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.PUBLISHING_COUNTRY;</span>
-<span class="source-line-no">043</span><span id="line-43">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.RECORDED_BY;</span>
-<span class="source-line-no">044</span><span id="line-44">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.SCIENTIFIC_NAME;</span>
-<span class="source-line-no">045</span><span id="line-45">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.TYPE_STATUS;</span>
-<span class="source-line-no">046</span><span id="line-46">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.YEAR;</span>
-<span class="source-line-no">047</span><span id="line-47">import static org.junit.jupiter.api.Assertions.assertEquals;</span>
-<span class="source-line-no">048</span><span id="line-48">import static org.junit.jupiter.api.Assertions.fail;</span>
-<span class="source-line-no">049</span><span id="line-49"></span>
-<span class="source-line-no">050</span><span id="line-50">public class SearchTypeValidatorTest {</span>
-<span class="source-line-no">051</span><span id="line-51"></span>
-<span class="source-line-no">052</span><span id="line-52">  public static Stream&lt;Arguments&gt; data() {</span>
-<span class="source-line-no">053</span><span id="line-53">    return Stream.of(</span>
-<span class="source-line-no">054</span><span id="line-54">      // SearchParameter, value, isValid, isNumericRange, isDateRange</span>
-<span class="source-line-no">055</span><span id="line-55">      Arguments.of(LAST_INTERPRETED, "2000-10,*", true, false, true),</span>
-<span class="source-line-no">056</span><span id="line-56">      Arguments.of(RECORDED_BY, "henry", true, false, false),</span>
-<span class="source-line-no">057</span><span id="line-57">      Arguments.of(ELEVATION, "1080", true, false, true),</span>
-<span class="source-line-no">058</span><span id="line-58">      Arguments.of(ELEVATION, "1080.32", true, false, false),</span>
-<span class="source-line-no">059</span><span id="line-59">      Arguments.of(ELEVATION, "1080m", false, false, false),</span>
-<span class="source-line-no">060</span><span id="line-60">      Arguments.of(ELEVATION, "*, 900", true, true, false),</span>
-<span class="source-line-no">061</span><span id="line-61">      Arguments.of(ELEVATION, "100 , *", true, true, false),</span>
-<span class="source-line-no">062</span><span id="line-62">      Arguments.of(ELEVATION, "-10.5,200.5", true, true, false),</span>
-<span class="source-line-no">063</span><span id="line-63">      Arguments.of(ELEVATION, " , 200", false, false, false),</span>
-<span class="source-line-no">064</span><span id="line-64">      Arguments.of(ELEVATION, "*1,200", false, false, false),</span>
-<span class="source-line-no">065</span><span id="line-65">      Arguments.of(ELEVATION, "*.1,200", false, false, false),</span>
-<span class="source-line-no">066</span><span id="line-66">      Arguments.of(ELEVATION, " , ", false, false, false),</span>
-<span class="source-line-no">067</span><span id="line-67">      Arguments.of(ELEVATION, "[1 TO 2]", false, false, false),</span>
-<span class="source-line-no">068</span><span id="line-68">      Arguments.of(ELEVATION, "{1,2}", false, false, false),</span>
-<span class="source-line-no">069</span><span id="line-69">      Arguments.of(COORDINATE_UNCERTAINTY_IN_METERS, "0", true, false, false),</span>
-<span class="source-line-no">070</span><span id="line-70">      Arguments.of(COORDINATE_UNCERTAINTY_IN_METERS, "100 , *", true, true, false),</span>
-<span class="source-line-no">071</span><span id="line-71">      Arguments.of(DATASET_KEY, UUID.randomUUID().toString(), true, false, false),</span>
-<span class="source-line-no">072</span><span id="line-72">      Arguments.of(DATASET_KEY, "f81d4fae-7dec-11d0-a765-00a0c91e6bf6", true, false, false),</span>
-<span class="source-line-no">073</span><span id="line-73">      Arguments.of(DATASET_KEY, "F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6", true, false, false),</span>
-<span class="source-line-no">074</span><span id="line-74">      Arguments.of(DATASET_KEY, "F81D4FAE7DEC11D0A76500A0C91E6BF6", false, false, false),</span>
-<span class="source-line-no">075</span><span id="line-75">      Arguments.of(IS_EXTINCT, "true", true, false, false),</span>
-<span class="source-line-no">076</span><span id="line-76">      Arguments.of(IS_EXTINCT, "FALSE", true, false, false),</span>
-<span class="source-line-no">077</span><span id="line-77">      Arguments.of(IS_EXTINCT, "True", true, false, false),</span>
-<span class="source-line-no">078</span><span id="line-78">      Arguments.of(IS_EXTINCT, "1", false, false, false),</span>
-<span class="source-line-no">079</span><span id="line-79">      Arguments.of(IS_EXTINCT, "0", false, false, false),</span>
-<span class="source-line-no">080</span><span id="line-80">      Arguments.of(IS_EXTINCT, "10", false, false, false),</span>
-<span class="source-line-no">081</span><span id="line-81">      Arguments.of(IS_EXTINCT, "ja", false, false, false),</span>
-<span class="source-line-no">082</span><span id="line-82">      Arguments.of(IS_EXTINCT, "no", false, false, false),</span>
-<span class="source-line-no">083</span><span id="line-83">      Arguments.of(SCIENTIFIC_NAME, "abies%", true, false, false),</span>
-<span class="source-line-no">084</span><span id="line-84">      // SearchParameter, value, isValid, isNumericRange, isDateRange</span>
-<span class="source-line-no">085</span><span id="line-85">      Arguments.of(GEOMETRY, "EMPTY", false, false, false), // Valid WKT but not accepted</span>
-<span class="source-line-no">086</span><span id="line-86">      Arguments.of(GEOMETRY, "POINT (30 10)", true, false, false),</span>
-<span class="source-line-no">087</span><span id="line-87">      Arguments.of(GEOMETRY, "POINT (30 10.12)", true, false, false),</span>
-<span class="source-line-no">088</span><span id="line-88">      Arguments.of(GEOMETRY, "POINT (30 10.12)", true, false, false),</span>
-<span class="source-line-no">089</span><span id="line-89">      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))", true, false, false),</span>
-<span class="source-line-no">090</span><span id="line-90">      Arguments.of(GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))", true, false, false), // Clockwise</span>
-<span class="source-line-no">091</span><span id="line-91">      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 40 40, 20 40, 10 20, 30.12 10))", true, false, false),</span>
-<span class="source-line-no">092</span><span id="line-92">      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 40 40, 20 40, 10 20, 30.1200 10.00))", true, false, false),</span>
-<span class="source-line-no">093</span><span id="line-93">      Arguments.of(GEOMETRY, "POLYGON ((30,12 10, 40 40, 20 40, 10 20, 30,12 10))", false, false, false), // Missing ordinate</span>
-<span class="source-line-no">094</span><span id="line-94">      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10,))", false, false, false), // Extra comma</span>
-<span class="source-line-no">095</span><span id="line-95">      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10),)", false, false, false), // Extra comma</span>
-<span class="source-line-no">096</span><span id="line-96">      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 10 20, 20 40, 40 40, 30.12 10.01))", false, false, false), // Valid WKT but not a closed polygon</span>
-<span class="source-line-no">097</span><span id="line-97">      Arguments.of(GEOMETRY, "POLYGON  ( (30 10 , 10 20 , 20 40 , 40 40 , 30 20)  )", false, false, false), // Valid WKT but not a closed polygon</span>
-<span class="source-line-no">098</span><span id="line-98">      Arguments.of(GEOMETRY, "POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))", true, false, false), // Valid donut</span>
-<span class="source-line-no">099</span><span id="line-99">      Arguments.of(GEOMETRY, "POLYGON ((35 10, 10 20, 15 40, 45 45, 35 10),(20 30, 30 20, 35 35, 20 30))", true, false, false), // Clockwise outer, anticlockwise inner</span>
-<span class="source-line-no">100</span><span id="line-100">      Arguments.of(GEOMETRY, "POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 30 20, 35 35, 20 30))", true, false, false), // Anticlockwise outer, anticlockwise inner</span>
-<span class="source-line-no">101</span><span id="line-101">      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 40 40, 20 40, 10 20, 30 10)),((120 30, 130 20, 135 35, 120 30)))", true, false, false),</span>
-<span class="source-line-no">102</span><span id="line-102">      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 10 20, 20 40, 40 40, 30 10)),((120 30, 130 20, 135 35, 120 30)))", true, false, false), // First polygon is clockwise</span>
-<span class="source-line-no">103</span><span id="line-103">      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 40 40, 20 40, 10 20, 30 10)),((20 30, 30 20, 35 35, 20 30)))", false, false, false), // Overlaps</span>
-<span class="source-line-no">104</span><span id="line-104">      Arguments.of(GEOMETRY, "MULTIPOLYGON(((-125 38.4, -121.8 38.4, -121.8 40.9, -125 40.9, -125 38.4)),((-115 22.4, -111.8 22.4, -111.8 30.9, -115 30.9, -115 22.4)))", true, false, false),</span>
-<span class="source-line-no">105</span><span id="line-105">      Arguments.of(GEOMETRY, "LINESTRING (30 10, 10 30, 40 40)", true, false, false),</span>
-<span class="source-line-no">106</span><span id="line-106">      Arguments.of(GEOMETRY, "LINESTRING (30 10, 10 30, 40 40,)", false, false, false), // Extra comma</span>
-<span class="source-line-no">107</span><span id="line-107">      Arguments.of(YEAR, "1991", true, false, true),</span>
-<span class="source-line-no">108</span><span id="line-108">      Arguments.of(YEAR, "1991-01-31", false, false, false),</span>
-<span class="source-line-no">109</span><span id="line-109">      Arguments.of(YEAR, "860", true, false, false),</span>
-<span class="source-line-no">110</span><span id="line-110">      Arguments.of(YEAR, "1860, 1911", true, true, true),</span>
-<span class="source-line-no">111</span><span id="line-111">      Arguments.of(YEAR, "1", true, false, false),</span>
-<span class="source-line-no">112</span><span id="line-112">      Arguments.of(YEAR, "-10", true, false, false),</span>
-<span class="source-line-no">113</span><span id="line-113">      Arguments.of(YEAR, "3018", true, false, true),</span>
-<span class="source-line-no">114</span><span id="line-114">      Arguments.of(MONTH, "1991", false, false, true),</span>
-<span class="source-line-no">115</span><span id="line-115">      Arguments.of(MONTH, "00", false, false, false),</span>
-<span class="source-line-no">116</span><span id="line-116">      Arguments.of(MONTH, "13", false, false, false),</span>
-<span class="source-line-no">117</span><span id="line-117">      Arguments.of(MONTH, "10", true, false, false),</span>
-<span class="source-line-no">118</span><span id="line-118">      Arguments.of(MONTH, "", false, false, false),</span>
-<span class="source-line-no">119</span><span id="line-119">      Arguments.of(MONTH, "0", false, false, false),</span>
-<span class="source-line-no">120</span><span id="line-120">      Arguments.of(MONTH, "1", true, false, false),</span>
-<span class="source-line-no">121</span><span id="line-121">      Arguments.of(MONTH, "-11", false, false, false),</span>
-<span class="source-line-no">122</span><span id="line-122">      Arguments.of(MONTH, "1267", false, false, true),</span>
-<span class="source-line-no">123</span><span id="line-123">      Arguments.of(DAY, "13", true, false, false),</span>
-<span class="source-line-no">124</span><span id="line-124">      Arguments.of(DAY, "1991-01-31", false, false, false),</span>
-<span class="source-line-no">125</span><span id="line-125">      Arguments.of(DAY, "860", false, false, false),</span>
-<span class="source-line-no">126</span><span id="line-126">      Arguments.of(DAY, "13, 30", true, true, false),</span>
-<span class="source-line-no">127</span><span id="line-127">      Arguments.of(DAY, "1", true, false, false),</span>
-<span class="source-line-no">128</span><span id="line-128">      Arguments.of(DAY, "-10", false, false, false),</span>
-<span class="source-line-no">129</span><span id="line-129">      // SearchParameter, value, isValid, isNumericRange, isDateRange</span>
-<span class="source-line-no">130</span><span id="line-130">      Arguments.of(EVENT_DATE, "1900-06", true, false, true),</span>
-<span class="source-line-no">131</span><span id="line-131">      Arguments.of(EVENT_DATE, "01-01", false, false, false),</span>
-<span class="source-line-no">132</span><span id="line-132">      Arguments.of(EVENT_DATE, "1900-01-01", true, false, false),</span>
-<span class="source-line-no">133</span><span id="line-133">      Arguments.of(EVENT_DATE, "1900-1-01", true, false, false),</span>
-<span class="source-line-no">134</span><span id="line-134">      Arguments.of(EVENT_DATE, "1900-1-1", true, false, false),</span>
-<span class="source-line-no">135</span><span id="line-135">      Arguments.of(EVENT_DATE, "10", false, false, false),</span>
-<span class="source-line-no">136</span><span id="line-136">      Arguments.of(EVENT_DATE, "2000", true, false, true),</span>
-<span class="source-line-no">137</span><span id="line-137">      Arguments.of(EVENT_DATE, "*", true, false, false),</span>
-<span class="source-line-no">138</span><span id="line-138">      Arguments.of(EVENT_DATE, "*,2000", true, true, true),</span>
-<span class="source-line-no">139</span><span id="line-139">      Arguments.of(EVENT_DATE, "2000-10,*", true, false, true),</span>
-<span class="source-line-no">140</span><span id="line-140">      Arguments.of(SearchLocalDateTime.SEARCH_LOCAL_DATE_TIME, "2000-10,*", true, false, true),</span>
-<span class="source-line-no">141</span><span id="line-141">      Arguments.of(LAST_INTERPRETED, "1900-06", true, false, true),</span>
-<span class="source-line-no">142</span><span id="line-142">      Arguments.of(LAST_INTERPRETED, "01-01", false, false, false),</span>
-<span class="source-line-no">143</span><span id="line-143">      Arguments.of(LAST_INTERPRETED, "1900-01-01", true, false, false),</span>
-<span class="source-line-no">144</span><span id="line-144">      Arguments.of(LAST_INTERPRETED, "1900-1-01", true, false, false),</span>
-<span class="source-line-no">145</span><span id="line-145">      Arguments.of(LAST_INTERPRETED, "1900-1-1", true, false, false),</span>
-<span class="source-line-no">146</span><span id="line-146">      Arguments.of(LAST_INTERPRETED, "10", false, false, false),</span>
-<span class="source-line-no">147</span><span id="line-147">      Arguments.of(LAST_INTERPRETED, "2000", true, false, true),</span>
-<span class="source-line-no">148</span><span id="line-148">      Arguments.of(LAST_INTERPRETED, "*", true, false, false),</span>
-<span class="source-line-no">149</span><span id="line-149">      Arguments.of(LAST_INTERPRETED, "*,2000", true, true, true),</span>
-<span class="source-line-no">150</span><span id="line-150">      Arguments.of(LAST_INTERPRETED, "2000-10,*", true, false, true),</span>
-<span class="source-line-no">151</span><span id="line-151">      // SearchParameter, value, isValid, isNumericRange, isDateRange</span>
-<span class="source-line-no">152</span><span id="line-152">      Arguments.of(DECIMAL_LATITUDE, "90.0", true, false, false),</span>
-<span class="source-line-no">153</span><span id="line-153">      Arguments.of(DECIMAL_LATITUDE, "180.0", false, false, false),</span>
-<span class="source-line-no">154</span><span id="line-154">      Arguments.of(DECIMAL_LATITUDE, "50.0,92.2", false, true, false),</span>
-<span class="source-line-no">155</span><span id="line-155">      Arguments.of(DECIMAL_LATITUDE, "50.5,89.9", true, true, false),</span>
-<span class="source-line-no">156</span><span id="line-156">      Arguments.of(DECIMAL_LONGITUDE, "180.0", true, false, false),</span>
-<span class="source-line-no">157</span><span id="line-157">      Arguments.of(DECIMAL_LONGITUDE, "180.01", false, false, false),</span>
-<span class="source-line-no">158</span><span id="line-158">      Arguments.of(DECIMAL_LONGITUDE, "-190.0,92.2", false, true, false),</span>
-<span class="source-line-no">159</span><span id="line-159">      Arguments.of(DECIMAL_LONGITUDE, "-150.5,119.9", true, true, false),</span>
-<span class="source-line-no">160</span><span id="line-160">      Arguments.of(DECIMAL_LONGITUDE, "*", true, false, false),</span>
-<span class="source-line-no">161</span><span id="line-161">      Arguments.of(COUNTRY, "CR", true, false, false),</span>
-<span class="source-line-no">162</span><span id="line-162">      Arguments.of(PUBLISHING_COUNTRY, "CR", true, false, false),</span>
-<span class="source-line-no">163</span><span id="line-163">      Arguments.of(COUNTRY, "CRCRCC", false, false, false),</span>
-<span class="source-line-no">164</span><span id="line-164">      Arguments.of(PUBLISHING_COUNTRY, "CRCRCC", false, false, false),</span>
-<span class="source-line-no">165</span><span id="line-165">      Arguments.of(TYPE_STATUS, "TYPE", true, false, false),</span>
-<span class="source-line-no">166</span><span id="line-166">      Arguments.of(TYPE_STATUS, "*", true, false, false),</span>
-<span class="source-line-no">167</span><span id="line-167">      Arguments.of(MEDIA_TYPE, "StillImage", true, false, false),</span>
-<span class="source-line-no">168</span><span id="line-168">      Arguments.of(MEDIA_TYPE, "*", true, false, false),</span>
-<span class="source-line-no">169</span><span id="line-169">      Arguments.of(GEO_DISTANCE, "40,90,100m", true, false, false),</span>
-<span class="source-line-no">170</span><span id="line-170">      Arguments.of(GEO_DISTANCE, "200,90,100m", false, false, false),</span>
-<span class="source-line-no">171</span><span id="line-171">      Arguments.of(GEO_DISTANCE, "200", false, false, false),</span>
-<span class="source-line-no">172</span><span id="line-172">      Arguments.of(GEO_DISTANCE, "30,90,277", true, false, false),</span>
-<span class="source-line-no">173</span><span id="line-173">      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "100", true, false, false),</span>
-<span class="source-line-no">174</span><span id="line-174">      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "100,*", true, true, false),</span>
-<span class="source-line-no">175</span><span id="line-175">      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "*,277", true, true, false)</span>
-<span class="source-line-no">176</span><span id="line-176">    );</span>
-<span class="source-line-no">177</span><span id="line-177">  }</span>
-<span class="source-line-no">178</span><span id="line-178"></span>
-<span class="source-line-no">179</span><span id="line-179">  @ParameterizedTest</span>
-<span class="source-line-no">180</span><span id="line-180">  @MethodSource("data")</span>
-<span class="source-line-no">181</span><span id="line-181">  public void testValidateFine(SearchParameter parameter, String arg, boolean valid, boolean numericRange, boolean dateRange) {</span>
-<span class="source-line-no">182</span><span id="line-182">    try {</span>
-<span class="source-line-no">183</span><span id="line-183">      SearchTypeValidator.validate(parameter, arg);</span>
-<span class="source-line-no">184</span><span id="line-184">      if (!valid) {</span>
-<span class="source-line-no">185</span><span id="line-185">        fail(arg + " supposed to be an invalid value for parameter " + parameter);</span>
-<span class="source-line-no">186</span><span id="line-186">      }</span>
-<span class="source-line-no">187</span><span id="line-187">    } catch (IllegalArgumentException e) {</span>
-<span class="source-line-no">188</span><span id="line-188">      if (valid) {</span>
-<span class="source-line-no">189</span><span id="line-189">        fail(arg + " supposed to be a valid value for parameter " + parameter + " " + e.getMessage());</span>
-<span class="source-line-no">190</span><span id="line-190">      }</span>
-<span class="source-line-no">191</span><span id="line-191">    }</span>
-<span class="source-line-no">192</span><span id="line-192"></span>
-<span class="source-line-no">193</span><span id="line-193">    // test isNumericRange</span>
-<span class="source-line-no">194</span><span id="line-194">    assertEquals(numericRange, SearchTypeValidator.isNumericRange(arg), "Wrong isNumericRange parsing of value " + arg);</span>
-<span class="source-line-no">195</span><span id="line-195"></span>
-<span class="source-line-no">196</span><span id="line-196">    // test isDateRange</span>
-<span class="source-line-no">197</span><span id="line-197">    assertEquals(dateRange, SearchTypeValidator.isDateRange(arg), "Wrong isDateRange parsing of value " + arg);</span>
-<span class="source-line-no">198</span><span id="line-198">  }</span>
-<span class="source-line-no">199</span><span id="line-199"></span>
-<span class="source-line-no">200</span><span id="line-200">  /**</span>
-<span class="source-line-no">201</span><span id="line-201">   * Mock implementation of SearchParameter that used a {@link Temporal}.</span>
-<span class="source-line-no">202</span><span id="line-202">   */</span>
-<span class="source-line-no">203</span><span id="line-203">  private enum SearchLocalDateTime implements SearchParameter {</span>
-<span class="source-line-no">204</span><span id="line-204">    SEARCH_LOCAL_DATE_TIME;</span>
-<span class="source-line-no">205</span><span id="line-205">    @Override</span>
-<span class="source-line-no">206</span><span id="line-206">    public Class&lt;?&gt; type() {</span>
-<span class="source-line-no">207</span><span id="line-207">      return LocalDateTime.class;</span>
-<span class="source-line-no">208</span><span id="line-208">    }</span>
-<span class="source-line-no">209</span><span id="line-209">  }</span>
-<span class="source-line-no">210</span><span id="line-210">}</span>
+<span class="source-line-no">017</span><span id="line-17">import org.gbif.api.model.common.search.SearchParameterFormat;</span>
+<span class="source-line-no">018</span><span id="line-18">import org.gbif.api.model.event.search.EventSearchParameter;</span>
+<span class="source-line-no">019</span><span id="line-19">import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;</span>
+<span class="source-line-no">020</span><span id="line-20"></span>
+<span class="source-line-no">021</span><span id="line-21">import java.time.LocalDateTime;</span>
+<span class="source-line-no">022</span><span id="line-22">import java.time.temporal.Temporal;</span>
+<span class="source-line-no">023</span><span id="line-23">import java.util.List;</span>
+<span class="source-line-no">024</span><span id="line-24">import java.util.UUID;</span>
+<span class="source-line-no">025</span><span id="line-25">import java.util.stream.Collectors;</span>
+<span class="source-line-no">026</span><span id="line-26">import java.util.stream.Stream;</span>
+<span class="source-line-no">027</span><span id="line-27"></span>
+<span class="source-line-no">028</span><span id="line-28">import org.junit.jupiter.params.ParameterizedTest;</span>
+<span class="source-line-no">029</span><span id="line-29">import org.junit.jupiter.params.provider.Arguments;</span>
+<span class="source-line-no">030</span><span id="line-30">import org.junit.jupiter.params.provider.MethodSource;</span>
+<span class="source-line-no">031</span><span id="line-31">import org.junit.jupiter.params.provider.ValueSource;</span>
+<span class="source-line-no">032</span><span id="line-32"></span>
+<span class="source-line-no">033</span><span id="line-33">import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.IS_EXTINCT;</span>
+<span class="source-line-no">034</span><span id="line-34">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ACCEPTED_TAXON_KEY;</span>
+<span class="source-line-no">035</span><span id="line-35">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.CATALOG_NUMBER;</span>
+<span class="source-line-no">036</span><span id="line-36">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.CHECKLIST_KEY;</span>
+<span class="source-line-no">037</span><span id="line-37">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COLLECTION_KEY;</span>
+<span class="source-line-no">038</span><span id="line-38">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS;</span>
+<span class="source-line-no">039</span><span id="line-39">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;</span>
+<span class="source-line-no">040</span><span id="line-40">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;</span>
+<span class="source-line-no">041</span><span id="line-41">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DAY;</span>
+<span class="source-line-no">042</span><span id="line-42">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;</span>
+<span class="source-line-no">043</span><span id="line-43">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;</span>
+<span class="source-line-no">044</span><span id="line-44">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DISTANCE_FROM_CENTROID_IN_METERS;</span>
+<span class="source-line-no">045</span><span id="line-45">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;</span>
+<span class="source-line-no">046</span><span id="line-46">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ENVIRONMENTS;</span>
+<span class="source-line-no">047</span><span id="line-47">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;</span>
+<span class="source-line-no">048</span><span id="line-48">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GADM_GID;</span>
+<span class="source-line-no">049</span><span id="line-49">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GADM_LEVEL_1_GID;</span>
+<span class="source-line-no">050</span><span id="line-50">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GBIF_ID;</span>
+<span class="source-line-no">051</span><span id="line-51">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOLOGICAL_TIME;</span>
+<span class="source-line-no">052</span><span id="line-52">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;</span>
+<span class="source-line-no">053</span><span id="line-53">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEO_DISTANCE;</span>
+<span class="source-line-no">054</span><span id="line-54">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.INSTITUTION_KEY;</span>
+<span class="source-line-no">055</span><span id="line-55">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.IUCN_RED_LIST_CATEGORY;</span>
+<span class="source-line-no">056</span><span id="line-56">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.KINGDOM_KEY;</span>
+<span class="source-line-no">057</span><span id="line-57">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LAST_INTERPRETED;</span>
+<span class="source-line-no">058</span><span id="line-58">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MEDIA_TYPE;</span>
+<span class="source-line-no">059</span><span id="line-59">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;</span>
+<span class="source-line-no">060</span><span id="line-60">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.PUBLISHING_COUNTRY;</span>
+<span class="source-line-no">061</span><span id="line-61">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.RECORDED_BY;</span>
+<span class="source-line-no">062</span><span id="line-62">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.SCIENTIFIC_NAME;</span>
+<span class="source-line-no">063</span><span id="line-63">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.SPECIES_KEY;</span>
+<span class="source-line-no">064</span><span id="line-64">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.TAXONOMIC_ISSUE;</span>
+<span class="source-line-no">065</span><span id="line-65">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.TAXON_KEY;</span>
+<span class="source-line-no">066</span><span id="line-66">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.TYPE_STATUS;</span>
+<span class="source-line-no">067</span><span id="line-67">import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.YEAR;</span>
+<span class="source-line-no">068</span><span id="line-68">import static org.junit.jupiter.api.Assertions.assertEquals;</span>
+<span class="source-line-no">069</span><span id="line-69">import static org.junit.jupiter.api.Assertions.assertFalse;</span>
+<span class="source-line-no">070</span><span id="line-70">import static org.junit.jupiter.api.Assertions.assertThrows;</span>
+<span class="source-line-no">071</span><span id="line-71">import static org.junit.jupiter.api.Assertions.fail;</span>
+<span class="source-line-no">072</span><span id="line-72"></span>
+<span class="source-line-no">073</span><span id="line-73">public class SearchTypeValidatorTest {</span>
+<span class="source-line-no">074</span><span id="line-74"></span>
+<span class="source-line-no">075</span><span id="line-75">  public static Stream&lt;Arguments&gt; data() {</span>
+<span class="source-line-no">076</span><span id="line-76">    return Stream.of(</span>
+<span class="source-line-no">077</span><span id="line-77">      // SearchParameter, value, isValid, isNumericRange, isDateRange</span>
+<span class="source-line-no">078</span><span id="line-78">      Arguments.of(LAST_INTERPRETED, "2000-10,*", true, false, true),</span>
+<span class="source-line-no">079</span><span id="line-79">      Arguments.of(RECORDED_BY, "henry", true, false, false),</span>
+<span class="source-line-no">080</span><span id="line-80">      Arguments.of(ELEVATION, "1080", true, false, true),</span>
+<span class="source-line-no">081</span><span id="line-81">      Arguments.of(ELEVATION, "1080.32", true, false, false),</span>
+<span class="source-line-no">082</span><span id="line-82">      Arguments.of(ELEVATION, "1080m", false, false, false),</span>
+<span class="source-line-no">083</span><span id="line-83">      Arguments.of(ELEVATION, "*, 900", true, true, false),</span>
+<span class="source-line-no">084</span><span id="line-84">      Arguments.of(ELEVATION, "100 , *", true, true, false),</span>
+<span class="source-line-no">085</span><span id="line-85">      Arguments.of(ELEVATION, "-10.5,200.5", true, true, false),</span>
+<span class="source-line-no">086</span><span id="line-86">      Arguments.of(ELEVATION, " , 200", false, false, false),</span>
+<span class="source-line-no">087</span><span id="line-87">      Arguments.of(ELEVATION, "*1,200", false, false, false),</span>
+<span class="source-line-no">088</span><span id="line-88">      Arguments.of(ELEVATION, "*.1,200", false, false, false),</span>
+<span class="source-line-no">089</span><span id="line-89">      Arguments.of(ELEVATION, " , ", false, false, false),</span>
+<span class="source-line-no">090</span><span id="line-90">      Arguments.of(ELEVATION, "[1 TO 2]", false, false, false),</span>
+<span class="source-line-no">091</span><span id="line-91">      Arguments.of(ELEVATION, "{1,2}", false, false, false),</span>
+<span class="source-line-no">092</span><span id="line-92">      Arguments.of(COORDINATE_UNCERTAINTY_IN_METERS, "0", true, false, false),</span>
+<span class="source-line-no">093</span><span id="line-93">      Arguments.of(COORDINATE_UNCERTAINTY_IN_METERS, "100 , *", true, true, false),</span>
+<span class="source-line-no">094</span><span id="line-94">      Arguments.of(DATASET_KEY, UUID.randomUUID().toString(), true, false, false),</span>
+<span class="source-line-no">095</span><span id="line-95">      Arguments.of(DATASET_KEY, "f81d4fae-7dec-11d0-a765-00a0c91e6bf6", true, false, false),</span>
+<span class="source-line-no">096</span><span id="line-96">      Arguments.of(DATASET_KEY, "F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6", true, false, false),</span>
+<span class="source-line-no">097</span><span id="line-97">      Arguments.of(DATASET_KEY, "F81D4FAE7DEC11D0A76500A0C91E6BF6", false, false, false),</span>
+<span class="source-line-no">098</span><span id="line-98">      Arguments.of(IS_EXTINCT, "true", true, false, false),</span>
+<span class="source-line-no">099</span><span id="line-99">      Arguments.of(IS_EXTINCT, "FALSE", true, false, false),</span>
+<span class="source-line-no">100</span><span id="line-100">      Arguments.of(IS_EXTINCT, "True", true, false, false),</span>
+<span class="source-line-no">101</span><span id="line-101">      Arguments.of(IS_EXTINCT, "1", false, false, false),</span>
+<span class="source-line-no">102</span><span id="line-102">      Arguments.of(IS_EXTINCT, "0", false, false, false),</span>
+<span class="source-line-no">103</span><span id="line-103">      Arguments.of(IS_EXTINCT, "10", false, false, false),</span>
+<span class="source-line-no">104</span><span id="line-104">      Arguments.of(IS_EXTINCT, "ja", false, false, false),</span>
+<span class="source-line-no">105</span><span id="line-105">      Arguments.of(IS_EXTINCT, "no", false, false, false),</span>
+<span class="source-line-no">106</span><span id="line-106">      Arguments.of(SCIENTIFIC_NAME, "abies%", true, false, false),</span>
+<span class="source-line-no">107</span><span id="line-107">      // SearchParameter, value, isValid, isNumericRange, isDateRange</span>
+<span class="source-line-no">108</span><span id="line-108">      Arguments.of(GEOMETRY, "EMPTY", false, false, false), // Valid WKT but not accepted</span>
+<span class="source-line-no">109</span><span id="line-109">      Arguments.of(GEOMETRY, "POINT (30 10)", true, false, false),</span>
+<span class="source-line-no">110</span><span id="line-110">      Arguments.of(GEOMETRY, "POINT (30 10.12)", true, false, false),</span>
+<span class="source-line-no">111</span><span id="line-111">      Arguments.of(GEOMETRY, "POINT (30 10.12)", true, false, false),</span>
+<span class="source-line-no">112</span><span id="line-112">      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))", true, false, false),</span>
+<span class="source-line-no">113</span><span id="line-113">      Arguments.of(GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))", true, false, false), // Clockwise</span>
+<span class="source-line-no">114</span><span id="line-114">      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 40 40, 20 40, 10 20, 30.12 10))", true, false, false),</span>
+<span class="source-line-no">115</span><span id="line-115">      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 40 40, 20 40, 10 20, 30.1200 10.00))", true, false, false),</span>
+<span class="source-line-no">116</span><span id="line-116">      Arguments.of(GEOMETRY, "POLYGON ((30,12 10, 40 40, 20 40, 10 20, 30,12 10))", false, false, false), // Missing ordinate</span>
+<span class="source-line-no">117</span><span id="line-117">      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10,))", false, false, false), // Extra comma</span>
+<span class="source-line-no">118</span><span id="line-118">      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10),)", false, false, false), // Extra comma</span>
+<span class="source-line-no">119</span><span id="line-119">      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 10 20, 20 40, 40 40, 30.12 10.01))", false, false, false), // Valid WKT but not a closed polygon</span>
+<span class="source-line-no">120</span><span id="line-120">      Arguments.of(GEOMETRY, "POLYGON  ( (30 10 , 10 20 , 20 40 , 40 40 , 30 20)  )", false, false, false), // Valid WKT but not a closed polygon</span>
+<span class="source-line-no">121</span><span id="line-121">      Arguments.of(GEOMETRY, "POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))", true, false, false), // Valid donut</span>
+<span class="source-line-no">122</span><span id="line-122">      Arguments.of(GEOMETRY, "POLYGON ((35 10, 10 20, 15 40, 45 45, 35 10),(20 30, 30 20, 35 35, 20 30))", true, false, false), // Clockwise outer, anticlockwise inner</span>
+<span class="source-line-no">123</span><span id="line-123">      Arguments.of(GEOMETRY, "POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 30 20, 35 35, 20 30))", true, false, false), // Anticlockwise outer, anticlockwise inner</span>
+<span class="source-line-no">124</span><span id="line-124">      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 40 40, 20 40, 10 20, 30 10)),((120 30, 130 20, 135 35, 120 30)))", true, false, false),</span>
+<span class="source-line-no">125</span><span id="line-125">      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 10 20, 20 40, 40 40, 30 10)),((120 30, 130 20, 135 35, 120 30)))", true, false, false), // First polygon is clockwise</span>
+<span class="source-line-no">126</span><span id="line-126">      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 40 40, 20 40, 10 20, 30 10)),((20 30, 30 20, 35 35, 20 30)))", false, false, false), // Overlaps</span>
+<span class="source-line-no">127</span><span id="line-127">      Arguments.of(GEOMETRY, "MULTIPOLYGON(((-125 38.4, -121.8 38.4, -121.8 40.9, -125 40.9, -125 38.4)),((-115 22.4, -111.8 22.4, -111.8 30.9, -115 30.9, -115 22.4)))", true, false, false),</span>
+<span class="source-line-no">128</span><span id="line-128">      Arguments.of(GEOMETRY, "LINESTRING (30 10, 10 30, 40 40)", true, false, false),</span>
+<span class="source-line-no">129</span><span id="line-129">      Arguments.of(GEOMETRY, "LINESTRING (30 10, 10 30, 40 40,)", false, false, false), // Extra comma</span>
+<span class="source-line-no">130</span><span id="line-130">      Arguments.of(YEAR, "1991", true, false, true),</span>
+<span class="source-line-no">131</span><span id="line-131">      Arguments.of(YEAR, "1991-01-31", false, false, false),</span>
+<span class="source-line-no">132</span><span id="line-132">      Arguments.of(YEAR, "860", true, false, false),</span>
+<span class="source-line-no">133</span><span id="line-133">      Arguments.of(YEAR, "1860, 1911", true, true, true),</span>
+<span class="source-line-no">134</span><span id="line-134">      Arguments.of(YEAR, "1", true, false, false),</span>
+<span class="source-line-no">135</span><span id="line-135">      Arguments.of(YEAR, "-10", true, false, false),</span>
+<span class="source-line-no">136</span><span id="line-136">      Arguments.of(YEAR, "3018", true, false, true),</span>
+<span class="source-line-no">137</span><span id="line-137">      Arguments.of(MONTH, "1991", false, false, true),</span>
+<span class="source-line-no">138</span><span id="line-138">      Arguments.of(MONTH, "00", false, false, false),</span>
+<span class="source-line-no">139</span><span id="line-139">      Arguments.of(MONTH, "13", false, false, false),</span>
+<span class="source-line-no">140</span><span id="line-140">      Arguments.of(MONTH, "10", true, false, false),</span>
+<span class="source-line-no">141</span><span id="line-141">      Arguments.of(MONTH, "", false, false, false),</span>
+<span class="source-line-no">142</span><span id="line-142">      Arguments.of(MONTH, "0", false, false, false),</span>
+<span class="source-line-no">143</span><span id="line-143">      Arguments.of(MONTH, "1", true, false, false),</span>
+<span class="source-line-no">144</span><span id="line-144">      Arguments.of(MONTH, "-11", false, false, false),</span>
+<span class="source-line-no">145</span><span id="line-145">      Arguments.of(MONTH, "1267", false, false, true),</span>
+<span class="source-line-no">146</span><span id="line-146">      Arguments.of(DAY, "13", true, false, false),</span>
+<span class="source-line-no">147</span><span id="line-147">      Arguments.of(DAY, "1991-01-31", false, false, false),</span>
+<span class="source-line-no">148</span><span id="line-148">      Arguments.of(DAY, "860", false, false, false),</span>
+<span class="source-line-no">149</span><span id="line-149">      Arguments.of(DAY, "13, 30", true, true, false),</span>
+<span class="source-line-no">150</span><span id="line-150">      Arguments.of(DAY, "1", true, false, false),</span>
+<span class="source-line-no">151</span><span id="line-151">      Arguments.of(DAY, "-10", false, false, false),</span>
+<span class="source-line-no">152</span><span id="line-152">      // SearchParameter, value, isValid, isNumericRange, isDateRange</span>
+<span class="source-line-no">153</span><span id="line-153">      Arguments.of(EVENT_DATE, "1900-06", true, false, true),</span>
+<span class="source-line-no">154</span><span id="line-154">      Arguments.of(EVENT_DATE, "01-01", false, false, false),</span>
+<span class="source-line-no">155</span><span id="line-155">      Arguments.of(EVENT_DATE, "1900-01-01", true, false, false),</span>
+<span class="source-line-no">156</span><span id="line-156">      Arguments.of(EVENT_DATE, "1900-1-01", true, false, false),</span>
+<span class="source-line-no">157</span><span id="line-157">      Arguments.of(EVENT_DATE, "1900-1-1", true, false, false),</span>
+<span class="source-line-no">158</span><span id="line-158">      Arguments.of(EVENT_DATE, "10", false, false, false),</span>
+<span class="source-line-no">159</span><span id="line-159">      Arguments.of(EVENT_DATE, "2000", true, false, true),</span>
+<span class="source-line-no">160</span><span id="line-160">      Arguments.of(EVENT_DATE, "*", true, false, false),</span>
+<span class="source-line-no">161</span><span id="line-161">      Arguments.of(EVENT_DATE, "*,2000", true, true, true),</span>
+<span class="source-line-no">162</span><span id="line-162">      Arguments.of(EVENT_DATE, "2000-10,*", true, false, true),</span>
+<span class="source-line-no">163</span><span id="line-163">      Arguments.of(SearchLocalDateTime.SEARCH_LOCAL_DATE_TIME, "2000-10,*", true, false, true),</span>
+<span class="source-line-no">164</span><span id="line-164">      Arguments.of(LAST_INTERPRETED, "1900-06", true, false, true),</span>
+<span class="source-line-no">165</span><span id="line-165">      Arguments.of(LAST_INTERPRETED, "01-01", false, false, false),</span>
+<span class="source-line-no">166</span><span id="line-166">      Arguments.of(LAST_INTERPRETED, "1900-01-01", true, false, false),</span>
+<span class="source-line-no">167</span><span id="line-167">      Arguments.of(LAST_INTERPRETED, "1900-1-01", true, false, false),</span>
+<span class="source-line-no">168</span><span id="line-168">      Arguments.of(LAST_INTERPRETED, "1900-1-1", true, false, false),</span>
+<span class="source-line-no">169</span><span id="line-169">      Arguments.of(LAST_INTERPRETED, "10", false, false, false),</span>
+<span class="source-line-no">170</span><span id="line-170">      Arguments.of(LAST_INTERPRETED, "2000", true, false, true),</span>
+<span class="source-line-no">171</span><span id="line-171">      Arguments.of(LAST_INTERPRETED, "*", true, false, false),</span>
+<span class="source-line-no">172</span><span id="line-172">      Arguments.of(LAST_INTERPRETED, "*,2000", true, true, true),</span>
+<span class="source-line-no">173</span><span id="line-173">      Arguments.of(LAST_INTERPRETED, "2000-10,*", true, false, true),</span>
+<span class="source-line-no">174</span><span id="line-174">      // SearchParameter, value, isValid, isNumericRange, isDateRange</span>
+<span class="source-line-no">175</span><span id="line-175">      Arguments.of(DECIMAL_LATITUDE, "90.0", true, false, false),</span>
+<span class="source-line-no">176</span><span id="line-176">      Arguments.of(DECIMAL_LATITUDE, "180.0", false, false, false),</span>
+<span class="source-line-no">177</span><span id="line-177">      Arguments.of(DECIMAL_LATITUDE, "50.0,92.2", false, true, false),</span>
+<span class="source-line-no">178</span><span id="line-178">      Arguments.of(DECIMAL_LATITUDE, "50.5,89.9", true, true, false),</span>
+<span class="source-line-no">179</span><span id="line-179">      Arguments.of(DECIMAL_LONGITUDE, "180.0", true, false, false),</span>
+<span class="source-line-no">180</span><span id="line-180">      Arguments.of(DECIMAL_LONGITUDE, "180.01", false, false, false),</span>
+<span class="source-line-no">181</span><span id="line-181">      Arguments.of(DECIMAL_LONGITUDE, "-190.0,92.2", false, true, false),</span>
+<span class="source-line-no">182</span><span id="line-182">      Arguments.of(DECIMAL_LONGITUDE, "-150.5,119.9", true, true, false),</span>
+<span class="source-line-no">183</span><span id="line-183">      Arguments.of(DECIMAL_LONGITUDE, "*", true, false, false),</span>
+<span class="source-line-no">184</span><span id="line-184">      Arguments.of(COUNTRY, "CR", true, false, false),</span>
+<span class="source-line-no">185</span><span id="line-185">      Arguments.of(PUBLISHING_COUNTRY, "CR", true, false, false),</span>
+<span class="source-line-no">186</span><span id="line-186">      Arguments.of(COUNTRY, "CRCRCC", false, false, false),</span>
+<span class="source-line-no">187</span><span id="line-187">      Arguments.of(PUBLISHING_COUNTRY, "CRCRCC", false, false, false),</span>
+<span class="source-line-no">188</span><span id="line-188">      Arguments.of(TYPE_STATUS, "TYPE", true, false, false),</span>
+<span class="source-line-no">189</span><span id="line-189">      Arguments.of(TYPE_STATUS, "*", true, false, false),</span>
+<span class="source-line-no">190</span><span id="line-190">      Arguments.of(MEDIA_TYPE, "StillImage", true, false, false),</span>
+<span class="source-line-no">191</span><span id="line-191">      Arguments.of(MEDIA_TYPE, "*", true, false, false),</span>
+<span class="source-line-no">192</span><span id="line-192">      Arguments.of(GEO_DISTANCE, "40,90,100m", true, false, false),</span>
+<span class="source-line-no">193</span><span id="line-193">      Arguments.of(GEO_DISTANCE, "200,90,100m", false, false, false),</span>
+<span class="source-line-no">194</span><span id="line-194">      Arguments.of(GEO_DISTANCE, "200", false, false, false),</span>
+<span class="source-line-no">195</span><span id="line-195">      Arguments.of(GEO_DISTANCE, "30,90,277", true, false, false),</span>
+<span class="source-line-no">196</span><span id="line-196">      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "100", true, false, false),</span>
+<span class="source-line-no">197</span><span id="line-197">      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "100,*", true, true, false),</span>
+<span class="source-line-no">198</span><span id="line-198">      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "*,277", true, true, false),</span>
+<span class="source-line-no">199</span><span id="line-199">      // Identifiers and codes with a known format</span>
+<span class="source-line-no">200</span><span id="line-200">      Arguments.of(TAXON_KEY, "212", true, false, false),</span>
+<span class="source-line-no">201</span><span id="line-201">      Arguments.of(TAXON_KEY, "4QHKG", true, false, false),</span>
+<span class="source-line-no">202</span><span id="line-202">      Arguments.of(TAXON_KEY, "*", true, false, false),</span>
+<span class="source-line-no">203</span><span id="line-203">      Arguments.of(TAXON_KEY, "212' OR '1'='1", false, false, false),</span>
+<span class="source-line-no">204</span><span id="line-204">      Arguments.of(TAXON_KEY, "212\\", false, false, false),</span>
+<span class="source-line-no">205</span><span id="line-205">      Arguments.of(TAXON_KEY, "212\n", false, false, false),</span>
+<span class="source-line-no">206</span><span id="line-206">      Arguments.of(TAXON_KEY, "2 12", false, false, false),</span>
+<span class="source-line-no">207</span><span id="line-207">      Arguments.of(TAXON_KEY, "", false, false, false),</span>
+<span class="source-line-no">208</span><span id="line-208">      Arguments.of(ACCEPTED_TAXON_KEY, "6W3C4", true, false, false),</span>
+<span class="source-line-no">209</span><span id="line-209">      Arguments.of(KINGDOM_KEY, "1", true, false, false),</span>
+<span class="source-line-no">210</span><span id="line-210">      Arguments.of(SPECIES_KEY, "+1", false, false, false),</span>
+<span class="source-line-no">211</span><span id="line-211">      Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY, "212", true, false, false),</span>
+<span class="source-line-no">212</span><span id="line-212">      Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY, "212')", false, false, false),</span>
+<span class="source-line-no">213</span><span id="line-213">      Arguments.of(EventSearchParameter.HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY, "x;y", false, false, false),</span>
+<span class="source-line-no">214</span><span id="line-214">      Arguments.of(GADM_GID, "IRL", true, false, false),</span>
+<span class="source-line-no">215</span><span id="line-215">      Arguments.of(GADM_GID, "IRL.1_1", true, false, false),</span>
+<span class="source-line-no">216</span><span id="line-216">      Arguments.of(GADM_GID, "GBR.1.2_1", true, false, false),</span>
+<span class="source-line-no">217</span><span id="line-217">      Arguments.of(GADM_GID, "Z01.14_1", true, false, false),</span>
+<span class="source-line-no">218</span><span id="line-218">      Arguments.of(GADM_GID, "irl.1_1", true, false, false),</span>
+<span class="source-line-no">219</span><span id="line-219">      Arguments.of(GADM_GID, "IRL_1", true, false, false),</span>
+<span class="source-line-no">220</span><span id="line-220">      Arguments.of(GADM_GID, "IRL.1_1'", false, false, false),</span>
+<span class="source-line-no">221</span><span id="line-221">      Arguments.of(GADM_LEVEL_1_GID, "ESP.1_1", true, false, false),</span>
+<span class="source-line-no">222</span><span id="line-222">      Arguments.of(GADM_LEVEL_1_GID, "ESP.1_1 OR 1=1", false, false, false),</span>
+<span class="source-line-no">223</span><span id="line-223">      Arguments.of(IUCN_RED_LIST_CATEGORY, "LC", true, false, false),</span>
+<span class="source-line-no">224</span><span id="line-224">      Arguments.of(IUCN_RED_LIST_CATEGORY, "LEAST_CONCERN", true, false, false),</span>
+<span class="source-line-no">225</span><span id="line-225">      Arguments.of(IUCN_RED_LIST_CATEGORY, "LC')", false, false, false),</span>
+<span class="source-line-no">226</span><span id="line-226">      Arguments.of(TAXONOMIC_ISSUE, "TAXON_MATCH_NONE", true, false, false),</span>
+<span class="source-line-no">227</span><span id="line-227">      Arguments.of(TAXONOMIC_ISSUE, "TAXON MATCH", false, false, false),</span>
+<span class="source-line-no">228</span><span id="line-228">      Arguments.of(ENVIRONMENTS, "MARINE", true, false, false),</span>
+<span class="source-line-no">229</span><span id="line-229">      Arguments.of(ENVIRONMENTS, "MARINE\\", false, false, false),</span>
+<span class="source-line-no">230</span><span id="line-230">      Arguments.of(CHECKLIST_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),</span>
+<span class="source-line-no">231</span><span id="line-231">      Arguments.of(CHECKLIST_KEY, "d7dd'", false, false, false),</span>
+<span class="source-line-no">232</span><span id="line-232">      Arguments.of(COLLECTION_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),</span>
+<span class="source-line-no">233</span><span id="line-233">      Arguments.of(COLLECTION_KEY, "abc def", false, false, false),</span>
+<span class="source-line-no">234</span><span id="line-234">      Arguments.of(INSTITUTION_KEY, "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c", true, false, false),</span>
+<span class="source-line-no">235</span><span id="line-235">      Arguments.of(GBIF_ID, "1234567890", true, false, false),</span>
+<span class="source-line-no">236</span><span id="line-236">      Arguments.of(GBIF_ID, "123a", false, false, false),</span>
+<span class="source-line-no">237</span><span id="line-237">      Arguments.of(GEOLOGICAL_TIME, "Jurassic", true, false, false),</span>
+<span class="source-line-no">238</span><span id="line-238">      Arguments.of(GEOLOGICAL_TIME, "LateJurassic", true, false, false),</span>
+<span class="source-line-no">239</span><span id="line-239">      Arguments.of(CATALOG_NUMBER, "x' OR '1'='1", true, false, false)</span>
+<span class="source-line-no">240</span><span id="line-240">    );</span>
+<span class="source-line-no">241</span><span id="line-241">  }</span>
+<span class="source-line-no">242</span><span id="line-242"></span>
+<span class="source-line-no">243</span><span id="line-243">  @ParameterizedTest</span>
+<span class="source-line-no">244</span><span id="line-244">  @MethodSource("data")</span>
+<span class="source-line-no">245</span><span id="line-245">  public void testValidateFine(SearchParameter parameter, String arg, boolean valid, boolean numericRange, boolean dateRange) {</span>
+<span class="source-line-no">246</span><span id="line-246">    try {</span>
+<span class="source-line-no">247</span><span id="line-247">      SearchTypeValidator.validate(parameter, arg);</span>
+<span class="source-line-no">248</span><span id="line-248">      if (!valid) {</span>
+<span class="source-line-no">249</span><span id="line-249">        fail(arg + " supposed to be an invalid value for parameter " + parameter);</span>
+<span class="source-line-no">250</span><span id="line-250">      }</span>
+<span class="source-line-no">251</span><span id="line-251">    } catch (IllegalArgumentException e) {</span>
+<span class="source-line-no">252</span><span id="line-252">      if (valid) {</span>
+<span class="source-line-no">253</span><span id="line-253">        fail(arg + " supposed to be a valid value for parameter " + parameter + " " + e.getMessage());</span>
+<span class="source-line-no">254</span><span id="line-254">      }</span>
+<span class="source-line-no">255</span><span id="line-255">    }</span>
+<span class="source-line-no">256</span><span id="line-256"></span>
+<span class="source-line-no">257</span><span id="line-257">    // test isNumericRange</span>
+<span class="source-line-no">258</span><span id="line-258">    assertEquals(numericRange, SearchTypeValidator.isNumericRange(arg), "Wrong isNumericRange parsing of value " + arg);</span>
+<span class="source-line-no">259</span><span id="line-259"></span>
+<span class="source-line-no">260</span><span id="line-260">    // test isDateRange</span>
+<span class="source-line-no">261</span><span id="line-261">    assertEquals(dateRange, SearchTypeValidator.isDateRange(arg), "Wrong isDateRange parsing of value " + arg);</span>
+<span class="source-line-no">262</span><span id="line-262">  }</span>
+<span class="source-line-no">263</span><span id="line-263"></span>
+<span class="source-line-no">264</span><span id="line-264">  /**</span>
+<span class="source-line-no">265</span><span id="line-265">   * Every parameter with a restricted format rejects an apostrophe.</span>
+<span class="source-line-no">266</span><span id="line-266">   *</span>
+<span class="source-line-no">267</span><span id="line-267">   * (Useful for preventing injection attacks and plain mistakes.)</span>
+<span class="source-line-no">268</span><span id="line-268">   */</span>
+<span class="source-line-no">269</span><span id="line-269">  @ParameterizedTest</span>
+<span class="source-line-no">270</span><span id="line-270">  @ValueSource(strings = {</span>
+<span class="source-line-no">271</span><span id="line-271">    "TAXON_KEY",</span>
+<span class="source-line-no">272</span><span id="line-272">    "ACCEPTED_TAXON_KEY",</span>
+<span class="source-line-no">273</span><span id="line-273">    "KINGDOM_KEY",</span>
+<span class="source-line-no">274</span><span id="line-274">    "PHYLUM_KEY",</span>
+<span class="source-line-no">275</span><span id="line-275">    "CLASS_KEY",</span>
+<span class="source-line-no">276</span><span id="line-276">    "ORDER_KEY",</span>
+<span class="source-line-no">277</span><span id="line-277">    "FAMILY_KEY",</span>
+<span class="source-line-no">278</span><span id="line-278">    "GENUS_KEY",</span>
+<span class="source-line-no">279</span><span id="line-279">    "SUBGENUS_KEY",</span>
+<span class="source-line-no">280</span><span id="line-280">    "SPECIES_KEY",</span>
+<span class="source-line-no">281</span><span id="line-281">    "GADM_GID",</span>
+<span class="source-line-no">282</span><span id="line-282">    "GADM_LEVEL_0_GID",</span>
+<span class="source-line-no">283</span><span id="line-283">    "GADM_LEVEL_1_GID",</span>
+<span class="source-line-no">284</span><span id="line-284">    "GADM_LEVEL_2_GID",</span>
+<span class="source-line-no">285</span><span id="line-285">    "GADM_LEVEL_3_GID",</span>
+<span class="source-line-no">286</span><span id="line-286">    "IUCN_RED_LIST_CATEGORY",</span>
+<span class="source-line-no">287</span><span id="line-287">    "TAXONOMIC_ISSUE",</span>
+<span class="source-line-no">288</span><span id="line-288">    "ENVIRONMENTS",</span>
+<span class="source-line-no">289</span><span id="line-289">    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_TAXON_KEY",</span>
+<span class="source-line-no">290</span><span id="line-290">    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_USAGE_KEY",</span>
+<span class="source-line-no">291</span><span id="line-291">    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ACCEPTED_USAGE_KEY",</span>
+<span class="source-line-no">292</span><span id="line-292">    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_IUCN_RED_LIST_CATEGORY",</span>
+<span class="source-line-no">293</span><span id="line-293">    "HUMBOLDT_TARGET_TAXONOMIC_SCOPE_ENVIRONMENTS"</span>
+<span class="source-line-no">294</span><span id="line-294">  })</span>
+<span class="source-line-no">295</span><span id="line-295">  public void testRestrictedParametersRejectInjection(String name) {</span>
+<span class="source-line-no">296</span><span id="line-296">    List&lt;SearchParameter&gt; parameters = parametersNamed(name);</span>
+<span class="source-line-no">297</span><span id="line-297">    assertFalse(parameters.isEmpty(), "No occurrence or event search parameter named " + name);</span>
+<span class="source-line-no">298</span><span id="line-298"></span>
+<span class="source-line-no">299</span><span id="line-299">    for (SearchParameter parameter : parameters) {</span>
+<span class="source-line-no">300</span><span id="line-300">      assertThrows(</span>
+<span class="source-line-no">301</span><span id="line-301">        IllegalArgumentException.class,</span>
+<span class="source-line-no">302</span><span id="line-302">        () -&gt; SearchTypeValidator.validate(parameter, "'"),</span>
+<span class="source-line-no">303</span><span id="line-303">        "Value ' should be invalid for " + parameter.getClass().getSimpleName() + "." + name);</span>
+<span class="source-line-no">304</span><span id="line-304">    }</span>
+<span class="source-line-no">305</span><span id="line-305">  }</span>
+<span class="source-line-no">306</span><span id="line-306"></span>
+<span class="source-line-no">307</span><span id="line-307">  private static List&lt;SearchParameter&gt; parametersNamed(String name) {</span>
+<span class="source-line-no">308</span><span id="line-308">    return Stream.concat(</span>
+<span class="source-line-no">309</span><span id="line-309">        Stream.of(OccurrenceSearchParameter.values()),</span>
+<span class="source-line-no">310</span><span id="line-310">        Stream.of(EventSearchParameter.values()))</span>
+<span class="source-line-no">311</span><span id="line-311">      .filter(p -&gt; name.equals(p.name()))</span>
+<span class="source-line-no">312</span><span id="line-312">      .filter(p -&gt; String.class.equals(p.type()))</span>
+<span class="source-line-no">313</span><span id="line-313">      .collect(Collectors.toList());</span>
+<span class="source-line-no">314</span><span id="line-314">  }</span>
+<span class="source-line-no">315</span><span id="line-315"></span>
+<span class="source-line-no">316</span><span id="line-316">  /**</span>
+<span class="source-line-no">317</span><span id="line-317">   * Mock implementation of SearchParameter that used a {@link Temporal}.</span>
+<span class="source-line-no">318</span><span id="line-318">   */</span>
+<span class="source-line-no">319</span><span id="line-319">  private enum SearchLocalDateTime implements SearchParameter {</span>
+<span class="source-line-no">320</span><span id="line-320">    SEARCH_LOCAL_DATE_TIME;</span>
+<span class="source-line-no">321</span><span id="line-321">    @Override</span>
+<span class="source-line-no">322</span><span id="line-322">    public Class&lt;?&gt; type() {</span>
+<span class="source-line-no">323</span><span id="line-323">      return LocalDateTime.class;</span>
+<span class="source-line-no">324</span><span id="line-324">    }</span>
+<span class="source-line-no">325</span><span id="line-325"></span>
+<span class="source-line-no">326</span><span id="line-326">    @Override</span>
+<span class="source-line-no">327</span><span id="line-327">    public SearchParameterFormat format() {</span>
+<span class="source-line-no">328</span><span id="line-328">      return null;</span>
+<span class="source-line-no">329</span><span id="line-329">    }</span>
+<span class="source-line-no">330</span><span id="line-330">  }</span>
+<span class="source-line-no">331</span><span id="line-331">}</span>
 
 
 

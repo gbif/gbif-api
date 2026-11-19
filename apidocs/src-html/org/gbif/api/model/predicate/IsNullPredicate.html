@@ -26,12 +26,12 @@
 <span class="source-line-no">013</span><span id="line-13"> */</span>
 <span class="source-line-no">014</span><span id="line-14">package org.gbif.api.model.predicate;</span>
 <span class="source-line-no">015</span><span id="line-15"></span>
-<span class="source-line-no">016</span><span id="line-16">import org.gbif.api.annotation.Experimental;</span>
-<span class="source-line-no">017</span><span id="line-17">import org.gbif.api.model.common.search.SearchParameter;</span>
-<span class="source-line-no">018</span><span id="line-18">import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;</span>
-<span class="source-line-no">019</span><span id="line-19"></span>
-<span class="source-line-no">020</span><span id="line-20">import java.util.Objects;</span>
-<span class="source-line-no">021</span><span id="line-21">import java.util.StringJoiner;</span>
+<span class="source-line-no">016</span><span id="line-16">import org.gbif.api.model.common.search.SearchParameter;</span>
+<span class="source-line-no">017</span><span id="line-17">import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;</span>
+<span class="source-line-no">018</span><span id="line-18"></span>
+<span class="source-line-no">019</span><span id="line-19">import java.util.Objects;</span>
+<span class="source-line-no">020</span><span id="line-20">import java.util.StringJoiner;</span>
+<span class="source-line-no">021</span><span id="line-21">import java.util.UUID;</span>
 <span class="source-line-no">022</span><span id="line-22"></span>
 <span class="source-line-no">023</span><span id="line-23">import jakarta.annotation.Nullable;</span>
 <span class="source-line-no">024</span><span id="line-24">import jakarta.validation.constraints.NotNull;</span>
@@ -54,64 +54,62 @@
 <span class="source-line-no">041</span><span id="line-41">  @Schema(</span>
 <span class="source-line-no">042</span><span id="line-42">    description = "Specify which taxonomy to use."</span>
 <span class="source-line-no">043</span><span id="line-43">  )</span>
-<span class="source-line-no">044</span><span id="line-44">  @Experimental</span>
-<span class="source-line-no">045</span><span id="line-45">  @Nullable</span>
-<span class="source-line-no">046</span><span id="line-46">  private final String checklistKey;</span>
-<span class="source-line-no">047</span><span id="line-47"></span>
-<span class="source-line-no">048</span><span id="line-48">  public IsNullPredicate(S parameter) {</span>
-<span class="source-line-no">049</span><span id="line-49">    this(parameter, null);</span>
-<span class="source-line-no">050</span><span id="line-50">  }</span>
-<span class="source-line-no">051</span><span id="line-51"></span>
-<span class="source-line-no">052</span><span id="line-52">  @JsonCreator</span>
-<span class="source-line-no">053</span><span id="line-53">  public IsNullPredicate(@JsonProperty("parameter") S parameter, @Nullable @JsonProperty(value = "checklistKey") String checklistKey) {</span>
-<span class="source-line-no">054</span><span id="line-54">    Objects.requireNonNull(parameter, "&lt;parameter&gt; may not be null");</span>
-<span class="source-line-no">055</span><span id="line-55">    this.parameter = parameter;</span>
-<span class="source-line-no">056</span><span id="line-56">    this.checklistKey = checklistKey;</span>
-<span class="source-line-no">057</span><span id="line-57">    checkPredicateAllowed();</span>
-<span class="source-line-no">058</span><span id="line-58">  }</span>
-<span class="source-line-no">059</span><span id="line-59"></span>
-<span class="source-line-no">060</span><span id="line-60">  public S getParameter() {</span>
-<span class="source-line-no">061</span><span id="line-61">    return parameter;</span>
-<span class="source-line-no">062</span><span id="line-62">  }</span>
-<span class="source-line-no">063</span><span id="line-63"></span>
-<span class="source-line-no">064</span><span id="line-64">  @Experimental</span>
-<span class="source-line-no">065</span><span id="line-65">  public String getChecklistKey() {</span>
-<span class="source-line-no">066</span><span id="line-66">    return checklistKey;</span>
-<span class="source-line-no">067</span><span id="line-67">  }</span>
-<span class="source-line-no">068</span><span id="line-68"></span>
-<span class="source-line-no">069</span><span id="line-69">  /**</span>
-<span class="source-line-no">070</span><span id="line-70">   * @throws IllegalArgumentException if the key SearchParameter is Geometry</span>
-<span class="source-line-no">071</span><span id="line-71">   */</span>
-<span class="source-line-no">072</span><span id="line-72">  private void checkPredicateAllowed() {</span>
-<span class="source-line-no">073</span><span id="line-73">    if (OccurrenceSearchParameter.GEOMETRY == parameter) {</span>
-<span class="source-line-no">074</span><span id="line-74">      throw new IllegalArgumentException("IsNull predicate is not supported for Geometry parameter");</span>
-<span class="source-line-no">075</span><span id="line-75">    }</span>
-<span class="source-line-no">076</span><span id="line-76">  }</span>
-<span class="source-line-no">077</span><span id="line-77"></span>
-<span class="source-line-no">078</span><span id="line-78">  @Override</span>
-<span class="source-line-no">079</span><span id="line-79">  public boolean equals(Object o) {</span>
-<span class="source-line-no">080</span><span id="line-80">    if (this == o) {</span>
-<span class="source-line-no">081</span><span id="line-81">      return true;</span>
-<span class="source-line-no">082</span><span id="line-82">    }</span>
-<span class="source-line-no">083</span><span id="line-83">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="source-line-no">084</span><span id="line-84">      return false;</span>
-<span class="source-line-no">085</span><span id="line-85">    }</span>
-<span class="source-line-no">086</span><span id="line-86">    IsNullPredicate&lt;S&gt; that = (IsNullPredicate&lt;S&gt;) o;</span>
-<span class="source-line-no">087</span><span id="line-87">    return parameter == that.parameter;</span>
-<span class="source-line-no">088</span><span id="line-88">  }</span>
-<span class="source-line-no">089</span><span id="line-89"></span>
-<span class="source-line-no">090</span><span id="line-90">  @Override</span>
-<span class="source-line-no">091</span><span id="line-91">  public int hashCode() {</span>
-<span class="source-line-no">092</span><span id="line-92">    return Objects.hash(parameter);</span>
-<span class="source-line-no">093</span><span id="line-93">  }</span>
-<span class="source-line-no">094</span><span id="line-94"></span>
-<span class="source-line-no">095</span><span id="line-95">  @Override</span>
-<span class="source-line-no">096</span><span id="line-96">  public String toString() {</span>
-<span class="source-line-no">097</span><span id="line-97">    return new StringJoiner(", ", IsNullPredicate.class.getSimpleName() + "[", "]")</span>
-<span class="source-line-no">098</span><span id="line-98">      .add("parameter=" + parameter)</span>
-<span class="source-line-no">099</span><span id="line-99">      .toString();</span>
-<span class="source-line-no">100</span><span id="line-100">  }</span>
-<span class="source-line-no">101</span><span id="line-101">}</span>
+<span class="source-line-no">044</span><span id="line-44">  @Nullable</span>
+<span class="source-line-no">045</span><span id="line-45">  private final UUID checklistKey;</span>
+<span class="source-line-no">046</span><span id="line-46"></span>
+<span class="source-line-no">047</span><span id="line-47">  public IsNullPredicate(S parameter) {</span>
+<span class="source-line-no">048</span><span id="line-48">    this(parameter, null);</span>
+<span class="source-line-no">049</span><span id="line-49">  }</span>
+<span class="source-line-no">050</span><span id="line-50"></span>
+<span class="source-line-no">051</span><span id="line-51">  @JsonCreator</span>
+<span class="source-line-no">052</span><span id="line-52">  public IsNullPredicate(@JsonProperty("parameter") S parameter, @Nullable @JsonProperty(value = "checklistKey") UUID checklistKey) {</span>
+<span class="source-line-no">053</span><span id="line-53">    Objects.requireNonNull(parameter, "&lt;parameter&gt; may not be null");</span>
+<span class="source-line-no">054</span><span id="line-54">    this.parameter = parameter;</span>
+<span class="source-line-no">055</span><span id="line-55">    this.checklistKey = checklistKey;</span>
+<span class="source-line-no">056</span><span id="line-56">    checkPredicateAllowed();</span>
+<span class="source-line-no">057</span><span id="line-57">  }</span>
+<span class="source-line-no">058</span><span id="line-58"></span>
+<span class="source-line-no">059</span><span id="line-59">  public S getParameter() {</span>
+<span class="source-line-no">060</span><span id="line-60">    return parameter;</span>
+<span class="source-line-no">061</span><span id="line-61">  }</span>
+<span class="source-line-no">062</span><span id="line-62"></span>
+<span class="source-line-no">063</span><span id="line-63">  public UUID getChecklistKey() {</span>
+<span class="source-line-no">064</span><span id="line-64">    return checklistKey;</span>
+<span class="source-line-no">065</span><span id="line-65">  }</span>
+<span class="source-line-no">066</span><span id="line-66"></span>
+<span class="source-line-no">067</span><span id="line-67">  /**</span>
+<span class="source-line-no">068</span><span id="line-68">   * @throws IllegalArgumentException if the key SearchParameter is Geometry</span>
+<span class="source-line-no">069</span><span id="line-69">   */</span>
+<span class="source-line-no">070</span><span id="line-70">  private void checkPredicateAllowed() {</span>
+<span class="source-line-no">071</span><span id="line-71">    if (OccurrenceSearchParameter.GEOMETRY == parameter) {</span>
+<span class="source-line-no">072</span><span id="line-72">      throw new IllegalArgumentException("IsNull predicate is not supported for Geometry parameter");</span>
+<span class="source-line-no">073</span><span id="line-73">    }</span>
+<span class="source-line-no">074</span><span id="line-74">  }</span>
+<span class="source-line-no">075</span><span id="line-75"></span>
+<span class="source-line-no">076</span><span id="line-76">  @Override</span>
+<span class="source-line-no">077</span><span id="line-77">  public boolean equals(Object o) {</span>
+<span class="source-line-no">078</span><span id="line-78">    if (this == o) {</span>
+<span class="source-line-no">079</span><span id="line-79">      return true;</span>
+<span class="source-line-no">080</span><span id="line-80">    }</span>
+<span class="source-line-no">081</span><span id="line-81">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="source-line-no">082</span><span id="line-82">      return false;</span>
+<span class="source-line-no">083</span><span id="line-83">    }</span>
+<span class="source-line-no">084</span><span id="line-84">    IsNullPredicate&lt;S&gt; that = (IsNullPredicate&lt;S&gt;) o;</span>
+<span class="source-line-no">085</span><span id="line-85">    return parameter == that.parameter;</span>
+<span class="source-line-no">086</span><span id="line-86">  }</span>
+<span class="source-line-no">087</span><span id="line-87"></span>
+<span class="source-line-no">088</span><span id="line-88">  @Override</span>
+<span class="source-line-no">089</span><span id="line-89">  public int hashCode() {</span>
+<span class="source-line-no">090</span><span id="line-90">    return Objects.hash(parameter);</span>
+<span class="source-line-no">091</span><span id="line-91">  }</span>
+<span class="source-line-no">092</span><span id="line-92"></span>
+<span class="source-line-no">093</span><span id="line-93">  @Override</span>
+<span class="source-line-no">094</span><span id="line-94">  public String toString() {</span>
+<span class="source-line-no">095</span><span id="line-95">    return new StringJoiner(", ", IsNullPredicate.class.getSimpleName() + "[", "]")</span>
+<span class="source-line-no">096</span><span id="line-96">      .add("parameter=" + parameter)</span>
+<span class="source-line-no">097</span><span id="line-97">      .toString();</span>
+<span class="source-line-no">098</span><span id="line-98">  }</span>
+<span class="source-line-no">099</span><span id="line-99">}</span>
 
 
 

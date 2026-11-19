@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
@@ -63,7 +64,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class PredicateDownloadRequest extends DownloadRequest {
 
   //Default download format.
-<span class="fc" id="L66">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;</span>
+<span class="fc" id="L67">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;</span>
 
   @Schema(
     description = &quot;A predicate defining the filters to apply to the download.&quot;,
@@ -87,8 +88,8 @@ public class PredicateDownloadRequest extends DownloadRequest {
   )
   private Predicate predicate;
 
-<span class="fc" id="L90">  @Getter</span>
-<span class="nc" id="L91">  @Setter</span>
+<span class="fc" id="L91">  @Getter</span>
+<span class="nc" id="L92">  @Setter</span>
   @ArraySchema(
     schema = @Schema(
       description = &quot;A verbatim (unprocessed) extension to include on a Darwin Core Archive download.&quot;
@@ -97,8 +98,8 @@ public class PredicateDownloadRequest extends DownloadRequest {
   @JsonProperty(&quot;verbatimExtensions&quot;)
   private Set&lt;Extension&gt; verbatimExtensions;
 
-<span class="fc" id="L100">  @Getter</span>
-<span class="nc" id="L101">  @Setter</span>
+<span class="fc" id="L101">  @Getter</span>
+<span class="nc" id="L102">  @Setter</span>
   @ArraySchema(
     schema = @Schema(
       description = &quot;An interpreted extension to include on a Darwin Core Archive download.&quot;
@@ -108,9 +109,9 @@ public class PredicateDownloadRequest extends DownloadRequest {
   private Set&lt;Extension&gt; interpretedExtensions;
 
 
-<span class="nc" id="L111">  public PredicateDownloadRequest() {</span>
+<span class="nc" id="L112">  public PredicateDownloadRequest() {</span>
 
-<span class="nc" id="L113">  }</span>
+<span class="nc" id="L114">  }</span>
 
   /**
    * Full constructor. Used to create instances using JSON serialization.
@@ -127,24 +128,24 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty(&quot;machineDescription&quot;) @Nullable JsonNode machineDescription,
     @JsonProperty(&quot;verbatimExtensions&quot;) @Nullable Set&lt;Extension&gt; verbatimExtensions,
     @JsonProperty(&quot;interpretedExtensions&quot;) @Nullable Set&lt;Extension&gt; interpretedExtensions,
-    @JsonProperty(&quot;checklistKey&quot;) @Nullable String checklistKey
+    @JsonProperty(&quot;checklistKey&quot;) @Nullable UUID checklistKey
     ) {
-<span class="fc" id="L132">    super(</span>
+<span class="fc" id="L133">    super(</span>
       creator,
       notificationAddresses,
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">      sendNotification == null ? Boolean.TRUE : sendNotification,</span>
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,</span>
-<span class="pc bpc" id="L137" title="1 of 2 branches missed.">      type == null ? DownloadType.OCCURRENCE : type,</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">      sendNotification == null ? Boolean.TRUE : sendNotification,</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">      type == null ? DownloadType.OCCURRENCE : type,</span>
       description,
       machineDescription,
       checklistKey
     );
-<span class="fc" id="L142">    this.predicate = predicate;</span>
-<span class="fc" id="L143">    this.verbatimExtensions =</span>
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        verbatimExtensions == null ? Collections.emptySet() : verbatimExtensions;</span>
-<span class="fc" id="L145">    this.interpretedExtensions =</span>
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        interpretedExtensions == null ? Collections.emptySet() : interpretedExtensions;</span>
-<span class="fc" id="L147">  }</span>
+<span class="fc" id="L143">    this.predicate = predicate;</span>
+<span class="fc" id="L144">    this.verbatimExtensions =</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        verbatimExtensions == null ? Collections.emptySet() : verbatimExtensions;</span>
+<span class="fc" id="L146">    this.interpretedExtensions =</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">        interpretedExtensions == null ? Collections.emptySet() : interpretedExtensions;</span>
+<span class="fc" id="L148">  }</span>
 
   /**
    * @return the download filter
@@ -152,47 +153,47 @@ public class PredicateDownloadRequest extends DownloadRequest {
   @Nullable
   @Valid
   public Predicate getPredicate() {
-<span class="fc" id="L155">    return predicate;</span>
+<span class="fc" id="L156">    return predicate;</span>
   }
 
   public void setPredicate(Predicate predicate) {
-<span class="nc" id="L159">    this.predicate = predicate;</span>
-<span class="nc" id="L160">  }</span>
+<span class="nc" id="L160">    this.predicate = predicate;</span>
+<span class="nc" id="L161">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L164" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L165">      return true;</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L166">      return true;</span>
     }
-<span class="pc bpc" id="L167" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L168">      return false;</span>
+<span class="pc bpc" id="L168" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L169">      return false;</span>
     }
-<span class="pc bpc" id="L170" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
-<span class="nc" id="L171">      return false;</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L172">      return false;</span>
     }
-<span class="fc" id="L173">    PredicateDownloadRequest that = (PredicateDownloadRequest) o;</span>
-<span class="pc bpc" id="L174" title="1 of 2 branches missed.">    return Objects.equals(predicate, that.predicate)</span>
-<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(verbatimExtensions, that.verbatimExtensions)</span>
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(interpretedExtensions, that.interpretedExtensions);</span>
+<span class="fc" id="L174">    PredicateDownloadRequest that = (PredicateDownloadRequest) o;</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">    return Objects.equals(predicate, that.predicate)</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(verbatimExtensions, that.verbatimExtensions)</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(interpretedExtensions, that.interpretedExtensions);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L181">    return Objects.hash(super.hashCode(), predicate, verbatimExtensions, interpretedExtensions);</span>
+<span class="fc" id="L182">    return Objects.hash(super.hashCode(), predicate, verbatimExtensions, interpretedExtensions);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L186">    return new StringJoiner(&quot;, &quot;, PredicateDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L187">      .add(&quot;predicate=&quot; + predicate)</span>
-<span class="nc" id="L188">      .add(&quot;creator='&quot; + getCreator() + &quot;'&quot;)</span>
-<span class="nc" id="L189">      .add(&quot;notificationAddresses=&quot; + getNotificationAddresses())</span>
-<span class="nc" id="L190">      .add(&quot;sendNotification=&quot; + getSendNotification())</span>
-<span class="nc" id="L191">      .add(&quot;format=&quot; + getFormat())</span>
-<span class="nc" id="L192">      .add(&quot;type=&quot; + getType())</span>
-<span class="nc" id="L193">      .add(&quot;verbatimExtensions=&quot; + verbatimExtensions)</span>
-<span class="nc" id="L194">      .add(&quot;interpretedExtensions=&quot; + interpretedExtensions)</span>
-<span class="nc" id="L195">      .toString();</span>
+<span class="nc" id="L187">    return new StringJoiner(&quot;, &quot;, PredicateDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L188">      .add(&quot;predicate=&quot; + predicate)</span>
+<span class="nc" id="L189">      .add(&quot;creator='&quot; + getCreator() + &quot;'&quot;)</span>
+<span class="nc" id="L190">      .add(&quot;notificationAddresses=&quot; + getNotificationAddresses())</span>
+<span class="nc" id="L191">      .add(&quot;sendNotification=&quot; + getSendNotification())</span>
+<span class="nc" id="L192">      .add(&quot;format=&quot; + getFormat())</span>
+<span class="nc" id="L193">      .add(&quot;type=&quot; + getType())</span>
+<span class="nc" id="L194">      .add(&quot;verbatimExtensions=&quot; + verbatimExtensions)</span>
+<span class="nc" id="L195">      .add(&quot;interpretedExtensions=&quot; + interpretedExtensions)</span>
+<span class="nc" id="L196">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

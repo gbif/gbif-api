@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -60,15 +61,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * &lt;p&gt;
  * https://github.com/gbif/portal-feedback/issues/2046
  */
-<span class="fc" id="L63">public class DownloadRequestSerde extends JsonDeserializer&lt;DownloadRequest&gt; {</span>
+<span class="fc" id="L64">public class DownloadRequestSerde extends JsonDeserializer&lt;DownloadRequest&gt; {</span>
 
   private static final String PREDICATE = &quot;predicate&quot;;
-<span class="fc" id="L66">  private static final List&lt;String&gt; SEND_NOTIFICATION = Collections</span>
-<span class="fc" id="L67">    .unmodifiableList(Arrays.asList(&quot;sendNotification&quot;, &quot;send_notification&quot;));</span>
+<span class="fc" id="L67">  private static final List&lt;String&gt; SEND_NOTIFICATION = Collections</span>
+<span class="fc" id="L68">    .unmodifiableList(Arrays.asList(&quot;sendNotification&quot;, &quot;send_notification&quot;));</span>
   private static final String SQL = &quot;sql&quot;;
-<span class="fc" id="L69">  private static final List&lt;String&gt; NOTIFICATION_ADDRESSES =</span>
-<span class="fc" id="L70">    Collections.unmodifiableList(</span>
-<span class="fc" id="L71">      Arrays.asList(&quot;notificationAddresses&quot;, &quot;notificationAddress&quot;, &quot;notification_addresses&quot;,</span>
+<span class="fc" id="L70">  private static final List&lt;String&gt; NOTIFICATION_ADDRESSES =</span>
+<span class="fc" id="L71">    Collections.unmodifiableList(</span>
+<span class="fc" id="L72">      Arrays.asList(&quot;notificationAddresses&quot;, &quot;notificationAddress&quot;, &quot;notification_addresses&quot;,</span>
         &quot;notification_address&quot;));
   private static final String CREATOR = &quot;creator&quot;;
   private static final String FORMAT = &quot;format&quot;;
@@ -80,127 +81,129 @@ import com.fasterxml.jackson.databind.ObjectMapper;
   private static final String CHECKLIST_KEY = &quot;checklistKey&quot;;
 
   // Properties we ignore.
-<span class="fc" id="L83">  private static final List&lt;String&gt; IGNORED_PROPERTIES =</span>
-<span class="fc" id="L84">    Collections.unmodifiableList(</span>
-<span class="fc" id="L85">      Arrays.asList(&quot;created&quot;));</span>
+<span class="fc" id="L84">  private static final List&lt;String&gt; IGNORED_PROPERTIES =</span>
+<span class="fc" id="L85">    Collections.unmodifiableList(</span>
+<span class="fc" id="L86">      Arrays.asList(&quot;created&quot;));</span>
 
   private static final Set&lt;String&gt; ALL_PROPERTIES;
-<span class="fc" id="L88">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
-<span class="fc" id="L89">  private static final ObjectMapper OCCURRENCE_MAPPER =</span>
+<span class="fc" id="L89">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
+<span class="fc" id="L90">  private static final ObjectMapper OCCURRENCE_MAPPER =</span>
       new ObjectMapper()
-<span class="fc" id="L91">          .registerModule(</span>
+<span class="fc" id="L92">          .registerModule(</span>
               new SimpleModule()
-<span class="fc" id="L93">                  .addDeserializer(</span>
+<span class="fc" id="L94">                  .addDeserializer(</span>
                       SearchParameter.class,
                       new OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer()));
-<span class="fc" id="L96">  private static final ObjectMapper EVENT_MAPPER =</span>
+<span class="fc" id="L97">  private static final ObjectMapper EVENT_MAPPER =</span>
       new ObjectMapper()
-<span class="fc" id="L98">          .registerModule(</span>
+<span class="fc" id="L99">          .registerModule(</span>
               new SimpleModule()
-<span class="fc" id="L100">                  .addDeserializer(</span>
+<span class="fc" id="L101">                  .addDeserializer(</span>
                       SearchParameter.class,
                       new EventSearchParameter.EventSearchParameterDeserializer()));
 
   static {
-<span class="fc" id="L105">    Set&lt;String&gt; allProperties = new HashSet&lt;&gt;(Arrays.asList(PREDICATE, SQL, CREATOR, FORMAT, TYPE, VERBATIM_EXTENSIONS,</span>
+<span class="fc" id="L106">    Set&lt;String&gt; allProperties = new HashSet&lt;&gt;(Arrays.asList(PREDICATE, SQL, CREATOR, FORMAT, TYPE, VERBATIM_EXTENSIONS,</span>
       INTERPRETED_EXTENSIONS, DESCRIPTION, MACHINE_DESCRIPTION, CHECKLIST_KEY));
-<span class="fc" id="L107">    allProperties.addAll(SEND_NOTIFICATION);</span>
-<span class="fc" id="L108">    allProperties.addAll(NOTIFICATION_ADDRESSES);</span>
-<span class="fc" id="L109">    allProperties.addAll(IGNORED_PROPERTIES);</span>
-<span class="fc" id="L110">    ALL_PROPERTIES = Collections.unmodifiableSet(allProperties);</span>
-<span class="fc" id="L111">  }</span>
+<span class="fc" id="L108">    allProperties.addAll(SEND_NOTIFICATION);</span>
+<span class="fc" id="L109">    allProperties.addAll(NOTIFICATION_ADDRESSES);</span>
+<span class="fc" id="L110">    allProperties.addAll(IGNORED_PROPERTIES);</span>
+<span class="fc" id="L111">    ALL_PROPERTIES = Collections.unmodifiableSet(allProperties);</span>
+<span class="fc" id="L112">  }</span>
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="fc" id="L115">    JsonNode node = jp.getCodec().readTree(jp);</span>
-<span class="fc" id="L116">    LOG.debug(&quot;DownloadRequest for deserialization: {}&quot;, node);</span>
+<span class="fc" id="L116">    JsonNode node = jp.getCodec().readTree(jp);</span>
+<span class="fc" id="L117">    LOG.debug(&quot;DownloadRequest for deserialization: {}&quot;, node);</span>
     //at least one element must be defined
-<span class="fc bfc" id="L118" title="All 2 branches covered.">    if (node.size() == 0) {</span>
-<span class="fc" id="L119">      return null;</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">    if (node.size() == 0) {</span>
+<span class="fc" id="L120">      return null;</span>
     }
-<span class="fc" id="L121">    DownloadFormat format = Optional.ofNullable(node.get(FORMAT))</span>
-<span class="fc" id="L122">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);</span>
+<span class="fc" id="L122">    DownloadFormat format = Optional.ofNullable(node.get(FORMAT))</span>
+<span class="fc" id="L123">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);</span>
 
-<span class="fc" id="L124">    DownloadType type = Optional.ofNullable(node.get(TYPE))</span>
-<span class="fc" id="L125">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadType.class)).orElse(DownloadType.OCCURRENCE);</span>
+<span class="fc" id="L125">    DownloadType type = Optional.ofNullable(node.get(TYPE))</span>
+<span class="fc" id="L126">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadType.class)).orElse(DownloadType.OCCURRENCE);</span>
 
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">    ObjectMapper specificObjectMapper = type == DownloadType.EVENT ? EVENT_MAPPER : OCCURRENCE_MAPPER;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">    ObjectMapper specificObjectMapper = type == DownloadType.EVENT ? EVENT_MAPPER : OCCURRENCE_MAPPER;</span>
 
-<span class="fc" id="L129">    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);</span>
+<span class="fc" id="L130">    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);</span>
 
-<span class="fc" id="L131">    String description = Optional.ofNullable(node.get(DESCRIPTION)).map(JsonNode::asText).orElse(null);</span>
+<span class="fc" id="L132">    String description = Optional.ofNullable(node.get(DESCRIPTION)).map(JsonNode::asText).orElse(null);</span>
 
-<span class="fc" id="L133">    String checklistKey = Optional.ofNullable(node.get(CHECKLIST_KEY))</span>
-<span class="fc" id="L134">      .map(JsonNode::asText)</span>
-<span class="fc" id="L135">      .map(String::trim)</span>
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">      .map(s -&gt; s.equalsIgnoreCase(&quot;null&quot;) ? null : s)</span>
-<span class="fc" id="L137">      .orElse(null);</span>
+<span class="fc" id="L134">    UUID checklistKey = Optional.ofNullable(node.get(CHECKLIST_KEY))</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">      .filter(n -&gt; !n.isNull())</span>
+<span class="fc" id="L136">      .map(JsonNode::asText)</span>
+<span class="fc" id="L137">      .map(String::trim)</span>
+<span class="fc bfc" id="L138" title="All 4 branches covered.">      .filter(s -&gt; !s.isEmpty() &amp;&amp; !s.equalsIgnoreCase(&quot;null&quot;))</span>
+<span class="fc" id="L139">      .map(UUID::fromString)</span>
+<span class="fc" id="L140">      .orElse(null);</span>
 
-<span class="fc" id="L139">    List&lt;String&gt; notificationAddresses = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L140" title="All 2 branches covered.">    for (final String jsonKey : NOTIFICATION_ADDRESSES) {</span>
-<span class="fc" id="L141">      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -&gt; {</span>
+<span class="fc" id="L142">    List&lt;String&gt; notificationAddresses = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">    for (final String jsonKey : NOTIFICATION_ADDRESSES) {</span>
+<span class="fc" id="L144">      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -&gt; {</span>
         try {
-<span class="fc" id="L143">          return Arrays.asList(specificObjectMapper.treeToValue(jsonNode, String[].class));</span>
-<span class="nc" id="L144">        } catch (Exception e) {</span>
-<span class="nc" id="L145">          throw new RuntimeException(e);</span>
+<span class="fc" id="L146">          return Arrays.asList(specificObjectMapper.treeToValue(jsonNode, String[].class));</span>
+<span class="nc" id="L147">        } catch (Exception e) {</span>
+<span class="nc" id="L148">          throw new RuntimeException(e);</span>
         }
-<span class="fc" id="L147">      }).orElse(new ArrayList&lt;&gt;()));</span>
-<span class="fc" id="L148">    }</span>
+<span class="fc" id="L150">      }).orElse(new ArrayList&lt;&gt;()));</span>
+<span class="fc" id="L151">    }</span>
 
-<span class="fc" id="L150">    boolean sendNotification = false;</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">    for (final String jsonKey : SEND_NOTIFICATION) {</span>
-<span class="fc" id="L152">      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);</span>
-<span class="fc" id="L153">    }</span>
+<span class="fc" id="L153">    boolean sendNotification = false;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">    for (final String jsonKey : SEND_NOTIFICATION) {</span>
+<span class="fc" id="L155">      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);</span>
+<span class="fc" id="L156">    }</span>
 
-<span class="fc" id="L155">    Function&lt;JsonNode, Set&lt;Extension&gt;&gt; jsonNodeToExtensionsMapper = jsonNode -&gt; {</span>
+<span class="fc" id="L158">    Function&lt;JsonNode, Set&lt;Extension&gt;&gt; jsonNodeToExtensionsMapper = jsonNode -&gt; {</span>
       try {
-<span class="fc" id="L157">        return Arrays.stream(specificObjectMapper.treeToValue(jsonNode, String[].class))</span>
-<span class="fc" id="L158">          .map(Extension::fromRowType)</span>
-<span class="fc" id="L159">          .collect(Collectors.toSet());</span>
-<span class="nc" id="L160">      } catch (Exception e) {</span>
-<span class="nc" id="L161">        throw new RuntimeException(e);</span>
+<span class="fc" id="L160">        return Arrays.stream(specificObjectMapper.treeToValue(jsonNode, String[].class))</span>
+<span class="fc" id="L161">          .map(Extension::fromRowType)</span>
+<span class="fc" id="L162">          .collect(Collectors.toSet());</span>
+<span class="nc" id="L163">      } catch (Exception e) {</span>
+<span class="nc" id="L164">        throw new RuntimeException(e);</span>
       }
     };
 
-<span class="fc" id="L165">    Set&lt;Extension&gt; verbatimExtensions =</span>
-<span class="fc" id="L166">        Optional.ofNullable(node.get(VERBATIM_EXTENSIONS))</span>
-<span class="fc" id="L167">            .map(jsonNodeToExtensionsMapper)</span>
-<span class="fc" id="L168">            .orElse(Collections.emptySet());</span>
+<span class="fc" id="L168">    Set&lt;Extension&gt; verbatimExtensions =</span>
+<span class="fc" id="L169">        Optional.ofNullable(node.get(VERBATIM_EXTENSIONS))</span>
+<span class="fc" id="L170">            .map(jsonNodeToExtensionsMapper)</span>
+<span class="fc" id="L171">            .orElse(Collections.emptySet());</span>
 
-<span class="fc" id="L170">    Set&lt;Extension&gt; interpretedExtensions =</span>
-<span class="fc" id="L171">      Optional.ofNullable(node.get(INTERPRETED_EXTENSIONS))</span>
-<span class="fc" id="L172">        .map(jsonNodeToExtensionsMapper)</span>
-<span class="fc" id="L173">        .orElse(Collections.emptySet());</span>
+<span class="fc" id="L173">    Set&lt;Extension&gt; interpretedExtensions =</span>
+<span class="fc" id="L174">      Optional.ofNullable(node.get(INTERPRETED_EXTENSIONS))</span>
+<span class="fc" id="L175">        .map(jsonNodeToExtensionsMapper)</span>
+<span class="fc" id="L176">        .orElse(Collections.emptySet());</span>
 
-<span class="fc" id="L175">    Set&lt;Extension&gt; allExtensions = new HashSet&lt;&gt;(verbatimExtensions);</span>
-<span class="fc" id="L176">    allExtensions.addAll(interpretedExtensions);</span>
+<span class="fc" id="L178">    Set&lt;Extension&gt; allExtensions = new HashSet&lt;&gt;(verbatimExtensions);</span>
+<span class="fc" id="L179">    allExtensions.addAll(interpretedExtensions);</span>
 
     // Check requested extensions are available for download.
-<span class="fc bfc" id="L179" title="All 2 branches covered.">    for (Extension e : allExtensions) {</span>
-<span class="fc bfc" id="L180" title="All 2 branches covered.">      if (!Extension.availableExtensions().contains(e)) {</span>
-<span class="fc" id="L181">        throw new RuntimeException(&quot;The &quot;+e.getRowType()+&quot; extension is not available for downloads.&quot;);</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">    for (Extension e : allExtensions) {</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">      if (!Extension.availableExtensions().contains(e)) {</span>
+<span class="fc" id="L184">        throw new RuntimeException(&quot;The &quot;+e.getRowType()+&quot; extension is not available for downloads.&quot;);</span>
       }
-<span class="fc" id="L183">    }</span>
+<span class="fc" id="L186">    }</span>
 
-<span class="fc" id="L185">    JsonNode machineDescription = Optional.ofNullable(node.get(MACHINE_DESCRIPTION)).orElse(null);</span>
+<span class="fc" id="L188">    JsonNode machineDescription = Optional.ofNullable(node.get(MACHINE_DESCRIPTION)).orElse(null);</span>
 
-<span class="fc" id="L187">    String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);</span>
+<span class="fc" id="L190">    String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);</span>
 
     // Reject if unknown field names are present
     // https://github.com/gbif/occurrence/issues/273
-<span class="fc bfc" id="L191" title="All 2 branches covered.">    node.fieldNames().forEachRemaining(n -&gt; { if (!ALL_PROPERTIES.contains(n)) { throw new RuntimeException(&quot;Unknown JSON property '&quot;+n+&quot;'.&quot;); }});</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">    node.fieldNames().forEachRemaining(n -&gt; { if (!ALL_PROPERTIES.contains(n)) { throw new RuntimeException(&quot;Unknown JSON property '&quot;+n+&quot;'.&quot;); }});</span>
 
-<span class="fc bfc" id="L193" title="All 2 branches covered.">    if (sql != null) {</span>
-<span class="pc bpc" id="L194" title="1 of 2 branches missed.">      if (format != DownloadFormat.SQL_TSV_ZIP) {</span>
-<span class="nc" id="L195">        throw new RuntimeException(&quot;SQL downloads must use a suitable download format: SQL_TSV_ZIP.&quot;);</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">    if (sql != null) {</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">      if (format != DownloadFormat.SQL_TSV_ZIP) {</span>
+<span class="nc" id="L198">        throw new RuntimeException(&quot;SQL downloads must use a suitable download format: SQL_TSV_ZIP.&quot;);</span>
       }
-<span class="fc" id="L197">      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification, format, type,</span>
+<span class="fc" id="L200">      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification, format, type,</span>
         description, machineDescription, checklistKey);
     } else {
-<span class="pc bpc" id="L200" title="1 of 2 branches missed.">      if (format == DownloadFormat.SQL_TSV_ZIP) {</span>
-<span class="nc" id="L201">        throw new RuntimeException(&quot;Predicate downloads must not use an SQL download format.&quot;);</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">      if (format == DownloadFormat.SQL_TSV_ZIP) {</span>
+<span class="nc" id="L204">        throw new RuntimeException(&quot;Predicate downloads must not use an SQL download format.&quot;);</span>
       }
-<span class="fc" id="L203">      JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
+<span class="fc" id="L206">      JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
       // Not yet enforced, we would need e.g.
       // http://api.gbif.org/v1/occurrence/download/request/predicate?format=DWCA
       // to return 'predicate: {}' etc.
@@ -208,8 +211,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
       //  throw new RuntimeException(&quot;A predicate must be specified. Use {} for everything.&quot;);
       // }
 
-<span class="pc bpc" id="L211" title="1 of 2 branches missed.">      Predicate predicateObj = predicate == null ? null : specificObjectMapper.treeToValue(predicate, Predicate.class);</span>
-<span class="fc" id="L212">      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification,</span>
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">      Predicate predicateObj = predicate == null ? null : specificObjectMapper.treeToValue(predicate, Predicate.class);</span>
+<span class="fc" id="L215">      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification,</span>
         format, type, description, machineDescription, verbatimExtensions, interpretedExtensions, checklistKey);
     }
   }

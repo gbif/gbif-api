@@ -26,547 +26,667 @@
 <span class="source-line-no">013</span><span id="line-13"> */</span>
 <span class="source-line-no">014</span><span id="line-14">package org.gbif.api.util;</span>
 <span class="source-line-no">015</span><span id="line-15"></span>
-<span class="source-line-no">016</span><span id="line-16">import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;</span>
-<span class="source-line-no">017</span><span id="line-17">import static org.gbif.api.util.IsoDateParsingUtils.SIMPLE_ISO_DATE_STR_PATTERN;</span>
-<span class="source-line-no">018</span><span id="line-18"></span>
-<span class="source-line-no">019</span><span id="line-19">import java.text.ParseException;</span>
-<span class="source-line-no">020</span><span id="line-20">import java.time.LocalDate;</span>
-<span class="source-line-no">021</span><span id="line-21">import java.time.temporal.Temporal;</span>
-<span class="source-line-no">022</span><span id="line-22">import java.util.ArrayList;</span>
-<span class="source-line-no">023</span><span id="line-23">import java.util.Collection;</span>
-<span class="source-line-no">024</span><span id="line-24">import java.util.Date;</span>
-<span class="source-line-no">025</span><span id="line-25">import java.util.List;</span>
-<span class="source-line-no">026</span><span id="line-26">import java.util.Objects;</span>
-<span class="source-line-no">027</span><span id="line-27">import java.util.UUID;</span>
-<span class="source-line-no">028</span><span id="line-28">import java.util.regex.Matcher;</span>
-<span class="source-line-no">029</span><span id="line-29">import java.util.regex.Pattern;</span>
-<span class="source-line-no">030</span><span id="line-30">import org.apache.commons.lang3.StringUtils;</span>
-<span class="source-line-no">031</span><span id="line-31">import org.gbif.api.model.common.search.SearchParameter;</span>
-<span class="source-line-no">032</span><span id="line-32">import org.gbif.api.model.occurrence.geo.DistanceUnit;</span>
-<span class="source-line-no">033</span><span id="line-33">import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;</span>
-<span class="source-line-no">034</span><span id="line-34">import org.gbif.api.vocabulary.Country;</span>
-<span class="source-line-no">035</span><span id="line-35">import org.gbif.api.vocabulary.Language;</span>
-<span class="source-line-no">036</span><span id="line-36">import org.locationtech.jts.algorithm.Orientation;</span>
-<span class="source-line-no">037</span><span id="line-37">import org.locationtech.jts.geom.Geometry;</span>
-<span class="source-line-no">038</span><span id="line-38">import org.locationtech.jts.geom.GeometryFactory;</span>
-<span class="source-line-no">039</span><span id="line-39">import org.locationtech.jts.geom.LinearRing;</span>
-<span class="source-line-no">040</span><span id="line-40">import org.locationtech.jts.geom.MultiPolygon;</span>
-<span class="source-line-no">041</span><span id="line-41">import org.locationtech.jts.geom.Polygon;</span>
-<span class="source-line-no">042</span><span id="line-42">import org.locationtech.jts.operation.valid.IsValidOp;</span>
-<span class="source-line-no">043</span><span id="line-43">import org.locationtech.spatial4j.context.jts.DatelineRule;</span>
-<span class="source-line-no">044</span><span id="line-44">import org.locationtech.spatial4j.context.jts.JtsSpatialContextFactory;</span>
-<span class="source-line-no">045</span><span id="line-45">import org.locationtech.spatial4j.exception.InvalidShapeException;</span>
-<span class="source-line-no">046</span><span id="line-46">import org.locationtech.spatial4j.io.WKTReader;</span>
-<span class="source-line-no">047</span><span id="line-47">import org.locationtech.spatial4j.shape.Shape;</span>
-<span class="source-line-no">048</span><span id="line-48">import org.locationtech.spatial4j.shape.jts.JtsGeometry;</span>
-<span class="source-line-no">049</span><span id="line-49"></span>
-<span class="source-line-no">050</span><span id="line-50">/**</span>
-<span class="source-line-no">051</span><span id="line-51"> * Utility class to do basic validation of all search enum based values.</span>
-<span class="source-line-no">052</span><span id="line-52"> */</span>
-<span class="source-line-no">053</span><span id="line-53">public class SearchTypeValidator {</span>
-<span class="source-line-no">054</span><span id="line-54"></span>
-<span class="source-line-no">055</span><span id="line-55">  private static final Pattern BOOLEAN = Pattern.compile("^(true|false)$", Pattern.CASE_INSENSITIVE);</span>
-<span class="source-line-no">056</span><span id="line-56">  // this regex matches a double with an optional dot separated fracture and negative signing</span>
-<span class="source-line-no">057</span><span id="line-57">  private static final String DEC = "-?\\d+(?:\\.\\d+)?";</span>
-<span class="source-line-no">058</span><span id="line-58"></span>
-<span class="source-line-no">059</span><span id="line-59">  private static final String DECIMAL_OR_WILDCARD = "(" + DEC + "|\\*)";</span>
-<span class="source-line-no">060</span><span id="line-60"></span>
-<span class="source-line-no">061</span><span id="line-61">  private static final Range&lt;Double&gt; LATITUDE_RNG = Range.closed(-90.0, 90.0);</span>
-<span class="source-line-no">062</span><span id="line-62">  private static final Range&lt;Double&gt; LONGITUDE_RNG = Range.closed(-180.0, 180.0);</span>
-<span class="source-line-no">063</span><span id="line-63"></span>
-<span class="source-line-no">064</span><span id="line-64">  private static final String LATITUDE_ERROR_MSG = "%s is not valid value, latitude must be between -90 and 90.";</span>
+<span class="source-line-no">016</span><span id="line-16">import org.gbif.api.model.common.search.SearchParameter;</span>
+<span class="source-line-no">017</span><span id="line-17">import org.gbif.api.model.common.search.SearchParameterFormat;</span>
+<span class="source-line-no">018</span><span id="line-18">import org.gbif.api.model.event.search.EventSearchParameter;</span>
+<span class="source-line-no">019</span><span id="line-19">import org.gbif.api.model.occurrence.geo.DistanceUnit;</span>
+<span class="source-line-no">020</span><span id="line-20">import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;</span>
+<span class="source-line-no">021</span><span id="line-21">import org.gbif.api.vocabulary.Country;</span>
+<span class="source-line-no">022</span><span id="line-22">import org.gbif.api.vocabulary.Language;</span>
+<span class="source-line-no">023</span><span id="line-23"></span>
+<span class="source-line-no">024</span><span id="line-24">import java.net.URI;</span>
+<span class="source-line-no">025</span><span id="line-25">import java.net.URISyntaxException;</span>
+<span class="source-line-no">026</span><span id="line-26">import java.text.ParseException;</span>
+<span class="source-line-no">027</span><span id="line-27">import java.time.LocalDate;</span>
+<span class="source-line-no">028</span><span id="line-28">import java.time.temporal.Temporal;</span>
+<span class="source-line-no">029</span><span id="line-29">import java.util.ArrayList;</span>
+<span class="source-line-no">030</span><span id="line-30">import java.util.Collection;</span>
+<span class="source-line-no">031</span><span id="line-31">import java.util.Date;</span>
+<span class="source-line-no">032</span><span id="line-32">import java.util.List;</span>
+<span class="source-line-no">033</span><span id="line-33">import java.util.Objects;</span>
+<span class="source-line-no">034</span><span id="line-34">import java.util.UUID;</span>
+<span class="source-line-no">035</span><span id="line-35">import java.util.regex.Matcher;</span>
+<span class="source-line-no">036</span><span id="line-36">import java.util.regex.Pattern;</span>
+<span class="source-line-no">037</span><span id="line-37"></span>
+<span class="source-line-no">038</span><span id="line-38">import org.apache.commons.lang3.StringUtils;</span>
+<span class="source-line-no">039</span><span id="line-39">import org.locationtech.jts.algorithm.Orientation;</span>
+<span class="source-line-no">040</span><span id="line-40">import org.locationtech.jts.geom.Geometry;</span>
+<span class="source-line-no">041</span><span id="line-41">import org.locationtech.jts.geom.GeometryFactory;</span>
+<span class="source-line-no">042</span><span id="line-42">import org.locationtech.jts.geom.LinearRing;</span>
+<span class="source-line-no">043</span><span id="line-43">import org.locationtech.jts.geom.MultiPolygon;</span>
+<span class="source-line-no">044</span><span id="line-44">import org.locationtech.jts.geom.Polygon;</span>
+<span class="source-line-no">045</span><span id="line-45">import org.locationtech.jts.operation.valid.IsValidOp;</span>
+<span class="source-line-no">046</span><span id="line-46">import org.locationtech.spatial4j.context.jts.DatelineRule;</span>
+<span class="source-line-no">047</span><span id="line-47">import org.locationtech.spatial4j.context.jts.JtsSpatialContextFactory;</span>
+<span class="source-line-no">048</span><span id="line-48">import org.locationtech.spatial4j.exception.InvalidShapeException;</span>
+<span class="source-line-no">049</span><span id="line-49">import org.locationtech.spatial4j.io.WKTReader;</span>
+<span class="source-line-no">050</span><span id="line-50">import org.locationtech.spatial4j.shape.Shape;</span>
+<span class="source-line-no">051</span><span id="line-51">import org.locationtech.spatial4j.shape.jts.JtsGeometry;</span>
+<span class="source-line-no">052</span><span id="line-52"></span>
+<span class="source-line-no">053</span><span id="line-53">import static java.lang.Long.parseLong;</span>
+<span class="source-line-no">054</span><span id="line-54">import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;</span>
+<span class="source-line-no">055</span><span id="line-55">import static org.gbif.api.util.IsoDateParsingUtils.SIMPLE_ISO_DATE_STR_PATTERN;</span>
+<span class="source-line-no">056</span><span id="line-56"></span>
+<span class="source-line-no">057</span><span id="line-57">/**</span>
+<span class="source-line-no">058</span><span id="line-58"> * Utility class to do basic validation of all search enum based values.</span>
+<span class="source-line-no">059</span><span id="line-59"> */</span>
+<span class="source-line-no">060</span><span id="line-60">public class SearchTypeValidator {</span>
+<span class="source-line-no">061</span><span id="line-61"></span>
+<span class="source-line-no">062</span><span id="line-62">  private static final Pattern BOOLEAN = Pattern.compile("^(true|false)$", Pattern.CASE_INSENSITIVE);</span>
+<span class="source-line-no">063</span><span id="line-63">  // this regex matches a double with an optional dot separated fracture and negative signing</span>
+<span class="source-line-no">064</span><span id="line-64">  private static final String DEC = "-?\\d+(?:\\.\\d+)?";</span>
 <span class="source-line-no">065</span><span id="line-65"></span>
-<span class="source-line-no">066</span><span id="line-66">  private static final String LONGITUDE_ERROR_MSG = "%s is not valid value, longitude must be between -180 and 180.";</span>
+<span class="source-line-no">066</span><span id="line-66">  private static final String DECIMAL_OR_WILDCARD = "(" + DEC + "|\\*)";</span>
 <span class="source-line-no">067</span><span id="line-67"></span>
-<span class="source-line-no">068</span><span id="line-68">  private static final String WILD_CARD = "*";</span>
-<span class="source-line-no">069</span><span id="line-69"></span>
-<span class="source-line-no">070</span><span id="line-70">  /**</span>
-<span class="source-line-no">071</span><span id="line-71">   * Matches ranges in formats</span>
-<span class="source-line-no">072</span><span id="line-72">   *</span>
-<span class="source-line-no">073</span><span id="line-73">   * &lt;pre&gt;</span>
-<span class="source-line-no">074</span><span id="line-74">   * 23.1,55.2</span>
-<span class="source-line-no">075</span><span id="line-75">   * &lt;/pre&gt;</span>
-<span class="source-line-no">076</span><span id="line-76">   *</span>
-<span class="source-line-no">077</span><span id="line-77">   * &lt;pre&gt;</span>
-<span class="source-line-no">078</span><span id="line-78">   * *,88</span>
-<span class="source-line-no">079</span><span id="line-79">   * &lt;/pre&gt;</span>
-<span class="source-line-no">080</span><span id="line-80">   *</span>
-<span class="source-line-no">081</span><span id="line-81">   * and</span>
-<span class="source-line-no">082</span><span id="line-82">   *</span>
-<span class="source-line-no">083</span><span id="line-83">   * &lt;pre&gt;</span>
-<span class="source-line-no">084</span><span id="line-84">   * 55,*</span>
-<span class="source-line-no">085</span><span id="line-85">   * &lt;/pre&gt;</span>
-<span class="source-line-no">086</span><span id="line-86">   *</span>
-<span class="source-line-no">087</span><span id="line-87">   * .</span>
-<span class="source-line-no">088</span><span id="line-88">   * The matcher returns 2 groups:</span>
-<span class="source-line-no">089</span><span id="line-89">   * group 1: lower bound</span>
-<span class="source-line-no">090</span><span id="line-90">   * group 2: upper bound</span>
-<span class="source-line-no">091</span><span id="line-91">   */</span>
-<span class="source-line-no">092</span><span id="line-92">  private static final Pattern DECIMAL_RANGE_PATTERN = Pattern.compile(</span>
-<span class="source-line-no">093</span><span id="line-93">    "^" + DECIMAL_OR_WILDCARD + "\\s*,\\s*" + DECIMAL_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);</span>
+<span class="source-line-no">068</span><span id="line-68">  private static final Range&lt;Double&gt; LATITUDE_RNG = Range.closed(-90.0, 90.0);</span>
+<span class="source-line-no">069</span><span id="line-69">  private static final Range&lt;Double&gt; LONGITUDE_RNG = Range.closed(-180.0, 180.0);</span>
+<span class="source-line-no">070</span><span id="line-70"></span>
+<span class="source-line-no">071</span><span id="line-71">  private static final String LATITUDE_ERROR_MSG = "%s is not valid value, latitude must be between -90 and 90.";</span>
+<span class="source-line-no">072</span><span id="line-72"></span>
+<span class="source-line-no">073</span><span id="line-73">  private static final String LONGITUDE_ERROR_MSG = "%s is not valid value, longitude must be between -180 and 180.";</span>
+<span class="source-line-no">074</span><span id="line-74"></span>
+<span class="source-line-no">075</span><span id="line-75">  private static final String WILD_CARD = "*";</span>
+<span class="source-line-no">076</span><span id="line-76"></span>
+<span class="source-line-no">077</span><span id="line-77">  /**</span>
+<span class="source-line-no">078</span><span id="line-78">   * Matches ranges in formats</span>
+<span class="source-line-no">079</span><span id="line-79">   * &lt;code&gt;23.1,55.2&lt;/code&gt;</span>
+<span class="source-line-no">080</span><span id="line-80">   * &lt;code&gt;*,88&lt;/code&gt;</span>
+<span class="source-line-no">081</span><span id="line-81">   * &lt;code&gt;55,*&lt;/code&gt;.</span>
+<span class="source-line-no">082</span><span id="line-82">   * The matcher returns 2 groups:</span>
+<span class="source-line-no">083</span><span id="line-83">   * group 1: lower bound</span>
+<span class="source-line-no">084</span><span id="line-84">   * group 2: upper bound</span>
+<span class="source-line-no">085</span><span id="line-85">   */</span>
+<span class="source-line-no">086</span><span id="line-86">  private static final Pattern DECIMAL_RANGE_PATTERN = Pattern.compile(</span>
+<span class="source-line-no">087</span><span id="line-87">    "^" + DECIMAL_OR_WILDCARD + "\\s*,\\s*" + DECIMAL_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);</span>
+<span class="source-line-no">088</span><span id="line-88"></span>
+<span class="source-line-no">089</span><span id="line-89">  /** Vocabulary-like concept names, e.g. NorthAmerica. */</span>
+<span class="source-line-no">090</span><span id="line-90">  private static final Pattern ALPHABETIC_PATTERN = Pattern.compile("^[a-zA-Z?*]+$");</span>
+<span class="source-line-no">091</span><span id="line-91"></span>
+<span class="source-line-no">092</span><span id="line-92">  /** Enumeration-like codes, e.g. LC, TAXON_MATCH_NONE, MARINE. */</span>
+<span class="source-line-no">093</span><span id="line-93">  private static final Pattern ALPHABETIC_UNDERSCORE_PATTERN = Pattern.compile("[a-zA-Z0-9_?*]+");</span>
 <span class="source-line-no">094</span><span id="line-94"></span>
-<span class="source-line-no">095</span><span id="line-95">  public static final String SIMPLE_ISO_YEAR_MONTH_PATTERN = "\\d{4}(?:-\\d{1,2})?";</span>
-<span class="source-line-no">096</span><span id="line-96"></span>
-<span class="source-line-no">097</span><span id="line-97">  private static final String DATE_OR_WILDCARD = "(" + SIMPLE_ISO_DATE_STR_PATTERN + "|\\*)";</span>
-<span class="source-line-no">098</span><span id="line-98"></span>
-<span class="source-line-no">099</span><span id="line-99">  private static final Pattern DATE_RANGE_PATTERN = Pattern.compile(</span>
-<span class="source-line-no">100</span><span id="line-100">    "^(" + DATE_OR_WILDCARD + "\\s*,\\s*" + DATE_OR_WILDCARD + "|" + SIMPLE_ISO_YEAR_MONTH_PATTERN + ")$", Pattern.CASE_INSENSITIVE);</span>
-<span class="source-line-no">101</span><span id="line-101"></span>
-<span class="source-line-no">102</span><span id="line-102">  /**</span>
-<span class="source-line-no">103</span><span id="line-103">   * Private default constructor.</span>
-<span class="source-line-no">104</span><span id="line-104">   */</span>
-<span class="source-line-no">105</span><span id="line-105">  private SearchTypeValidator() {</span>
-<span class="source-line-no">106</span><span id="line-106">    // empty block</span>
-<span class="source-line-no">107</span><span id="line-107">  }</span>
+<span class="source-line-no">095</span><span id="line-95">  /** Vocabulary-like concept names like CambrianStage10 */</span>
+<span class="source-line-no">096</span><span id="line-96">  private static final Pattern ALPHANUMERIC_PATTERN = Pattern.compile("[a-zA-Z0-9?*]+");</span>
+<span class="source-line-no">097</span><span id="line-97"></span>
+<span class="source-line-no">098</span><span id="line-98">  /** Vocabulary-like concept names like CambrianStage10. */</span>
+<span class="source-line-no">099</span><span id="line-99">  private static final Pattern ALPHANUMERIC_UNDERSCORE_PATTERN = Pattern.compile("[a-zA-Z0-9_?*]+");</span>
+<span class="source-line-no">100</span><span id="line-100"></span>
+<span class="source-line-no">101</span><span id="line-101">  /** GADM identifiers etc, e.g. IRL, IRL.1_1, GBR.1.2_1, Z01.14_1. */</span>
+<span class="source-line-no">102</span><span id="line-102">  private static final Pattern ALPHANUMERIC_UNDERSCORE_DOT_PATTERN = Pattern.compile("[a-zA-Z0-9_.?*]+");</span>
+<span class="source-line-no">103</span><span id="line-103"></span>
+<span class="source-line-no">104</span><span id="line-104">  /** Taxon keys from any checklist, e.g. 212 (GBIF Backbone) or 4QHKG (Catalogue of Life). */</span>
+<span class="source-line-no">105</span><span id="line-105">  private static final Pattern TAXON_KEY_PATTERN = Pattern.compile("[a-zA-Z0-9.:?*-]+");</span>
+<span class="source-line-no">106</span><span id="line-106"></span>
+<span class="source-line-no">107</span><span id="line-107">  public static final String SIMPLE_ISO_YEAR_MONTH_PATTERN = "\\d{4}(?:-\\d{1,2})?";</span>
 <span class="source-line-no">108</span><span id="line-108"></span>
-<span class="source-line-no">109</span><span id="line-109">  /**</span>
-<span class="source-line-no">110</span><span id="line-110">   * Determines whether the value given is a valid numeric range, delimiting two values by a comma.</span>
-<span class="source-line-no">111</span><span id="line-111">   *</span>
-<span class="source-line-no">112</span><span id="line-112">   * @return true if the given value is a valid range</span>
-<span class="source-line-no">113</span><span id="line-113">   */</span>
-<span class="source-line-no">114</span><span id="line-114">  public static boolean isNumericRange(String value) {</span>
-<span class="source-line-no">115</span><span id="line-115">    if (StringUtils.isNotEmpty(value)) {</span>
-<span class="source-line-no">116</span><span id="line-116">      // decimal range for ints or doubles, or date range</span>
-<span class="source-line-no">117</span><span id="line-117">      return DECIMAL_RANGE_PATTERN.matcher(value).find();</span>
-<span class="source-line-no">118</span><span id="line-118">    }</span>
-<span class="source-line-no">119</span><span id="line-119">    return false;</span>
-<span class="source-line-no">120</span><span id="line-120">  }</span>
-<span class="source-line-no">121</span><span id="line-121"></span>
-<span class="source-line-no">122</span><span id="line-122">  /**</span>
-<span class="source-line-no">123</span><span id="line-123">   * Determines whether the value given is a valid date range or low precision (year, year-month) date, delimiting two values by a comma.</span>
-<span class="source-line-no">124</span><span id="line-124">   *</span>
-<span class="source-line-no">125</span><span id="line-125">   * @return true if the given value is a valid date range</span>
-<span class="source-line-no">126</span><span id="line-126">   */</span>
-<span class="source-line-no">127</span><span id="line-127">  public static boolean isDateRange(String value) {</span>
-<span class="source-line-no">128</span><span id="line-128">    if (StringUtils.isNotEmpty(value)) {</span>
-<span class="source-line-no">129</span><span id="line-129">      // date range</span>
-<span class="source-line-no">130</span><span id="line-130">      return DATE_RANGE_PATTERN.matcher(value).find();</span>
-<span class="source-line-no">131</span><span id="line-131">    }</span>
-<span class="source-line-no">132</span><span id="line-132">    return false;</span>
-<span class="source-line-no">133</span><span id="line-133">  }</span>
-<span class="source-line-no">134</span><span id="line-134"></span>
-<span class="source-line-no">135</span><span id="line-135">  /**</span>
-<span class="source-line-no">136</span><span id="line-136">   * Parses a range of ISO dates.</span>
-<span class="source-line-no">137</span><span id="line-137">   * The date format used is the first date format that successfully parses the lower range limit.</span>
-<span class="source-line-no">138</span><span id="line-138">   *</span>
-<span class="source-line-no">139</span><span id="line-139">   * @return the parsed range with wildcards represented as null values</span>
-<span class="source-line-no">140</span><span id="line-140">   * @throws IllegalArgumentException if value is invalid or null</span>
-<span class="source-line-no">141</span><span id="line-141">   */</span>
-<span class="source-line-no">142</span><span id="line-142">  public static Range&lt;LocalDate&gt; parseDateRange(String value) {</span>
-<span class="source-line-no">143</span><span id="line-143">    return IsoDateParsingUtils.parseDateRange(value);</span>
-<span class="source-line-no">144</span><span id="line-144">  }</span>
-<span class="source-line-no">145</span><span id="line-145"></span>
-<span class="source-line-no">146</span><span id="line-146">  /**</span>
-<span class="source-line-no">147</span><span id="line-147">   * Parses a decimal range in the format 123.1,456.</span>
-<span class="source-line-no">148</span><span id="line-148">   *</span>
-<span class="source-line-no">149</span><span id="line-149">   * @return the parsed range with wildcards represented as null values</span>
-<span class="source-line-no">150</span><span id="line-150">   * @throws IllegalArgumentException if value is invalid or null</span>
-<span class="source-line-no">151</span><span id="line-151">   */</span>
-<span class="source-line-no">152</span><span id="line-152">  public static Range&lt;Double&gt; parseDecimalRange(String value) {</span>
-<span class="source-line-no">153</span><span id="line-153">    if (StringUtils.isNotEmpty(value)) {</span>
-<span class="source-line-no">154</span><span id="line-154">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
-<span class="source-line-no">155</span><span id="line-155">      if (m.find()) {</span>
-<span class="source-line-no">156</span><span id="line-156">        return Range.closed(parseDouble(m.group(1)), parseDouble(m.group(2)));</span>
-<span class="source-line-no">157</span><span id="line-157">      }</span>
-<span class="source-line-no">158</span><span id="line-158">    }</span>
-<span class="source-line-no">159</span><span id="line-159">    throw new IllegalArgumentException("Invalid decimal range: " + value);</span>
-<span class="source-line-no">160</span><span id="line-160">  }</span>
-<span class="source-line-no">161</span><span id="line-161"></span>
-<span class="source-line-no">162</span><span id="line-162">  /**</span>
-<span class="source-line-no">163</span><span id="line-163">   * Parses an integer range in the format 123,456</span>
-<span class="source-line-no">164</span><span id="line-164">   *</span>
-<span class="source-line-no">165</span><span id="line-165">   * @return the parsed range with wildcards represented as null values</span>
-<span class="source-line-no">166</span><span id="line-166">   * @throws IllegalArgumentException if value is invalid or null</span>
-<span class="source-line-no">167</span><span id="line-167">   */</span>
-<span class="source-line-no">168</span><span id="line-168">  public static Range&lt;Integer&gt; parseIntegerRange(String value) {</span>
-<span class="source-line-no">169</span><span id="line-169">    if (StringUtils.isNotEmpty(value)) {</span>
-<span class="source-line-no">170</span><span id="line-170">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
-<span class="source-line-no">171</span><span id="line-171">      if (m.find()) {</span>
-<span class="source-line-no">172</span><span id="line-172"></span>
-<span class="source-line-no">173</span><span id="line-173">        return Range.closed(parseInteger(m.group(1)), parseInteger(m.group(2)));</span>
-<span class="source-line-no">174</span><span id="line-174">      }</span>
-<span class="source-line-no">175</span><span id="line-175">    }</span>
-<span class="source-line-no">176</span><span id="line-176">    throw new IllegalArgumentException("Invalid integer range: " + value);</span>
-<span class="source-line-no">177</span><span id="line-177">  }</span>
-<span class="source-line-no">178</span><span id="line-178"></span>
-<span class="source-line-no">179</span><span id="line-179">  /**</span>
-<span class="source-line-no">180</span><span id="line-180">   * Validates that a given parameter value matches the expected type of the parameter as defined by</span>
-<span class="source-line-no">181</span><span id="line-181">   * {@link SearchParameter#type()} and throws an IllegalArgumentException otherwise.</span>
-<span class="source-line-no">182</span><span id="line-182">   *</span>
-<span class="source-line-no">183</span><span id="line-183">   * @param param the search parameter defining the expected type</span>
-<span class="source-line-no">184</span><span id="line-184">   * @param value the parameter value to be validated</span>
-<span class="source-line-no">185</span><span id="line-185">   * @throws IllegalArgumentException if the value cannot be converted to the expected type</span>
-<span class="source-line-no">186</span><span id="line-186">   */</span>
-<span class="source-line-no">187</span><span id="line-187">  public static void validate(SearchParameter param, String value) throws IllegalArgumentException {</span>
-<span class="source-line-no">188</span><span id="line-188">    final Class&lt;?&gt; pType = param.type();</span>
-<span class="source-line-no">189</span><span id="line-189"></span>
-<span class="source-line-no">190</span><span id="line-190">    try {</span>
-<span class="source-line-no">191</span><span id="line-191">      if (OccurrenceSearchParameter.GEOMETRY == param) {</span>
-<span class="source-line-no">192</span><span id="line-192">        validateGeometry(value);</span>
-<span class="source-line-no">193</span><span id="line-193">      }</span>
-<span class="source-line-no">194</span><span id="line-194"></span>
-<span class="source-line-no">195</span><span id="line-195">      if (OccurrenceSearchParameter.GEO_DISTANCE == param) {</span>
-<span class="source-line-no">196</span><span id="line-196">        validateGeoDistance(value);</span>
-<span class="source-line-no">197</span><span id="line-197">      }</span>
-<span class="source-line-no">198</span><span id="line-198"></span>
-<span class="source-line-no">199</span><span id="line-199">      // All the parameters except by GEOMETRY accept the wild card value</span>
-<span class="source-line-no">200</span><span id="line-200">      if (!WILD_CARD.equalsIgnoreCase(StringUtils.trimToEmpty(value))) {</span>
-<span class="source-line-no">201</span><span id="line-201">        if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {</span>
-<span class="source-line-no">202</span><span id="line-202">          validateLatitude(value);</span>
-<span class="source-line-no">203</span><span id="line-203"></span>
-<span class="source-line-no">204</span><span id="line-204">        } else if (OccurrenceSearchParameter.DECIMAL_LONGITUDE == param) {</span>
-<span class="source-line-no">205</span><span id="line-205">          validateLongitude(value);</span>
-<span class="source-line-no">206</span><span id="line-206"></span>
-<span class="source-line-no">207</span><span id="line-207">        } else if (UUID.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">208</span><span id="line-208">          //noinspection ResultOfMethodCallIgnored</span>
-<span class="source-line-no">209</span><span id="line-209">          UUID.fromString(value);</span>
-<span class="source-line-no">210</span><span id="line-210"></span>
-<span class="source-line-no">211</span><span id="line-211">        } else if (Double.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">212</span><span id="line-212">          validateDouble(value);</span>
-<span class="source-line-no">213</span><span id="line-213"></span>
-<span class="source-line-no">214</span><span id="line-214">        } else if (Integer.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">215</span><span id="line-215">          Collection&lt;Integer&gt; intsFound = validateInteger(value);</span>
-<span class="source-line-no">216</span><span id="line-216">          if (OccurrenceSearchParameter.MONTH == param) {</span>
-<span class="source-line-no">217</span><span id="line-217">            validateMonth(intsFound);</span>
-<span class="source-line-no">218</span><span id="line-218">          } else if (OccurrenceSearchParameter.DAY == param) {</span>
-<span class="source-line-no">219</span><span id="line-219">            validateDay(intsFound);</span>
-<span class="source-line-no">220</span><span id="line-220">          }</span>
-<span class="source-line-no">221</span><span id="line-221"></span>
-<span class="source-line-no">222</span><span id="line-222">        } else if (Boolean.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">223</span><span id="line-223">          // we cannot use Boolean.parseBoolean as this accepted anything as false</span>
-<span class="source-line-no">224</span><span id="line-224">          if (!BOOLEAN.matcher(value).find()) {</span>
-<span class="source-line-no">225</span><span id="line-225">            throw new IllegalArgumentException("Value " + value + " is no valid boolean");</span>
-<span class="source-line-no">226</span><span id="line-226">          }</span>
+<span class="source-line-no">109</span><span id="line-109">  private static final String DATE_OR_WILDCARD = "(" + SIMPLE_ISO_DATE_STR_PATTERN + "|\\*)";</span>
+<span class="source-line-no">110</span><span id="line-110"></span>
+<span class="source-line-no">111</span><span id="line-111">  private static final Pattern DATE_RANGE_PATTERN = Pattern.compile(</span>
+<span class="source-line-no">112</span><span id="line-112">    "^(" + DATE_OR_WILDCARD + "\\s*,\\s*" + DATE_OR_WILDCARD + "|" + SIMPLE_ISO_YEAR_MONTH_PATTERN + ")$", Pattern.CASE_INSENSITIVE);</span>
+<span class="source-line-no">113</span><span id="line-113"></span>
+<span class="source-line-no">114</span><span id="line-114">  /**</span>
+<span class="source-line-no">115</span><span id="line-115">   * Private default constructor.</span>
+<span class="source-line-no">116</span><span id="line-116">   */</span>
+<span class="source-line-no">117</span><span id="line-117">  private SearchTypeValidator() {</span>
+<span class="source-line-no">118</span><span id="line-118">    // empty block</span>
+<span class="source-line-no">119</span><span id="line-119">  }</span>
+<span class="source-line-no">120</span><span id="line-120"></span>
+<span class="source-line-no">121</span><span id="line-121">  /**</span>
+<span class="source-line-no">122</span><span id="line-122">   * Determines whether the value given is a valid numeric range, delimiting two values by a comma.</span>
+<span class="source-line-no">123</span><span id="line-123">   *</span>
+<span class="source-line-no">124</span><span id="line-124">   * @return true if the given value is a valid range</span>
+<span class="source-line-no">125</span><span id="line-125">   */</span>
+<span class="source-line-no">126</span><span id="line-126">  public static boolean isNumericRange(String value) {</span>
+<span class="source-line-no">127</span><span id="line-127">    if (StringUtils.isNotEmpty(value)) {</span>
+<span class="source-line-no">128</span><span id="line-128">      // decimal range for ints or doubles, or date range</span>
+<span class="source-line-no">129</span><span id="line-129">      return DECIMAL_RANGE_PATTERN.matcher(value).find();</span>
+<span class="source-line-no">130</span><span id="line-130">    }</span>
+<span class="source-line-no">131</span><span id="line-131">    return false;</span>
+<span class="source-line-no">132</span><span id="line-132">  }</span>
+<span class="source-line-no">133</span><span id="line-133"></span>
+<span class="source-line-no">134</span><span id="line-134">  /**</span>
+<span class="source-line-no">135</span><span id="line-135">   * Determines whether the value given is a valid date range or low precision (year, year-month) date, delimiting two values by a comma.</span>
+<span class="source-line-no">136</span><span id="line-136">   *</span>
+<span class="source-line-no">137</span><span id="line-137">   * @return true if the given value is a valid date range</span>
+<span class="source-line-no">138</span><span id="line-138">   */</span>
+<span class="source-line-no">139</span><span id="line-139">  public static boolean isDateRange(String value) {</span>
+<span class="source-line-no">140</span><span id="line-140">    if (StringUtils.isNotEmpty(value)) {</span>
+<span class="source-line-no">141</span><span id="line-141">      // date range</span>
+<span class="source-line-no">142</span><span id="line-142">      return DATE_RANGE_PATTERN.matcher(value).find();</span>
+<span class="source-line-no">143</span><span id="line-143">    }</span>
+<span class="source-line-no">144</span><span id="line-144">    return false;</span>
+<span class="source-line-no">145</span><span id="line-145">  }</span>
+<span class="source-line-no">146</span><span id="line-146"></span>
+<span class="source-line-no">147</span><span id="line-147">  /**</span>
+<span class="source-line-no">148</span><span id="line-148">   * Parses a range of ISO dates.</span>
+<span class="source-line-no">149</span><span id="line-149">   * The date format used is the first date format that successfully parses the lower range limit.</span>
+<span class="source-line-no">150</span><span id="line-150">   *</span>
+<span class="source-line-no">151</span><span id="line-151">   * @return the parsed range with wildcards represented as null values</span>
+<span class="source-line-no">152</span><span id="line-152">   * @throws IllegalArgumentException if value is invalid or null</span>
+<span class="source-line-no">153</span><span id="line-153">   */</span>
+<span class="source-line-no">154</span><span id="line-154">  public static Range&lt;LocalDate&gt; parseDateRange(String value) {</span>
+<span class="source-line-no">155</span><span id="line-155">    return IsoDateParsingUtils.parseDateRange(value);</span>
+<span class="source-line-no">156</span><span id="line-156">  }</span>
+<span class="source-line-no">157</span><span id="line-157"></span>
+<span class="source-line-no">158</span><span id="line-158">  /**</span>
+<span class="source-line-no">159</span><span id="line-159">   * Parses a decimal range in the format 123.1,456.</span>
+<span class="source-line-no">160</span><span id="line-160">   *</span>
+<span class="source-line-no">161</span><span id="line-161">   * @return the parsed range with wildcards represented as null values</span>
+<span class="source-line-no">162</span><span id="line-162">   * @throws IllegalArgumentException if value is invalid or null</span>
+<span class="source-line-no">163</span><span id="line-163">   */</span>
+<span class="source-line-no">164</span><span id="line-164">  public static Range&lt;Double&gt; parseDecimalRange(String value) {</span>
+<span class="source-line-no">165</span><span id="line-165">    if (StringUtils.isNotEmpty(value)) {</span>
+<span class="source-line-no">166</span><span id="line-166">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
+<span class="source-line-no">167</span><span id="line-167">      if (m.find()) {</span>
+<span class="source-line-no">168</span><span id="line-168">        return Range.closed(parseDouble(m.group(1)), parseDouble(m.group(2)));</span>
+<span class="source-line-no">169</span><span id="line-169">      }</span>
+<span class="source-line-no">170</span><span id="line-170">    }</span>
+<span class="source-line-no">171</span><span id="line-171">    throw new IllegalArgumentException("Invalid decimal range: " + value);</span>
+<span class="source-line-no">172</span><span id="line-172">  }</span>
+<span class="source-line-no">173</span><span id="line-173"></span>
+<span class="source-line-no">174</span><span id="line-174">  /**</span>
+<span class="source-line-no">175</span><span id="line-175">   * Parses an integer range in the format 123,456</span>
+<span class="source-line-no">176</span><span id="line-176">   *</span>
+<span class="source-line-no">177</span><span id="line-177">   * @return the parsed range with wildcards represented as null values</span>
+<span class="source-line-no">178</span><span id="line-178">   * @throws IllegalArgumentException if value is invalid or null</span>
+<span class="source-line-no">179</span><span id="line-179">   */</span>
+<span class="source-line-no">180</span><span id="line-180">  public static Range&lt;Integer&gt; parseIntegerRange(String value) {</span>
+<span class="source-line-no">181</span><span id="line-181">    if (StringUtils.isNotEmpty(value)) {</span>
+<span class="source-line-no">182</span><span id="line-182">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
+<span class="source-line-no">183</span><span id="line-183">      if (m.find()) {</span>
+<span class="source-line-no">184</span><span id="line-184"></span>
+<span class="source-line-no">185</span><span id="line-185">        return Range.closed(parseInteger(m.group(1)), parseInteger(m.group(2)));</span>
+<span class="source-line-no">186</span><span id="line-186">      }</span>
+<span class="source-line-no">187</span><span id="line-187">    }</span>
+<span class="source-line-no">188</span><span id="line-188">    throw new IllegalArgumentException("Invalid integer range: " + value);</span>
+<span class="source-line-no">189</span><span id="line-189">  }</span>
+<span class="source-line-no">190</span><span id="line-190"></span>
+<span class="source-line-no">191</span><span id="line-191">  /**</span>
+<span class="source-line-no">192</span><span id="line-192">   * Parses a long integer range in the format 123,456</span>
+<span class="source-line-no">193</span><span id="line-193">   *</span>
+<span class="source-line-no">194</span><span id="line-194">   * @return the parsed range with wildcards represented as null values</span>
+<span class="source-line-no">195</span><span id="line-195">   * @throws IllegalArgumentException if value is invalid or null</span>
+<span class="source-line-no">196</span><span id="line-196">   */</span>
+<span class="source-line-no">197</span><span id="line-197">  public static Range&lt;Long&gt; parseLongRange(String value) {</span>
+<span class="source-line-no">198</span><span id="line-198">    if (StringUtils.isNotEmpty(value)) {</span>
+<span class="source-line-no">199</span><span id="line-199">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
+<span class="source-line-no">200</span><span id="line-200">      if (m.find()) {</span>
+<span class="source-line-no">201</span><span id="line-201"></span>
+<span class="source-line-no">202</span><span id="line-202">        return Range.closed(parseLong(m.group(1)), parseLong(m.group(2)));</span>
+<span class="source-line-no">203</span><span id="line-203">      }</span>
+<span class="source-line-no">204</span><span id="line-204">    }</span>
+<span class="source-line-no">205</span><span id="line-205">    throw new IllegalArgumentException("Invalid long integer range: " + value);</span>
+<span class="source-line-no">206</span><span id="line-206">  }</span>
+<span class="source-line-no">207</span><span id="line-207"></span>
+<span class="source-line-no">208</span><span id="line-208">  /**</span>
+<span class="source-line-no">209</span><span id="line-209">   * Validates that a given parameter value matches the expected type of the parameter as defined by</span>
+<span class="source-line-no">210</span><span id="line-210">   * {@link SearchParameter#type()} and throws an IllegalArgumentException otherwise.</span>
+<span class="source-line-no">211</span><span id="line-211">   *</span>
+<span class="source-line-no">212</span><span id="line-212">   * @param param the search parameter defining the expected type</span>
+<span class="source-line-no">213</span><span id="line-213">   * @param value the parameter value to be validated</span>
+<span class="source-line-no">214</span><span id="line-214">   * @throws IllegalArgumentException if the value cannot be converted to the expected type</span>
+<span class="source-line-no">215</span><span id="line-215">   */</span>
+<span class="source-line-no">216</span><span id="line-216">  public static void validate(SearchParameter param, String value) throws IllegalArgumentException {</span>
+<span class="source-line-no">217</span><span id="line-217">    final Class&lt;?&gt; pType = param.type();</span>
+<span class="source-line-no">218</span><span id="line-218"></span>
+<span class="source-line-no">219</span><span id="line-219">    try {</span>
+<span class="source-line-no">220</span><span id="line-220">      if (OccurrenceSearchParameter.GEOMETRY == param) {</span>
+<span class="source-line-no">221</span><span id="line-221">        validateGeometry(value);</span>
+<span class="source-line-no">222</span><span id="line-222">      }</span>
+<span class="source-line-no">223</span><span id="line-223"></span>
+<span class="source-line-no">224</span><span id="line-224">      if (OccurrenceSearchParameter.GEO_DISTANCE == param) {</span>
+<span class="source-line-no">225</span><span id="line-225">        validateGeoDistance(value);</span>
+<span class="source-line-no">226</span><span id="line-226">      }</span>
 <span class="source-line-no">227</span><span id="line-227"></span>
-<span class="source-line-no">228</span><span id="line-228">        } else if (Country.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">229</span><span id="line-229">          // iso codes or enum name expected</span>
-<span class="source-line-no">230</span><span id="line-230">          if (Country.fromIsoCode(value) == null</span>
-<span class="source-line-no">231</span><span id="line-231">            &amp;&amp; VocabularyUtils.lookupEnum(value, Country.class) == null) {</span>
-<span class="source-line-no">232</span><span id="line-232">            throw new NullPointerException();</span>
-<span class="source-line-no">233</span><span id="line-233">          }</span>
-<span class="source-line-no">234</span><span id="line-234">        } else if (Language.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">235</span><span id="line-235">          // iso codes expected</span>
-<span class="source-line-no">236</span><span id="line-236">          Objects.requireNonNull(Language.fromIsoCode(value));</span>
-<span class="source-line-no">237</span><span id="line-237">        } else if (Enum.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">238</span><span id="line-238">          // enum value expected, cast to enum</span>
-<span class="source-line-no">239</span><span id="line-239">          @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">240</span><span id="line-240">          Class&lt;? extends Enum&lt;?&gt;&gt; eType = (Class&lt;? extends Enum&lt;?&gt;&gt;) pType;</span>
-<span class="source-line-no">241</span><span id="line-241">          Objects.requireNonNull(VocabularyUtils.lookupEnum(value, eType));</span>
+<span class="source-line-no">228</span><span id="line-228">      // All the parameters except by GEOMETRY accept the wild card value</span>
+<span class="source-line-no">229</span><span id="line-229">      if (!WILD_CARD.equalsIgnoreCase(StringUtils.trimToEmpty(value))) {</span>
+<span class="source-line-no">230</span><span id="line-230">        if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {</span>
+<span class="source-line-no">231</span><span id="line-231">          validateLatitude(value);</span>
+<span class="source-line-no">232</span><span id="line-232"></span>
+<span class="source-line-no">233</span><span id="line-233">        } else if (OccurrenceSearchParameter.DECIMAL_LONGITUDE == param) {</span>
+<span class="source-line-no">234</span><span id="line-234">          validateLongitude(value);</span>
+<span class="source-line-no">235</span><span id="line-235"></span>
+<span class="source-line-no">236</span><span id="line-236">        } else if (UUID.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">237</span><span id="line-237">          //noinspection ResultOfMethodCallIgnored</span>
+<span class="source-line-no">238</span><span id="line-238">          UUID.fromString(value);</span>
+<span class="source-line-no">239</span><span id="line-239"></span>
+<span class="source-line-no">240</span><span id="line-240">        } else if (Double.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">241</span><span id="line-241">          validateDouble(value);</span>
 <span class="source-line-no">242</span><span id="line-242"></span>
-<span class="source-line-no">243</span><span id="line-243">        } else if (Date.class.isAssignableFrom(pType) || Temporal.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">244</span><span id="line-244">          // ISO date strings</span>
-<span class="source-line-no">245</span><span id="line-245">          validateDate(value);</span>
-<span class="source-line-no">246</span><span id="line-246"></span>
-<span class="source-line-no">247</span><span id="line-247">        } else if (IsoDateInterval.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">248</span><span id="line-248">          // ISO date strings</span>
-<span class="source-line-no">249</span><span id="line-249">          validateDate(value);</span>
+<span class="source-line-no">243</span><span id="line-243">        } else if (Integer.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">244</span><span id="line-244">          Collection&lt;Integer&gt; intsFound = validateInteger(value);</span>
+<span class="source-line-no">245</span><span id="line-245">          if (OccurrenceSearchParameter.MONTH == param) {</span>
+<span class="source-line-no">246</span><span id="line-246">            validateMonth(intsFound);</span>
+<span class="source-line-no">247</span><span id="line-247">          } else if (OccurrenceSearchParameter.DAY == param) {</span>
+<span class="source-line-no">248</span><span id="line-248">            validateDay(intsFound);</span>
+<span class="source-line-no">249</span><span id="line-249">          }</span>
 <span class="source-line-no">250</span><span id="line-250"></span>
-<span class="source-line-no">251</span><span id="line-251">        } else if (!String.class.isAssignableFrom(pType)) {</span>
-<span class="source-line-no">252</span><span id="line-252">          // any string allowed</span>
-<span class="source-line-no">253</span><span id="line-253">          // an unexpected data type - update this method!!</span>
-<span class="source-line-no">254</span><span id="line-254">          throw new IllegalArgumentException("Unknown SearchParameter data type " + pType.getCanonicalName());</span>
-<span class="source-line-no">255</span><span id="line-255">        }</span>
-<span class="source-line-no">256</span><span id="line-256">      }</span>
-<span class="source-line-no">257</span><span id="line-257">    } catch (NullPointerException e) {</span>
-<span class="source-line-no">258</span><span id="line-258">      // Objects.requireNonNull throws NPE but we want IllegalArgumentException</span>
-<span class="source-line-no">259</span><span id="line-259">      throw new IllegalArgumentException("Value " + value + " invalid for filter parameter " + param, e);</span>
-<span class="source-line-no">260</span><span id="line-260">    }</span>
-<span class="source-line-no">261</span><span id="line-261">  }</span>
-<span class="source-line-no">262</span><span id="line-262"></span>
-<span class="source-line-no">263</span><span id="line-263">  /**</span>
-<span class="source-line-no">264</span><span id="line-264">   * @return the parsed double or null for wildcards</span>
-<span class="source-line-no">265</span><span id="line-265">   * @throws NumberFormatException if invalid double</span>
-<span class="source-line-no">266</span><span id="line-266">   */</span>
-<span class="source-line-no">267</span><span id="line-267">  private static Double parseDouble(String d) {</span>
-<span class="source-line-no">268</span><span id="line-268">    if (QUERY_WILDCARD.equals(d)) {</span>
-<span class="source-line-no">269</span><span id="line-269">      return null;</span>
-<span class="source-line-no">270</span><span id="line-270">    }</span>
-<span class="source-line-no">271</span><span id="line-271">    return Double.parseDouble(d);</span>
-<span class="source-line-no">272</span><span id="line-272">  }</span>
-<span class="source-line-no">273</span><span id="line-273"></span>
-<span class="source-line-no">274</span><span id="line-274">  /**</span>
-<span class="source-line-no">275</span><span id="line-275">   * @return the parsed integer or null for wildcards</span>
-<span class="source-line-no">276</span><span id="line-276">   * @throws NumberFormatException if invalid integer</span>
-<span class="source-line-no">277</span><span id="line-277">   */</span>
-<span class="source-line-no">278</span><span id="line-278">  private static Integer parseInteger(String d) {</span>
-<span class="source-line-no">279</span><span id="line-279">    if (QUERY_WILDCARD.equals(d)) {</span>
-<span class="source-line-no">280</span><span id="line-280">      return null;</span>
-<span class="source-line-no">281</span><span id="line-281">    }</span>
-<span class="source-line-no">282</span><span id="line-282">    return Integer.parseInt(d);</span>
-<span class="source-line-no">283</span><span id="line-283">  }</span>
-<span class="source-line-no">284</span><span id="line-284"></span>
-<span class="source-line-no">285</span><span id="line-285">  /**</span>
-<span class="source-line-no">286</span><span id="line-286">   * Validates if the string value is a valid ISO 8601 format.</span>
-<span class="source-line-no">287</span><span id="line-287">   */</span>
-<span class="source-line-no">288</span><span id="line-288">  private static void validateDate(String value) {</span>
-<span class="source-line-no">289</span><span id="line-289">    if (isDateRange(value)) {</span>
-<span class="source-line-no">290</span><span id="line-290">      IsoDateParsingUtils.parseDateRange(value);</span>
-<span class="source-line-no">291</span><span id="line-291">    } else {</span>
-<span class="source-line-no">292</span><span id="line-292">      IsoDateParsingUtils.parseDate(value);</span>
-<span class="source-line-no">293</span><span id="line-293">    }</span>
-<span class="source-line-no">294</span><span id="line-294">  }</span>
-<span class="source-line-no">295</span><span id="line-295"></span>
-<span class="source-line-no">296</span><span id="line-296">  /**</span>
-<span class="source-line-no">297</span><span id="line-297">   * Validates if the value is a valid single double or a range of double values.</span>
-<span class="source-line-no">298</span><span id="line-298">   * If the value is a range each limit is validated and the wildcard character '*' is skipped.</span>
-<span class="source-line-no">299</span><span id="line-299">   */</span>
-<span class="source-line-no">300</span><span id="line-300">  private static void validateDouble(String value) {</span>
-<span class="source-line-no">301</span><span id="line-301">    if (StringUtils.isEmpty(value)) {</span>
-<span class="source-line-no">302</span><span id="line-302">      throw new IllegalArgumentException("Double cannot be null or empty");</span>
-<span class="source-line-no">303</span><span id="line-303">    }</span>
-<span class="source-line-no">304</span><span id="line-304">    try {</span>
-<span class="source-line-no">305</span><span id="line-305">      Double.parseDouble(value);</span>
-<span class="source-line-no">306</span><span id="line-306">    } catch (NumberFormatException e) {</span>
-<span class="source-line-no">307</span><span id="line-307">      parseDecimalRange(value);</span>
-<span class="source-line-no">308</span><span id="line-308">    }</span>
-<span class="source-line-no">309</span><span id="line-309">  }</span>
+<span class="source-line-no">251</span><span id="line-251">        } else if (Long.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">252</span><span id="line-252">          validateLong(value);</span>
+<span class="source-line-no">253</span><span id="line-253"></span>
+<span class="source-line-no">254</span><span id="line-254">        } else if (Boolean.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">255</span><span id="line-255">          // we cannot use Boolean.parseBoolean as this accepted anything as false</span>
+<span class="source-line-no">256</span><span id="line-256">          if (!BOOLEAN.matcher(value).find()) {</span>
+<span class="source-line-no">257</span><span id="line-257">            throw new IllegalArgumentException("Value " + value + " is no valid boolean");</span>
+<span class="source-line-no">258</span><span id="line-258">          }</span>
+<span class="source-line-no">259</span><span id="line-259"></span>
+<span class="source-line-no">260</span><span id="line-260">        } else if (Country.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">261</span><span id="line-261">          // iso codes or enum name expected</span>
+<span class="source-line-no">262</span><span id="line-262">          if (Country.fromIsoCode(value) == null</span>
+<span class="source-line-no">263</span><span id="line-263">            &amp;&amp; VocabularyUtils.lookupEnum(value, Country.class) == null) {</span>
+<span class="source-line-no">264</span><span id="line-264">            throw new NullPointerException();</span>
+<span class="source-line-no">265</span><span id="line-265">          }</span>
+<span class="source-line-no">266</span><span id="line-266">        } else if (Language.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">267</span><span id="line-267">          // iso codes expected</span>
+<span class="source-line-no">268</span><span id="line-268">          Objects.requireNonNull(Language.fromIsoCode(value));</span>
+<span class="source-line-no">269</span><span id="line-269">        } else if (Enum.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">270</span><span id="line-270">          // enum value expected, cast to enum</span>
+<span class="source-line-no">271</span><span id="line-271">          @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">272</span><span id="line-272">          Class&lt;? extends Enum&lt;?&gt;&gt; eType = (Class&lt;? extends Enum&lt;?&gt;&gt;) pType;</span>
+<span class="source-line-no">273</span><span id="line-273">          Objects.requireNonNull(VocabularyUtils.lookupEnum(value, eType));</span>
+<span class="source-line-no">274</span><span id="line-274"></span>
+<span class="source-line-no">275</span><span id="line-275">        } else if (Date.class.isAssignableFrom(pType) || Temporal.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">276</span><span id="line-276">          // ISO date strings</span>
+<span class="source-line-no">277</span><span id="line-277">          validateDate(value);</span>
+<span class="source-line-no">278</span><span id="line-278"></span>
+<span class="source-line-no">279</span><span id="line-279">        } else if (IsoDateInterval.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">280</span><span id="line-280">          // ISO date strings</span>
+<span class="source-line-no">281</span><span id="line-281">          validateDate(value);</span>
+<span class="source-line-no">282</span><span id="line-282"></span>
+<span class="source-line-no">283</span><span id="line-283">        } else if (String.class.isAssignableFrom(pType)) {</span>
+<span class="source-line-no">284</span><span id="line-284">          // Many String parameters have a known format</span>
+<span class="source-line-no">285</span><span id="line-285">          validateStringFormat(param, value);</span>
+<span class="source-line-no">286</span><span id="line-286"></span>
+<span class="source-line-no">287</span><span id="line-287">        } else {</span>
+<span class="source-line-no">288</span><span id="line-288">          // an unexpected data type - update this method!!</span>
+<span class="source-line-no">289</span><span id="line-289">          throw new IllegalArgumentException("Unknown SearchParameter data type " + pType.getCanonicalName());</span>
+<span class="source-line-no">290</span><span id="line-290">        }</span>
+<span class="source-line-no">291</span><span id="line-291">      }</span>
+<span class="source-line-no">292</span><span id="line-292">    } catch (NullPointerException e) {</span>
+<span class="source-line-no">293</span><span id="line-293">      // Objects.requireNonNull throws NPE but we want IllegalArgumentException</span>
+<span class="source-line-no">294</span><span id="line-294">      throw new IllegalArgumentException("Value " + value + " invalid for filter parameter " + param, e);</span>
+<span class="source-line-no">295</span><span id="line-295">    }</span>
+<span class="source-line-no">296</span><span id="line-296">  }</span>
+<span class="source-line-no">297</span><span id="line-297"></span>
+<span class="source-line-no">298</span><span id="line-298">  /**</span>
+<span class="source-line-no">299</span><span id="line-299">   * Validates the format of String parameters which are identifiers or codes rather than free text.</span>
+<span class="source-line-no">300</span><span id="line-300">   *</span>
+<span class="source-line-no">301</span><span id="line-301">   * @throws IllegalArgumentException if the value does not have the expected format</span>
+<span class="source-line-no">302</span><span id="line-302">   */</span>
+<span class="source-line-no">303</span><span id="line-303">  private static void validateStringFormat(SearchParameter param, String value) {</span>
+<span class="source-line-no">304</span><span id="line-304">    String name = param.name();</span>
+<span class="source-line-no">305</span><span id="line-305"></span>
+<span class="source-line-no">306</span><span id="line-306">    SearchParameterFormat format = param.format();</span>
+<span class="source-line-no">307</span><span id="line-307">    if (format == null) {</span>
+<span class="source-line-no">308</span><span id="line-308">      return;</span>
+<span class="source-line-no">309</span><span id="line-309">    }</span>
 <span class="source-line-no">310</span><span id="line-310"></span>
-<span class="source-line-no">311</span><span id="line-311">  /**</span>
-<span class="source-line-no">312</span><span id="line-312">   * Validates if the value is a valid single double and its value is between a range.</span>
-<span class="source-line-no">313</span><span id="line-313">   */</span>
-<span class="source-line-no">314</span><span id="line-314">  private static void validateDoubleInRange(String value, Range&lt;Double&gt; range, String errorMsg) {</span>
-<span class="source-line-no">315</span><span id="line-315">    if (StringUtils.isEmpty(value)) {</span>
-<span class="source-line-no">316</span><span id="line-316">      throw new IllegalArgumentException("Double cannot be null or empty");</span>
-<span class="source-line-no">317</span><span id="line-317">    }</span>
-<span class="source-line-no">318</span><span id="line-318">    try {</span>
-<span class="source-line-no">319</span><span id="line-319">      final Double doubleValue = Double.parseDouble(value);</span>
-<span class="source-line-no">320</span><span id="line-320">      if (!range.contains(doubleValue)) {</span>
-<span class="source-line-no">321</span><span id="line-321">        throw new IllegalArgumentException(String.format(errorMsg, value));</span>
-<span class="source-line-no">322</span><span id="line-322">      }</span>
-<span class="source-line-no">323</span><span id="line-323">    } catch (NumberFormatException e) {</span>
-<span class="source-line-no">324</span><span id="line-324">      if (isNumericRange(value)) {</span>
-<span class="source-line-no">325</span><span id="line-325">        Range&lt;Double&gt; rangeValue = parseDecimalRange(value);</span>
-<span class="source-line-no">326</span><span id="line-326">        if (!range.encloses(rangeValue)) {</span>
-<span class="source-line-no">327</span><span id="line-327">          throw new IllegalArgumentException(String.format(errorMsg, value));</span>
-<span class="source-line-no">328</span><span id="line-328">        }</span>
-<span class="source-line-no">329</span><span id="line-329">      } else {</span>
-<span class="source-line-no">330</span><span id="line-330">        throw new IllegalArgumentException("Argument is not a valid number");</span>
-<span class="source-line-no">331</span><span id="line-331">      }</span>
-<span class="source-line-no">332</span><span id="line-332">    }</span>
-<span class="source-line-no">333</span><span id="line-333">  }</span>
-<span class="source-line-no">334</span><span id="line-334"></span>
-<span class="source-line-no">335</span><span id="line-335">  /**</span>
-<span class="source-line-no">336</span><span id="line-336">   * Verify that we have indeed a wellKnownText parameter.</span>
-<span class="source-line-no">337</span><span id="line-337">   * See &lt;a href="https://en.wikipedia.org/wiki/Well-known_text"&gt;Wikipedia&lt;/a&gt; for basic WKT specs.</span>
-<span class="source-line-no">338</span><span id="line-338">   * The validation implemented does both syntactic and topological validation (for polygons only).</span>
-<span class="source-line-no">339</span><span id="line-339">   */</span>
-<span class="source-line-no">340</span><span id="line-340">  private static void validateGeometry(String wellKnownText) {</span>
-<span class="source-line-no">341</span><span id="line-341">    JtsSpatialContextFactory spatialContextFactory = new JtsSpatialContextFactory();</span>
-<span class="source-line-no">342</span><span id="line-342">    spatialContextFactory.normWrapLongitude = true;</span>
-<span class="source-line-no">343</span><span id="line-343">    spatialContextFactory.srid = 4326;</span>
-<span class="source-line-no">344</span><span id="line-344">    spatialContextFactory.datelineRule = DatelineRule.ccwRect;</span>
-<span class="source-line-no">345</span><span id="line-345"></span>
-<span class="source-line-no">346</span><span id="line-346">    WKTReader reader = new WKTReader(spatialContextFactory.newSpatialContext(), spatialContextFactory);</span>
-<span class="source-line-no">347</span><span id="line-347"></span>
-<span class="source-line-no">348</span><span id="line-348">    try {</span>
-<span class="source-line-no">349</span><span id="line-349">      // This validates some errors, such as a latitude &gt; 90°</span>
-<span class="source-line-no">350</span><span id="line-350">      Shape shape = reader.parse(wellKnownText);</span>
-<span class="source-line-no">351</span><span id="line-351"></span>
-<span class="source-line-no">352</span><span id="line-352">      if (shape instanceof JtsGeometry) {</span>
-<span class="source-line-no">353</span><span id="line-353">        Geometry geometry = ((JtsGeometry) shape).getGeom();</span>
-<span class="source-line-no">354</span><span id="line-354"></span>
-<span class="source-line-no">355</span><span id="line-355">        IsValidOp validator = new IsValidOp(geometry);</span>
-<span class="source-line-no">356</span><span id="line-356"></span>
-<span class="source-line-no">357</span><span id="line-357">        if (!validator.isValid()) {</span>
-<span class="source-line-no">358</span><span id="line-358">          throw new IllegalArgumentException("Invalid geometry: " + validator.getValidationError());</span>
-<span class="source-line-no">359</span><span id="line-359">        }</span>
-<span class="source-line-no">360</span><span id="line-360"></span>
-<span class="source-line-no">361</span><span id="line-361">        if (geometry.isEmpty()) {</span>
-<span class="source-line-no">362</span><span id="line-362">          throw new IllegalArgumentException("Empty geometry: " + wellKnownText);</span>
-<span class="source-line-no">363</span><span id="line-363">        }</span>
-<span class="source-line-no">364</span><span id="line-364"></span>
-<span class="source-line-no">365</span><span id="line-365">        // Validate a polygon — check the winding order</span>
-<span class="source-line-no">366</span><span id="line-366">        if (geometry instanceof Polygon) {</span>
-<span class="source-line-no">367</span><span id="line-367">          validatePolygon((Polygon) geometry, wellKnownText);</span>
-<span class="source-line-no">368</span><span id="line-368">        }</span>
-<span class="source-line-no">369</span><span id="line-369"></span>
-<span class="source-line-no">370</span><span id="line-370">        // Validate polygons within a multipolygon</span>
-<span class="source-line-no">371</span><span id="line-371">        if (geometry instanceof MultiPolygon) {</span>
-<span class="source-line-no">372</span><span id="line-372">          MultiPolygon multiPolygon = (MultiPolygon) geometry;</span>
-<span class="source-line-no">373</span><span id="line-373">          for (int p = 0; p &lt; multiPolygon.getNumGeometries(); p++) {</span>
-<span class="source-line-no">374</span><span id="line-374">            validatePolygon((Polygon) multiPolygon.getGeometryN(p), wellKnownText);</span>
-<span class="source-line-no">375</span><span id="line-375">          }</span>
-<span class="source-line-no">376</span><span id="line-376">        }</span>
+<span class="source-line-no">311</span><span id="line-311">    Pattern pattern;</span>
+<span class="source-line-no">312</span><span id="line-312">    String description;</span>
+<span class="source-line-no">313</span><span id="line-313">    switch (format) {</span>
+<span class="source-line-no">314</span><span id="line-314">      case ALPHABETIC:</span>
+<span class="source-line-no">315</span><span id="line-315">        pattern = ALPHABETIC_PATTERN;</span>
+<span class="source-line-no">316</span><span id="line-316">        description = "a code using letters only.";</span>
+<span class="source-line-no">317</span><span id="line-317">        break;</span>
+<span class="source-line-no">318</span><span id="line-318">      case ALPHABETIC_UNDERSCORE:</span>
+<span class="source-line-no">319</span><span id="line-319">        pattern = ALPHABETIC_UNDERSCORE_PATTERN;</span>
+<span class="source-line-no">320</span><span id="line-320">        description = "a code using letters and underscores only.";</span>
+<span class="source-line-no">321</span><span id="line-321">        break;</span>
+<span class="source-line-no">322</span><span id="line-322">      case ALPHANUMERIC:</span>
+<span class="source-line-no">323</span><span id="line-323">        pattern = ALPHANUMERIC_PATTERN;</span>
+<span class="source-line-no">324</span><span id="line-324">        description = "a code using letters and digits only.";</span>
+<span class="source-line-no">325</span><span id="line-325">        break;</span>
+<span class="source-line-no">326</span><span id="line-326">      case ALPHANUMERIC_UNDERSCORE:</span>
+<span class="source-line-no">327</span><span id="line-327">        pattern = ALPHANUMERIC_UNDERSCORE_PATTERN;</span>
+<span class="source-line-no">328</span><span id="line-328">        description = "a code with letters, digits and underscores only.";</span>
+<span class="source-line-no">329</span><span id="line-329">        break;</span>
+<span class="source-line-no">330</span><span id="line-330">      case ALPHANUMERIC_UNDERSCORE_DOT:</span>
+<span class="source-line-no">331</span><span id="line-331">        pattern = ALPHANUMERIC_UNDERSCORE_DOT_PATTERN;</span>
+<span class="source-line-no">332</span><span id="line-332">        description = "a code with letters, digits, underscores and full stops only.";</span>
+<span class="source-line-no">333</span><span id="line-333">        break;</span>
+<span class="source-line-no">334</span><span id="line-334">      case IRI:</span>
+<span class="source-line-no">335</span><span id="line-335">        try {</span>
+<span class="source-line-no">336</span><span id="line-336">          new URI(value);</span>
+<span class="source-line-no">337</span><span id="line-337">        } catch (URISyntaxException e) {</span>
+<span class="source-line-no">338</span><span id="line-338">          throw new IllegalArgumentException(</span>
+<span class="source-line-no">339</span><span id="line-339">            "Value " + value + " invalid for filter parameter " + name + ", expected an IRI (URL).");</span>
+<span class="source-line-no">340</span><span id="line-340">        }</span>
+<span class="source-line-no">341</span><span id="line-341">        return;</span>
+<span class="source-line-no">342</span><span id="line-342">      case TAXON_KEY:</span>
+<span class="source-line-no">343</span><span id="line-343">        pattern = TAXON_KEY_PATTERN;</span>
+<span class="source-line-no">344</span><span id="line-344">        description = "a code using letters, digits and full stops only.";</span>
+<span class="source-line-no">345</span><span id="line-345">        break;</span>
+<span class="source-line-no">346</span><span id="line-346">      default:</span>
+<span class="source-line-no">347</span><span id="line-347">        throw new IllegalArgumentException("Unknown SearchParameter format type " + param.format());</span>
+<span class="source-line-no">348</span><span id="line-348">    }</span>
+<span class="source-line-no">349</span><span id="line-349"></span>
+<span class="source-line-no">350</span><span id="line-350">    if (!pattern.matcher(value).matches()) {</span>
+<span class="source-line-no">351</span><span id="line-351">      throw new IllegalArgumentException(</span>
+<span class="source-line-no">352</span><span id="line-352">        "Value " + value + " invalid for filter parameter " + name + ", expected " + description);</span>
+<span class="source-line-no">353</span><span id="line-353">    }</span>
+<span class="source-line-no">354</span><span id="line-354">  }</span>
+<span class="source-line-no">355</span><span id="line-355"></span>
+<span class="source-line-no">356</span><span id="line-356">  /**</span>
+<span class="source-line-no">357</span><span id="line-357">   * @return the parsed double or null for wildcards</span>
+<span class="source-line-no">358</span><span id="line-358">   * @throws NumberFormatException if invalid double</span>
+<span class="source-line-no">359</span><span id="line-359">   */</span>
+<span class="source-line-no">360</span><span id="line-360">  private static Double parseDouble(String d) {</span>
+<span class="source-line-no">361</span><span id="line-361">    if (QUERY_WILDCARD.equals(d)) {</span>
+<span class="source-line-no">362</span><span id="line-362">      return null;</span>
+<span class="source-line-no">363</span><span id="line-363">    }</span>
+<span class="source-line-no">364</span><span id="line-364">    return Double.parseDouble(d);</span>
+<span class="source-line-no">365</span><span id="line-365">  }</span>
+<span class="source-line-no">366</span><span id="line-366"></span>
+<span class="source-line-no">367</span><span id="line-367">  /**</span>
+<span class="source-line-no">368</span><span id="line-368">   * @return the parsed integer or null for wildcards</span>
+<span class="source-line-no">369</span><span id="line-369">   * @throws NumberFormatException if invalid integer</span>
+<span class="source-line-no">370</span><span id="line-370">   */</span>
+<span class="source-line-no">371</span><span id="line-371">  private static Integer parseInteger(String d) {</span>
+<span class="source-line-no">372</span><span id="line-372">    if (QUERY_WILDCARD.equals(d)) {</span>
+<span class="source-line-no">373</span><span id="line-373">      return null;</span>
+<span class="source-line-no">374</span><span id="line-374">    }</span>
+<span class="source-line-no">375</span><span id="line-375">    return Integer.parseInt(d);</span>
+<span class="source-line-no">376</span><span id="line-376">  }</span>
 <span class="source-line-no">377</span><span id="line-377"></span>
-<span class="source-line-no">378</span><span id="line-378">        switch (geometry.getGeometryType().toUpperCase()) {</span>
-<span class="source-line-no">379</span><span id="line-379">          case "POINT":</span>
-<span class="source-line-no">380</span><span id="line-380">          case "LINESTRING":</span>
-<span class="source-line-no">381</span><span id="line-381">          case "POLYGON":</span>
-<span class="source-line-no">382</span><span id="line-382">          case "MULTIPOLYGON":</span>
-<span class="source-line-no">383</span><span id="line-383">            return;</span>
-<span class="source-line-no">384</span><span id="line-384"></span>
-<span class="source-line-no">385</span><span id="line-385">          case "MULTIPOINT":</span>
-<span class="source-line-no">386</span><span id="line-386">          case "MULTILINESTRING":</span>
-<span class="source-line-no">387</span><span id="line-387">          case "GEOMETRYCOLLECTION":</span>
-<span class="source-line-no">388</span><span id="line-388">          default:</span>
-<span class="source-line-no">389</span><span id="line-389">            throw new IllegalArgumentException("Unsupported simple WKT (unsupported type " + geometry.getGeometryType() + "): " + wellKnownText);</span>
-<span class="source-line-no">390</span><span id="line-390">        }</span>
-<span class="source-line-no">391</span><span id="line-391">      }</span>
-<span class="source-line-no">392</span><span id="line-392">    } catch (AssertionError | ParseException e) {</span>
-<span class="source-line-no">393</span><span id="line-393">      throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText + " " + e.getMessage());</span>
-<span class="source-line-no">394</span><span id="line-394">    } catch (InvalidShapeException e) {</span>
-<span class="source-line-no">395</span><span id="line-395">      throw new IllegalArgumentException("Invalid shape in WKT: " + wellKnownText + " " + e.getMessage());</span>
+<span class="source-line-no">378</span><span id="line-378">  /**</span>
+<span class="source-line-no">379</span><span id="line-379">   * Validates if the string value is a valid ISO 8601 format.</span>
+<span class="source-line-no">380</span><span id="line-380">   */</span>
+<span class="source-line-no">381</span><span id="line-381">  private static void validateDate(String value) {</span>
+<span class="source-line-no">382</span><span id="line-382">    if (isDateRange(value)) {</span>
+<span class="source-line-no">383</span><span id="line-383">      IsoDateParsingUtils.parseDateRange(value);</span>
+<span class="source-line-no">384</span><span id="line-384">    } else {</span>
+<span class="source-line-no">385</span><span id="line-385">      IsoDateParsingUtils.parseDate(value);</span>
+<span class="source-line-no">386</span><span id="line-386">    }</span>
+<span class="source-line-no">387</span><span id="line-387">  }</span>
+<span class="source-line-no">388</span><span id="line-388"></span>
+<span class="source-line-no">389</span><span id="line-389">  /**</span>
+<span class="source-line-no">390</span><span id="line-390">   * Validates if the value is a valid single double or a range of double values.</span>
+<span class="source-line-no">391</span><span id="line-391">   * If the value is a range each limit is validated and the wildcard character '*' is skipped.</span>
+<span class="source-line-no">392</span><span id="line-392">   */</span>
+<span class="source-line-no">393</span><span id="line-393">  private static void validateDouble(String value) {</span>
+<span class="source-line-no">394</span><span id="line-394">    if (StringUtils.isEmpty(value)) {</span>
+<span class="source-line-no">395</span><span id="line-395">      throw new IllegalArgumentException("Double cannot be null or empty");</span>
 <span class="source-line-no">396</span><span id="line-396">    }</span>
-<span class="source-line-no">397</span><span id="line-397">  }</span>
-<span class="source-line-no">398</span><span id="line-398"></span>
-<span class="source-line-no">399</span><span id="line-399">  private static void validatePolygon(Polygon polygon, String wellKnownText) {</span>
-<span class="source-line-no">400</span><span id="line-400">    // Calculating the area &gt; 0 ensures that polygons that are representing lines or points are invalidated</span>
-<span class="source-line-no">401</span><span id="line-401">    if (polygon.getArea() == 0.0) {</span>
-<span class="source-line-no">402</span><span id="line-402">      throw new IllegalArgumentException("Polygon with zero area: " + polygon.toText());</span>
-<span class="source-line-no">403</span><span id="line-403">    }</span>
-<span class="source-line-no">404</span><span id="line-404"></span>
-<span class="source-line-no">405</span><span id="line-405">    polygon = fixRingsOrder(polygon);</span>
-<span class="source-line-no">406</span><span id="line-406"></span>
-<span class="source-line-no">407</span><span id="line-407">    // Exterior ring must be anticlockwise</span>
-<span class="source-line-no">408</span><span id="line-408">    boolean isCCW = isLinearRingCCW(polygon.getExteriorRing());</span>
-<span class="source-line-no">409</span><span id="line-409">    if (!isCCW) {</span>
-<span class="source-line-no">410</span><span id="line-410">        String reversedText = polygon.getExteriorRing().reverse().toText();</span>
-<span class="source-line-no">411</span><span id="line-411">        throw new IllegalArgumentException(</span>
-<span class="source-line-no">412</span><span id="line-412">            "Polygon with clockwise exterior ring: "</span>
-<span class="source-line-no">413</span><span id="line-413">                + wellKnownText</span>
-<span class="source-line-no">414</span><span id="line-414">                + ". Did you mean these coordinates?  (Note this is only part of the polygon or multipolygon you provided.) "</span>
-<span class="source-line-no">415</span><span id="line-415">                + reversedText);</span>
-<span class="source-line-no">416</span><span id="line-416">    }</span>
-<span class="source-line-no">417</span><span id="line-417"></span>
-<span class="source-line-no">418</span><span id="line-418">    // Interior rings must be clockwise</span>
-<span class="source-line-no">419</span><span id="line-419">    for (int r = 0; r &lt; polygon.getNumInteriorRing(); r++) {</span>
-<span class="source-line-no">420</span><span id="line-420">      isCCW = isLinearRingCCW(polygon.getInteriorRingN(r));</span>
-<span class="source-line-no">421</span><span id="line-421">      if (isCCW) {</span>
-<span class="source-line-no">422</span><span id="line-422">          String reversedText = polygon.getInteriorRingN(r).reverse().toText();</span>
-<span class="source-line-no">423</span><span id="line-423">          throw new IllegalArgumentException(</span>
-<span class="source-line-no">424</span><span id="line-424">              "Polygon with anticlockwise interior ring: "</span>
-<span class="source-line-no">425</span><span id="line-425">                  + wellKnownText</span>
-<span class="source-line-no">426</span><span id="line-426">                  + ". Did you mean these coordinates? (Note this is only part of the polygon or multipolygon you provided.) "</span>
-<span class="source-line-no">427</span><span id="line-427">                  + reversedText);</span>
-<span class="source-line-no">428</span><span id="line-428">      }</span>
-<span class="source-line-no">429</span><span id="line-429">    }</span>
-<span class="source-line-no">430</span><span id="line-430">  }</span>
-<span class="source-line-no">431</span><span id="line-431"></span>
-<span class="source-line-no">432</span><span id="line-432">  private static boolean isLinearRingCCW(LinearRing linearRing) {</span>
-<span class="source-line-no">433</span><span id="line-433">    return Orientation.isCCW(linearRing.getCoordinates());</span>
-<span class="source-line-no">434</span><span id="line-434">  }</span>
-<span class="source-line-no">435</span><span id="line-435"></span>
-<span class="source-line-no">436</span><span id="line-436">  private static Polygon fixRingsOrder(Polygon polygon) {</span>
-<span class="source-line-no">437</span><span id="line-437">    GeometryFactory gf = polygon.getFactory();</span>
+<span class="source-line-no">397</span><span id="line-397">    try {</span>
+<span class="source-line-no">398</span><span id="line-398">      Double.parseDouble(value);</span>
+<span class="source-line-no">399</span><span id="line-399">    } catch (NumberFormatException e) {</span>
+<span class="source-line-no">400</span><span id="line-400">      parseDecimalRange(value);</span>
+<span class="source-line-no">401</span><span id="line-401">    }</span>
+<span class="source-line-no">402</span><span id="line-402">  }</span>
+<span class="source-line-no">403</span><span id="line-403"></span>
+<span class="source-line-no">404</span><span id="line-404">  /**</span>
+<span class="source-line-no">405</span><span id="line-405">   * Validates if the value is a valid single double and its value is between a range.</span>
+<span class="source-line-no">406</span><span id="line-406">   */</span>
+<span class="source-line-no">407</span><span id="line-407">  private static void validateDoubleInRange(String value, Range&lt;Double&gt; range, String errorMsg) {</span>
+<span class="source-line-no">408</span><span id="line-408">    if (StringUtils.isEmpty(value)) {</span>
+<span class="source-line-no">409</span><span id="line-409">      throw new IllegalArgumentException("Double cannot be null or empty");</span>
+<span class="source-line-no">410</span><span id="line-410">    }</span>
+<span class="source-line-no">411</span><span id="line-411">    try {</span>
+<span class="source-line-no">412</span><span id="line-412">      final Double doubleValue = Double.parseDouble(value);</span>
+<span class="source-line-no">413</span><span id="line-413">      if (!range.contains(doubleValue)) {</span>
+<span class="source-line-no">414</span><span id="line-414">        throw new IllegalArgumentException(String.format(errorMsg, value));</span>
+<span class="source-line-no">415</span><span id="line-415">      }</span>
+<span class="source-line-no">416</span><span id="line-416">    } catch (NumberFormatException e) {</span>
+<span class="source-line-no">417</span><span id="line-417">      if (isNumericRange(value)) {</span>
+<span class="source-line-no">418</span><span id="line-418">        Range&lt;Double&gt; rangeValue = parseDecimalRange(value);</span>
+<span class="source-line-no">419</span><span id="line-419">        if (!range.encloses(rangeValue)) {</span>
+<span class="source-line-no">420</span><span id="line-420">          throw new IllegalArgumentException(String.format(errorMsg, value));</span>
+<span class="source-line-no">421</span><span id="line-421">        }</span>
+<span class="source-line-no">422</span><span id="line-422">      } else {</span>
+<span class="source-line-no">423</span><span id="line-423">        throw new IllegalArgumentException("Argument is not a valid number");</span>
+<span class="source-line-no">424</span><span id="line-424">      }</span>
+<span class="source-line-no">425</span><span id="line-425">    }</span>
+<span class="source-line-no">426</span><span id="line-426">  }</span>
+<span class="source-line-no">427</span><span id="line-427"></span>
+<span class="source-line-no">428</span><span id="line-428">  /**</span>
+<span class="source-line-no">429</span><span id="line-429">   * Verify that we have indeed a wellKnownText parameter.</span>
+<span class="source-line-no">430</span><span id="line-430">   * See &lt;a href="https://en.wikipedia.org/wiki/Well-known_text"&gt;Wikipedia&lt;/a&gt; for basic WKT specs.</span>
+<span class="source-line-no">431</span><span id="line-431">   * The validation implemented does both syntactic and topological validation (for polygons only).</span>
+<span class="source-line-no">432</span><span id="line-432">   */</span>
+<span class="source-line-no">433</span><span id="line-433">  private static void validateGeometry(String wellKnownText) {</span>
+<span class="source-line-no">434</span><span id="line-434">    JtsSpatialContextFactory spatialContextFactory = new JtsSpatialContextFactory();</span>
+<span class="source-line-no">435</span><span id="line-435">    spatialContextFactory.normWrapLongitude = true;</span>
+<span class="source-line-no">436</span><span id="line-436">    spatialContextFactory.srid = 4326;</span>
+<span class="source-line-no">437</span><span id="line-437">    spatialContextFactory.datelineRule = DatelineRule.ccwRect;</span>
 <span class="source-line-no">438</span><span id="line-438"></span>
-<span class="source-line-no">439</span><span id="line-439">    // Exterior ring must be anticlockwise</span>
-<span class="source-line-no">440</span><span id="line-440">    LinearRing exterior = polygon.getExteriorRing();</span>
-<span class="source-line-no">441</span><span id="line-441">    if (!isLinearRingCCW(exterior)) {</span>
-<span class="source-line-no">442</span><span id="line-442">      exterior = exterior.reverse();</span>
-<span class="source-line-no">443</span><span id="line-443">    }</span>
+<span class="source-line-no">439</span><span id="line-439">    WKTReader reader = new WKTReader(spatialContextFactory.newSpatialContext(), spatialContextFactory);</span>
+<span class="source-line-no">440</span><span id="line-440"></span>
+<span class="source-line-no">441</span><span id="line-441">    try {</span>
+<span class="source-line-no">442</span><span id="line-442">      // This validates some errors, such as a latitude &gt; 90°</span>
+<span class="source-line-no">443</span><span id="line-443">      Shape shape = reader.parse(wellKnownText);</span>
 <span class="source-line-no">444</span><span id="line-444"></span>
-<span class="source-line-no">445</span><span id="line-445">    // Interior rings must be clockwise</span>
-<span class="source-line-no">446</span><span id="line-446">    LinearRing[] holes = new LinearRing[polygon.getNumInteriorRing()];</span>
-<span class="source-line-no">447</span><span id="line-447">    for (int i = 0; i &lt; holes.length; i++) {</span>
-<span class="source-line-no">448</span><span id="line-448">      LinearRing hole = polygon.getInteriorRingN(i);</span>
-<span class="source-line-no">449</span><span id="line-449">      holes[i] = isLinearRingCCW(hole) ? hole.reverse() : hole;</span>
-<span class="source-line-no">450</span><span id="line-450">    }</span>
-<span class="source-line-no">451</span><span id="line-451"></span>
-<span class="source-line-no">452</span><span id="line-452">    return gf.createPolygon(exterior, holes);</span>
-<span class="source-line-no">453</span><span id="line-453">  }</span>
-<span class="source-line-no">454</span><span id="line-454"></span>
-<span class="source-line-no">455</span><span id="line-455">  /**</span>
-<span class="source-line-no">456</span><span id="line-456">   * Validates if the value is a valid single integer or a range of integer values.</span>
-<span class="source-line-no">457</span><span id="line-457">   * If the value is a range each limit is validated and the wildcard character '*' is skipped.</span>
-<span class="source-line-no">458</span><span id="line-458">   *</span>
-<span class="source-line-no">459</span><span id="line-459">   * @throws IllegalArgumentException if value is invalid or null</span>
-<span class="source-line-no">460</span><span id="line-460">   */</span>
-<span class="source-line-no">461</span><span id="line-461">  private static Collection&lt;Integer&gt; validateInteger(String value) {</span>
-<span class="source-line-no">462</span><span id="line-462">    if (StringUtils.isEmpty(value)) {</span>
-<span class="source-line-no">463</span><span id="line-463">      throw new IllegalArgumentException("Integer cannot be null or empty");</span>
-<span class="source-line-no">464</span><span id="line-464">    }</span>
-<span class="source-line-no">465</span><span id="line-465">    try {</span>
-<span class="source-line-no">466</span><span id="line-466">      List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">467</span><span id="line-467">      list.add(Integer.parseInt(value));</span>
-<span class="source-line-no">468</span><span id="line-468">      return list;</span>
-<span class="source-line-no">469</span><span id="line-469">    } catch (NumberFormatException e) {</span>
-<span class="source-line-no">470</span><span id="line-470">      Range&lt;Integer&gt; range = parseIntegerRange(value);</span>
-<span class="source-line-no">471</span><span id="line-471">      List&lt;Integer&gt; ints = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">472</span><span id="line-472">      if (range.hasLowerBound()) {</span>
-<span class="source-line-no">473</span><span id="line-473">        ints.add(range.lowerEndpoint());</span>
-<span class="source-line-no">474</span><span id="line-474">      }</span>
-<span class="source-line-no">475</span><span id="line-475">      if (range.hasUpperBound()) {</span>
-<span class="source-line-no">476</span><span id="line-476">        ints.add(range.upperEndpoint());</span>
-<span class="source-line-no">477</span><span id="line-477">      }</span>
-<span class="source-line-no">478</span><span id="line-478">      return ints;</span>
-<span class="source-line-no">479</span><span id="line-479">    }</span>
-<span class="source-line-no">480</span><span id="line-480">  }</span>
-<span class="source-line-no">481</span><span id="line-481"></span>
-<span class="source-line-no">482</span><span id="line-482">  private static void validateGeoDistance(String geoDistance) {</span>
-<span class="source-line-no">483</span><span id="line-483">    if (StringUtils.isEmpty(geoDistance)) {</span>
-<span class="source-line-no">484</span><span id="line-484">      throw new IllegalArgumentException("GeoDistance cannot be null or empty");</span>
-<span class="source-line-no">485</span><span id="line-485">    }</span>
-<span class="source-line-no">486</span><span id="line-486">    String[] geoDistanceTokens = geoDistance.split(",");</span>
-<span class="source-line-no">487</span><span id="line-487">    if (geoDistanceTokens.length != 3) {</span>
-<span class="source-line-no">488</span><span id="line-488">      throw new IllegalArgumentException("GeoDistance must follow the format lat,lng,distance");</span>
+<span class="source-line-no">445</span><span id="line-445">      if (shape instanceof JtsGeometry) {</span>
+<span class="source-line-no">446</span><span id="line-446">        Geometry geometry = ((JtsGeometry) shape).getGeom();</span>
+<span class="source-line-no">447</span><span id="line-447"></span>
+<span class="source-line-no">448</span><span id="line-448">        IsValidOp validator = new IsValidOp(geometry);</span>
+<span class="source-line-no">449</span><span id="line-449"></span>
+<span class="source-line-no">450</span><span id="line-450">        if (!validator.isValid()) {</span>
+<span class="source-line-no">451</span><span id="line-451">          throw new IllegalArgumentException("Invalid geometry: " + validator.getValidationError());</span>
+<span class="source-line-no">452</span><span id="line-452">        }</span>
+<span class="source-line-no">453</span><span id="line-453"></span>
+<span class="source-line-no">454</span><span id="line-454">        if (geometry.isEmpty()) {</span>
+<span class="source-line-no">455</span><span id="line-455">          throw new IllegalArgumentException("Empty geometry: " + wellKnownText);</span>
+<span class="source-line-no">456</span><span id="line-456">        }</span>
+<span class="source-line-no">457</span><span id="line-457"></span>
+<span class="source-line-no">458</span><span id="line-458">        // Validate a polygon — check the winding order</span>
+<span class="source-line-no">459</span><span id="line-459">        if (geometry instanceof Polygon) {</span>
+<span class="source-line-no">460</span><span id="line-460">          validatePolygon((Polygon) geometry, wellKnownText);</span>
+<span class="source-line-no">461</span><span id="line-461">        }</span>
+<span class="source-line-no">462</span><span id="line-462"></span>
+<span class="source-line-no">463</span><span id="line-463">        // Validate polygons within a multipolygon</span>
+<span class="source-line-no">464</span><span id="line-464">        if (geometry instanceof MultiPolygon) {</span>
+<span class="source-line-no">465</span><span id="line-465">          MultiPolygon multiPolygon = (MultiPolygon) geometry;</span>
+<span class="source-line-no">466</span><span id="line-466">          for (int p = 0; p &lt; multiPolygon.getNumGeometries(); p++) {</span>
+<span class="source-line-no">467</span><span id="line-467">            validatePolygon((Polygon) multiPolygon.getGeometryN(p), wellKnownText);</span>
+<span class="source-line-no">468</span><span id="line-468">          }</span>
+<span class="source-line-no">469</span><span id="line-469">        }</span>
+<span class="source-line-no">470</span><span id="line-470"></span>
+<span class="source-line-no">471</span><span id="line-471">        switch (geometry.getGeometryType().toUpperCase()) {</span>
+<span class="source-line-no">472</span><span id="line-472">          case "POINT":</span>
+<span class="source-line-no">473</span><span id="line-473">          case "LINESTRING":</span>
+<span class="source-line-no">474</span><span id="line-474">          case "POLYGON":</span>
+<span class="source-line-no">475</span><span id="line-475">          case "MULTIPOLYGON":</span>
+<span class="source-line-no">476</span><span id="line-476">            return;</span>
+<span class="source-line-no">477</span><span id="line-477"></span>
+<span class="source-line-no">478</span><span id="line-478">          case "MULTIPOINT":</span>
+<span class="source-line-no">479</span><span id="line-479">          case "MULTILINESTRING":</span>
+<span class="source-line-no">480</span><span id="line-480">          case "GEOMETRYCOLLECTION":</span>
+<span class="source-line-no">481</span><span id="line-481">          default:</span>
+<span class="source-line-no">482</span><span id="line-482">            throw new IllegalArgumentException("Unsupported simple WKT (unsupported type " + geometry.getGeometryType() + "): " + wellKnownText);</span>
+<span class="source-line-no">483</span><span id="line-483">        }</span>
+<span class="source-line-no">484</span><span id="line-484">      }</span>
+<span class="source-line-no">485</span><span id="line-485">    } catch (AssertionError | ParseException e) {</span>
+<span class="source-line-no">486</span><span id="line-486">      throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText + " " + e.getMessage());</span>
+<span class="source-line-no">487</span><span id="line-487">    } catch (InvalidShapeException e) {</span>
+<span class="source-line-no">488</span><span id="line-488">      throw new IllegalArgumentException("Invalid shape in WKT: " + wellKnownText + " " + e.getMessage());</span>
 <span class="source-line-no">489</span><span id="line-489">    }</span>
-<span class="source-line-no">490</span><span id="line-490">    validateGeoDistance(geoDistanceTokens[0], geoDistanceTokens[1], geoDistanceTokens[2]);</span>
-<span class="source-line-no">491</span><span id="line-491">  }</span>
-<span class="source-line-no">492</span><span id="line-492"></span>
-<span class="source-line-no">493</span><span id="line-493"></span>
-<span class="source-line-no">494</span><span id="line-494">  public static void validateGeoDistance(String latitude, String longitude, String distance) {</span>
-<span class="source-line-no">495</span><span id="line-495">    validateLatitude(latitude);</span>
-<span class="source-line-no">496</span><span id="line-496">    validateLongitude(longitude);</span>
-<span class="source-line-no">497</span><span id="line-497">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
-<span class="source-line-no">498</span><span id="line-498">    if (parsedDistance.getValue() &lt;= 0d) {</span>
-<span class="source-line-no">499</span><span id="line-499">      throw new IllegalArgumentException("GeoDistance cannot be less than zero");</span>
-<span class="source-line-no">500</span><span id="line-500">    }</span>
-<span class="source-line-no">501</span><span id="line-501"> }</span>
-<span class="source-line-no">502</span><span id="line-502"></span>
-<span class="source-line-no">503</span><span id="line-503">  /**</span>
-<span class="source-line-no">504</span><span id="line-504">   * Parses a distance range in the format 123m,456km.</span>
-<span class="source-line-no">505</span><span id="line-505">   *</span>
-<span class="source-line-no">506</span><span id="line-506">   * @return the parsed range with wildcards represented as null values</span>
-<span class="source-line-no">507</span><span id="line-507">   * @throws IllegalArgumentException if value is invalid or null</span>
-<span class="source-line-no">508</span><span id="line-508">   */</span>
-<span class="source-line-no">509</span><span id="line-509">  public static Range&lt;DistanceUnit.Distance&gt; parseDistanceRange(String value) {</span>
-<span class="source-line-no">510</span><span id="line-510">    if (StringUtils.isNotEmpty(value)) {</span>
-<span class="source-line-no">511</span><span id="line-511">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
-<span class="source-line-no">512</span><span id="line-512">      if (m.find()) {</span>
-<span class="source-line-no">513</span><span id="line-513">        return Range.closed(parseDistance(m.group(1)), parseDistance(m.group(2)));</span>
-<span class="source-line-no">514</span><span id="line-514">      }</span>
-<span class="source-line-no">515</span><span id="line-515">    }</span>
-<span class="source-line-no">516</span><span id="line-516">    throw new IllegalArgumentException("Invalid distance range: " + value);</span>
-<span class="source-line-no">517</span><span id="line-517">  }</span>
-<span class="source-line-no">518</span><span id="line-518"></span>
-<span class="source-line-no">519</span><span id="line-519">  public static DistanceUnit.Distance parseDistance(String distance) {</span>
-<span class="source-line-no">520</span><span id="line-520">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
-<span class="source-line-no">521</span><span id="line-521">    if (parsedDistance.getValue() &lt;= 0d) {</span>
-<span class="source-line-no">522</span><span id="line-522">      throw new IllegalArgumentException("Distance cannot be less than zero");</span>
-<span class="source-line-no">523</span><span id="line-523">    }</span>
-<span class="source-line-no">524</span><span id="line-524">    return parsedDistance;</span>
-<span class="source-line-no">525</span><span id="line-525">  }</span>
-<span class="source-line-no">526</span><span id="line-526"></span>
-<span class="source-line-no">527</span><span id="line-527">  /**</span>
-<span class="source-line-no">528</span><span id="line-528">   * Validates if the parameter is a valid latitude value.</span>
-<span class="source-line-no">529</span><span id="line-529">   */</span>
-<span class="source-line-no">530</span><span id="line-530">  private static void validateLatitude(String value) {</span>
-<span class="source-line-no">531</span><span id="line-531">    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);</span>
-<span class="source-line-no">532</span><span id="line-532">  }</span>
-<span class="source-line-no">533</span><span id="line-533"></span>
-<span class="source-line-no">534</span><span id="line-534">  /**</span>
-<span class="source-line-no">535</span><span id="line-535">   * Validates if the parameter is a valid longitude value.</span>
-<span class="source-line-no">536</span><span id="line-536">   */</span>
-<span class="source-line-no">537</span><span id="line-537">  private static void validateLongitude(String value) {</span>
-<span class="source-line-no">538</span><span id="line-538">    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);</span>
-<span class="source-line-no">539</span><span id="line-539">  }</span>
-<span class="source-line-no">540</span><span id="line-540"></span>
-<span class="source-line-no">541</span><span id="line-541">  private static void validateMonth(Collection&lt;Integer&gt; months) {</span>
-<span class="source-line-no">542</span><span id="line-542">    for (Integer month : months) {</span>
-<span class="source-line-no">543</span><span id="line-543">      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {</span>
-<span class="source-line-no">544</span><span id="line-544">        throw new IllegalArgumentException("Month needs to be between 1 - 12");</span>
-<span class="source-line-no">545</span><span id="line-545">      }</span>
-<span class="source-line-no">546</span><span id="line-546">    }</span>
-<span class="source-line-no">547</span><span id="line-547">  }</span>
-<span class="source-line-no">548</span><span id="line-548"></span>
-<span class="source-line-no">549</span><span id="line-549">  private static void validateDay(Collection&lt;Integer&gt; days) {</span>
-<span class="source-line-no">550</span><span id="line-550">    for (Integer day : days) {</span>
-<span class="source-line-no">551</span><span id="line-551">      if (day != null &amp;&amp; (day &lt; 1 || day &gt; 31)) {</span>
-<span class="source-line-no">552</span><span id="line-552">        throw new IllegalArgumentException("Day needs to be between 1 - 31");</span>
-<span class="source-line-no">553</span><span id="line-553">      }</span>
-<span class="source-line-no">554</span><span id="line-554">    }</span>
-<span class="source-line-no">555</span><span id="line-555">  }</span>
-<span class="source-line-no">556</span><span id="line-556">}</span>
+<span class="source-line-no">490</span><span id="line-490">  }</span>
+<span class="source-line-no">491</span><span id="line-491"></span>
+<span class="source-line-no">492</span><span id="line-492">  private static void validatePolygon(Polygon polygon, String wellKnownText) {</span>
+<span class="source-line-no">493</span><span id="line-493">    // Calculating the area &gt; 0 ensures that polygons that are representing lines or points are invalidated</span>
+<span class="source-line-no">494</span><span id="line-494">    if (polygon.getArea() == 0.0) {</span>
+<span class="source-line-no">495</span><span id="line-495">      throw new IllegalArgumentException("Polygon with zero area: " + polygon.toText());</span>
+<span class="source-line-no">496</span><span id="line-496">    }</span>
+<span class="source-line-no">497</span><span id="line-497"></span>
+<span class="source-line-no">498</span><span id="line-498">    polygon = fixRingsOrder(polygon);</span>
+<span class="source-line-no">499</span><span id="line-499"></span>
+<span class="source-line-no">500</span><span id="line-500">    // Exterior ring must be anticlockwise</span>
+<span class="source-line-no">501</span><span id="line-501">    boolean isCCW = isLinearRingCCW(polygon.getExteriorRing());</span>
+<span class="source-line-no">502</span><span id="line-502">    if (!isCCW) {</span>
+<span class="source-line-no">503</span><span id="line-503">        String reversedText = polygon.getExteriorRing().reverse().toText();</span>
+<span class="source-line-no">504</span><span id="line-504">        throw new IllegalArgumentException(</span>
+<span class="source-line-no">505</span><span id="line-505">            "Polygon with clockwise exterior ring: "</span>
+<span class="source-line-no">506</span><span id="line-506">                + wellKnownText</span>
+<span class="source-line-no">507</span><span id="line-507">                + ". Did you mean these coordinates?  (Note this is only part of the polygon or multipolygon you provided.) "</span>
+<span class="source-line-no">508</span><span id="line-508">                + reversedText);</span>
+<span class="source-line-no">509</span><span id="line-509">    }</span>
+<span class="source-line-no">510</span><span id="line-510"></span>
+<span class="source-line-no">511</span><span id="line-511">    // Interior rings must be clockwise</span>
+<span class="source-line-no">512</span><span id="line-512">    for (int r = 0; r &lt; polygon.getNumInteriorRing(); r++) {</span>
+<span class="source-line-no">513</span><span id="line-513">      isCCW = isLinearRingCCW(polygon.getInteriorRingN(r));</span>
+<span class="source-line-no">514</span><span id="line-514">      if (isCCW) {</span>
+<span class="source-line-no">515</span><span id="line-515">          String reversedText = polygon.getInteriorRingN(r).reverse().toText();</span>
+<span class="source-line-no">516</span><span id="line-516">          throw new IllegalArgumentException(</span>
+<span class="source-line-no">517</span><span id="line-517">              "Polygon with anticlockwise interior ring: "</span>
+<span class="source-line-no">518</span><span id="line-518">                  + wellKnownText</span>
+<span class="source-line-no">519</span><span id="line-519">                  + ". Did you mean these coordinates? (Note this is only part of the polygon or multipolygon you provided.) "</span>
+<span class="source-line-no">520</span><span id="line-520">                  + reversedText);</span>
+<span class="source-line-no">521</span><span id="line-521">      }</span>
+<span class="source-line-no">522</span><span id="line-522">    }</span>
+<span class="source-line-no">523</span><span id="line-523">  }</span>
+<span class="source-line-no">524</span><span id="line-524"></span>
+<span class="source-line-no">525</span><span id="line-525">  private static boolean isLinearRingCCW(LinearRing linearRing) {</span>
+<span class="source-line-no">526</span><span id="line-526">    return Orientation.isCCW(linearRing.getCoordinates());</span>
+<span class="source-line-no">527</span><span id="line-527">  }</span>
+<span class="source-line-no">528</span><span id="line-528"></span>
+<span class="source-line-no">529</span><span id="line-529">  private static Polygon fixRingsOrder(Polygon polygon) {</span>
+<span class="source-line-no">530</span><span id="line-530">    GeometryFactory gf = polygon.getFactory();</span>
+<span class="source-line-no">531</span><span id="line-531"></span>
+<span class="source-line-no">532</span><span id="line-532">    // Exterior ring must be anticlockwise</span>
+<span class="source-line-no">533</span><span id="line-533">    LinearRing exterior = polygon.getExteriorRing();</span>
+<span class="source-line-no">534</span><span id="line-534">    if (!isLinearRingCCW(exterior)) {</span>
+<span class="source-line-no">535</span><span id="line-535">      exterior = exterior.reverse();</span>
+<span class="source-line-no">536</span><span id="line-536">    }</span>
+<span class="source-line-no">537</span><span id="line-537"></span>
+<span class="source-line-no">538</span><span id="line-538">    // Interior rings must be clockwise</span>
+<span class="source-line-no">539</span><span id="line-539">    LinearRing[] holes = new LinearRing[polygon.getNumInteriorRing()];</span>
+<span class="source-line-no">540</span><span id="line-540">    for (int i = 0; i &lt; holes.length; i++) {</span>
+<span class="source-line-no">541</span><span id="line-541">      LinearRing hole = polygon.getInteriorRingN(i);</span>
+<span class="source-line-no">542</span><span id="line-542">      holes[i] = isLinearRingCCW(hole) ? hole.reverse() : hole;</span>
+<span class="source-line-no">543</span><span id="line-543">    }</span>
+<span class="source-line-no">544</span><span id="line-544"></span>
+<span class="source-line-no">545</span><span id="line-545">    return gf.createPolygon(exterior, holes);</span>
+<span class="source-line-no">546</span><span id="line-546">  }</span>
+<span class="source-line-no">547</span><span id="line-547"></span>
+<span class="source-line-no">548</span><span id="line-548">  /**</span>
+<span class="source-line-no">549</span><span id="line-549">   * Validates if the value is a valid single integer or a range of integer values.</span>
+<span class="source-line-no">550</span><span id="line-550">   * If the value is a range each limit is validated and the wildcard character '*' is skipped.</span>
+<span class="source-line-no">551</span><span id="line-551">   *</span>
+<span class="source-line-no">552</span><span id="line-552">   * @throws IllegalArgumentException if value is invalid or null</span>
+<span class="source-line-no">553</span><span id="line-553">   */</span>
+<span class="source-line-no">554</span><span id="line-554">  private static Collection&lt;Integer&gt; validateInteger(String value) {</span>
+<span class="source-line-no">555</span><span id="line-555">    if (StringUtils.isEmpty(value)) {</span>
+<span class="source-line-no">556</span><span id="line-556">      throw new IllegalArgumentException("Integer cannot be null or empty");</span>
+<span class="source-line-no">557</span><span id="line-557">    }</span>
+<span class="source-line-no">558</span><span id="line-558">    try {</span>
+<span class="source-line-no">559</span><span id="line-559">      List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">560</span><span id="line-560">      list.add(Integer.parseInt(value));</span>
+<span class="source-line-no">561</span><span id="line-561">      return list;</span>
+<span class="source-line-no">562</span><span id="line-562">    } catch (NumberFormatException e) {</span>
+<span class="source-line-no">563</span><span id="line-563">      Range&lt;Integer&gt; range = parseIntegerRange(value);</span>
+<span class="source-line-no">564</span><span id="line-564">      List&lt;Integer&gt; ints = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">565</span><span id="line-565">      if (range.hasLowerBound()) {</span>
+<span class="source-line-no">566</span><span id="line-566">        ints.add(range.lowerEndpoint());</span>
+<span class="source-line-no">567</span><span id="line-567">      }</span>
+<span class="source-line-no">568</span><span id="line-568">      if (range.hasUpperBound()) {</span>
+<span class="source-line-no">569</span><span id="line-569">        ints.add(range.upperEndpoint());</span>
+<span class="source-line-no">570</span><span id="line-570">      }</span>
+<span class="source-line-no">571</span><span id="line-571">      return ints;</span>
+<span class="source-line-no">572</span><span id="line-572">    }</span>
+<span class="source-line-no">573</span><span id="line-573">  }</span>
+<span class="source-line-no">574</span><span id="line-574"></span>
+<span class="source-line-no">575</span><span id="line-575">  /**</span>
+<span class="source-line-no">576</span><span id="line-576">   * Validates if the value is a valid single long integer or a range of long integer values.</span>
+<span class="source-line-no">577</span><span id="line-577">   * If the value is a range each limit is validated and the wildcard character '*' is skipped.</span>
+<span class="source-line-no">578</span><span id="line-578">   *</span>
+<span class="source-line-no">579</span><span id="line-579">   * @throws IllegalArgumentException if value is invalid or null</span>
+<span class="source-line-no">580</span><span id="line-580">   */</span>
+<span class="source-line-no">581</span><span id="line-581">  private static Collection&lt;Long&gt; validateLong(String value) {</span>
+<span class="source-line-no">582</span><span id="line-582">    if (StringUtils.isEmpty(value)) {</span>
+<span class="source-line-no">583</span><span id="line-583">      throw new IllegalArgumentException("Long integer cannot be null or empty");</span>
+<span class="source-line-no">584</span><span id="line-584">    }</span>
+<span class="source-line-no">585</span><span id="line-585">    try {</span>
+<span class="source-line-no">586</span><span id="line-586">      List&lt;Long&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">587</span><span id="line-587">      list.add(parseLong(value));</span>
+<span class="source-line-no">588</span><span id="line-588">      return list;</span>
+<span class="source-line-no">589</span><span id="line-589">    } catch (NumberFormatException e) {</span>
+<span class="source-line-no">590</span><span id="line-590">      Range&lt;Long&gt; range = parseLongRange(value);</span>
+<span class="source-line-no">591</span><span id="line-591">      List&lt;Long&gt; longs = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">592</span><span id="line-592">      if (range.hasLowerBound()) {</span>
+<span class="source-line-no">593</span><span id="line-593">        longs.add(range.lowerEndpoint());</span>
+<span class="source-line-no">594</span><span id="line-594">      }</span>
+<span class="source-line-no">595</span><span id="line-595">      if (range.hasUpperBound()) {</span>
+<span class="source-line-no">596</span><span id="line-596">        longs.add(range.upperEndpoint());</span>
+<span class="source-line-no">597</span><span id="line-597">      }</span>
+<span class="source-line-no">598</span><span id="line-598">      return longs;</span>
+<span class="source-line-no">599</span><span id="line-599">    }</span>
+<span class="source-line-no">600</span><span id="line-600">  }</span>
+<span class="source-line-no">601</span><span id="line-601"></span>
+<span class="source-line-no">602</span><span id="line-602">  private static void validateGeoDistance(String geoDistance) {</span>
+<span class="source-line-no">603</span><span id="line-603">    if (StringUtils.isEmpty(geoDistance)) {</span>
+<span class="source-line-no">604</span><span id="line-604">      throw new IllegalArgumentException("GeoDistance cannot be null or empty");</span>
+<span class="source-line-no">605</span><span id="line-605">    }</span>
+<span class="source-line-no">606</span><span id="line-606">    String[] geoDistanceTokens = geoDistance.split(",");</span>
+<span class="source-line-no">607</span><span id="line-607">    if (geoDistanceTokens.length != 3) {</span>
+<span class="source-line-no">608</span><span id="line-608">      throw new IllegalArgumentException("GeoDistance must follow the format lat,lng,distance");</span>
+<span class="source-line-no">609</span><span id="line-609">    }</span>
+<span class="source-line-no">610</span><span id="line-610">    validateGeoDistance(geoDistanceTokens[0], geoDistanceTokens[1], geoDistanceTokens[2]);</span>
+<span class="source-line-no">611</span><span id="line-611">  }</span>
+<span class="source-line-no">612</span><span id="line-612"></span>
+<span class="source-line-no">613</span><span id="line-613"></span>
+<span class="source-line-no">614</span><span id="line-614">  public static void validateGeoDistance(String latitude, String longitude, String distance) {</span>
+<span class="source-line-no">615</span><span id="line-615">    validateLatitude(latitude);</span>
+<span class="source-line-no">616</span><span id="line-616">    validateLongitude(longitude);</span>
+<span class="source-line-no">617</span><span id="line-617">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
+<span class="source-line-no">618</span><span id="line-618">    if (parsedDistance.getValue() &lt;= 0d) {</span>
+<span class="source-line-no">619</span><span id="line-619">      throw new IllegalArgumentException("GeoDistance cannot be less than zero");</span>
+<span class="source-line-no">620</span><span id="line-620">    }</span>
+<span class="source-line-no">621</span><span id="line-621"> }</span>
+<span class="source-line-no">622</span><span id="line-622"></span>
+<span class="source-line-no">623</span><span id="line-623">  /**</span>
+<span class="source-line-no">624</span><span id="line-624">   * Parses a distance range in the format 123m,456km.</span>
+<span class="source-line-no">625</span><span id="line-625">   *</span>
+<span class="source-line-no">626</span><span id="line-626">   * @return the parsed range with wildcards represented as null values</span>
+<span class="source-line-no">627</span><span id="line-627">   * @throws IllegalArgumentException if value is invalid or null</span>
+<span class="source-line-no">628</span><span id="line-628">   */</span>
+<span class="source-line-no">629</span><span id="line-629">  public static Range&lt;DistanceUnit.Distance&gt; parseDistanceRange(String value) {</span>
+<span class="source-line-no">630</span><span id="line-630">    if (StringUtils.isNotEmpty(value)) {</span>
+<span class="source-line-no">631</span><span id="line-631">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
+<span class="source-line-no">632</span><span id="line-632">      if (m.find()) {</span>
+<span class="source-line-no">633</span><span id="line-633">        return Range.closed(parseDistance(m.group(1)), parseDistance(m.group(2)));</span>
+<span class="source-line-no">634</span><span id="line-634">      }</span>
+<span class="source-line-no">635</span><span id="line-635">    }</span>
+<span class="source-line-no">636</span><span id="line-636">    throw new IllegalArgumentException("Invalid distance range: " + value);</span>
+<span class="source-line-no">637</span><span id="line-637">  }</span>
+<span class="source-line-no">638</span><span id="line-638"></span>
+<span class="source-line-no">639</span><span id="line-639">  public static DistanceUnit.Distance parseDistance(String distance) {</span>
+<span class="source-line-no">640</span><span id="line-640">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
+<span class="source-line-no">641</span><span id="line-641">    if (parsedDistance.getValue() &lt;= 0d) {</span>
+<span class="source-line-no">642</span><span id="line-642">      throw new IllegalArgumentException("Distance cannot be less than zero");</span>
+<span class="source-line-no">643</span><span id="line-643">    }</span>
+<span class="source-line-no">644</span><span id="line-644">    return parsedDistance;</span>
+<span class="source-line-no">645</span><span id="line-645">  }</span>
+<span class="source-line-no">646</span><span id="line-646"></span>
+<span class="source-line-no">647</span><span id="line-647">  /**</span>
+<span class="source-line-no">648</span><span id="line-648">   * Validates if the parameter is a valid latitude value.</span>
+<span class="source-line-no">649</span><span id="line-649">   */</span>
+<span class="source-line-no">650</span><span id="line-650">  private static void validateLatitude(String value) {</span>
+<span class="source-line-no">651</span><span id="line-651">    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);</span>
+<span class="source-line-no">652</span><span id="line-652">  }</span>
+<span class="source-line-no">653</span><span id="line-653"></span>
+<span class="source-line-no">654</span><span id="line-654">  /**</span>
+<span class="source-line-no">655</span><span id="line-655">   * Validates if the parameter is a valid longitude value.</span>
+<span class="source-line-no">656</span><span id="line-656">   */</span>
+<span class="source-line-no">657</span><span id="line-657">  private static void validateLongitude(String value) {</span>
+<span class="source-line-no">658</span><span id="line-658">    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);</span>
+<span class="source-line-no">659</span><span id="line-659">  }</span>
+<span class="source-line-no">660</span><span id="line-660"></span>
+<span class="source-line-no">661</span><span id="line-661">  private static void validateMonth(Collection&lt;Integer&gt; months) {</span>
+<span class="source-line-no">662</span><span id="line-662">    for (Integer month : months) {</span>
+<span class="source-line-no">663</span><span id="line-663">      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {</span>
+<span class="source-line-no">664</span><span id="line-664">        throw new IllegalArgumentException("Month needs to be between 1 - 12");</span>
+<span class="source-line-no">665</span><span id="line-665">      }</span>
+<span class="source-line-no">666</span><span id="line-666">    }</span>
+<span class="source-line-no">667</span><span id="line-667">  }</span>
+<span class="source-line-no">668</span><span id="line-668"></span>
+<span class="source-line-no">669</span><span id="line-669">  private static void validateDay(Collection&lt;Integer&gt; days) {</span>
+<span class="source-line-no">670</span><span id="line-670">    for (Integer day : days) {</span>
+<span class="source-line-no">671</span><span id="line-671">      if (day != null &amp;&amp; (day &lt; 1 || day &gt; 31)) {</span>
+<span class="source-line-no">672</span><span id="line-672">        throw new IllegalArgumentException("Day needs to be between 1 - 31");</span>
+<span class="source-line-no">673</span><span id="line-673">      }</span>
+<span class="source-line-no">674</span><span id="line-674">    }</span>
+<span class="source-line-no">675</span><span id="line-675">  }</span>
+<span class="source-line-no">676</span><span id="line-676">}</span>
 
 
 

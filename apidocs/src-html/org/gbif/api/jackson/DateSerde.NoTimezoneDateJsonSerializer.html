@@ -29,10 +29,10 @@
 <span class="source-line-no">016</span><span id="line-16">package org.gbif.api.jackson;</span>
 <span class="source-line-no">017</span><span id="line-17"></span>
 <span class="source-line-no">018</span><span id="line-18">import java.io.IOException;</span>
-<span class="source-line-no">019</span><span id="line-19">import java.text.SimpleDateFormat;</span>
-<span class="source-line-no">020</span><span id="line-20">import java.time.Instant;</span>
-<span class="source-line-no">021</span><span id="line-21">import java.util.Date;</span>
-<span class="source-line-no">022</span><span id="line-22">import java.util.TimeZone;</span>
+<span class="source-line-no">019</span><span id="line-19">import java.time.Instant;</span>
+<span class="source-line-no">020</span><span id="line-20">import java.time.ZoneOffset;</span>
+<span class="source-line-no">021</span><span id="line-21">import java.time.format.DateTimeFormatter;</span>
+<span class="source-line-no">022</span><span id="line-22">import java.util.Date;</span>
 <span class="source-line-no">023</span><span id="line-23"></span>
 <span class="source-line-no">024</span><span id="line-24">import com.fasterxml.jackson.core.JsonGenerator;</span>
 <span class="source-line-no">025</span><span id="line-25">import com.fasterxml.jackson.core.JsonParser;</span>
@@ -49,45 +49,44 @@
 <span class="source-line-no">036</span><span id="line-36"> */</span>
 <span class="source-line-no">037</span><span id="line-37">public class DateSerde {</span>
 <span class="source-line-no">038</span><span id="line-38"></span>
-<span class="source-line-no">039</span><span id="line-39">  private static final SimpleDateFormat NO_TIMEZONE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");</span>
-<span class="source-line-no">040</span><span id="line-40"></span>
-<span class="source-line-no">041</span><span id="line-41">  static {</span>
-<span class="source-line-no">042</span><span id="line-42">    NO_TIMEZONE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));</span>
-<span class="source-line-no">043</span><span id="line-43">  }</span>
-<span class="source-line-no">044</span><span id="line-44"></span>
-<span class="source-line-no">045</span><span id="line-45">  /**</span>
-<span class="source-line-no">046</span><span id="line-46">   * Jackson {@link JsonSerializer} for {@link Date}.</span>
-<span class="source-line-no">047</span><span id="line-47">   */</span>
-<span class="source-line-no">048</span><span id="line-48">  public static class NoTimezoneDateJsonSerializer extends JsonSerializer&lt;Date&gt; {</span>
-<span class="source-line-no">049</span><span id="line-49"></span>
-<span class="source-line-no">050</span><span id="line-50">    @Override</span>
-<span class="source-line-no">051</span><span id="line-51">    public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException {</span>
-<span class="source-line-no">052</span><span id="line-52">      // Empty fields aren't included in the JSON.</span>
-<span class="source-line-no">053</span><span id="line-53">      if (value != null) {</span>
-<span class="source-line-no">054</span><span id="line-54">        jgen.writeString(NO_TIMEZONE_FORMAT.format(value));</span>
-<span class="source-line-no">055</span><span id="line-55">      }</span>
-<span class="source-line-no">056</span><span id="line-56">    }</span>
-<span class="source-line-no">057</span><span id="line-57">  }</span>
-<span class="source-line-no">058</span><span id="line-58"></span>
-<span class="source-line-no">059</span><span id="line-59">  /**</span>
-<span class="source-line-no">060</span><span id="line-60">   * Jackson {@link JsonDeserializer} for {@link Date}s formatted above, falling back to the Jackson way.</span>
-<span class="source-line-no">061</span><span id="line-61">   */</span>
-<span class="source-line-no">062</span><span id="line-62">  public static class FlexibleDateJsonDeserializer extends DateDeserializers.DateDeserializer {</span>
-<span class="source-line-no">063</span><span id="line-63"></span>
-<span class="source-line-no">064</span><span id="line-64">    @Override</span>
-<span class="source-line-no">065</span><span id="line-65">    public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {</span>
-<span class="source-line-no">066</span><span id="line-66">      if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {</span>
-<span class="source-line-no">067</span><span id="line-67">        String text = jp.getText();</span>
-<span class="source-line-no">068</span><span id="line-68">        if (text.length() == 19) {</span>
-<span class="source-line-no">069</span><span id="line-69">          return Date.from(Instant.parse(text + "Z"));</span>
-<span class="source-line-no">070</span><span id="line-70">        } else {</span>
-<span class="source-line-no">071</span><span id="line-71">          return super.deserialize(jp, ctxt);</span>
-<span class="source-line-no">072</span><span id="line-72">        }</span>
-<span class="source-line-no">073</span><span id="line-73">      }</span>
-<span class="source-line-no">074</span><span id="line-74">      throw JsonMappingException.from(jp, "Expected String");</span>
-<span class="source-line-no">075</span><span id="line-75">    }</span>
-<span class="source-line-no">076</span><span id="line-76">  }</span>
-<span class="source-line-no">077</span><span id="line-77">}</span>
+<span class="source-line-no">039</span><span id="line-39">  // DateTimeFormatter is immutable and thread-safe, unlike SimpleDateFormat which must not be shared between threads.</span>
+<span class="source-line-no">040</span><span id="line-40">  private static final DateTimeFormatter NO_TIMEZONE_FORMAT =</span>
+<span class="source-line-no">041</span><span id="line-41">      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss").withZone(ZoneOffset.UTC);</span>
+<span class="source-line-no">042</span><span id="line-42"></span>
+<span class="source-line-no">043</span><span id="line-43">  /**</span>
+<span class="source-line-no">044</span><span id="line-44">   * Jackson {@link JsonSerializer} for {@link Date}.</span>
+<span class="source-line-no">045</span><span id="line-45">   */</span>
+<span class="source-line-no">046</span><span id="line-46">  public static class NoTimezoneDateJsonSerializer extends JsonSerializer&lt;Date&gt; {</span>
+<span class="source-line-no">047</span><span id="line-47"></span>
+<span class="source-line-no">048</span><span id="line-48">    @Override</span>
+<span class="source-line-no">049</span><span id="line-49">    public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException {</span>
+<span class="source-line-no">050</span><span id="line-50">      // Empty fields aren't included in the JSON.</span>
+<span class="source-line-no">051</span><span id="line-51">      if (value != null) {</span>
+<span class="source-line-no">052</span><span id="line-52">        // Instant.ofEpochMilli rather than Date.toInstant(), which java.sql.Date doesn't support.</span>
+<span class="source-line-no">053</span><span id="line-53">        jgen.writeString(NO_TIMEZONE_FORMAT.format(Instant.ofEpochMilli(value.getTime())));</span>
+<span class="source-line-no">054</span><span id="line-54">      }</span>
+<span class="source-line-no">055</span><span id="line-55">    }</span>
+<span class="source-line-no">056</span><span id="line-56">  }</span>
+<span class="source-line-no">057</span><span id="line-57"></span>
+<span class="source-line-no">058</span><span id="line-58">  /**</span>
+<span class="source-line-no">059</span><span id="line-59">   * Jackson {@link JsonDeserializer} for {@link Date}s formatted above, falling back to the Jackson way.</span>
+<span class="source-line-no">060</span><span id="line-60">   */</span>
+<span class="source-line-no">061</span><span id="line-61">  public static class FlexibleDateJsonDeserializer extends DateDeserializers.DateDeserializer {</span>
+<span class="source-line-no">062</span><span id="line-62"></span>
+<span class="source-line-no">063</span><span id="line-63">    @Override</span>
+<span class="source-line-no">064</span><span id="line-64">    public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {</span>
+<span class="source-line-no">065</span><span id="line-65">      if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {</span>
+<span class="source-line-no">066</span><span id="line-66">        String text = jp.getText();</span>
+<span class="source-line-no">067</span><span id="line-67">        if (text.length() == 19) {</span>
+<span class="source-line-no">068</span><span id="line-68">          return Date.from(Instant.parse(text + "Z"));</span>
+<span class="source-line-no">069</span><span id="line-69">        } else {</span>
+<span class="source-line-no">070</span><span id="line-70">          return super.deserialize(jp, ctxt);</span>
+<span class="source-line-no">071</span><span id="line-71">        }</span>
+<span class="source-line-no">072</span><span id="line-72">      }</span>
+<span class="source-line-no">073</span><span id="line-73">      throw JsonMappingException.from(jp, "Expected String");</span>
+<span class="source-line-no">074</span><span id="line-74">    }</span>
+<span class="source-line-no">075</span><span id="line-75">  }</span>
+<span class="source-line-no">076</span><span id="line-76">}</span>
 
 
 

@@ -2,6 +2,8 @@
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,63 +15,63 @@ import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
 
-<span class="nc bnc" id="L16" title="All 158 branches missed.">@Data</span>
-<span class="nc" id="L17">@NoArgsConstructor</span>
-<span class="nc" id="L18">@AllArgsConstructor</span>
-<span class="nc" id="L19">@Builder</span>
+<span class="nc bnc" id="L18" title="All 158 branches missed.">@Data</span>
+<span class="nc" id="L19">@NoArgsConstructor</span>
+<span class="nc" id="L20">@AllArgsConstructor</span>
+<span class="nc" id="L21">@Builder</span>
 public class DescriptorSearchRequest extends PageableBase implements Serializable {
 
-<span class="nc" id="L22">  @Nullable private String q;</span>
-<span class="nc" id="L23">  @Nullable private Long descriptorGroupKey;</span>
-<span class="nc" id="L24">  @Nullable private List&lt;String&gt; usageKey;</span>
-<span class="nc" id="L25">  @Nullable private List&lt;String&gt; usageName;</span>
-<span class="nc" id="L26">  @Nullable private List&lt;String&gt; usageRank;</span>
-<span class="nc" id="L27">  @Nullable private List&lt;String&gt; taxonKey;</span>
-<span class="nc" id="L28">  @Nullable private List&lt;Country&gt; country;</span>
-<span class="nc" id="L29">  @Nullable private List&lt;String&gt; individualCount;</span>
-<span class="nc" id="L30">  @Nullable private List&lt;String&gt; identifiedBy;</span>
-<span class="nc" id="L31">  @Nullable private List&lt;String&gt; dateIdentified;</span>
-<span class="nc" id="L32">  @Nullable private List&lt;String&gt; typeStatus;</span>
-<span class="nc" id="L33">  @Nullable private List&lt;String&gt; recordedBy;</span>
-<span class="nc" id="L34">  @Nullable private List&lt;String&gt; discipline;</span>
-<span class="nc" id="L35">  @Nullable private List&lt;String&gt; objectClassification;</span>
-<span class="nc" id="L36">  @Nullable private List&lt;String&gt; biome;</span>
-<span class="nc" id="L37">  @Nullable private List&lt;String&gt; biomeType;</span>
-<span class="nc" id="L38">  @Nullable private List&lt;String&gt; issues;</span>
-<span class="nc" id="L39">  @Nullable private List&lt;String&gt; taxonIssues;</span>
-<span class="nc" id="L40">  @Nullable private String checklistKey;</span>
+<span class="nc" id="L24">  @Nullable private String q;</span>
+<span class="nc" id="L25">  @Nullable private Long descriptorGroupKey;</span>
+<span class="nc" id="L26">  @Nullable private List&lt;String&gt; usageKey;</span>
+<span class="nc" id="L27">  @Nullable private List&lt;String&gt; usageName;</span>
+<span class="nc" id="L28">  @Nullable private List&lt;String&gt; usageRank;</span>
+<span class="nc" id="L29">  @Nullable private List&lt;String&gt; taxonKey;</span>
+<span class="nc" id="L30">  @Nullable private List&lt;Country&gt; country;</span>
+<span class="nc" id="L31">  @Nullable private List&lt;String&gt; individualCount;</span>
+<span class="nc" id="L32">  @Nullable private List&lt;String&gt; identifiedBy;</span>
+<span class="nc" id="L33">  @Nullable private List&lt;String&gt; dateIdentified;</span>
+<span class="nc" id="L34">  @Nullable private List&lt;String&gt; typeStatus;</span>
+<span class="nc" id="L35">  @Nullable private List&lt;String&gt; recordedBy;</span>
+<span class="nc" id="L36">  @Nullable private List&lt;String&gt; discipline;</span>
+<span class="nc" id="L37">  @Nullable private List&lt;String&gt; objectClassification;</span>
+<span class="nc" id="L38">  @Nullable private List&lt;String&gt; biome;</span>
+<span class="nc" id="L39">  @Nullable private List&lt;String&gt; biomeType;</span>
+<span class="nc" id="L40">  @Nullable private List&lt;String&gt; issues;</span>
+<span class="nc" id="L41">  @Nullable private List&lt;String&gt; taxonIssues;</span>
+<span class="nc" id="L42">  @Nullable private UUID checklistKey;</span>
 
   public Pageable getPage() {
-<span class="nc" id="L43">    return new PagingRequest(getOffset(), getLimit());</span>
+<span class="nc" id="L45">    return new PagingRequest(getOffset(), getLimit());</span>
   }
 
   public static DescriptorSearchRequestBuilder builder() {
-<span class="nc" id="L47">    return new CustomBuilder();</span>
+<span class="nc" id="L49">    return new CustomBuilder();</span>
   }
 
   public static class DescriptorSearchRequestBuilder {
-<span class="nc" id="L51">    long offset = PagingConstants.DEFAULT_PARAM_OFFSET;</span>
-<span class="nc" id="L52">    int limit = PagingConstants.DEFAULT_PARAM_LIMIT;</span>
+<span class="nc" id="L53">    long offset = PagingConstants.DEFAULT_PARAM_OFFSET;</span>
+<span class="nc" id="L54">    int limit = PagingConstants.DEFAULT_PARAM_LIMIT;</span>
 
     public DescriptorSearchRequestBuilder offset(long offset) {
-<span class="nc" id="L55">      this.offset = offset;</span>
-<span class="nc" id="L56">      return this;</span>
+<span class="nc" id="L57">      this.offset = offset;</span>
+<span class="nc" id="L58">      return this;</span>
     }
 
     public DescriptorSearchRequestBuilder limit(int limit) {
-<span class="nc" id="L60">      this.limit = limit;</span>
-<span class="nc" id="L61">      return this;</span>
+<span class="nc" id="L62">      this.limit = limit;</span>
+<span class="nc" id="L63">      return this;</span>
     }
   }
 
-<span class="nc" id="L65">  public static class CustomBuilder extends DescriptorSearchRequestBuilder {</span>
+<span class="nc" id="L67">  public static class CustomBuilder extends DescriptorSearchRequestBuilder {</span>
 
     @Override
     public DescriptorSearchRequest build() {
-<span class="nc" id="L69">      DescriptorSearchRequest descriptorSearchRequest = super.build();</span>
-<span class="nc" id="L70">      descriptorSearchRequest.setOffset(offset);</span>
-<span class="nc" id="L71">      descriptorSearchRequest.setLimit(limit);</span>
-<span class="nc" id="L72">      return descriptorSearchRequest;</span>
+<span class="nc" id="L71">      DescriptorSearchRequest descriptorSearchRequest = super.build();</span>
+<span class="nc" id="L72">      descriptorSearchRequest.setOffset(offset);</span>
+<span class="nc" id="L73">      descriptorSearchRequest.setLimit(limit);</span>
+<span class="nc" id="L74">      return descriptorSearchRequest;</span>
     }
   }
 }

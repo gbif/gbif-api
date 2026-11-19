@@ -129,7 +129,7 @@
 <span class="source-line-no">116</span><span id="line-116">        null,</span>
 <span class="source-line-no">117</span><span id="line-117">        Collections.singleton(Extension.AUDUBON),</span>
 <span class="source-line-no">118</span><span id="line-118">        Collections.singleton(Extension.HUMBOLDT),</span>
-<span class="source-line-no">119</span><span id="line-119">        Constants.NUB_DATASET_KEY.toString());</span>
+<span class="source-line-no">119</span><span id="line-119">        Constants.NUB_DATASET_KEY);</span>
 <span class="source-line-no">120</span><span id="line-120">  }</span>
 <span class="source-line-no">121</span><span id="line-121"></span>
 <span class="source-line-no">122</span><span id="line-122">  @Test</span>
@@ -223,215 +223,232 @@
 <span class="source-line-no">210</span><span id="line-210">  }</span>
 <span class="source-line-no">211</span><span id="line-211"></span>
 <span class="source-line-no">212</span><span id="line-212">  @Test</span>
-<span class="source-line-no">213</span><span id="line-213">  public void testDownloadRequestSerde2() throws IOException {</span>
-<span class="source-line-no">214</span><span id="line-214">    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);</span>
-<span class="source-line-no">215</span><span id="line-215">    assertNull(((PredicateDownloadRequest)request).getPredicate());</span>
-<span class="source-line-no">216</span><span id="line-216">    assertTrue(request.getSendNotification());</span>
-<span class="source-line-no">217</span><span id="line-217">    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());</span>
-<span class="source-line-no">218</span><span id="line-218">  }</span>
-<span class="source-line-no">219</span><span id="line-219"></span>
-<span class="source-line-no">220</span><span id="line-220">  @Test</span>
-<span class="source-line-no">221</span><span id="line-221">  public void testSQLDownloadSerde() throws IOException {</span>
-<span class="source-line-no">222</span><span id="line-222">    SqlDownloadRequest request = MAPPER.readValue(SQL_REQUEST, SqlDownloadRequest.class);</span>
-<span class="source-line-no">223</span><span id="line-223">    assertEquals(TEST_USER, request.getCreator());</span>
-<span class="source-line-no">224</span><span id="line-224">    assertNotNull(request.getSql());</span>
-<span class="source-line-no">225</span><span id="line-225">    assertEquals(DownloadFormat.SQL_TSV_ZIP, request.getFormat());</span>
-<span class="source-line-no">226</span><span id="line-226">    assertTrue(request.getSendNotification());</span>
-<span class="source-line-no">227</span><span id="line-227">    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());</span>
-<span class="source-line-no">228</span><span id="line-228">    assertEquals(TEST_DESCRIPTION, request.getDescription());</span>
-<span class="source-line-no">229</span><span id="line-229"></span>
-<span class="source-line-no">230</span><span id="line-230">    // Test no-schema JSON</span>
-<span class="source-line-no">231</span><span id="line-231">    assertEquals(TEST_DESCRIPTION, request.getMachineDescription().get("purpose").asText());</span>
-<span class="source-line-no">232</span><span id="line-232">    assertEquals(0, request.getMachineDescription().get("elements").size());</span>
-<span class="source-line-no">233</span><span id="line-233">    assertEquals(0, request.getMachineDescription().get("array").get(0).size());</span>
-<span class="source-line-no">234</span><span id="line-234">    assertEquals("a", request.getMachineDescription().get("array").get(1).asText());</span>
-<span class="source-line-no">235</span><span id="line-235">    assertEquals("1.0", request.getMachineDescription().get("array").get(2).asText());</span>
-<span class="source-line-no">236</span><span id="line-236">    assertEquals(1, request.getMachineDescription().get("array").get(2).asInt());</span>
-<span class="source-line-no">237</span><span id="line-237">    assertTrue(request.getMachineDescription().get("array").get(3).asBoolean());</span>
-<span class="source-line-no">238</span><span id="line-238">    assertTrue(request.getMachineDescription().get("array").get(4).isNull());</span>
-<span class="source-line-no">239</span><span id="line-239">  }</span>
-<span class="source-line-no">240</span><span id="line-240"></span>
-<span class="source-line-no">241</span><span id="line-241">  /**</span>
-<span class="source-line-no">242</span><span id="line-242">   * Tests that an unknown property is rejected.</span>
-<span class="source-line-no">243</span><span id="line-243">   *</span>
-<span class="source-line-no">244</span><span id="line-244">   * For much of the API these are allowed, but it causes problems when typing errors etc trigger all-data downloads.</span>
-<span class="source-line-no">245</span><span id="line-245">   */</span>
-<span class="source-line-no">246</span><span id="line-246">  @Test</span>
-<span class="source-line-no">247</span><span id="line-247">  public void testDownloadRequestSerdeUnknown() throws IOException {</span>
-<span class="source-line-no">248</span><span id="line-248">    try {</span>
-<span class="source-line-no">249</span><span id="line-249">      DownloadRequest request = MAPPER.readValue(UNKNOWN_PROPERTY, DownloadRequest.class);</span>
-<span class="source-line-no">250</span><span id="line-250">      fail();</span>
-<span class="source-line-no">251</span><span id="line-251">    } catch (Exception e) {</span>
-<span class="source-line-no">252</span><span id="line-252">      assertEquals("Unknown JSON property 'somethingElse'.", e.getMessage());</span>
-<span class="source-line-no">253</span><span id="line-253">    }</span>
-<span class="source-line-no">254</span><span id="line-254">  }</span>
-<span class="source-line-no">255</span><span id="line-255"></span>
-<span class="source-line-no">256</span><span id="line-256">  /**</span>
-<span class="source-line-no">257</span><span id="line-257">   * Tests that an empty JSON {} is translated into null.</span>
-<span class="source-line-no">258</span><span id="line-258">   */</span>
-<span class="source-line-no">259</span><span id="line-259">  @Test</span>
-<span class="source-line-no">260</span><span id="line-260">  public void testDownloadRequestSerdeNull() throws IOException {</span>
-<span class="source-line-no">261</span><span id="line-261">    String json = "{}";</span>
-<span class="source-line-no">262</span><span id="line-262">    DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);</span>
-<span class="source-line-no">263</span><span id="line-263">    assertNull(request);</span>
-<span class="source-line-no">264</span><span id="line-264">  }</span>
-<span class="source-line-no">265</span><span id="line-265"></span>
-<span class="source-line-no">266</span><span id="line-266">  /**</span>
-<span class="source-line-no">267</span><span id="line-267">   * Request sent by PyGBIF ≤ 0.6.1.  For backward compatibility, do not change this test!</span>
-<span class="source-line-no">268</span><span id="line-268">   *</span>
-<span class="source-line-no">269</span><span id="line-269">   * Note the 'created' property, the quoted booleans, and the underscore in notification_address.</span>
-<span class="source-line-no">270</span><span id="line-270">   */</span>
-<span class="source-line-no">271</span><span id="line-271">  @Test</span>
-<span class="source-line-no">272</span><span id="line-272">  public void downloadFromPygbifTest() throws Exception {</span>
-<span class="source-line-no">273</span><span id="line-273">    String downloadRequest = "{\n"</span>
-<span class="source-line-no">274</span><span id="line-274">      + "  \"creator\":\"pygbif\",\n"</span>
-<span class="source-line-no">275</span><span id="line-275">      + "  \"notification_address\":[\"pygbif@mailinator.com\"],\n"</span>
-<span class="source-line-no">276</span><span id="line-276">      + "  \"created\":\"2023\",\n"</span>
-<span class="source-line-no">277</span><span id="line-277">      + "  \"sendNotification\":\"true\",\n"</span>
-<span class="source-line-no">278</span><span id="line-278">      + "  \"format\": \"SIMPLE_CSV\",\n"</span>
-<span class="source-line-no">279</span><span id="line-279">      + "  \"predicate\":{\n"</span>
-<span class="source-line-no">280</span><span id="line-280">      + "    \"type\":\"within\",\n"</span>
-<span class="source-line-no">281</span><span id="line-281">      + "    \"geometry\":\"POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\"\n"</span>
-<span class="source-line-no">282</span><span id="line-282">      + "  }\n"</span>
-<span class="source-line-no">283</span><span id="line-283">      + "}";</span>
-<span class="source-line-no">284</span><span id="line-284"></span>
-<span class="source-line-no">285</span><span id="line-285">    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);</span>
-<span class="source-line-no">286</span><span id="line-286">    assertEquals("pygbif", request.getCreator());</span>
-<span class="source-line-no">287</span><span id="line-287">    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());</span>
-<span class="source-line-no">288</span><span id="line-288">    assertTrue(request.getSendNotification());</span>
-<span class="source-line-no">289</span><span id="line-289">    assertEquals("pygbif@mailinator.com", request.getNotificationAddressesAsString());</span>
-<span class="source-line-no">290</span><span id="line-290">    assertEquals(WithinPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());</span>
-<span class="source-line-no">291</span><span id="line-291">  }</span>
-<span class="source-line-no">292</span><span id="line-292"></span>
-<span class="source-line-no">293</span><span id="line-293">  /**</span>
-<span class="source-line-no">294</span><span id="line-294">   * Request sent by RGBIF 3.75+.  For backward compatibility, do not change this test!</span>
-<span class="source-line-no">295</span><span id="line-295">   *</span>
-<span class="source-line-no">296</span><span id="line-296">   * Note the lack of sendNotification.</span>
-<span class="source-line-no">297</span><span id="line-297">   */</span>
-<span class="source-line-no">298</span><span id="line-298">  @Test</span>
-<span class="source-line-no">299</span><span id="line-299">  public void downloadFromRgbifTest() throws Exception {</span>
-<span class="source-line-no">300</span><span id="line-300">    String downloadRequest = "{\n"</span>
-<span class="source-line-no">301</span><span id="line-301">      + "  \"creator\":\"rgbif\",\n"</span>
-<span class="source-line-no">302</span><span id="line-302">      + "  \"notification_address\":[\"rgbif@mailinator.com\"],\n"</span>
-<span class="source-line-no">303</span><span id="line-303">      + "  \"format\": \"SIMPLE_CSV\",\n"</span>
-<span class="source-line-no">304</span><span id="line-304">      + "  \"predicate\":{\n"</span>
-<span class="source-line-no">305</span><span id="line-305">      + "    \"type\":\"within\",\n"</span>
-<span class="source-line-no">306</span><span id="line-306">      + "    \"geometry\":\"POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\"\n"</span>
-<span class="source-line-no">307</span><span id="line-307">      + "  }\n"</span>
-<span class="source-line-no">308</span><span id="line-308">      + "}";</span>
+<span class="source-line-no">213</span><span id="line-213">  public void testDownloadRequestNullChecklistKey() throws IOException {</span>
+<span class="source-line-no">214</span><span id="line-214">    for (String checklistKey : new String[] {"null", "\"null\"", "\"\"", "\" \""}) {</span>
+<span class="source-line-no">215</span><span id="line-215">      String json = SIMPLE_CSV.replace("{ \"creator\"", "{ \"checklistKey\": " + checklistKey + ", \"creator\"");</span>
+<span class="source-line-no">216</span><span id="line-216">      DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);</span>
+<span class="source-line-no">217</span><span id="line-217">      assertNull(request.getChecklistKey(), "checklistKey " + checklistKey);</span>
+<span class="source-line-no">218</span><span id="line-218">    }</span>
+<span class="source-line-no">219</span><span id="line-219">  }</span>
+<span class="source-line-no">220</span><span id="line-220"></span>
+<span class="source-line-no">221</span><span id="line-221">  @Test</span>
+<span class="source-line-no">222</span><span id="line-222">  public void testDownloadRequestChecklistKey() throws IOException {</span>
+<span class="source-line-no">223</span><span id="line-223">    String json = SIMPLE_CSV.replace("{ \"creator\"",</span>
+<span class="source-line-no">224</span><span id="line-224">      "{ \"checklistKey\": \" " + Constants.NUB_DATASET_KEY + " \", \"creator\"");</span>
+<span class="source-line-no">225</span><span id="line-225">    DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);</span>
+<span class="source-line-no">226</span><span id="line-226">    assertEquals(Constants.NUB_DATASET_KEY, request.getChecklistKey());</span>
+<span class="source-line-no">227</span><span id="line-227">  }</span>
+<span class="source-line-no">228</span><span id="line-228"></span>
+<span class="source-line-no">229</span><span id="line-229">  @Test</span>
+<span class="source-line-no">230</span><span id="line-230">  public void testDownloadRequestSerde2() throws IOException {</span>
+<span class="source-line-no">231</span><span id="line-231">    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);</span>
+<span class="source-line-no">232</span><span id="line-232">    assertNull(((PredicateDownloadRequest)request).getPredicate());</span>
+<span class="source-line-no">233</span><span id="line-233">    assertTrue(request.getSendNotification());</span>
+<span class="source-line-no">234</span><span id="line-234">    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());</span>
+<span class="source-line-no">235</span><span id="line-235">  }</span>
+<span class="source-line-no">236</span><span id="line-236"></span>
+<span class="source-line-no">237</span><span id="line-237">  @Test</span>
+<span class="source-line-no">238</span><span id="line-238">  public void testSQLDownloadSerde() throws IOException {</span>
+<span class="source-line-no">239</span><span id="line-239">    SqlDownloadRequest request = MAPPER.readValue(SQL_REQUEST, SqlDownloadRequest.class);</span>
+<span class="source-line-no">240</span><span id="line-240">    assertEquals(TEST_USER, request.getCreator());</span>
+<span class="source-line-no">241</span><span id="line-241">    assertNotNull(request.getSql());</span>
+<span class="source-line-no">242</span><span id="line-242">    assertEquals(DownloadFormat.SQL_TSV_ZIP, request.getFormat());</span>
+<span class="source-line-no">243</span><span id="line-243">    assertTrue(request.getSendNotification());</span>
+<span class="source-line-no">244</span><span id="line-244">    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());</span>
+<span class="source-line-no">245</span><span id="line-245">    assertEquals(TEST_DESCRIPTION, request.getDescription());</span>
+<span class="source-line-no">246</span><span id="line-246"></span>
+<span class="source-line-no">247</span><span id="line-247">    // Test no-schema JSON</span>
+<span class="source-line-no">248</span><span id="line-248">    assertEquals(TEST_DESCRIPTION, request.getMachineDescription().get("purpose").asText());</span>
+<span class="source-line-no">249</span><span id="line-249">    assertEquals(0, request.getMachineDescription().get("elements").size());</span>
+<span class="source-line-no">250</span><span id="line-250">    assertEquals(0, request.getMachineDescription().get("array").get(0).size());</span>
+<span class="source-line-no">251</span><span id="line-251">    assertEquals("a", request.getMachineDescription().get("array").get(1).asText());</span>
+<span class="source-line-no">252</span><span id="line-252">    assertEquals("1.0", request.getMachineDescription().get("array").get(2).asText());</span>
+<span class="source-line-no">253</span><span id="line-253">    assertEquals(1, request.getMachineDescription().get("array").get(2).asInt());</span>
+<span class="source-line-no">254</span><span id="line-254">    assertTrue(request.getMachineDescription().get("array").get(3).asBoolean());</span>
+<span class="source-line-no">255</span><span id="line-255">    assertTrue(request.getMachineDescription().get("array").get(4).isNull());</span>
+<span class="source-line-no">256</span><span id="line-256">  }</span>
+<span class="source-line-no">257</span><span id="line-257"></span>
+<span class="source-line-no">258</span><span id="line-258">  /**</span>
+<span class="source-line-no">259</span><span id="line-259">   * Tests that an unknown property is rejected.</span>
+<span class="source-line-no">260</span><span id="line-260">   *</span>
+<span class="source-line-no">261</span><span id="line-261">   * For much of the API these are allowed, but it causes problems when typing errors etc trigger all-data downloads.</span>
+<span class="source-line-no">262</span><span id="line-262">   */</span>
+<span class="source-line-no">263</span><span id="line-263">  @Test</span>
+<span class="source-line-no">264</span><span id="line-264">  public void testDownloadRequestSerdeUnknown() throws IOException {</span>
+<span class="source-line-no">265</span><span id="line-265">    try {</span>
+<span class="source-line-no">266</span><span id="line-266">      DownloadRequest request = MAPPER.readValue(UNKNOWN_PROPERTY, DownloadRequest.class);</span>
+<span class="source-line-no">267</span><span id="line-267">      fail();</span>
+<span class="source-line-no">268</span><span id="line-268">    } catch (Exception e) {</span>
+<span class="source-line-no">269</span><span id="line-269">      assertEquals("Unknown JSON property 'somethingElse'.", e.getMessage());</span>
+<span class="source-line-no">270</span><span id="line-270">    }</span>
+<span class="source-line-no">271</span><span id="line-271">  }</span>
+<span class="source-line-no">272</span><span id="line-272"></span>
+<span class="source-line-no">273</span><span id="line-273">  /**</span>
+<span class="source-line-no">274</span><span id="line-274">   * Tests that an empty JSON {} is translated into null.</span>
+<span class="source-line-no">275</span><span id="line-275">   */</span>
+<span class="source-line-no">276</span><span id="line-276">  @Test</span>
+<span class="source-line-no">277</span><span id="line-277">  public void testDownloadRequestSerdeNull() throws IOException {</span>
+<span class="source-line-no">278</span><span id="line-278">    String json = "{}";</span>
+<span class="source-line-no">279</span><span id="line-279">    DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);</span>
+<span class="source-line-no">280</span><span id="line-280">    assertNull(request);</span>
+<span class="source-line-no">281</span><span id="line-281">  }</span>
+<span class="source-line-no">282</span><span id="line-282"></span>
+<span class="source-line-no">283</span><span id="line-283">  /**</span>
+<span class="source-line-no">284</span><span id="line-284">   * Request sent by PyGBIF ≤ 0.6.1.  For backward compatibility, do not change this test!</span>
+<span class="source-line-no">285</span><span id="line-285">   *</span>
+<span class="source-line-no">286</span><span id="line-286">   * Note the 'created' property, the quoted booleans, and the underscore in notification_address.</span>
+<span class="source-line-no">287</span><span id="line-287">   */</span>
+<span class="source-line-no">288</span><span id="line-288">  @Test</span>
+<span class="source-line-no">289</span><span id="line-289">  public void downloadFromPygbifTest() throws Exception {</span>
+<span class="source-line-no">290</span><span id="line-290">    String downloadRequest = "{\n"</span>
+<span class="source-line-no">291</span><span id="line-291">      + "  \"creator\":\"pygbif\",\n"</span>
+<span class="source-line-no">292</span><span id="line-292">      + "  \"notification_address\":[\"pygbif@mailinator.com\"],\n"</span>
+<span class="source-line-no">293</span><span id="line-293">      + "  \"created\":\"2023\",\n"</span>
+<span class="source-line-no">294</span><span id="line-294">      + "  \"sendNotification\":\"true\",\n"</span>
+<span class="source-line-no">295</span><span id="line-295">      + "  \"format\": \"SIMPLE_CSV\",\n"</span>
+<span class="source-line-no">296</span><span id="line-296">      + "  \"predicate\":{\n"</span>
+<span class="source-line-no">297</span><span id="line-297">      + "    \"type\":\"within\",\n"</span>
+<span class="source-line-no">298</span><span id="line-298">      + "    \"geometry\":\"POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\"\n"</span>
+<span class="source-line-no">299</span><span id="line-299">      + "  }\n"</span>
+<span class="source-line-no">300</span><span id="line-300">      + "}";</span>
+<span class="source-line-no">301</span><span id="line-301"></span>
+<span class="source-line-no">302</span><span id="line-302">    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);</span>
+<span class="source-line-no">303</span><span id="line-303">    assertEquals("pygbif", request.getCreator());</span>
+<span class="source-line-no">304</span><span id="line-304">    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());</span>
+<span class="source-line-no">305</span><span id="line-305">    assertTrue(request.getSendNotification());</span>
+<span class="source-line-no">306</span><span id="line-306">    assertEquals("pygbif@mailinator.com", request.getNotificationAddressesAsString());</span>
+<span class="source-line-no">307</span><span id="line-307">    assertEquals(WithinPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());</span>
+<span class="source-line-no">308</span><span id="line-308">  }</span>
 <span class="source-line-no">309</span><span id="line-309"></span>
-<span class="source-line-no">310</span><span id="line-310">    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);</span>
-<span class="source-line-no">311</span><span id="line-311">    assertEquals("rgbif", request.getCreator());</span>
-<span class="source-line-no">312</span><span id="line-312">    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());</span>
-<span class="source-line-no">313</span><span id="line-313">    assertFalse(request.getSendNotification());</span>
-<span class="source-line-no">314</span><span id="line-314">    assertEquals("rgbif@mailinator.com", request.getNotificationAddressesAsString());</span>
-<span class="source-line-no">315</span><span id="line-315">    assertEquals(WithinPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());</span>
-<span class="source-line-no">316</span><span id="line-316">  }</span>
-<span class="source-line-no">317</span><span id="line-317"></span>
-<span class="source-line-no">318</span><span id="line-318">  /**</span>
-<span class="source-line-no">319</span><span id="line-319">   * Working request at v0.188.  For backward compatibility, do not change this test!</span>
-<span class="source-line-no">320</span><span id="line-320">   *</span>
-<span class="source-line-no">321</span><span id="line-321">   * Note the 212 rather than "212".</span>
-<span class="source-line-no">322</span><span id="line-322">   */</span>
-<span class="source-line-no">323</span><span id="line-323">  @Test</span>
-<span class="source-line-no">324</span><span id="line-324">  public void downloadWithNumbersTest() throws Exception {</span>
-<span class="source-line-no">325</span><span id="line-325">    String downloadRequest = "{\n"</span>
-<span class="source-line-no">326</span><span id="line-326">      + "  \"creator\":\"gbif_user\",\n"</span>
-<span class="source-line-no">327</span><span id="line-327">      + "  \"notification_address\":[\"gbif_user@mailinator.com\"],\n"</span>
-<span class="source-line-no">328</span><span id="line-328">      + "  \"created\":\"2023\",\n"</span>
-<span class="source-line-no">329</span><span id="line-329">      + "  \"format\": \"SIMPLE_CSV\",\n"</span>
-<span class="source-line-no">330</span><span id="line-330">      + "  \"predicate\":{\n"</span>
-<span class="source-line-no">331</span><span id="line-331">      + "    \"type\":\"equals\",\n"</span>
-<span class="source-line-no">332</span><span id="line-332">      + "    \"key\":\"TAXON_KEY\",\n"</span>
-<span class="source-line-no">333</span><span id="line-333">      + "    \"value\":212\n"</span>
-<span class="source-line-no">334</span><span id="line-334">      + "  }\n"</span>
-<span class="source-line-no">335</span><span id="line-335">      + "}";</span>
-<span class="source-line-no">336</span><span id="line-336"></span>
-<span class="source-line-no">337</span><span id="line-337">    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);</span>
-<span class="source-line-no">338</span><span id="line-338">    assertEquals("gbif_user", request.getCreator());</span>
-<span class="source-line-no">339</span><span id="line-339">    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());</span>
-<span class="source-line-no">340</span><span id="line-340">    assertFalse(request.getSendNotification());</span>
-<span class="source-line-no">341</span><span id="line-341">    assertEquals("gbif_user@mailinator.com", request.getNotificationAddressesAsString());</span>
-<span class="source-line-no">342</span><span id="line-342">    assertEquals(EqualsPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());</span>
-<span class="source-line-no">343</span><span id="line-343">    assertEquals("212", ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());</span>
-<span class="source-line-no">344</span><span id="line-344">  }</span>
-<span class="source-line-no">345</span><span id="line-345"></span>
-<span class="source-line-no">346</span><span id="line-346">  /**</span>
-<span class="source-line-no">347</span><span id="line-347">   * Test three extension situations: known and supported, known but not supported, unknown.</span>
-<span class="source-line-no">348</span><span id="line-348">   */</span>
-<span class="source-line-no">349</span><span id="line-349">  @Test</span>
-<span class="source-line-no">350</span><span id="line-350">  public void downloadWithExtensionTest() throws Exception {</span>
-<span class="source-line-no">351</span><span id="line-351">    String requestTemplate = "{\n"</span>
-<span class="source-line-no">352</span><span id="line-352">      + "  \"creator\":\"gbif_user\",\n"</span>
-<span class="source-line-no">353</span><span id="line-353">      + "  \"notification_address\":[\"gbif_user@mailinator.com\"],\n"</span>
-<span class="source-line-no">354</span><span id="line-354">      + "  \"created\":\"2024\",\n"</span>
-<span class="source-line-no">355</span><span id="line-355">      + "  \"format\": \"DWCA\",\n"</span>
-<span class="source-line-no">356</span><span id="line-356">      + "  \"predicate\":{\n"</span>
-<span class="source-line-no">357</span><span id="line-357">      + "    \"type\":\"equals\",\n"</span>
-<span class="source-line-no">358</span><span id="line-358">      + "    \"key\":\"TAXON_KEY\",\n"</span>
-<span class="source-line-no">359</span><span id="line-359">      + "    \"value\":\"212\"\n"</span>
-<span class="source-line-no">360</span><span id="line-360">      + "  },\n"</span>
-<span class="source-line-no">361</span><span id="line-361">      + "  %s\n"</span>
-<span class="source-line-no">362</span><span id="line-362">      + "}";</span>
-<span class="source-line-no">363</span><span id="line-363"></span>
-<span class="source-line-no">364</span><span id="line-364">    DownloadRequest request;</span>
-<span class="source-line-no">365</span><span id="line-365"></span>
-<span class="source-line-no">366</span><span id="line-366">    // Known and supported extension</span>
-<span class="source-line-no">367</span><span id="line-367">    request = MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://rs.tdwg.org/dwc/terms/MeasurementOrFact']".replace("'", "\"")), DownloadRequest.class);</span>
-<span class="source-line-no">368</span><span id="line-368">    assertEquals("gbif_user", request.getCreator());</span>
-<span class="source-line-no">369</span><span id="line-369">    assertEquals(DownloadFormat.DWCA, request.getFormat());</span>
-<span class="source-line-no">370</span><span id="line-370">    assertEquals("gbif_user@mailinator.com", request.getNotificationAddressesAsString());</span>
-<span class="source-line-no">371</span><span id="line-371">    assertEquals(EqualsPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());</span>
-<span class="source-line-no">372</span><span id="line-372">    assertEquals("212", ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());</span>
-<span class="source-line-no">373</span><span id="line-373">    assertEquals(Extension.MEASUREMENT_OR_FACT, ((PredicateDownloadRequest) request).getVerbatimExtensions().iterator().next());</span>
-<span class="source-line-no">374</span><span id="line-374"></span>
-<span class="source-line-no">375</span><span id="line-375">    // Known and *unsupported* extension</span>
-<span class="source-line-no">376</span><span id="line-376">    try {</span>
-<span class="source-line-no">377</span><span id="line-377">      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://zooarchnet.org/dwc/terms/ChronometricDate']".replace("'", "\"")), DownloadRequest.class);</span>
-<span class="source-line-no">378</span><span id="line-378">      fail();</span>
-<span class="source-line-no">379</span><span id="line-379">    } catch (Exception e) {</span>
-<span class="source-line-no">380</span><span id="line-380">    }</span>
-<span class="source-line-no">381</span><span id="line-381"></span>
-<span class="source-line-no">382</span><span id="line-382">    // Unknown extension</span>
-<span class="source-line-no">383</span><span id="line-383">    try {</span>
-<span class="source-line-no">384</span><span id="line-384">      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://example.org/nothing']".replace("'", "\"")), DownloadRequest.class);</span>
-<span class="source-line-no">385</span><span id="line-385">      fail();</span>
-<span class="source-line-no">386</span><span id="line-386">    } catch (Exception e) {</span>
-<span class="source-line-no">387</span><span id="line-387">    }</span>
-<span class="source-line-no">388</span><span id="line-388"></span>
-<span class="source-line-no">389</span><span id="line-389">    // Extension enum value — not supported as these are a bit too internal</span>
-<span class="source-line-no">390</span><span id="line-390">    try {</span>
-<span class="source-line-no">391</span><span id="line-391">      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['MEASUREMENT_OR_FACT']".replace("'", "\"")), DownloadRequest.class);</span>
-<span class="source-line-no">392</span><span id="line-392">      fail();</span>
-<span class="source-line-no">393</span><span id="line-393">    } catch (Exception e) {</span>
-<span class="source-line-no">394</span><span id="line-394">    }</span>
-<span class="source-line-no">395</span><span id="line-395"></span>
-<span class="source-line-no">396</span><span id="line-396">    // Null value</span>
-<span class="source-line-no">397</span><span id="line-397">    try {</span>
-<span class="source-line-no">398</span><span id="line-398">      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':[null]".replace("'", "\"")), DownloadRequest.class);</span>
-<span class="source-line-no">399</span><span id="line-399">      fail();</span>
-<span class="source-line-no">400</span><span id="line-400">    } catch (Exception e) {</span>
-<span class="source-line-no">401</span><span id="line-401">    }</span>
-<span class="source-line-no">402</span><span id="line-402">  }</span>
-<span class="source-line-no">403</span><span id="line-403"></span>
-<span class="source-line-no">404</span><span id="line-404">  @Disabled</span>
-<span class="source-line-no">405</span><span id="line-405">  @Test</span>
-<span class="source-line-no">406</span><span id="line-406">  public void existingDownloadsTest() throws Exception {</span>
-<span class="source-line-no">407</span><span id="line-407">    String format = "{\"predicate\": %s}";</span>
-<span class="source-line-no">408</span><span id="line-408">    String line = null;</span>
-<span class="source-line-no">409</span><span id="line-409">    String[] filterLine = null;</span>
-<span class="source-line-no">410</span><span id="line-410">    // SELECT key, filter FROM occurrence_download WHERE filter IS NOT NULL ORDER BY created</span>
-<span class="source-line-no">411</span><span id="line-411">    try (RandomAccessFile filterLines = new RandomAccessFile("/home/mblissett/Temp/all-download-filters", "r")) {</span>
-<span class="source-line-no">412</span><span id="line-412">      while ((line = filterLines.readLine()) != null ) {</span>
-<span class="source-line-no">413</span><span id="line-413">        filterLine = line.split("\t");</span>
-<span class="source-line-no">414</span><span id="line-414">        MAPPER.readValue(String.format(format, filterLine[1]), DownloadRequest.class);</span>
-<span class="source-line-no">415</span><span id="line-415">      }</span>
-<span class="source-line-no">416</span><span id="line-416">    } catch (Exception e) {</span>
-<span class="source-line-no">417</span><span id="line-417">      System.err.println(e);</span>
-<span class="source-line-no">418</span><span id="line-418">      fail("Exception with existing download " + filterLine[0] + " «" + filterLine[1] + "»");</span>
-<span class="source-line-no">419</span><span id="line-419">    }</span>
-<span class="source-line-no">420</span><span id="line-420">  }</span>
-<span class="source-line-no">421</span><span id="line-421">}</span>
+<span class="source-line-no">310</span><span id="line-310">  /**</span>
+<span class="source-line-no">311</span><span id="line-311">   * Request sent by RGBIF 3.75+.  For backward compatibility, do not change this test!</span>
+<span class="source-line-no">312</span><span id="line-312">   *</span>
+<span class="source-line-no">313</span><span id="line-313">   * Note the lack of sendNotification.</span>
+<span class="source-line-no">314</span><span id="line-314">   */</span>
+<span class="source-line-no">315</span><span id="line-315">  @Test</span>
+<span class="source-line-no">316</span><span id="line-316">  public void downloadFromRgbifTest() throws Exception {</span>
+<span class="source-line-no">317</span><span id="line-317">    String downloadRequest = "{\n"</span>
+<span class="source-line-no">318</span><span id="line-318">      + "  \"creator\":\"rgbif\",\n"</span>
+<span class="source-line-no">319</span><span id="line-319">      + "  \"notification_address\":[\"rgbif@mailinator.com\"],\n"</span>
+<span class="source-line-no">320</span><span id="line-320">      + "  \"format\": \"SIMPLE_CSV\",\n"</span>
+<span class="source-line-no">321</span><span id="line-321">      + "  \"predicate\":{\n"</span>
+<span class="source-line-no">322</span><span id="line-322">      + "    \"type\":\"within\",\n"</span>
+<span class="source-line-no">323</span><span id="line-323">      + "    \"geometry\":\"POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\"\n"</span>
+<span class="source-line-no">324</span><span id="line-324">      + "  }\n"</span>
+<span class="source-line-no">325</span><span id="line-325">      + "}";</span>
+<span class="source-line-no">326</span><span id="line-326"></span>
+<span class="source-line-no">327</span><span id="line-327">    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);</span>
+<span class="source-line-no">328</span><span id="line-328">    assertEquals("rgbif", request.getCreator());</span>
+<span class="source-line-no">329</span><span id="line-329">    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());</span>
+<span class="source-line-no">330</span><span id="line-330">    assertFalse(request.getSendNotification());</span>
+<span class="source-line-no">331</span><span id="line-331">    assertEquals("rgbif@mailinator.com", request.getNotificationAddressesAsString());</span>
+<span class="source-line-no">332</span><span id="line-332">    assertEquals(WithinPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());</span>
+<span class="source-line-no">333</span><span id="line-333">  }</span>
+<span class="source-line-no">334</span><span id="line-334"></span>
+<span class="source-line-no">335</span><span id="line-335">  /**</span>
+<span class="source-line-no">336</span><span id="line-336">   * Working request at v0.188.  For backward compatibility, do not change this test!</span>
+<span class="source-line-no">337</span><span id="line-337">   *</span>
+<span class="source-line-no">338</span><span id="line-338">   * Note the 212 rather than "212".</span>
+<span class="source-line-no">339</span><span id="line-339">   */</span>
+<span class="source-line-no">340</span><span id="line-340">  @Test</span>
+<span class="source-line-no">341</span><span id="line-341">  public void downloadWithNumbersTest() throws Exception {</span>
+<span class="source-line-no">342</span><span id="line-342">    String downloadRequest = "{\n"</span>
+<span class="source-line-no">343</span><span id="line-343">      + "  \"creator\":\"gbif_user\",\n"</span>
+<span class="source-line-no">344</span><span id="line-344">      + "  \"notification_address\":[\"gbif_user@mailinator.com\"],\n"</span>
+<span class="source-line-no">345</span><span id="line-345">      + "  \"created\":\"2023\",\n"</span>
+<span class="source-line-no">346</span><span id="line-346">      + "  \"format\": \"SIMPLE_CSV\",\n"</span>
+<span class="source-line-no">347</span><span id="line-347">      + "  \"predicate\":{\n"</span>
+<span class="source-line-no">348</span><span id="line-348">      + "    \"type\":\"equals\",\n"</span>
+<span class="source-line-no">349</span><span id="line-349">      + "    \"key\":\"TAXON_KEY\",\n"</span>
+<span class="source-line-no">350</span><span id="line-350">      + "    \"value\":212\n"</span>
+<span class="source-line-no">351</span><span id="line-351">      + "  }\n"</span>
+<span class="source-line-no">352</span><span id="line-352">      + "}";</span>
+<span class="source-line-no">353</span><span id="line-353"></span>
+<span class="source-line-no">354</span><span id="line-354">    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);</span>
+<span class="source-line-no">355</span><span id="line-355">    assertEquals("gbif_user", request.getCreator());</span>
+<span class="source-line-no">356</span><span id="line-356">    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());</span>
+<span class="source-line-no">357</span><span id="line-357">    assertFalse(request.getSendNotification());</span>
+<span class="source-line-no">358</span><span id="line-358">    assertEquals("gbif_user@mailinator.com", request.getNotificationAddressesAsString());</span>
+<span class="source-line-no">359</span><span id="line-359">    assertEquals(EqualsPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());</span>
+<span class="source-line-no">360</span><span id="line-360">    assertEquals("212", ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());</span>
+<span class="source-line-no">361</span><span id="line-361">  }</span>
+<span class="source-line-no">362</span><span id="line-362"></span>
+<span class="source-line-no">363</span><span id="line-363">  /**</span>
+<span class="source-line-no">364</span><span id="line-364">   * Test three extension situations: known and supported, known but not supported, unknown.</span>
+<span class="source-line-no">365</span><span id="line-365">   */</span>
+<span class="source-line-no">366</span><span id="line-366">  @Test</span>
+<span class="source-line-no">367</span><span id="line-367">  public void downloadWithExtensionTest() throws Exception {</span>
+<span class="source-line-no">368</span><span id="line-368">    String requestTemplate = "{\n"</span>
+<span class="source-line-no">369</span><span id="line-369">      + "  \"creator\":\"gbif_user\",\n"</span>
+<span class="source-line-no">370</span><span id="line-370">      + "  \"notification_address\":[\"gbif_user@mailinator.com\"],\n"</span>
+<span class="source-line-no">371</span><span id="line-371">      + "  \"created\":\"2024\",\n"</span>
+<span class="source-line-no">372</span><span id="line-372">      + "  \"format\": \"DWCA\",\n"</span>
+<span class="source-line-no">373</span><span id="line-373">      + "  \"predicate\":{\n"</span>
+<span class="source-line-no">374</span><span id="line-374">      + "    \"type\":\"equals\",\n"</span>
+<span class="source-line-no">375</span><span id="line-375">      + "    \"key\":\"TAXON_KEY\",\n"</span>
+<span class="source-line-no">376</span><span id="line-376">      + "    \"value\":\"212\"\n"</span>
+<span class="source-line-no">377</span><span id="line-377">      + "  },\n"</span>
+<span class="source-line-no">378</span><span id="line-378">      + "  %s\n"</span>
+<span class="source-line-no">379</span><span id="line-379">      + "}";</span>
+<span class="source-line-no">380</span><span id="line-380"></span>
+<span class="source-line-no">381</span><span id="line-381">    DownloadRequest request;</span>
+<span class="source-line-no">382</span><span id="line-382"></span>
+<span class="source-line-no">383</span><span id="line-383">    // Known and supported extension</span>
+<span class="source-line-no">384</span><span id="line-384">    request = MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://rs.tdwg.org/dwc/terms/MeasurementOrFact']".replace("'", "\"")), DownloadRequest.class);</span>
+<span class="source-line-no">385</span><span id="line-385">    assertEquals("gbif_user", request.getCreator());</span>
+<span class="source-line-no">386</span><span id="line-386">    assertEquals(DownloadFormat.DWCA, request.getFormat());</span>
+<span class="source-line-no">387</span><span id="line-387">    assertEquals("gbif_user@mailinator.com", request.getNotificationAddressesAsString());</span>
+<span class="source-line-no">388</span><span id="line-388">    assertEquals(EqualsPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());</span>
+<span class="source-line-no">389</span><span id="line-389">    assertEquals("212", ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());</span>
+<span class="source-line-no">390</span><span id="line-390">    assertEquals(Extension.MEASUREMENT_OR_FACT, ((PredicateDownloadRequest) request).getVerbatimExtensions().iterator().next());</span>
+<span class="source-line-no">391</span><span id="line-391"></span>
+<span class="source-line-no">392</span><span id="line-392">    // Known and *unsupported* extension</span>
+<span class="source-line-no">393</span><span id="line-393">    try {</span>
+<span class="source-line-no">394</span><span id="line-394">      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://zooarchnet.org/dwc/terms/ChronometricDate']".replace("'", "\"")), DownloadRequest.class);</span>
+<span class="source-line-no">395</span><span id="line-395">      fail();</span>
+<span class="source-line-no">396</span><span id="line-396">    } catch (Exception e) {</span>
+<span class="source-line-no">397</span><span id="line-397">    }</span>
+<span class="source-line-no">398</span><span id="line-398"></span>
+<span class="source-line-no">399</span><span id="line-399">    // Unknown extension</span>
+<span class="source-line-no">400</span><span id="line-400">    try {</span>
+<span class="source-line-no">401</span><span id="line-401">      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://example.org/nothing']".replace("'", "\"")), DownloadRequest.class);</span>
+<span class="source-line-no">402</span><span id="line-402">      fail();</span>
+<span class="source-line-no">403</span><span id="line-403">    } catch (Exception e) {</span>
+<span class="source-line-no">404</span><span id="line-404">    }</span>
+<span class="source-line-no">405</span><span id="line-405"></span>
+<span class="source-line-no">406</span><span id="line-406">    // Extension enum value — not supported as these are a bit too internal</span>
+<span class="source-line-no">407</span><span id="line-407">    try {</span>
+<span class="source-line-no">408</span><span id="line-408">      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['MEASUREMENT_OR_FACT']".replace("'", "\"")), DownloadRequest.class);</span>
+<span class="source-line-no">409</span><span id="line-409">      fail();</span>
+<span class="source-line-no">410</span><span id="line-410">    } catch (Exception e) {</span>
+<span class="source-line-no">411</span><span id="line-411">    }</span>
+<span class="source-line-no">412</span><span id="line-412"></span>
+<span class="source-line-no">413</span><span id="line-413">    // Null value</span>
+<span class="source-line-no">414</span><span id="line-414">    try {</span>
+<span class="source-line-no">415</span><span id="line-415">      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':[null]".replace("'", "\"")), DownloadRequest.class);</span>
+<span class="source-line-no">416</span><span id="line-416">      fail();</span>
+<span class="source-line-no">417</span><span id="line-417">    } catch (Exception e) {</span>
+<span class="source-line-no">418</span><span id="line-418">    }</span>
+<span class="source-line-no">419</span><span id="line-419">  }</span>
+<span class="source-line-no">420</span><span id="line-420"></span>
+<span class="source-line-no">421</span><span id="line-421">  @Disabled</span>
+<span class="source-line-no">422</span><span id="line-422">  @Test</span>
+<span class="source-line-no">423</span><span id="line-423">  public void existingDownloadsTest() throws Exception {</span>
+<span class="source-line-no">424</span><span id="line-424">    String format = "{\"predicate\": %s}";</span>
+<span class="source-line-no">425</span><span id="line-425">    String line = null;</span>
+<span class="source-line-no">426</span><span id="line-426">    String[] filterLine = null;</span>
+<span class="source-line-no">427</span><span id="line-427">    // SELECT key, filter FROM occurrence_download WHERE filter IS NOT NULL ORDER BY created</span>
+<span class="source-line-no">428</span><span id="line-428">    try (RandomAccessFile filterLines = new RandomAccessFile("/home/mblissett/Temp/all-download-filters", "r")) {</span>
+<span class="source-line-no">429</span><span id="line-429">      while ((line = filterLines.readLine()) != null ) {</span>
+<span class="source-line-no">430</span><span id="line-430">        filterLine = line.split("\t");</span>
+<span class="source-line-no">431</span><span id="line-431">        MAPPER.readValue(String.format(format, filterLine[1]), DownloadRequest.class);</span>
+<span class="source-line-no">432</span><span id="line-432">      }</span>
+<span class="source-line-no">433</span><span id="line-433">    } catch (Exception e) {</span>
+<span class="source-line-no">434</span><span id="line-434">      System.err.println(e);</span>
+<span class="source-line-no">435</span><span id="line-435">      fail("Exception with existing download " + filterLine[0] + " «" + filterLine[1] + "»");</span>
+<span class="source-line-no">436</span><span id="line-436">    }</span>
+<span class="source-line-no">437</span><span id="line-437">  }</span>
+<span class="source-line-no">438</span><span id="line-438">}</span>
 
 
 
