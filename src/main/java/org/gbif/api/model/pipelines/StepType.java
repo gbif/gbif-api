@@ -49,6 +49,9 @@ public enum StepType {
   VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive"),
   VALIDATOR_DWCDP_STAGE("validatorDwcdpStage"),
   VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive"),
+  // Waits for a ChecklistBank import of a checklist (Taxon-core DwC-A, ColDP) and evaluates it.
+  // Run by the flow-orchestrator only; not part of the legacy validator workflow graph.
+  VALIDATOR_CHECKLISTBANK("validatorChecklistbank"),
   VALIDATOR_VALIDATE_DWCDP("validatorValidateDWCDP"),
   VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim"),
   VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim"),
