@@ -15,12 +15,16 @@
  */
 package org.gbif.api.model.registry;
 
+import org.gbif.api.SerdeTestUtils;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -105,5 +109,19 @@ public class DatasetTest {
     ds1.setCreated(new Date()); // different created date!
 
     assertTrue(ds1.lenientEquals(ds2)); // true because lenient equals excludes
+  }
+
+  @Test
+  public void testAvailableLanguages() throws IOException {
+    Dataset ds = new Dataset();
+    assertTrue(ds.getAvailableLanguages().isEmpty());
+
+    ds.setAvailableLanguages(new LinkedHashSet<>(List.of("es", "en", "haw")));
+    String json = SerdeTestUtils.testSerDe(ds, Dataset.class);
+    assertTrue(json.contains("\"availableLanguages\" : [ \"es\", \"en\", \"haw\" ]"), json);
+
+    // order is kept after deserialization: the metadata language stays first
+    Dataset ds2 = SerdeTestUtils.deserialize(json, Dataset.class);
+    assertEquals(List.of("es", "en", "haw"), List.copyOf(ds2.getAvailableLanguages()));
   }
 }

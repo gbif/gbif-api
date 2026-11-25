@@ -52,6 +52,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -223,6 +224,15 @@ public class Dataset
       "*(NB Not required for updates.)*"
   )
   private Language language = Language.ENGLISH; // sensible default as it is not null
+
+  @Schema(
+    description = "The languages the title and description can be requested in with the `lang` parameter, "
+        + "the metadata language first. Language tags: the ISO 639-1 code where one exists "
+        + "(e.g. `en`, `es`), otherwise the ISO 639-2 code (e.g. `haw`).",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
+  @JsonDeserialize(as = LinkedHashSet.class) // keeps the metadata language first
+  private Set<String> availableLanguages = new LinkedHashSet<>();
 
   @Schema(
     description = "A homepage with further details on the dataset."
@@ -817,6 +827,14 @@ public class Dataset
     this.language = language;
   }
 
+  public Set<String> getAvailableLanguages() {
+    return availableLanguages;
+  }
+
+  public void setAvailableLanguages(Set<String> availableLanguages) {
+    this.availableLanguages = availableLanguages;
+  }
+
   @HttpURI
   @Nullable
   public URI getHomepage() {
@@ -1196,6 +1214,7 @@ public class Dataset
         && Objects.equals(abbreviation, dataset.abbreviation)
         && Objects.equals(description, dataset.description)
         && language == dataset.language
+        && Objects.equals(availableLanguages, dataset.availableLanguages)
         && Objects.equals(homepage, dataset.homepage)
         && Objects.equals(logoUrl, dataset.logoUrl)
         && Objects.equals(citation, dataset.citation)
@@ -1260,6 +1279,7 @@ public class Dataset
         abbreviation,
         description,
         language,
+        availableLanguages,
         homepage,
         logoUrl,
         citation,
@@ -1325,6 +1345,7 @@ public class Dataset
         .add("abbreviation='" + abbreviation + "'")
         .add("description='" + description + "'")
         .add("language=" + language)
+        .add("availableLanguages=" + availableLanguages)
         .add("homepage=" + homepage)
         .add("logoUrl=" + logoUrl)
         .add("citation=" + citation)
