@@ -202,7 +202,7 @@ public enum Extension {
   /**
    * @see <a href="https://rs.gbif.org/sandbox/extension/gbif/1.0/phylogenetic_material_citation_2026-10-07.xml">extension definition</a>
    */
-  PHYLOGENETIC_MATERIAL_CITATION("https://rs.gbif.org/terms/1.0/PhylogeneticMaterialCitation");
+  PHYLOGENETIC_MATERIAL_CITATION("http://rs.gbif.org/terms/1.0/PhylogeneticMaterialCitation");
 
 
   private final String rowType;
