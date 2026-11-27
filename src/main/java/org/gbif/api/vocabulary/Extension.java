@@ -197,7 +197,12 @@ public enum Extension {
   /**
    * @see <a href="http://rs.tdwg.org/dwc/terms/Occurrence">extension definition</a>
    */
-  OCCURRENCE("http://rs.tdwg.org/dwc/terms/Occurrence");
+  OCCURRENCE("http://rs.tdwg.org/dwc/terms/Occurrence"),
+
+  /**
+   * @see <a href="https://rs.gbif.org/sandbox/extension/gbif/1.0/phylogenetic_material_citation_2026-10-07.xml">extension definition</a>
+   */
+  PHYLOGENETIC_MATERIAL_CITATION("https://rs.gbif.org/terms/1.0/PhylogeneticMaterialCitation");
 
 
   private final String rowType;
